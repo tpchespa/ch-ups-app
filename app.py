@@ -105,13 +105,5 @@ def handle_delete_entry(data):
     db.session.commit()
     emit('entry_deleted', {'id': data['id']}, broadcast=True)
 
-@app.route('/init-db')
-def init_db():
-    try:
-        db.create_all()
-        return "✅ Database tables created!"
-    except Exception as e:
-        return f"❌ Error creating tables: {str(e)}"
-
 if __name__ == '__main__':
     socketio.run(app, debug=True)
