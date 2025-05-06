@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>UPS Realtime Dashboard</title>
+    <script src="https://cdn.socket.io/4.3.2/socket.io.min.js"></script>
+</head>
+<body>
+    <h2>Shared UPS Data Workspace</h2>
+    <button onclick="downloadCSV()">Download CSV</button>
+    <table border="1" id="dataTable">
+        <thead>
+            <tr>
+                <th>Contact Name</th><th>Company</th><th>Country</th><th>City</th><th>Postal Code</th><th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+    </table>
+    <br>
+    <input placeholder="Contact Name" id="name">
+    <input placeholder="Company" id="company">
+    <input placeholder="Country" id="country">
+    <input placeholder="City" id="city">
+    <input placeholder="Postal Code" id="postal">
+    <button onclick="addRow()">Add</button>
+
+<script>
+const socket = io();
+const tableBody = document.getElementById('tableBody');
+
+function addRow() {
+    const data = {
+        "Contact Name": document.getElementById('name').value,
+        "Company": document.getElementById('company').value,
+        "Country": document.getElementById('country').value,
+        "City": document.getElementById('city').value,
+        "Postal Code": document.getElementById('postal').value
+    };
+    socket.emit('add_entry', data);
+}
+
+function renderRow(entry) {
+    const tr = document.createElement('tr');
+    tr.setAttribute('data-id', entry.id);
+    for (const key of ["Contact Name", "Company", "Country", "City", "Postal Code"]) {
+        const td = document.createElement('td');
+        td.contentEditable = true;
+        td.innerText = entry.data[key] || "";
+        td.onblur = () => {
+            entry.data[key] = td.innerText;
+            socket.emit('update_entry', entry);
+        };
+        tr.appendChild(td);
+    }
+    const tdDel = document.createElement('td');
+    tdDel.innerHTML = '<button onclick="deleteRow(' + entry.id + ')">Delete</button>';
+    tr.appendChild(tdDel);
+    tableBody.appendChild(tr);
+}
+
+function deleteRow(id) {
+    socket.emit('delete_entry', {id});
+}
+
+socket.on('new_entry', renderRow);
+socket.on('entry_updated', data => {
+    const row = document.querySelector(`tr[data-id='${data.id}']`);
+    if (row) row.remove();
+    renderRow(data);
+});
+socket.on('entry_deleted', data => {
+    const row = document.querySelector(`tr[data-id='${data.id}']`);
+    if (row) row.remove();
+});
+
+function downloadCSV() {
+    window.location.href = "/download";
+}
+
+// Initial rows from server
+{% for entry in entries %}
+    renderRow({id: {{ entry.id }}, data: {{ entry.data|tojson }} });
+{% endfor %}
+</script>
+</body>
+</html>
