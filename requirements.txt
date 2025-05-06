@@ -6,3 +6,5 @@ pandas
 python-socketio
 python-engineio
 Werkzeug
+gunicorn
+gevent
