@@ -9,12 +9,16 @@ import io
 import json
 
 app = Flask(__name__)
-@app.before_first_request
-def create_tables():
-    db.create_all()
 app.config['SECRET_KEY'] = 'supersecretkey'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 db = SQLAlchemy(app)
+import os
+
+with app.app_context():
+    try:
+        db.create_all()
+    except Exception as e:
+        print("DB Init Error:", e)
 socketio = SocketIO(app)
 
 login_manager = LoginManager()
@@ -101,11 +105,6 @@ def handle_delete_entry(data):
     db.session.commit()
     emit('entry_deleted', {'id': data['id']}, broadcast=True)
 
-import os
-
-with app.app_context():
-    if not os.path.exists("db.sqlite"):
-        db.create_all()
-
-if __name__ == "__main__":
+if __name__ == '__main__':
+    db.create_all()
     socketio.run(app, debug=True)
