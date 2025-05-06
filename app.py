@@ -9,6 +9,9 @@ import io
 import json
 
 app = Flask(__name__)
+@app.before_first_request
+def create_tables():
+    db.create_all()
 app.config['SECRET_KEY'] = 'supersecretkey'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 db = SQLAlchemy(app)
