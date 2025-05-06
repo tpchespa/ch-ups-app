@@ -1,1 +1,53 @@
-<html><body><h2>Register</h2></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            margin: 5% auto;
+            width: 300px;
+            padding: 20px;
+            background-color: #1e1e1e;
+            border-radius: 8px;
+            box-shadow: 0 0 10px #000;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 8px;
+            background-color: #2a2a2a;
+            border: 1px solid #444;
+            color: #f0f0f0;
+        }
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 12px;
+            background-color: #2196f3;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+        a { color: #90caf9; display: block; margin-top: 10px; text-align: center; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Register</h2>
+    <form method="POST">
+        <label>Email</label>
+        <input type="text" name="email" required>
+        <label>Password</label>
+        <input type="password" name="password" required>
+        <input type="submit" value="Register">
+    </form>
+    <a href="/login">Login</a>
+</div>
+</body>
+</html>
