@@ -101,6 +101,11 @@ def handle_delete_entry(data):
     db.session.commit()
     emit('entry_deleted', {'id': data['id']}, broadcast=True)
 
-if __name__ == '__main__':
-    db.create_all()
+import os
+
+with app.app_context():
+    if not os.path.exists("db.sqlite"):
+        db.create_all()
+
+if __name__ == "__main__":
     socketio.run(app, debug=True)
