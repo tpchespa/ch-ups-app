@@ -7,19 +7,19 @@ from flask_socketio import SocketIO, emit
 import pandas as pd
 import io
 import json
+import os
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'supersecretkey'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 db = SQLAlchemy(app)
-import os
+socketio = SocketIO(app)
 
 with app.app_context():
     try:
         db.create_all()
     except Exception as e:
         print("DB Init Error:", e)
-socketio = SocketIO(app)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -106,5 +106,4 @@ def handle_delete_entry(data):
     emit('entry_deleted', {'id': data['id']}, broadcast=True)
 
 if __name__ == '__main__':
-    db.create_all()
     socketio.run(app, debug=True)
