@@ -104,3 +104,7 @@ form.grid-form input, form.grid-form select {
     width: 100%;
     box-sizing: border-box;
 }
+
+input, select, textarea {
+    color: #ffffcc; /* light yellow */
+}
