@@ -11,7 +11,7 @@ import os
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'supersecretkey'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 db = SQLAlchemy(app)
 socketio = SocketIO(app)
 
@@ -109,9 +109,9 @@ def handle_delete_entry(data):
 def init_db():
     try:
         db.create_all()
-        return "✅ Database tables created!"
+        return "✅ Tables created!"
     except Exception as e:
-        return f"❌ Error creating tables: {str(e)}"
+        return f"❌ Error: {str(e)}"
 
 if __name__ == '__main__':
     socketio.run(app, debug=True)
