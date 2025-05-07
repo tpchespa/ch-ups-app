@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html>
-<head><title>UPS Full Form</title><script src="https://cdn.socket.io/4.3.2/socket.io.min.js"></script></head>
+<head><link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"><title>UPS Full Form</title><script src="https://cdn.socket.io/4.3.2/socket.io.min.js"></script></head>
 <body>
-<h2>UPS Submission Form</h2>
-<div style="color: white; background: #222; padding: 10px;">
-  Welcome, {{ current_user.email }}!
-  <a href="/logout" style="color: lightblue; float: right;">Logout</a>
-</div>
+  <header>
+    <div>Welcome, {{ current_user.email }}</div>
+    <a href="/logout">Logout</a>
+  </header>
+<div class="container">
+<h2>UPS Form</h2>
 <form id="form">
 <input type="text" id="Contact_Name" placeholder="Contact Name">
 <input type="text" id="Company_or_Name" placeholder="Company or Name">
@@ -91,14 +92,18 @@
 <button type="submit">Add</button>
 </form>
 
-<h3>Live Table</h3>
-<table border="1" id="table">
-    <thead>
+    <h3>Live Table</h3>
+    <table id="table">
+      <thead>
         <tr>
-            <th>User</th><th>Time</th><th>Contact</th><th>Company</th><th>Country</th><th>Actions</th>
+          <th>User</th><th>Time</th><th>Contact</th><th>Company</th><th>Country</th><th>Actions</th>
         </tr>
-    </thead><tbody></tbody></table>
-<a href="/download">Download CSV</a>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <a href="/download">Download CSV</a>
+  </div>
 
 <script>
 const socket = io();
