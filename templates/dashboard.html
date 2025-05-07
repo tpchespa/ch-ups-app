@@ -165,12 +165,13 @@ document.getElementById('pasteBox').addEventListener('paste', function (e) {
     "Lithium Metal With Equipment", "Weekend Commercial Delivery", "Dry Ice Weight", "Merchandise Description",
     "UPS SurePost®Limited Quantity/Lithium Battery"];
   
-fieldOrder.forEach((field, i) => {
-  const id = field.replace(/\s|\//g, "_");
-  const input = document.getElementById(id);
-  if (input && values[i] !== undefined) {
-    input.value = values[i];
-  }
+  fieldOrder.forEach((field, i) => {
+    const id = field.replace(/\s|\//g, "_");
+    const input = document.getElementById(id);
+    if (input && values[i] !== undefined) {
+      input.value = values[i];
+    }
+  });
 });
 
 </script>
