@@ -186,6 +186,26 @@ document.getElementById("toggle-advanced").addEventListener("click", () => {
   toggle.textContent = visible ? "Show Advanced Fields" : "Hide Advanced Fields";
 });
 
+function renderRow(entry) {
+  const row = document.createElement("tr");
+  row.setAttribute("data-id", entry.id);
+  row.innerHTML = `
+    <td>${entry.data["_submitted_by"] || "?"}</td>
+    <td>${entry.data["_submitted_at"]?.slice(0, 19).replace("T", " ") || "?"}</td>
+    <td>${entry.data["Contact Name"]}</td>
+    <td>${entry.data["Company or Name"]}</td>
+    <td>${entry.data["Country"]}</td>
+    <td><button onclick="deleteEntry(${entry.id})">Delete</button></td>
+  `;
+  document.querySelector("#table tbody").appendChild(row);
+}
+
+{% for entry in entries %}
+  renderRow({ id: {{ entry.id }}, data: {{ entry.data|tojson }} });
+{% endfor %}
+
+
+
 </script>
 </body>
 </html>
