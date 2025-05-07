@@ -37,6 +37,12 @@ input, select {
     border-radius: 4px;
 }
 
+input::placeholder,
+select::placeholder {
+    font-size: 9pt;
+    color: #bbb; /* optional: lighter text */
+}
+
 button {
     padding: 10px 16px;
     margin-top: 10px;
