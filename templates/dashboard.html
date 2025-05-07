@@ -44,6 +44,9 @@
 <input type="text" id="Reference_1" placeholder="Reference 1">
 <input type="text" id="Reference_2" placeholder="Reference 2">
 <input type="text" id="Reference_3" placeholder="Reference 3">
+<button type="button" id="toggle-advanced">Show Advanced Fields</button>
+
+<div id="advanced-fields" style="display: none;">
 <input type="text" id="QV_Notif_1-Addr" placeholder="QV Notif 1-Addr">
 <input type="text" id="QV_Notif_1-Ship" placeholder="QV Notif 1-Ship">
 <input type="text" id="QV_Notif_1-Excp" placeholder="QV Notif 1-Excp">
@@ -89,6 +92,7 @@
 <input type="text" id="Dry_Ice_Weight" placeholder="Dry Ice Weight">
 <input type="text" id="Merchandise_Description" placeholder="Merchandise Description">
 <input type="text" id="UPS_SurePost®Limited_Quantity_Lithium_Battery" placeholder="UPS SurePost®Limited Quantity/Lithium Battery">
+</div>
 <button type="submit" style="grid-column: span 2;">Add</button>
 </form>
 
@@ -170,6 +174,15 @@ firstInput.addEventListener('paste', function (e) {
       input.value = values[i];
     }
   });
+});
+
+document.getElementById("toggle-advanced").addEventListener("click", () => {
+  const advanced = document.getElementById("advanced-fields");
+  const toggle = document.getElementById("toggle-advanced");
+  const visible = advanced.style.display === "block";
+
+  advanced.style.display = visible ? "none" : "block";
+  toggle.textContent = visible ? "Show Advanced Fields" : "Hide Advanced Fields";
 });
 
 </script>

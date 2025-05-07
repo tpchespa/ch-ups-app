@@ -91,7 +91,7 @@ a.button-link:hover {
 
 form.grid-form {
     display: grid;
-    grid-template-columns: repeat(6, 1fr); /* 10 columns */
+    grid-template-columns: repeat(3, 1fr); /* 10 columns */
     gap: 10px;
     margin-top: 20px;
 }
