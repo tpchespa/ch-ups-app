@@ -155,9 +155,23 @@ def dashboard():
     entries = UPSEntry.query.all()
     return render_template('dashboard.html', entries=entries)
 
+@socketio.on('submit_form')
+def handle_submit(data):
+    entry = UPSEntry(data=data)
+    db.session.add(entry)
+    db.session.commit()
+    emit('new_entry', {'id': entry.id, 'data': entry.data}, broadcast=True)
+
+@socketio.on('delete_entry')
+def handle_delete(data):
+    entry = UPSEntry.query.get(data['id'])
+    db.session.delete(entry)
+    db.session.commit()
+    emit('entry_deleted', {'id': data['id']}, broadcast=True)
+
 @app.route('/download')
 def download():
-    entries = Entry.query.all()
+    entries = UPSEntry.query.all()
     rows = []
     for e in entries:
         row = [e.data.get(field, "") for field in FIELD_ORDER]
@@ -168,19 +182,6 @@ def download():
     output.seek(0)
     return send_file(io.BytesIO(output.getvalue().encode()), mimetype='text/csv', as_attachment=True, download_name='ups_export.csv')
 
-@socketio.on('submit_form')
-def handle_submit(data):
-    entry = Entry(data=data)
-    db.session.add(entry)
-    db.session.commit()
-    emit('new_entry', {'id': entry.id, 'data': entry.data}, broadcast=True)
-
-@socketio.on('delete_entry')
-def handle_delete(data):
-    entry = Entry.query.get(data['id'])
-    db.session.delete(entry)
-    db.session.commit()
-    emit('entry_deleted', {'id': data['id']}, broadcast=True)
 
 @app.route('/init-db')
 def init_db():
