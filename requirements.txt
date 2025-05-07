@@ -3,9 +3,9 @@ Flask-Login
 Flask-SQLAlchemy
 Flask-SocketIO
 pandas
+psycopg2-binary
 python-socketio
 python-engineio
 Werkzeug
 gunicorn
 gevent
-psycopg2-binary

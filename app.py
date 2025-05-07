@@ -1,17 +1,15 @@
-
-from flask import Flask, render_template, request, redirect, url_for, session, send_file
+from flask import Flask, render_template, request, redirect, url_for, send_file
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, login_required, logout_user, UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_socketio import SocketIO, emit
 import pandas as pd
-import io
-import json
-import os
+import io, json, os
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'supersecretkey'
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 socketio = SocketIO(app)
 
@@ -19,7 +17,7 @@ with app.app_context():
     try:
         db.create_all()
     except Exception as e:
-        print("DB Init Error:", e)
+        print('DB Init Error:', e)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -73,45 +71,13 @@ def dashboard():
     entries = UPSEntry.query.all()
     return render_template('dashboard.html', entries=entries)
 
-@app.route('/download')
-@login_required
-def download_csv():
-    entries = UPSEntry.query.all()
-    rows = [e.data for e in entries]
-    df = pd.DataFrame(rows)
-    output = io.StringIO()
-    df.to_csv(output, index=False)
-    output.seek(0)
-    return send_file(io.BytesIO(output.getvalue().encode()), mimetype='text/csv', as_attachment=True, download_name='ups_data.csv')
-
-@socketio.on('add_entry')
-def handle_add_entry(data):
-    entry = UPSEntry(data=data)
-    db.session.add(entry)
-    db.session.commit()
-    emit('new_entry', {'id': entry.id, 'data': entry.data}, broadcast=True)
-
-@socketio.on('update_entry')
-def handle_update_entry(data):
-    entry = UPSEntry.query.get(data['id'])
-    entry.data = data['data']
-    db.session.commit()
-    emit('entry_updated', data, broadcast=True)
-
-@socketio.on('delete_entry')
-def handle_delete_entry(data):
-    entry = UPSEntry.query.get(data['id'])
-    db.session.delete(entry)
-    db.session.commit()
-    emit('entry_deleted', {'id': data['id']}, broadcast=True)
-
 @app.route('/init-db')
 def init_db():
     try:
         db.create_all()
-        return "✅ Tables created!"
+        return '✅ Database tables created!'
     except Exception as e:
-        return f"❌ Error: {str(e)}"
+        return f'❌ Error creating tables: {str(e)}'
 
 if __name__ == '__main__':
     socketio.run(app, debug=True)
