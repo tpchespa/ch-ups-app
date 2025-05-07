@@ -3,6 +3,10 @@
 <head><title>UPS Full Form</title><script src="https://cdn.socket.io/4.3.2/socket.io.min.js"></script></head>
 <body>
 <h2>UPS Submission Form</h2>
+<div style="color: white; background: #222; padding: 10px;">
+  Welcome, {{ current_user.email }}!
+  <a href="/logout" style="color: lightblue; float: right;">Logout</a>
+</div>
 <form id="form">
 <input type="text" id="Contact_Name" placeholder="Contact Name">
 <input type="text" id="Company_or_Name" placeholder="Company or Name">
@@ -90,7 +94,6 @@
 <h3>Live Table</h3>
 <table border="1" id="table"><thead><tr><th>Contact</th><th>Company</th><th>Country</th><th>Actions</th></tr></thead><tbody></tbody></table>
 <a href="/download">Download CSV</a>
-<button onclick="window.location='/logout'">Logout</button>
 
 <script>
 const socket = io();
