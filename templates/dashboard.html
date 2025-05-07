@@ -92,7 +92,12 @@
 </form>
 
 <h3>Live Table</h3>
-<table border="1" id="table"><thead><tr><th>Contact</th><th>Company</th><th>Country</th><th>Actions</th></tr></thead><tbody></tbody></table>
+<table border="1" id="table">
+    <thead>
+        <tr>
+            <th>User</th><th>Time</th><th>Contact</th><th>Company</th><th>Country</th><th>Actions</th>
+        </tr>
+    </thead><tbody></tbody></table>
 <a href="/download">Download CSV</a>
 
 <script>
@@ -110,7 +115,14 @@ document.getElementById("form").onsubmit = e => {
 socket.on("new_entry", data => {
     const row = document.createElement("tr");
     row.setAttribute("data-id", data.id);
-    row.innerHTML = `<td>${data.data["Contact Name"]}</td><td>${data.data["Company or Name"]}</td><td>${data.data["Country"]}</td><td><button onclick="deleteEntry(${data.id})">Delete</button></td>`;
+    row.innerHTML = `
+  <td>${data.data["_submitted_by"] || "?"}</td>
+  <td>${data.data["_submitted_at"]?.slice(0, 19).replace("T", " ") || "?"}</td>
+  <td>${data.data["Contact Name"]}</td>
+  <td>${data.data["Company or Name"]}</td>
+  <td>${data.data["Country"]}</td>
+  <td><button onclick="deleteEntry(${data.id})">Delete</button></td>
+`;
     document.querySelector("#table tbody").appendChild(row);
 });
 

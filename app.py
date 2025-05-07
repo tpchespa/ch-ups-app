@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, login_required, logout_user, UserMixin, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_socketio import SocketIO, emit
+from datetime import datetime
 import pandas as pd
 import io
 import os
@@ -102,6 +103,8 @@ def download():
 @socketio.on('submit_form')
 def handle_submit(data):
     try:
+        data['_submitted_by'] = current_user.email
+        data['_submitted_at'] = datetime.utcnow().isoformat()
         entry = UPSEntry(data=data)
         db.session.add(entry)
         db.session.commit()
