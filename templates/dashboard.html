@@ -104,7 +104,7 @@
 
     <a href="/download" class="button-link">Download CSV</a>
   </div>
-
+<input type="text" id="pasteBox" placeholder="Paste Excel row here" style="opacity: 0; position: absolute; left: -9999px;">
 <script>
 const socket = io();
 document.getElementById("form").onsubmit = e => {
@@ -139,6 +139,27 @@ socket.on("entry_deleted", data => {
     const row = document.querySelector(`tr[data-id='${data.id}']`);
     if (row) row.remove();
 });
+
+window.addEventListener('load', () => {
+  document.getElementById('pasteBox').focus();
+});
+
+document.getElementById('pasteBox').addEventListener('paste', function (e) {
+  e.preventDefault();
+  const clipboard = e.clipboardData.getData('text/plain');
+  const values = clipboard.split('\t');
+
+  const fieldOrder = [ /* your UPS FIELD_ORDER here */ ];
+  
+  fieldOrder.forEach((field, i) => {
+    const id = field.replace(/\\s|\\//g, "_");
+    const input = document.getElementById(id);
+    if (input && values[i] !== undefined) {
+      input.value = values[i];
+    }
+  });
+});
+
 </script>
 </body>
 </html>
