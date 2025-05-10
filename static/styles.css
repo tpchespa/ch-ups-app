@@ -23,8 +23,7 @@ header a {
 
 .container {
     padding: 20px;
-    max-width: 1000px;
-    margin: 0 auto;
+    margin: 0; /* or margin-left/right: auto if you still want slight centering */
 }
 
 input, select {
@@ -111,16 +110,17 @@ input, select, textarea {
 }
 
 .form-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 10px;
+    display: flex;
+    flex-wrap: nowrap; /* ❗ no wrapping */
+    gap: 8px;
+    overflow-x: auto;  /* horizontal scroll if needed */
+    padding-bottom: 10px;
 }
 
 .form-row input,
 .form-row select {
-  min-width: 140px;
-  max-width: 200px;
+  min-width: 180px;      /* 🔄 slightly wider */
+  max-width: 220px;
   padding: 5px 8px;
   font-size: 10pt;
   background-color: #2a2a2a;
@@ -139,4 +139,26 @@ input, select, textarea {
   margin-top: 10px;
   padding: 6px 12px;
   font-size: 10pt;
+}
+
+.form-wrapper {
+  overflow-x: auto;
+  white-space: nowrap;
+  padding-bottom: 10px;
+}
+
+.form-label-row {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 8px;
+  font-size: 10pt;
+  font-weight: bold;
+  color: #cccccc;
+  padding-bottom: 6px;
+}
+
+.form-label-row div {
+  min-width: 180px;
+  max-width: 220px;
+  text-align: left;
 }

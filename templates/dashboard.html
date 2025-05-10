@@ -8,7 +8,46 @@
   </header>
 <div class="container">
 <h2>UPS Form</h2>
-<form id="form">
+<div class="form-wrapper">
+  <div class="form-label-row">
+    <div>Contact Name</div>
+    <div>Company or Name</div>
+    <div>Country</div>
+    <div>Address 1</div>
+    <div>Address 2</div>
+    <div>Address 3</div>
+    <div>City</div>
+    <div>State/Prov/Other</div>
+    <div>Postal Code</div>
+    <div>Telephone</div>
+    <div>Ext</div>
+    <div>Residential Ind</div>
+    <div>Consignee Email</div>
+    <div>Packaging Type</div>
+    <div>Customs Value</div>
+    <div>Weight</div>
+    <div>Length</div>
+    <div>Width</div>
+    <div>Height</div>
+    <div>Unit of Measure</div>
+    <div>Description of Goods</div>
+    <div>Documents of No Commercial Value</div>
+    <div>GNIFC</div>
+    <div>Pkg Decl Value</div>
+    <div>Service</div>
+    <div>Delivery Confirm</div>
+    <div>Shipper Release</div>
+    <div>Ret of Documents</div>
+    <div>Saturday Deliver</div>
+    <div>Carbon Neutral</div>
+    <div>Large Package</div>
+    <div>Addl handling</div>
+    <div>Reference 1</div>
+    <div>Reference 2</div>
+    <div>Reference 3</div>
+  </div>
+</div>
+<form id="form" class="form-row">
   <div class="form-row">
     <input type="text" id="Contact_Name" placeholder="Contact Name">
     <input type="text" id="Company_or_Name" placeholder="Company or Name">
@@ -47,7 +86,53 @@
     <input type="text" id="Reference_3" placeholder="Reference 3">
   </div>
   <button type="button" id="toggle-advanced">Show Advanced Fields</button>
-
+  <div class="form-label-row" id="advanced-labels" style="display: none;">
+    <div>QV Notif 1-Addr</div>
+    <div>QV Notif 1-Ship</div>
+    <div>QV Notif 1-Excp</div>
+    <div>QV Notif 1-Delv</div>
+    <div>QV Notif 2-Addr</div>
+    <div>QV Notif 2-Ship</div>
+    <div>QV Notif 2-Excp</div>
+    <div>QV Notif 2-Delv</div>
+    <div>QV Notif 3-Addr</div>
+    <div>QV Notif 3-Ship</div>
+    <div>QV Notif 3-Excp</div>
+    <div>QV Notif 3-Delv</div>
+    <div>QV Notif 4-Addr</div>
+    <div>QV Notif 4-Ship</div>
+    <div>QV Notif 4-Excp</div>
+    <div>QV Notif 4-Delv</div>
+    <div>QV Notif 5-Addr</div>
+    <div>QV Notif 5-Ship</div>
+    <div>QV Notif 5-Excp</div>
+    <div>QV Notif 5-Delv</div>
+    <div>QV Notif Msg</div>
+    <div>QV Failure Addr</div>
+    <div>UPS Premium Care</div>
+    <div>ADL Location ID</div>
+    <div>ADL Media Type</div>
+    <div>ADL Language</div>
+    <div>ADL Notification Addr</div>
+    <div>ADL Failure Addr</div>
+    <div>ADL COD Value</div>
+    <div>ADL Deliver to Addressee</div>
+    <div>ADL Shipper Media Type</div>
+    <div>ADL Shipper Language</div>
+    <div>ADL Shipper Notification Addr</div>
+    <div>ADL Direct Delivery Only</div>
+    <div>Electronic Package Release Authentication</div>
+    <div>Lithium Ion Alone</div>
+    <div>Lithium Ion In Equipment</div>
+    <div>Lithium Ion With_Equipment</div>
+    <div>Lithium Metal Alone</div>
+    <div>Lithium Metal In Equipment</div>
+    <div>Lithium Metal With Equipment</div>
+    <div>Weekend Commercial Delivery</div>
+    <div>Dry Ice Weight</div>
+    <div>Merchandise Description</div>
+    <div>UPS SurePost®Limited Quantity/Lithium Battery</div>
+  </div>
   <div id="advanced-fields" class="form-row">
     <input type="text" id="QV_Notif_1-Addr" placeholder="QV Notif 1-Addr">
     <input type="text" id="QV_Notif_1-Ship" placeholder="QV Notif 1-Ship">
@@ -180,10 +265,15 @@ firstInput.addEventListener('paste', function (e) {
 });
 
 document.getElementById("toggle-advanced").addEventListener("click", () => {
-  const advanced = document.getElementById("advanced-fields");
-  const visible = advanced.style.display === "block";
-  advanced.style.display = visible ? "none" : "block";
-  document.getElementById("toggle-advanced").textContent = visible ? "Show Advanced Fields" : "Hide Advanced Fields";
+  const labels = document.getElementById("advanced-labels");
+  const fields = document.getElementById("advanced-fields");
+  const toggle = document.getElementById("toggle-advanced");
+
+  const visible = labels.style.display === "block";
+
+  labels.style.display = visible ? "none" : "block";
+  fields.style.display = visible ? "none" : "flex";
+  toggle.textContent = visible ? "Show Advanced Fields" : "Hide Advanced Fields";
 });
 
 function renderRow(entry) {
