@@ -89,22 +89,23 @@ a.button-link:hover {
     background-color: #1976d2;
 }
 
-form.grid-form {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 10 columns */
-    gap: 10px;
-    margin-top: 20px;
-}
-
-form.grid-form label {
-    display: none; /* hide inline labels to save space */
-}
-
-form.grid-form input, form.grid-form select {
-    width: 100%;
-    box-sizing: border-box;
-}
-
+/*
+/form.grid-form {
+/    display: grid;
+/    grid-template-columns: repeat(3, 1fr);
+/    gap: 10px;
+/    margin-top: 20px;
+/}
+/
+/form.grid-form label {
+/    display: none;
+/}
+/
+/form.grid-form input, form.grid-form select {
+/    width: 100%;
+/    box-sizing: border-box;
+/}
+*/
 input, select, textarea {
     color: #ffffcc; /* light yellow */
 }
