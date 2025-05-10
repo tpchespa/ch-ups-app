@@ -108,3 +108,34 @@ form.grid-form input, form.grid-form select {
 input, select, textarea {
     color: #ffffcc; /* light yellow */
 }
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.form-row input,
+.form-row select {
+  min-width: 140px;
+  max-width: 200px;
+  padding: 5px 8px;
+  font-size: 10pt;
+  background-color: #2a2a2a;
+  border: 1px solid #444;
+  color: #ffffcc; /* visible yellow */
+  border-radius: 4px;
+  flex-grow: 1;
+}
+
+#advanced-fields {
+  display: none;
+  margin-top: 15px;
+}
+
+#toggle-advanced {
+  margin-top: 10px;
+  padding: 6px 12px;
+  font-size: 10pt;
+}

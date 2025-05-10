@@ -8,91 +8,93 @@
   </header>
 <div class="container">
 <h2>UPS Form</h2>
-<form id="form" class="grid-form">
-<input type="text" id="Contact_Name" placeholder="Contact Name">
-<input type="text" id="Company_or_Name" placeholder="Company or Name">
-<input type="text" id="Country" placeholder="Country">
-<input type="text" id="Address_1" placeholder="Address 1">
-<input type="text" id="Address_2" placeholder="Address 2">
-<input type="text" id="Address_3" placeholder="Address 3">
-<input type="text" id="City" placeholder="City">
-<input type="text" id="State_Prov_Other" placeholder="State/Prov/Other">
-<input type="text" id="Postal_Code" placeholder="Postal Code">
-<input type="text" id="Telephone" placeholder="Telephone">
-<input type="text" id="Ext" placeholder="Ext">
-<input type="text" id="Residential_Ind" placeholder="Residential Ind">
-<input type="text" id="Consignee_Email" placeholder="Consignee Email">
-<input type="text" id="Packaging_Type" placeholder="Packaging Type">
-<input type="text" id="Customs_Value" placeholder="Customs Value">
-<input type="text" id="Weight" placeholder="Weight">
-<input type="text" id="Length" placeholder="Length">
-<input type="text" id="Width" placeholder="Width">
-<input type="text" id="Height" placeholder="Height">
-<input type="text" id="Unit_of_Measure" placeholder="Unit of Measure">
-<input type="text" id="Description_of_Goods" placeholder="Description of Goods">
-<input type="text" id="Documents_of_No_Commercial_Value" placeholder="Documents of No Commercial Value">
-<input type="text" id="GNIFC" placeholder="GNIFC">
-<input type="text" id="Pkg_Decl_Value" placeholder="Pkg Decl Value">
-<input type="text" id="Service" placeholder="Service">
-<input type="text" id="Delivery_Confirm" placeholder="Delivery Confirm">
-<input type="text" id="Shipper_Release" placeholder="Shipper Release">
-<input type="text" id="Ret_of_Documents" placeholder="Ret of Documents">
-<input type="text" id="Saturday_Deliver" placeholder="Saturday Deliver">
-<input type="text" id="Carbon_Neutral" placeholder="Carbon Neutral">
-<input type="text" id="Large_Package" placeholder="Large Package">
-<input type="text" id="Addl_handling" placeholder="Addl handling">
-<input type="text" id="Reference_1" placeholder="Reference 1">
-<input type="text" id="Reference_2" placeholder="Reference 2">
-<input type="text" id="Reference_3" placeholder="Reference 3">
-<button type="button" id="toggle-advanced">Show Advanced Fields</button>
+<form id="form">
+  <div class="form-row">
+    <input type="text" id="Contact_Name" placeholder="Contact Name">
+    <input type="text" id="Company_or_Name" placeholder="Company or Name">
+    <input type="text" id="Country" placeholder="Country">
+    <input type="text" id="Address_1" placeholder="Address 1">
+    <input type="text" id="Address_2" placeholder="Address 2">
+    <input type="text" id="Address_3" placeholder="Address 3">
+    <input type="text" id="City" placeholder="City">
+    <input type="text" id="State_Prov_Other" placeholder="State/Prov/Other">
+    <input type="text" id="Postal_Code" placeholder="Postal Code">
+    <input type="text" id="Telephone" placeholder="Telephone">
+    <input type="text" id="Ext" placeholder="Ext">
+    <input type="text" id="Residential_Ind" placeholder="Residential Ind">
+    <input type="text" id="Consignee_Email" placeholder="Consignee Email">
+    <input type="text" id="Packaging_Type" placeholder="Packaging Type">
+    <input type="text" id="Customs_Value" placeholder="Customs Value">
+    <input type="text" id="Weight" placeholder="Weight">
+    <input type="text" id="Length" placeholder="Length">
+    <input type="text" id="Width" placeholder="Width">
+    <input type="text" id="Height" placeholder="Height">
+    <input type="text" id="Unit_of_Measure" placeholder="Unit of Measure">
+    <input type="text" id="Description_of_Goods" placeholder="Description of Goods">
+    <input type="text" id="Documents_of_No_Commercial_Value" placeholder="Documents of No Commercial Value">
+    <input type="text" id="GNIFC" placeholder="GNIFC">
+    <input type="text" id="Pkg_Decl_Value" placeholder="Pkg Decl Value">
+    <input type="text" id="Service" placeholder="Service">
+    <input type="text" id="Delivery_Confirm" placeholder="Delivery Confirm">
+    <input type="text" id="Shipper_Release" placeholder="Shipper Release">
+    <input type="text" id="Ret_of_Documents" placeholder="Ret of Documents">
+    <input type="text" id="Saturday_Deliver" placeholder="Saturday Deliver">
+    <input type="text" id="Carbon_Neutral" placeholder="Carbon Neutral">
+    <input type="text" id="Large_Package" placeholder="Large Package">
+    <input type="text" id="Addl_handling" placeholder="Addl handling">
+    <input type="text" id="Reference_1" placeholder="Reference 1">
+    <input type="text" id="Reference_2" placeholder="Reference 2">
+    <input type="text" id="Reference_3" placeholder="Reference 3">
+  </div>
+  <button type="button" id="toggle-advanced">Show Advanced Fields</button>
 
-<div id="advanced-fields" style="display: none;">
-<input type="text" id="QV_Notif_1-Addr" placeholder="QV Notif 1-Addr">
-<input type="text" id="QV_Notif_1-Ship" placeholder="QV Notif 1-Ship">
-<input type="text" id="QV_Notif_1-Excp" placeholder="QV Notif 1-Excp">
-<input type="text" id="QV_Notif_1-Delv" placeholder="QV Notif 1-Delv">
-<input type="text" id="QV_Notif_2-Addr" placeholder="QV Notif 2-Addr">
-<input type="text" id="QV_Notif_2-Ship" placeholder="QV Notif 2-Ship">
-<input type="text" id="QV_Notif_2-Excp" placeholder="QV Notif 2-Excp">
-<input type="text" id="QV_Notif_2-Delv" placeholder="QV Notif 2-Delv">
-<input type="text" id="QV_Notif_3-Addr" placeholder="QV Notif 3-Addr">
-<input type="text" id="QV_Notif_3-Ship" placeholder="QV Notif 3-Ship">
-<input type="text" id="QV_Notif_3-Excp" placeholder="QV Notif 3-Excp">
-<input type="text" id="QV_Notif_3-Delv" placeholder="QV Notif 3-Delv">
-<input type="text" id="QV_Notif_4-Addr" placeholder="QV Notif 4-Addr">
-<input type="text" id="QV_Notif_4-Ship" placeholder="QV Notif 4-Ship">
-<input type="text" id="QV_Notif_4-Excp" placeholder="QV Notif 4-Excp">
-<input type="text" id="QV_Notif_4-Delv" placeholder="QV Notif 4-Delv">
-<input type="text" id="QV_Notif_5-Addr" placeholder="QV Notif 5-Addr">
-<input type="text" id="QV_Notif_5-Ship" placeholder="QV Notif 5-Ship">
-<input type="text" id="QV_Notif_5-Excp" placeholder="QV Notif 5-Excp">
-<input type="text" id="QV_Notif_5-Delv" placeholder="QV Notif 5-Delv">
-<input type="text" id="QV_Notif_Msg" placeholder="QV Notif Msg">
-<input type="text" id="QV_Failure_Addr" placeholder="QV Failure Addr">
-<input type="text" id="UPS_Premium_Care" placeholder="UPS Premium Care">
-<input type="text" id="ADL_Location_ID" placeholder="ADL Location ID">
-<input type="text" id="ADL_Media_Type" placeholder="ADL Media Type">
-<input type="text" id="ADL_Language" placeholder="ADL Language">
-<input type="text" id="ADL_Notification_Addr" placeholder="ADL Notification Addr">
-<input type="text" id="ADL_Failure_Addr" placeholder="ADL Failure Addr">
-<input type="text" id="ADL_COD_Value" placeholder="ADL COD Value">
-<input type="text" id="ADL_Deliver_to_Addressee" placeholder="ADL Deliver to Addressee">
-<input type="text" id="ADL_Shipper_Media_Type" placeholder="ADL Shipper Media Type">
-<input type="text" id="ADL_Shipper_Language" placeholder="ADL Shipper Language">
-<input type="text" id="ADL_Shipper_Notification_Addr" placeholder="ADL Shipper Notification Addr">
-<input type="text" id="ADL_Direct_Delivery_Only" placeholder="ADL Direct Delivery Only">
-<input type="text" id="Electronic_Package_Release_Authentication" placeholder="Electronic Package Release Authentication">
-<input type="text" id="Lithium_Ion_Alone" placeholder="Lithium Ion Alone">
-<input type="text" id="Lithium_Ion_In_Equipment" placeholder="Lithium Ion In Equipment">
-<input type="text" id="Lithium_Ion_With_Equipment" placeholder="Lithium Ion With_Equipment">
-<input type="text" id="Lithium_Metal_Alone" placeholder="Lithium Metal Alone">
-<input type="text" id="Lithium_Metal_In_Equipment" placeholder="Lithium Metal In Equipment">
-<input type="text" id="Lithium_Metal_With_Equipment" placeholder="Lithium Metal With Equipment">
-<input type="text" id="Weekend_Commercial_Delivery" placeholder="Weekend Commercial Delivery">
-<input type="text" id="Dry_Ice_Weight" placeholder="Dry Ice Weight">
-<input type="text" id="Merchandise_Description" placeholder="Merchandise Description">
-<input type="text" id="UPS_SurePost®Limited_Quantity_Lithium_Battery" placeholder="UPS SurePost®Limited Quantity/Lithium Battery">
-</div>
+  <div id="advanced-fields" class="form-row">
+    <input type="text" id="QV_Notif_1-Addr" placeholder="QV Notif 1-Addr">
+    <input type="text" id="QV_Notif_1-Ship" placeholder="QV Notif 1-Ship">
+    <input type="text" id="QV_Notif_1-Excp" placeholder="QV Notif 1-Excp">
+    <input type="text" id="QV_Notif_1-Delv" placeholder="QV Notif 1-Delv">
+    <input type="text" id="QV_Notif_2-Addr" placeholder="QV Notif 2-Addr">
+    <input type="text" id="QV_Notif_2-Ship" placeholder="QV Notif 2-Ship">
+    <input type="text" id="QV_Notif_2-Excp" placeholder="QV Notif 2-Excp">
+    <input type="text" id="QV_Notif_2-Delv" placeholder="QV Notif 2-Delv">
+    <input type="text" id="QV_Notif_3-Addr" placeholder="QV Notif 3-Addr">
+    <input type="text" id="QV_Notif_3-Ship" placeholder="QV Notif 3-Ship">
+    <input type="text" id="QV_Notif_3-Excp" placeholder="QV Notif 3-Excp">
+    <input type="text" id="QV_Notif_3-Delv" placeholder="QV Notif 3-Delv">
+    <input type="text" id="QV_Notif_4-Addr" placeholder="QV Notif 4-Addr">
+    <input type="text" id="QV_Notif_4-Ship" placeholder="QV Notif 4-Ship">
+    <input type="text" id="QV_Notif_4-Excp" placeholder="QV Notif 4-Excp">
+    <input type="text" id="QV_Notif_4-Delv" placeholder="QV Notif 4-Delv">
+    <input type="text" id="QV_Notif_5-Addr" placeholder="QV Notif 5-Addr">
+    <input type="text" id="QV_Notif_5-Ship" placeholder="QV Notif 5-Ship">
+    <input type="text" id="QV_Notif_5-Excp" placeholder="QV Notif 5-Excp">
+    <input type="text" id="QV_Notif_5-Delv" placeholder="QV Notif 5-Delv">
+    <input type="text" id="QV_Notif_Msg" placeholder="QV Notif Msg">
+    <input type="text" id="QV_Failure_Addr" placeholder="QV Failure Addr">
+    <input type="text" id="UPS_Premium_Care" placeholder="UPS Premium Care">
+    <input type="text" id="ADL_Location_ID" placeholder="ADL Location ID">
+    <input type="text" id="ADL_Media_Type" placeholder="ADL Media Type">
+    <input type="text" id="ADL_Language" placeholder="ADL Language">
+    <input type="text" id="ADL_Notification_Addr" placeholder="ADL Notification Addr">
+    <input type="text" id="ADL_Failure_Addr" placeholder="ADL Failure Addr">
+    <input type="text" id="ADL_COD_Value" placeholder="ADL COD Value">
+    <input type="text" id="ADL_Deliver_to_Addressee" placeholder="ADL Deliver to Addressee">
+    <input type="text" id="ADL_Shipper_Media_Type" placeholder="ADL Shipper Media Type">
+    <input type="text" id="ADL_Shipper_Language" placeholder="ADL Shipper Language">
+    <input type="text" id="ADL_Shipper_Notification_Addr" placeholder="ADL Shipper Notification Addr">
+    <input type="text" id="ADL_Direct_Delivery_Only" placeholder="ADL Direct Delivery Only">
+    <input type="text" id="Electronic_Package_Release_Authentication" placeholder="Electronic Package Release Authentication">
+    <input type="text" id="Lithium_Ion_Alone" placeholder="Lithium Ion Alone">
+    <input type="text" id="Lithium_Ion_In_Equipment" placeholder="Lithium Ion In Equipment">
+    <input type="text" id="Lithium_Ion_With_Equipment" placeholder="Lithium Ion With_Equipment">
+    <input type="text" id="Lithium_Metal_Alone" placeholder="Lithium Metal Alone">
+    <input type="text" id="Lithium_Metal_In_Equipment" placeholder="Lithium Metal In Equipment">
+    <input type="text" id="Lithium_Metal_With_Equipment" placeholder="Lithium Metal With Equipment">
+    <input type="text" id="Weekend_Commercial_Delivery" placeholder="Weekend Commercial Delivery">
+    <input type="text" id="Dry_Ice_Weight" placeholder="Dry Ice Weight">
+    <input type="text" id="Merchandise_Description" placeholder="Merchandise Description">
+    <input type="text" id="UPS_SurePost®Limited_Quantity_Lithium_Battery" placeholder="UPS SurePost®Limited Quantity/Lithium Battery">
+  </div>
 <button type="submit">Add</button>
 </form>
 
@@ -179,11 +181,9 @@ firstInput.addEventListener('paste', function (e) {
 
 document.getElementById("toggle-advanced").addEventListener("click", () => {
   const advanced = document.getElementById("advanced-fields");
-  const toggle = document.getElementById("toggle-advanced");
   const visible = advanced.style.display === "block";
-
   advanced.style.display = visible ? "none" : "block";
-  toggle.textContent = visible ? "Show Advanced Fields" : "Hide Advanced Fields";
+  document.getElementById("toggle-advanced").textContent = visible ? "Show Advanced Fields" : "Hide Advanced Fields";
 });
 
 function renderRow(entry) {
