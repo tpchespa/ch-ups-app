@@ -275,6 +275,21 @@ firstInput.addEventListener('paste', function (e) {
   });
 });
 
+document.getElementById("form").onsubmit = function(e) {
+  e.preventDefault();
+  const data = {};
+
+  fieldOrder.forEach(field => {
+    const id = field.replace(/\s|\//g, "_");
+    const input = document.getElementById(id);
+    if (input) data[field] = input.value;
+  });
+
+  socket.emit("submit_form", data);
+};
+
+
+
 document.getElementById("toggle-advanced").addEventListener("click", () => {
   const wrapper = document.getElementById("advanced-wrapper");
   const toggle = document.getElementById("toggle-advanced");

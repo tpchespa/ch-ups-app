@@ -170,10 +170,15 @@ input, select, textarea {
   grid-template-columns: repeat(45, 240px);
 }
 
+.form-submit {
+  margin-top: 12px;
+  padding-bottom: 12px;
+}
+
 /* Chrome, Edge, Safari */
 ::-webkit-scrollbar {
-  height: 10px;
-  width: 10px;
+  height: 14px;
+  width: 14px;
 }
 
 ::-webkit-scrollbar-track {
