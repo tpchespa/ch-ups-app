@@ -224,10 +224,13 @@ document.getElementById("form").onsubmit = e => {
 };
 
 socket.on('form_error', (payload) => {
-  alert("Submission failed:\n" + payload.errors.join("\n"));
+  const errorBox = document.getElementById("form-errors");
+  errorBox.innerText = "Please fix the following issues:\n" + payload.errors.join("\n");
+  errorBox.style.display = "block";
 });
 
 socket.on("new_entry", data => {
+    document.getElementById("form-errors").style.display = "none";
     const row = document.createElement("tr");
     row.setAttribute("data-id", data.id);
     row.innerHTML = `
