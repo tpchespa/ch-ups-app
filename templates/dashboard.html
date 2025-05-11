@@ -227,6 +227,28 @@ document.getElementById("form").onsubmit = e => {
 
 socket.on('form_error', (payload) => {
   const errorBox = document.getElementById("form-errors");
+
+  // Clear previous highlights
+  document.querySelectorAll("input").forEach(input => input.classList.remove("input-error"));
+
+  // Highlight fields mentioned in error text (if possible)
+  const fieldsToHighlight = [];
+
+  payload.errors.forEach(error => {
+    if (error.includes("Contact Name")) fieldsToHighlight.push("Contact_Name");
+    if (error.includes("Company or Name")) fieldsToHighlight.push("Company_or_Name");
+    if (error.includes("Address 1")) fieldsToHighlight.push("Address_1");
+    if (error.includes("Address 2")) fieldsToHighlight.push("Address_2");
+    if (error.includes("Address 3")) fieldsToHighlight.push("Address_3");
+    if (error.includes("City")) fieldsToHighlight.push("City");
+    if (error.includes("Postal Code")) fieldsToHighlight.push("Postal_Code");
+  });
+
+  fieldsToHighlight.forEach(id => {
+    const input = document.getElementById(id);
+    if (input) input.classList.add("input-error");
+  });
+
   errorBox.innerText = "Please fix the following issues:\n" + payload.errors.join("\n");
   errorBox.style.display = "block";
 });
