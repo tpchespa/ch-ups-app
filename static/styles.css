@@ -175,3 +175,7 @@ input, select, textarea {
   padding: 10px 16px;
   font-size: 11pt;
 }
+
+.form-submit {
+  margin-top: 12px;
+}
