@@ -167,7 +167,7 @@ input, select, textarea {
 
 #advanced-wrapper .form-label-row,
 #advanced-wrapper .form-row {
-  grid-template-columns: repeat(44, 180px);
+  grid-template-columns: repeat(45, 180px);
 }
 
 .form-submit {
