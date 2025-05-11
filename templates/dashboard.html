@@ -86,10 +86,11 @@
       <input type="text" id="Reference_1">
       <input type="text" id="Reference_2">
       <input type="text" id="Reference_3">
+      <button type="button" id="toggle-advanced">Show Advanced Fields</button>
     </div>
   </div>
 
-  <button type="button" id="toggle-advanced">Show Advanced Fields</button>
+  
 
   <div id="advanced-wrapper" class="form-wrapper-scroll" style="display: none;">
     <div class="form-label-row">
@@ -339,8 +340,8 @@ function renderRow(entry) {
   const row = document.createElement("tr");
   row.setAttribute("data-id", entry.id);
   row.innerHTML = `
-    <td>${entry.data["_submitted_by"] || "?"}</td>
     <td>${entry.data["_submitted_at"]?.slice(0, 19).replace("T", " ") || "?"}</td>
+    <td>${entry.data["_submitted_by"] || "?"}</td>
     <td>${entry.data["Contact Name"]}</td>
     <td>${entry.data["Company or Name"]}</td>
     <td>${entry.data["Country"]}</td>

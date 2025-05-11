@@ -44,7 +44,13 @@ select::placeholder {
 
 input.input-error {
   border: 1px solid #ff5252 !important;
-  background-color: #2a0000;
+  background-color: #665500; !important;  /* muted yellow background */
+  color: #ffffff;
+}
+
+input.input-error:focus {
+  outline: none;
+  background-color: #554400 !important;
 }
 
 button {
@@ -95,7 +101,7 @@ a.button-link:hover {
 
 
 input, select, textarea {
-    color: #ffffcc; /* light yellow */
+  color: #ffffff; /* bright white */
 }
 
 .form-row {
@@ -140,7 +146,7 @@ input, select, textarea {
 .form-label-row,
 .form-row {
   display: grid;
-  grid-template-columns: repeat(36, 210px); /* 36 main fields */
+  grid-template-columns: repeat(37, 210px); /* 36 main fields */
   gap: 8px;
   min-width: max-content;
 }
@@ -151,7 +157,7 @@ input, select, textarea {
   text-align: left;
   font-weight: bold;
   font-size: 10pt;
-  color: #cccccc;
+  color: #ffffff;
 }
 
 #advanced-wrapper .form-label-row,
