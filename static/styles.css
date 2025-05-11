@@ -6,6 +6,12 @@ body {
     padding: 0;
 }
 
+body.auth-page {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
 header {
     background-color: #1e1e1e;
     padding: 15px 20px;
@@ -20,6 +26,53 @@ header a {
     color: #90caf9;
     text-decoration: none;
 }
+
+.auth-container {
+  max-width: 400px;
+  margin: 40px auto;
+  background-color: #1e1e1e;
+  padding: 30px 24px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px #000;
+}
+
+.auth-container h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #ffffff;
+  text-align: center;
+}
+
+.auth-container input[type="text"],
+.auth-container input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+  background-color: #2a2a2a;
+  border: 1px solid #444;
+  border-radius: 4px;
+  color: #ffffff;
+  font-size: 10pt;
+}
+
+.auth-container input[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 11pt;
+  border-radius: 4px;
+}
+
+.auth-container a {
+  color: #90caf9;
+  display: block;
+  text-align: center;
+  margin-top: 10px;
+}
+
 
 .container {
     padding: 20px;
