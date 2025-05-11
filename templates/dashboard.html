@@ -287,31 +287,43 @@ const validateFields = [
 
 const alphanumericRegex = /^[a-zA-Z0-9\\s]*$/;
 
-validateFields.forEach(field => {
-  const input = document.getElementById(field.id);
+function validateAllFields() {
+  let firstError = null;
+  errorBox.innerText = ""; // Clear old errors
+  let hasError = false;
 
-  if (!input) return; // skip if field is not found
+  validateFields.forEach(field => {
+    const input = document.getElementById(field.id);
+    if (!input) return;
 
-  input.addEventListener("input", () => {
+    input.classList.remove("input-error");
     const value = input.value;
 
-    // Clear previous error
-    input.classList.remove("input-error");
-    errorBox.style.display = "none";
-    errorBox.innerText = "";
-
-    // Validate
     if (value.length > field.max) {
+      hasError = true;
       input.classList.add("input-error");
-      errorBox.innerText = `${field.label} must be ${field.max} characters or fewer.`;
-      errorBox.style.display = "block";
+      if (!firstError) firstError = `${field.label} must be ${field.max} characters or fewer.`;
     } else if (!alphanumericRegex.test(value)) {
+      hasError = true;
       input.classList.add("input-error");
-      errorBox.innerText = `${field.label} must contain only letters, numbers, and spaces.`;
-      errorBox.style.display = "block";
+      if (!firstError) firstError = `${field.label} must contain only letters, numbers, and spaces.`;
     }
   });
-})
+
+  if (hasError) {
+    errorBox.innerText = firstError;
+    errorBox.style.display = "block";
+  } else {
+    errorBox.innerText = "";
+    errorBox.style.display = "none";
+  }
+}
+
+validateFields.forEach(field => {
+  const input = document.getElementById(field.id);
+  if (!input) return;
+  input.addEventListener("input", validateAllFields);
+});
 
 
 function deleteEntry(id) {
