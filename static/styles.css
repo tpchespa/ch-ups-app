@@ -165,4 +165,13 @@ input, select, textarea {
   color: #cccccc;
 }
 
+#advanced-wrapper .form-label-row,
+#advanced-wrapper .form-row {
+  grid-template-columns: repeat(44, 180px);
+}
 
+.submit-button {
+  margin-top: 12px;
+  padding: 10px 16px;
+  font-size: 11pt;
+}
