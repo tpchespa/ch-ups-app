@@ -116,30 +116,35 @@ def download():
 @socketio.on('submit_form')
 def handle_submit(data):
     try:
-        # Validation block
+        # Updated required field checks
+        required_fields = [
+            "Company or Name",
+            "Country",
+            "Address 1",
+            "City",
+            "Packaging Type",
+            "Service"
+        ]
+
         errors = []
 
-        if not data.get("Contact Name") and not data.get("Company or Name"):
-            errors.append("Either 'Contact Name' or 'Company or Name' must be provided.")
-
-        if not (data.get("Address 1") or data.get("Address 2") or data.get("Address 3")):
-            errors.append("At least one address field (Address 1, 2, or 3) is required.")
-
-        if not data.get("City"):
-            errors.append("City is required.")
-        if not data.get("Postal Code"):
-            errors.append("Postal Code is required.")
+        for field in required_fields:
+            if not data.get(field):
+                errors.append(f"'{field}' is required.")
 
         if errors:
             emit('form_error', {'errors': errors})
             return
 
-        # If all required fields are valid, save the entry
+        # Add submission metadata
         data['_submitted_by'] = current_user.email
         data['_submitted_at'] = datetime.utcnow().isoformat()
+
+        # Store in DB
         entry = UPSEntry(data=data)
         db.session.add(entry)
         db.session.commit()
+
         emit('new_entry', {'id': entry.id, 'data': entry.data}, broadcast=True)
 
     except Exception as e:
