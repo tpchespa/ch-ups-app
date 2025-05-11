@@ -170,12 +170,6 @@ input, select, textarea {
   grid-template-columns: repeat(44, 180px);
 }
 
-.submit-button {
-  margin-top: 12px;
-  padding: 10px 16px;
-  font-size: 11pt;
-}
-
 .form-submit {
   margin-top: 12px;
 }
