@@ -151,10 +151,8 @@ input, select, textarea {
 .form-label-row,
 .form-row {
   display: grid;
-  grid-template-columns:
-    180px 180px 180px 180px 180px 180px 180px 180px 180px 180px
-    180px 180px 180px 180px 180px 180px 180px 180px 180px 180px
-    180px 180px 180px 180px 180px 180px;
+  grid-template-columns: repeat(36, 180px); /* one column per field */
+  gap: 8px;
 }
 
 .form-label-row div {
