@@ -251,6 +251,9 @@ input, select, textarea {
   scrollbar-color: #444 #1e1e1e;
 }
 
+#error-box:empty {
+  display: none;
+}
 .error-box {
   background-color: #2a0000;
   border-left: 4px solid #ff5252;

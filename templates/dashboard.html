@@ -199,21 +199,19 @@
   <div id="form-errors" class="error-box" style="display: none;"></div>
 </div>
 
-
-
-
-    <h3>Live Table</h3>
-    <table id="table">
-      <thead>
-        <tr>
-          <th>Time</th><th>User</th><th>Contact</th><th>Company</th><th>Country</th><th>Actions</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+  <h3>Live Table</h3>
+  <table id="table">
+    <thead>
+      <tr>
+        <th>Time</th><th>User</th><th>Contact</th><th>Company</th><th>Country</th><th>Actions</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
 
     <a href="/download" class="button-link">Download CSV</a>
-  </div>
+</div>
+
 <script>
 const socket = io();
 document.getElementById("form").onsubmit = e => {
@@ -269,6 +267,52 @@ socket.on("new_entry", data => {
 `;
     document.querySelector("#table tbody").appendChild(row);
 });
+
+const errorBox = document.getElementById("form-errors");
+
+const validateFields = [
+  { id: "Contact_Name", label: "Contact Name", max: 35 },
+  { id: "Company_or_Name", label: "Company or Name", max: 35 },
+  { id: "Address_1", label: "Address 1", max: 35 },
+  { id: "Address_2", label: "Address 2", max: 35 },
+  { id: "Address_3", label: "Address 3", max: 35 },
+  { id: "Description_of_Goods", label: "Description of Goods", max: 35 },
+  { id: "Reference_1", label: "Reference 1", max: 35 },
+  { id: "Reference_2", label: "Reference 2", max: 35 },
+  { id: "Reference_3", label: "Reference 3", max: 35 },
+  { id: "Merchandise_Description", label: "Merchandise Description", max: 35 },
+  { id: "City", label: "City", max: 30 },
+  { id: "State_Prov_Other", label: "State/Province/Other", max: 30 }
+];
+
+const alphanumericRegex = /^[a-zA-Z0-9\\s]*$/;
+
+validateFields.forEach(field => {
+  const input = document.getElementById(field.id);
+
+  if (!input) return; // skip if field is not found
+
+  input.addEventListener("input", () => {
+    const value = input.value;
+
+    // Clear previous error
+    input.classList.remove("input-error");
+    errorBox.style.display = "none";
+    errorBox.innerText = "";
+
+    // Validate
+    if (value.length > field.max) {
+      input.classList.add("input-error");
+      errorBox.innerText = `${field.label} must be ${field.max} characters or fewer.`;
+      errorBox.style.display = "block";
+    } else if (!alphanumericRegex.test(value)) {
+      input.classList.add("input-error");
+      errorBox.innerText = `${field.label} must contain only letters, numbers, and spaces.`;
+      errorBox.style.display = "block";
+    }
+  });
+})
+
 
 function deleteEntry(id) {
     socket.emit("delete_entry", {id});
