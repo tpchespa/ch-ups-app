@@ -42,6 +42,11 @@ select::placeholder {
     color: #bbb; /* optional: lighter text */
 }
 
+input.input-error {
+  border: 1px solid #ff5252 !important;
+  background-color: #2a0000;
+}
+
 button {
     padding: 10px 16px;
     margin-top: 10px;
@@ -88,23 +93,7 @@ a.button-link:hover {
     background-color: #1976d2;
 }
 
-/*
-/form.grid-form {
-/    display: grid;
-/    grid-template-columns: repeat(3, 1fr);
-/    gap: 10px;
-/    margin-top: 20px;
-/}
-/
-/form.grid-form label {
-/    display: none;
-/}
-/
-/form.grid-form input, form.grid-form select {
-/    width: 100%;
-/    box-sizing: border-box;
-/}
-*/
+
 input, select, textarea {
     color: #ffffcc; /* light yellow */
 }
