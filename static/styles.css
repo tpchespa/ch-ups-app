@@ -141,24 +141,27 @@ input, select, textarea {
   font-size: 10pt;
 }
 
-.form-wrapper {
+.form-wrapper-scroll {
   overflow-x: auto;
+  display: block;
   white-space: nowrap;
-  padding-bottom: 10px;
+  margin-bottom: 20px;
 }
 
-.form-label-row {
+.form-label-row, .form-row {
   display: flex;
   flex-wrap: nowrap;
   gap: 8px;
-  font-size: 10pt;
-  font-weight: bold;
-  color: #cccccc;
-  padding-bottom: 6px;
+  min-width: max-content;
 }
 
 .form-label-row div {
   min-width: 180px;
   max-width: 220px;
   text-align: left;
+  font-weight: bold;
+  font-size: 10pt;
+  color: #cccccc;
 }
+
+
