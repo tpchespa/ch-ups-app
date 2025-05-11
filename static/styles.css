@@ -151,7 +151,7 @@ input, select, textarea {
 .form-label-row,
 .form-row {
   display: grid;
-  grid-template-columns: repeat(36, 180px); /* 36 main fields */
+  grid-template-columns: repeat(36, 210px); /* 36 main fields */
   gap: 8px;
   min-width: max-content;
 }
@@ -167,9 +167,31 @@ input, select, textarea {
 
 #advanced-wrapper .form-label-row,
 #advanced-wrapper .form-row {
-  grid-template-columns: repeat(45, 180px);
+  grid-template-columns: repeat(45, 240px);
 }
 
-.form-submit {
-  margin-top: 12px;
+/* Chrome, Edge, Safari */
+::-webkit-scrollbar {
+  height: 10px;
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1e1e1e;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #444;
+  border-radius: 6px;
+  border: 2px solid #1e1e1e;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #666;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #444 #1e1e1e;
 }
