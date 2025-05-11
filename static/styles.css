@@ -148,9 +148,10 @@ input, select, textarea {
   margin-bottom: 20px;
 }
 
-.form-label-row, .form-row {
-  display: flex;
-  flex-wrap: nowrap;
+.form-label-row,
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 8px;
   min-width: max-content;
 }
