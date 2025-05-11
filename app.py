@@ -55,25 +55,38 @@ def load_user(user_id):
 def register():
     if request.method == 'POST':
         email = request.form['email']
-        password = generate_password_hash(request.form['password'])
+        password = request.form['password']
+
         if User.query.filter_by(email=email).first():
-            return 'Email already exists.'
-        user = User(email=email, password=password)
+            error = "Email already exists."
+            return render_template('register.html', error=error)
+
+        hashed_password = generate_password_hash(password)
+        user = User(email=email, password=hashed_password)
+
         db.session.add(user)
         db.session.commit()
-        return redirect(url_for('login'))
+
+        # Automatically log the user in
+        login_user(user)
+
+        # Redirect straight to dashboard
+        return redirect(url_for('dashboard'))
+
     return render_template('register.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    error = None
     if request.method == 'POST':
         user = User.query.filter_by(email=request.form['email']).first()
         if user and check_password_hash(user.password, request.form['password']):
             login_user(user)
             return redirect(url_for('dashboard'))
-        return 'Invalid credentials.'
-    return render_template('login.html')
+        else:
+            error = "Invalid email or password."
 
+    return render_template('login.html', error=error)
 @app.route('/logout')
 @login_required
 def logout():

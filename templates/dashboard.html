@@ -260,8 +260,8 @@ socket.on("new_entry", data => {
     const row = document.createElement("tr");
     row.setAttribute("data-id", data.id);
     row.innerHTML = `
-  <td>${data.data["_submitted_by"] || "?"}</td>
   <td>${data.data["_submitted_at"]?.slice(0, 19).replace("T", " ") || "?"}</td>
+  <td>${data.data["_submitted_by"] || "?"}</td>
   <td>${data.data["Contact Name"]}</td>
   <td>${data.data["Company or Name"]}</td>
   <td>${data.data["Country"]}</td>
