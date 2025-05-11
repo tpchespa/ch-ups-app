@@ -255,6 +255,7 @@ socket.on('form_error', (payload) => {
 
 socket.on("new_entry", data => {
     document.getElementById("form-errors").style.display = "none";
+    document.querySelectorAll("input").forEach(input => input.classList.remove("input-error"));
     const row = document.createElement("tr");
     row.setAttribute("data-id", data.id);
     row.innerHTML = `
