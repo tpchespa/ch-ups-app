@@ -42,10 +42,10 @@ select::placeholder {
     color: #bbb; /* optional: lighter text */
 }
 
-input.input-error {
+.form-row input.input-error {
   border: 1px solid #ff5252 !important;
-  background-color: #665500; !important;  /* muted yellow background */
-  color: #ffffff;
+  background-color: #665500 !important;
+  color: #ffffff !important;
 }
 
 input.input-error:focus {
@@ -120,7 +120,7 @@ input, select, textarea {
   font-size: 10pt;
   background-color: #2a2a2a;
   border: 1px solid #444;
-  color: #ffffcc; /* visible yellow */
+  color: #ffffff; /* visible yellow */
   border-radius: 4px;
   flex-grow: 1;
 }
