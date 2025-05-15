@@ -742,61 +742,61 @@ const serviceMap = {
   "95": "SurePost Media Mail"
 };
 
-  function setupAutocomplete(inputId, suggestionsId, map) {
-    const input = document.getElementById(inputId);
-    const suggestionsBox = document.getElementById(suggestionsId);
+function setupAutocomplete(inputId, suggestionsId, map) {
+  const input = document.getElementById(inputId);
+  const suggestionsBox = document.getElementById(suggestionsId);
 
-    if (!input || !suggestionsBox) return;
+  if (!input || !suggestionsBox) return;
 
-    input.addEventListener("input", () => {
-      const query = input.value.toUpperCase();
-      suggestionsBox.innerHTML = "";
+  function renderSuggestions(query) {
+    suggestionsBox.innerHTML = "";
 
-      if (!query) {
+    const matches = Object.entries(map)
+      .filter(([code, name]) =>
+        !query || code.startsWith(query) || name.toUpperCase().startsWith(query)
+      )
+      .slice(0, 25);
+
+    if (matches.length === 0) {
+      suggestionsBox.style.display = "none";
+      return;
+    }
+
+    matches.forEach(([code, name]) => {
+      const li = document.createElement("li");
+      li.textContent = `${code} - ${name}`;
+      li.addEventListener("click", () => {
+        input.value = code;
         suggestionsBox.style.display = "none";
-        return;
-      }
-
-      const matches = Object.entries(map)
-        .filter(([code, name]) => code.startsWith(query) || name.toUpperCase().startsWith(query))
-        .slice(0, 10);
-
-      if (matches.length === 0) {
-        suggestionsBox.style.display = "none";
-        return;
-      }
-
-      matches.forEach(([code, name]) => {
-        const li = document.createElement("li");
-        li.textContent = `${code} - ${name}`;
-        li.addEventListener("click", () => {
-          input.value = code;
-          suggestionsBox.style.display = "none";
-          if (typeof validateAllFields === "function") validateAllFields();
-        });
-        suggestionsBox.appendChild(li);
+        if (typeof validateAllFields === "function") validateAllFields();
       });
-
-      const rect = input.getBoundingClientRect();
-      suggestionsBox.style.top = `${rect.bottom + window.scrollY}px`;
-      suggestionsBox.style.left = `${rect.left + window.scrollX}px`;
-      suggestionsBox.style.width = `${rect.width}px`;
-      suggestionsBox.style.position = "absolute";
-      suggestionsBox.style.display = "block";
+      suggestionsBox.appendChild(li);
     });
 
-    document.addEventListener("click", e => {
-      if (!suggestionsBox.contains(e.target) && e.target !== input) {
-        suggestionsBox.style.display = "none";
-      }
-    });
+    const rect = input.getBoundingClientRect();
+    suggestionsBox.style.top = `${rect.bottom + window.scrollY}px`;
+    suggestionsBox.style.left = `${rect.left + window.scrollX}px`;
+    suggestionsBox.style.width = `${rect.width}px`;
+    suggestionsBox.style.position = "absolute";
+    suggestionsBox.style.display = "block";
   }
 
-  // Atach autocomplete to each field
-  setupAutocomplete("Country", "country-suggestions", countryMap);
-  setupAutocomplete("Packaging_Type", "packaging-suggestions", packagingMap);
-  setupAutocomplete("Service", "service-suggestions", serviceMap);
-});
+  input.addEventListener("input", () => {
+    const query = input.value.toUpperCase();
+    renderSuggestions(query);
+  });
+
+  // Show all options on focus
+  input.addEventListener("focus", () => {
+    renderSuggestions(""); // empty query to show all
+  });
+
+  document.addEventListener("click", e => {
+    if (!suggestionsBox.contains(e.target) && e.target !== input) {
+      suggestionsBox.style.display = "none";
+    }
+  });
+}
 
 </script>
 <ul id="country-suggestions" class="autocomplete-list" style="display: none;"></ul>
