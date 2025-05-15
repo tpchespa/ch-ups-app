@@ -698,6 +698,11 @@ const countryMap = {
   "ZW": "Zimbabwe"
 };
 
+const residentialMap = {
+  "1": "Residential",
+  "0": "Commercial"
+};
+
 const packagingMap = {
   "1": "UPS Letter/Envelope",
   "4": "UPS PAK",
@@ -797,11 +802,13 @@ const serviceMap = {
   setupAutocomplete("Country", "country-suggestions", countryMap);
   setupAutocomplete("Packaging_Type", "packaging-suggestions", packagingMap);
   setupAutocomplete("Service", "service-suggestions", serviceMap);
+  setupAutocomplete("Residential_Ind", "residential-suggestions", residentialMap);
 });
 
 </script>
 <ul id="country-suggestions" class="autocomplete-list" style="display: none;"></ul>
 <ul id="packaging-suggestions" class="autocomplete-list" style="display: none;"></ul>
 <ul id="service-suggestions" class="autocomplete-list" style="display: none;"></ul>
+<ul id="residential-suggestions" class="autocomplete-list" style="display: none;"></ul>
 </body>
 </html>
