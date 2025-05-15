@@ -701,51 +701,106 @@ const countryMap = {
   "ZW": "Zimbabwe"
 };
 
-  countryInput.addEventListener("input", () => {
-    const query = countryInput.value.toUpperCase();
-    suggestionsBox.innerHTML = "";
+const packagingMap = {
+  "1": "UPS Letter/Envelope",
+  "4": "UPS PAK",
+  "3": "UPS Tube",
+  "S": "UPS Express Box (Small)",
+  "M": "UPS Express Box (Medium)",
+  "L": "UPS Express Box (Large)",
+  "21": "UPS Box",
+  "25": "UPS 10 KG Box",
+  "24": "UPS 25 KG Box",
+  "2": "Other Packaging/Customer Packaging",
+  "30": "Pallet (valid only for PL to PL)"
+};
 
-    if (!query) {
-      suggestionsBox.style.display = "none";
-      return;
-    }
+const serviceMap = {
+  "01": "Next Day Air",
+  "02": "2nd Day Air",
+  "03": "Ground",
+  "07": "International Express",
+  "08": "International Expedited",
+  "11": "International Standard",
+  "12": "3 Day Select",
+  "13": "Next Day Air Saver",
+  "14": "Next Day Air Early",
+  "54": "International Express Plus",
+  "59": "2 Day Air A.M",
+  "64": "UPS Express NA1",
+  "65": "UPS Saver",
+  "70": "UPS Access Point Economy",
+  "74": "UPS Express 12:00",
+  "82": "UPS Today Standard",
+  "83": "UPS Today Dedicated Courier",
+  "84": "UPS Today Intercity",
+  "85": "UPS Today Express",
+  "86": "UPS Today Express Saver",
+  "92": "SurePost Standard Parcel (not supported)",
+  "93": "SurePost Parcel Select",
+  "94": "SurePost Bound Printed Matter",
+  "95": "SurePost Media Mail"
+};
 
-    const matches = Object.entries(countryMap)
-      .filter(([code, name]) => code.startsWith(query) || name.toUpperCase().startsWith(query))
-      .slice(0, 10);
+  function setupAutocomplete(inputId, suggestionsId, map) {
+    const input = document.getElementById(inputId);
+    const suggestionsBox = document.getElementById(suggestionsId);
 
-    if (matches.length === 0) {
-      suggestionsBox.style.display = "none";
-      return;
-    }
+    if (!input || !suggestionsBox) return;
 
-    matches.forEach(([code, name]) => {
-      const li = document.createElement("li");
-      li.textContent = `${code} - ${name}`;
-      li.addEventListener("click", () => {
-        countryInput.value = code;
+    input.addEventListener("input", () => {
+      const query = input.value.toUpperCase();
+      suggestionsBox.innerHTML = "";
+
+      if (!query) {
         suggestionsBox.style.display = "none";
-        if (typeof validateAllFields === "function") validateAllFields();
+        return;
+      }
+
+      const matches = Object.entries(map)
+        .filter(([code, name]) => code.startsWith(query) || name.toUpperCase().startsWith(query))
+        .slice(0, 10);
+
+      if (matches.length === 0) {
+        suggestionsBox.style.display = "none";
+        return;
+      }
+
+      matches.forEach(([code, name]) => {
+        const li = document.createElement("li");
+        li.textContent = `${code} - ${name}`;
+        li.addEventListener("click", () => {
+          input.value = code;
+          suggestionsBox.style.display = "none";
+          if (typeof validateAllFields === "function") validateAllFields();
+        });
+        suggestionsBox.appendChild(li);
       });
-      suggestionsBox.appendChild(li);
+
+      const rect = input.getBoundingClientRect();
+      suggestionsBox.style.top = `${rect.bottom + window.scrollY}px`;
+      suggestionsBox.style.left = `${rect.left + window.scrollX}px`;
+      suggestionsBox.style.width = `${rect.width}px`;
+      suggestionsBox.style.position = "absolute";
+      suggestionsBox.style.display = "block";
     });
 
-    const rect = countryInput.getBoundingClientRect();
-    suggestionsBox.style.top = `${rect.bottom + window.scrollY}px`;
-    suggestionsBox.style.left = `${rect.left + window.scrollX}px`;
-    suggestionsBox.style.width = `${rect.width}px`;
-    suggestionsBox.style.position = "absolute";
-    suggestionsBox.style.display = "block";
-  });
+    document.addEventListener("click", e => {
+      if (!suggestionsBox.contains(e.target) && e.target !== input) {
+        suggestionsBox.style.display = "none";
+      }
+    });
+  }
 
-  document.addEventListener("click", e => {
-    if (!suggestionsBox.contains(e.target) && e.target !== countryInput) {
-      suggestionsBox.style.display = "none";
-    }
-  });
+  // Atach autocomplete to each field
+  setupAutocomplete("Country", "country-suggestions", countryMap);
+  setupAutocomplete("Packaging_Type", "packaging-suggestions", packagingMap);
+  setupAutocomplete("Service", "service-suggestions", serviceMap);
 });
 
 </script>
 <ul id="country-suggestions" class="autocomplete-list" style="display: none;"></ul>
+<ul id="packaging-suggestions" class="autocomplete-list" style="display: none;"></ul>
+<ul id="service-suggestions" class="autocomplete-list" style="display: none;"></ul>
 </body>
 </html>
