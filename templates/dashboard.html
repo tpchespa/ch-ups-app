@@ -753,7 +753,7 @@ function setupAutocomplete(inputId, suggestionsId, map) {
 
     const matches = Object.entries(map)
       .filter(([code, name]) =>
-        !query || code.startsWith(query) || name.toUpperCase().startsWith(query)
+        query === "" || code.startsWith(query) || name.toUpperCase().startsWith(query)
       )
       .slice(0, 25);
 
