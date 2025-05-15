@@ -11,185 +11,341 @@
 <h2>UPS Form</h2>
 
 <form id="form">
-  <div class="form-wrapper-scroll">
-    <div class="form-label-row">
-      <div>Contact Name</div>
-      <div>Company or Name</div>
-      <div>Country</div>
-      <div>Address 1</div>
-      <div>Address 2</div>
-      <div>Address 3</div>
-      <div>City</div>
-      <div>State/Prov/Other</div>
-      <div>Postal Code</div>
-      <div>Telephone</div>
-      <div>Ext</div>
-      <div>Residential Ind</div>
-      <div>Consignee Email</div>
-      <div>Packaging Type</div>
-      <div>Customs Value</div>
-      <div>Weight</div>
-      <div>Length</div>
-      <div>Width</div>
-      <div>Height</div>
-      <div>Unit of Measure</div>
-      <div>Description of Goods</div>
-      <div>Documents of No Commercial Value</div>
-      <div>GNIFC</div>
-      <div>Pkg Decl Value</div>
-      <div>Service</div>
-      <div>Delivery Confirm</div>
-      <div>Shipper Release</div>
-      <div>Ret of Documents</div>
-      <div>Saturday Deliver</div>
-      <div>Carbon Neutral</div>
-      <div>Large Package</div>
-      <div>Addl handling</div>
-      <div>Reference 1</div>
-      <div>Reference 2</div>
-      <div>Reference 3</div>
-    </div>
-
-    <div class="form-row">
+  <div class="vertical-form">
+    <div class="vertical-field">
+      <label for="Contact_Name">Contact Name</label>
       <input type="text" id="Contact_Name">
+    </div>
+    <div class="vertical-field">
+      <label for="Company_or_Name">Company or Name</label>
       <input type="text" id="Company_or_Name">
-      <div class="input-wrapper">
-        <input type="text" id="Country" name="Country" autocomplete="off">
-      </div>
+    </div>
+    <div class="vertical-field">
+      <label for="Country">Country</label>
+      <input type="text" id="Country">
+      <ul id="country-suggestions" class="autocomplete-list" style="display: none;"></ul>
+    </div>
+    <div class="vertical-field">
+      <label for="Address_1">Address 1</label>
       <input type="text" id="Address_1">
+    </div>
+    <div class="vertical-field">
+      <label for="Address_2">Address 2</label>
       <input type="text" id="Address_2">
+    </div>
+    <div class="vertical-field">
+      <label for="Address_3">Address 3</label>
       <input type="text" id="Address_3">
+    </div>
+    <div class="vertical-field">
+      <label for="City">City</label>
       <input type="text" id="City">
+    </div>
+    <div class="vertical-field">
+      <label for="State_Prov_Other">State/Prov/Other</label>
       <input type="text" id="State_Prov_Other">
+    </div>
+    <div class="vertical-field">
+      <label for="Postal_Code">Postal Code</label>
       <input type="text" id="Postal_Code">
+    </div>
+    <div class="vertical-field">
+      <label for="Telephone">Telephone</label>
       <input type="text" id="Telephone">
+    </div>
+    <div class="vertical-field">
+      <label for="Ext">Ext</label>
       <input type="text" id="Ext">
+    </div>
+    <div class="vertical-field">
+      <label for="Residential_Ind">Residential Ind</label>
       <input type="text" id="Residential_Ind">
+      <ul id="residential-suggestions" class="autocomplete-list" style="display: none;"></ul>
+    </div>
+    <div class="vertical-field">
+      <label for="Consignee_Email">Consignee Email</label>
       <input type="text" id="Consignee_Email">
+    </div>
+    <div class="vertical-field">
+      <label for="Packaging_Type">Packaging Type</label>
       <input type="text" id="Packaging_Type">
+      <ul id="packaging-suggestions" class="autocomplete-list" style="display: none;"></ul>
+    </div>
+    <div class="vertical-field">
+      <label for="Customs_Value">Customs Value</label>
       <input type="text" id="Customs_Value">
+    </div>
+    <div class="vertical-field">
+      <label for="Weight">Weight</label>
       <input type="text" id="Weight">
+    </div>
+    <div class="vertical-field">
+      <label for="Length">Length</label>
       <input type="text" id="Length">
+    </div>
+    <div class="vertical-field">
+      <label for="Width">Width</label>
       <input type="text" id="Width">
+    </div>
+    <div class="vertical-field">
+      <label for="Height">Height</label>
       <input type="text" id="Height">
+    </div>
+    <div class="vertical-field">
+      <label for="Unit_of_Measure">Unit of Measure</label>
       <input type="text" id="Unit_of_Measure">
+    </div>
+    <div class="vertical-field">
+      <label for="Description_of_Goods">Description of Goods</label>
       <input type="text" id="Description_of_Goods">
+    </div>
+    <div class="vertical-field">
+      <label for="Documents_of_No_Commercial_Value">Documents of No Commercial Value</label>
       <input type="text" id="Documents_of_No_Commercial_Value">
+    </div>
+    <div class="vertical-field">
+      <label for="GNIFC">GNIFC</label>
       <input type="text" id="GNIFC">
+    </div>
+    <div class="vertical-field">
+      <label for="Pkg_Decl_Value">Pkg Decl Value</label>
       <input type="text" id="Pkg_Decl_Value">
+    </div>
+    <div class="vertical-field">
+      <label for="Service">Service</label>
       <input type="text" id="Service">
+      <ul id="service-suggestions" class="autocomplete-list" style="display: none;"></ul>
+    </div>
+    <div class="vertical-field">
+      <label for="Delivery_Confirm">Delivery Confirm</label>
       <input type="text" id="Delivery_Confirm">
+    </div>
+    <div class="vertical-field">
+      <label for="Shipper_Release">Shipper Release</label>
       <input type="text" id="Shipper_Release">
+    </div>
+    <div class="vertical-field">
+      <label for="Ret_of_Documents">Ret of Documents</label>
       <input type="text" id="Ret_of_Documents">
+    </div>
+    <div class="vertical-field">
+      <label for="Saturday_Deliver">Saturday Deliver</label>
       <input type="text" id="Saturday_Deliver">
+    </div>
+    <div class="vertical-field">
+      <label for="Carbon_Neutral">Carbon Neutral</label>
       <input type="text" id="Carbon_Neutral">
+    </div>
+    <div class="vertical-field">
+      <label for="Large_Package">Large Package</label>
       <input type="text" id="Large_Package">
+    </div>
+    <div class="vertical-field">
+      <label for="Addl_handling">Addl handling</label>
       <input type="text" id="Addl_handling">
+    </div>
+    <div class="vertical-field">
+      <label for="Reference_1">Reference 1</label>
       <input type="text" id="Reference_1">
+    </div>
+    <div class="vertical-field">
+      <label for="Reference_2">Reference 2</label>
       <input type="text" id="Reference_2">
+    </div>
+    <div class="vertical-field">
+      <label for="Reference_3">Reference 3</label>
       <input type="text" id="Reference_3">
-      <button type="button" id="toggle-advanced">Show Advanced Fields</button>
     </div>
   </div>
 
-  
-
-  <div id="advanced-wrapper" class="form-wrapper-scroll" style="display: none;">
-    <div class="form-label-row">
-      <div>QV Notif 1-Addr</div>
-      <div>QV Notif 1-Ship</div>
-      <div>QV Notif 1-Excp</div>
-      <div>QV Notif 1-Delv</div>
-      <div>QV Notif 2-Addr</div>
-      <div>QV Notif 2-Ship</div>
-      <div>QV Notif 2-Excp</div>
-      <div>QV Notif 2-Delv</div>
-      <div>QV Notif 3-Addr</div>
-      <div>QV Notif 3-Ship</div>
-      <div>QV Notif 3-Excp</div>
-      <div>QV Notif 3-Delv</div>
-      <div>QV Notif 4-Addr</div>
-      <div>QV Notif 4-Ship</div>
-      <div>QV Notif 4-Excp</div>
-      <div>QV Notif 4-Delv</div>
-      <div>QV Notif 5-Addr</div>
-      <div>QV Notif 5-Ship</div>
-      <div>QV Notif 5-Excp</div>
-      <div>QV Notif 5-Delv</div>
-      <div>QV Notif Msg</div>
-      <div>QV Failure Addr</div>
-      <div>UPS Premium Care</div>
-      <div>ADL Location ID</div>
-      <div>ADL Media Type</div>
-      <div>ADL Language</div>
-      <div>ADL Notification Addr</div>
-      <div>ADL Failure Addr</div>
-      <div>ADL COD Value</div>
-      <div>ADL Deliver to Addressee</div>
-      <div>ADL Shipper Media Type</div>
-      <div>ADL Shipper Language</div>
-      <div>ADL Shipper Notification Addr</div>
-      <div>ADL Direct Delivery Only</div>
-      <div>Electronic Package Release Authentication</div>
-      <div>Lithium Ion Alone</div>
-      <div>Lithium Ion In Equipment</div>
-      <div>Lithium Ion With_Equipment</div>
-      <div>Lithium Metal Alone</div>
-      <div>Lithium Metal In Equipment</div>
-      <div>Lithium Metal With Equipment</div>
-      <div>Weekend Commercial Delivery</div>
-      <div>Dry Ice Weight</div>
-      <div>Merchandise Description</div>
-      <div>UPS SurePost®Limited Quantity/Lithium Battery</div>
-    </div>
-    <div class="form-row">
-      <input type="text" id="QV_Notif_1-Addr">
-      <input type="text" id="QV_Notif_1-Ship">
-      <input type="text" id="QV_Notif_1-Excp">
-      <input type="text" id="QV_Notif_1-Delv">
-      <input type="text" id="QV_Notif_2-Addr">
-      <input type="text" id="QV_Notif_2-Ship">
-      <input type="text" id="QV_Notif_2-Excp">
-      <input type="text" id="QV_Notif_2-Delv">
-      <input type="text" id="QV_Notif_3-Addr">
-      <input type="text" id="QV_Notif_3-Ship">
-      <input type="text" id="QV_Notif_3-Excp">
-      <input type="text" id="QV_Notif_3-Delv">
-      <input type="text" id="QV_Notif_4-Addr">
-      <input type="text" id="QV_Notif_4-Ship">
-      <input type="text" id="QV_Notif_4-Excp">
-      <input type="text" id="QV_Notif_4-Delv">
-      <input type="text" id="QV_Notif_5-Addr">
-      <input type="text" id="QV_Notif_5-Ship">
-      <input type="text" id="QV_Notif_5-Excp">
-      <input type="text" id="QV_Notif_5-Delv">
-      <input type="text" id="QV_Notif_Msg">
-      <input type="text" id="QV_Failure_Addr">
-      <input type="text" id="UPS_Premium_Care">
-      <input type="text" id="ADL_Location_ID">
-      <input type="text" id="ADL_Media_Type">
-      <input type="text" id="ADL_Language">
-      <input type="text" id="ADL_Notification_Addr">
-      <input type="text" id="ADL_Failure_Addr">
-      <input type="text" id="ADL_COD_Value">
-      <input type="text" id="ADL_Deliver_to_Addressee">
-      <input type="text" id="ADL_Shipper_Media_Type">
-      <input type="text" id="ADL_Shipper_Language">
-      <input type="text" id="ADL_Shipper_Notification_Addr">
-      <input type="text" id="ADL_Direct_Delivery_Only">
-      <input type="text" id="Electronic_Package_Release_Authentication">
-      <input type="text" id="Lithium_Ion_Alone">
-      <input type="text" id="Lithium_Ion_In_Equipment">
-      <input type="text" id="Lithium_Ion_With_Equipment">
-      <input type="text" id="Lithium_Metal_Alone">
-      <input type="text" id="Lithium_Metal_In_Equipment">
-      <input type="text" id="Lithium_Metal_With_Equipment">
-      <input type="text" id="Weekend_Commercial_Delivery">
-      <input type="text" id="Dry_Ice_Weight">
-      <input type="text" id="Merchandise_Description">
-      <input type="text" id="UPS_SurePost®Limited_Quantity_Lithium_Battery">
-    </div>
+  <div class="form-submit">
+    <button type="button" id="toggle-advanced" class="submit-button">
+      Show Advanced Fields
+    </button>
   </div>
+
+  <div id="advanced-wrapper" class="vertical-form" style="display: none;">
+  <div class="vertical-field">
+    <label for="QV_Notif_1-Addr">QV Notif 1-Addr</label>
+    <input type="text" id="QV_Notif_1-Addr">
+  </div>
+  <div class="vertical-field">
+    <label for="QV_Notif_1-Ship">QV Notif 1-Ship</label>
+    <input type="text" id="QV_Notif_1-Ship">
+  </div>
+  <div class="vertical-field">
+    <label for="QV_Notif_1-Excp">QV Notif 1-Excp</label>
+    <input type="text" id="QV_Notif_1-Excp">
+  </div>
+  <div class="vertical-field">
+    <label for="QV_Notif_1-Delv">QV Notif 1-Delv</label>
+    <input type="text" id="QV_Notif_1-Delv">
+  </div>
+  <div class="vertical-field">
+    <label for="QV_Notif_2-Addr">QV Notif 2-Addr</label>
+    <input type="text" id="QV_Notif_2-Addr">
+  </div>
+  <div class="vertical-field">
+    <label for="QV_Notif_2-Ship">QV Notif 2-Ship</label>
+    <input type="text" id="QV_Notif_2-Ship">
+  </div>
+  <div class="vertical-field">
+    <label for="QV_Notif_2-Excp">QV Notif 2-Excp</label>
+    <input type="text" id="QV_Notif_2-Excp">
+  </div>
+  <div class="vertical-field">
+    <label for="QV_Notif_2-Delv">QV Notif 2-Delv</label>
+    <input type="text" id="QV_Notif_2-Delv">
+  </div>
+  <div class="vertical-field">
+    <label for="QV_Notif_3-Addr">QV Notif 3-Addr</label>
+    <input type="text" id="QV_Notif_3-Addr">
+  </div>
+  <div class="vertical-field">
+    <label for="QV_Notif_3-Ship">QV Notif 3-Ship</label>
+    <input type="text" id="QV_Notif_3-Ship">
+  </div>
+  <div class="vertical-field">
+    <label for="QV_Notif_3-Excp">QV Notif 3-Excp</label>
+    <input type="text" id="QV_Notif_3-Excp">
+  </div>
+  <div class="vertical-field">
+    <label for="QV_Notif_3-Delv">QV Notif 3-Delv</label>
+    <input type="text" id="QV_Notif_3-Delv">
+  </div>
+  <div class="vertical-field">
+    <label for="QV_Notif_4-Addr">QV Notif 4-Addr</label>
+    <input type="text" id="QV_Notif_4-Addr">
+  </div>
+  <div class="vertical-field">
+    <label for="QV_Notif_4-Ship">QV Notif 4-Ship</label>
+    <input type="text" id="QV_Notif_4-Ship">
+  </div>
+  <div class="vertical-field">
+    <label for="QV_Notif_4-Excp">QV Notif 4-Excp</label>
+    <input type="text" id="QV_Notif_4-Excp">
+  </div>
+  <div class="vertical-field">
+    <label for="QV_Notif_4-Delv">QV Notif 4-Delv</label>
+    <input type="text" id="QV_Notif_4-Delv">
+  </div>
+  <div class="vertical-field">
+    <label for="QV_Notif_5-Addr">QV Notif 5-Addr</label>
+    <input type="text" id="QV_Notif_5-Addr">
+  </div>
+  <div class="vertical-field">
+    <label for="QV_Notif_5-Ship">QV Notif 5-Ship</label>
+    <input type="text" id="QV_Notif_5-Ship">
+  </div>
+  <div class="vertical-field">
+    <label for="QV_Notif_5-Excp">QV Notif 5-Excp</label>
+    <input type="text" id="QV_Notif_5-Excp">
+  </div>
+  <div class="vertical-field">
+    <label for="QV_Notif_5-Delv">QV Notif 5-Delv</label>
+    <input type="text" id="QV_Notif_5-Delv">
+  </div>
+  <div class="vertical-field">
+    <label for="QV_Notif_Msg">QV Notif Msg</label>
+    <input type="text" id="QV_Notif_Msg">
+  </div>
+  <div class="vertical-field">
+    <label for="QV_Failure_Addr">QV Failure Addr</label>
+    <input type="text" id="QV_Failure_Addr">
+  </div>
+  <div class="vertical-field">
+    <label for="UPS_Premium_Care">UPS Premium Care</label>
+    <input type="text" id="UPS_Premium_Care">
+  </div>
+  <div class="vertical-field">
+    <label for="ADL_Location_ID">ADL Location ID</label>
+    <input type="text" id="ADL_Location_ID">
+  </div>
+  <div class="vertical-field">
+    <label for="ADL_Media_Type">ADL Media Type</label>
+    <input type="text" id="ADL_Media_Type">
+  </div>
+  <div class="vertical-field">
+    <label for="ADL_Language">ADL Language</label>
+    <input type="text" id="ADL_Language">
+  </div>
+  <div class="vertical-field">
+    <label for="ADL_Notification_Addr">ADL Notification Addr</label>
+    <input type="text" id="ADL_Notification_Addr">
+  </div>
+  <div class="vertical-field">
+    <label for="ADL_Failure_Addr">ADL Failure Addr</label>
+    <input type="text" id="ADL_Failure_Addr">
+  </div>
+  <div class="vertical-field">
+    <label for="ADL_COD_Value">ADL COD Value</label>
+    <input type="text" id="ADL_COD_Value">
+  </div>
+  <div class="vertical-field">
+    <label for="ADL_Deliver_to_Addressee">ADL Deliver to Addressee</label>
+    <input type="text" id="ADL_Deliver_to_Addressee">
+  </div>
+  <div class="vertical-field">
+    <label for="ADL_Shipper_Media_Type">ADL Shipper Media Type</label>
+    <input type="text" id="ADL_Shipper_Media_Type">
+  </div>
+  <div class="vertical-field">
+    <label for="ADL_Shipper_Language">ADL Shipper Language</label>
+    <input type="text" id="ADL_Shipper_Language">
+  </div>
+  <div class="vertical-field">
+    <label for="ADL_Shipper_Notification_Addr">ADL Shipper Notification Addr</label>
+    <input type="text" id="ADL_Shipper_Notification_Addr">
+  </div>
+  <div class="vertical-field">
+    <label for="ADL_Direct_Delivery_Only">ADL Direct Delivery Only</label>
+    <input type="text" id="ADL_Direct_Delivery_Only">
+  </div>
+  <div class="vertical-field">
+    <label for="Electronic_Package_Release_Authentication">Electronic Package Release Authentication</label>
+    <input type="text" id="Electronic_Package_Release_Authentication">
+  </div>
+  <div class="vertical-field">
+    <label for="Lithium_Ion_Alone">Lithium Ion Alone</label>
+    <input type="text" id="Lithium_Ion_Alone">
+  </div>
+  <div class="vertical-field">
+    <label for="Lithium_Ion_In_Equipment">Lithium Ion In Equipment</label>
+    <input type="text" id="Lithium_Ion_In_Equipment">
+  </div>
+  <div class="vertical-field">
+    <label for="Lithium_Ion_With_Equipment">Lithium Ion With_Equipment</label>
+    <input type="text" id="Lithium_Ion_With_Equipment">
+  </div>
+  <div class="vertical-field">
+    <label for="Lithium_Metal_Alone">Lithium Metal Alone</label>
+    <input type="text" id="Lithium_Metal_Alone">
+  </div>
+  <div class="vertical-field">
+    <label for="Lithium_Metal_In_Equipment">Lithium Metal In Equipment</label>
+    <input type="text" id="Lithium_Metal_In_Equipment">
+  </div>
+  <div class="vertical-field">
+    <label for="Lithium_Metal_With_Equipment">Lithium Metal With Equipment</label>
+    <input type="text" id="Lithium_Metal_With_Equipment">
+  </div>
+  <div class="vertical-field">
+    <label for="Weekend_Commercial_Delivery">Weekend Commercial Delivery</label>
+    <input type="text" id="Weekend_Commercial_Delivery">
+  </div>
+  <div class="vertical-field">
+    <label for="Dry_Ice_Weight">Dry Ice Weight</label>
+    <input type="text" id="Dry_Ice_Weight">
+  </div>
+  <div class="vertical-field">
+    <label for="Merchandise_Description">Merchandise Description</label>
+    <input type="text" id="Merchandise_Description">
+  </div>
+  <div class="vertical-field">
+    <label for="UPS_SurePost®Limited_Quantity_Lithium_Battery">UPS SurePost®Limited Quantity/Lithium Battery</label>
+    <input type="text" id="UPS_SurePost®Limited_Quantity_Lithium_Battery">
+  </div>
+</div>
 
   <div class="form-submit">
     <button type="submit" class="submit-button">Add</button>
@@ -804,6 +960,32 @@ const serviceMap = {
   setupAutocomplete("Service", "service-suggestions", serviceMap);
   setupAutocomplete("Residential_Ind", "residential-suggestions", residentialMap);
 });
+
+
+const wrapper = document.getElementById("advanced-wrapper");
+const toggleBtn = document.getElementById("toggle-advanced");
+
+toggleBtn.addEventListener("click", () => {
+  const isVisible = wrapper.classList.toggle("show");
+  toggleBtn.textContent = isVisible ? "Hide Advanced Fields" : "Show Advanced Fields";
+
+  // Save toggle state
+  localStorage.setItem("advancedVisible", isVisible);
+
+  if (isVisible) {
+    wrapper.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const isVisible = localStorage.getItem("advancedVisible") === "true";
+
+  if (isVisible) {
+    wrapper.classList.add("show");
+    toggleBtn.textContent = "Hide Advanced Fields";
+  }
+});
+
 
 </script>
 <ul id="country-suggestions" class="autocomplete-list" style="display: none;"></ul>
