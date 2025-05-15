@@ -55,7 +55,6 @@
       <input type="text" id="Company_or_Name">
       <div class="input-wrapper">
         <input type="text" id="Country" name="Country" autocomplete="off">
-        <ul id="country-suggestions" class="autocomplete-list" style="display: none;"></ul>
       </div>
       <input type="text" id="Address_1">
       <input type="text" id="Address_2">
@@ -451,7 +450,6 @@ function renderRow(entry) {
   renderRow({ id: {{ entry.id }}, data: {{ entry.data|tojson }} });
 {% endfor %}
 
-
 const countryInput = document.getElementById("Country");
 const suggestionsBox = document.getElementById("country-suggestions");
 
@@ -466,7 +464,7 @@ countryInput.addEventListener("input", () => {
 
   const matches = Object.entries(countryMap)
     .filter(([code, name]) => code.startsWith(query) || name.toUpperCase().startsWith(query))
-    .slice(0, 10); // Limit to 10 results
+    .slice(0, 10);
 
   if (matches.length === 0) {
     suggestionsBox.style.display = "none";
@@ -479,20 +477,27 @@ countryInput.addEventListener("input", () => {
     li.addEventListener("click", () => {
       countryInput.value = code;
       suggestionsBox.style.display = "none";
-      validateAllFields(); // trigger validation
+      validateAllFields();
     });
     suggestionsBox.appendChild(li);
   });
 
+  // 👇 Reposition suggestion box
+  const rect = countryInput.getBoundingClientRect();
+  suggestionsBox.style.top = `${rect.bottom + window.scrollY}px`;
+  suggestionsBox.style.left = `${rect.left + window.scrollX}px`;
+  suggestionsBox.style.width = `${rect.width}px`;
+  suggestionsBox.style.position = "absolute";
   suggestionsBox.style.display = "block";
 });
 
-// Hide suggestions if user clicks away
+// Close suggestions on click elsewhere
 document.addEventListener("click", e => {
   if (!suggestionsBox.contains(e.target) && e.target !== countryInput) {
     suggestionsBox.style.display = "none";
   }
 });
+
 
 const countryMap = {
  "AD": "Andorra",
@@ -742,5 +747,6 @@ const countryMap = {
 };
 
 </script>
+<ul id="country-suggestions" class="autocomplete-list" style="display: none;"></ul>
 </body>
 </html>
