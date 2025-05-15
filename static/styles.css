@@ -273,18 +273,11 @@ input, select, textarea {
 }
 
 .autocomplete-list {
-  position: absolute;
-  top: 100%;         /* directly below the input */
-  left: 0;
-  z-index: 10;           /* higher than .form-wrapper-scroll */
   background-color: #1e1e1e;
   border: 1px solid #444;
   max-height: 150px;
   overflow-y: auto;
-  margin: 0;
-  padding-left: 0;
-  z-index: 1000;
-  width: 100%;       /* match input width */
+  z-index: 9999;
   list-style: none;
 }
 
