@@ -265,16 +265,23 @@ input, select, textarea {
   white-space: pre-line;
 }
 
+.input-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
 .autocomplete-list {
   position: absolute;
+  top: 100%;         /* directly below the input */
+  left: 0;
   background-color: #1e1e1e;
   border: 1px solid #444;
   max-height: 150px;
   overflow-y: auto;
-  margin-top: 0;
+  margin: 0;
   padding-left: 0;
   z-index: 1000;
-  width: 220px;
+  width: 100%;       /* match input width */
   list-style: none;
 }
 
