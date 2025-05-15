@@ -450,54 +450,9 @@ function renderRow(entry) {
   renderRow({ id: {{ entry.id }}, data: {{ entry.data|tojson }} });
 {% endfor %}
 
+document.addEventListener("DOMContentLoaded", () => {
 const countryInput = document.getElementById("Country");
 const suggestionsBox = document.getElementById("country-suggestions");
-
-countryInput.addEventListener("input", () => {
-  const query = countryInput.value.toUpperCase();
-  suggestionsBox.innerHTML = "";
-
-  if (!query) {
-    suggestionsBox.style.display = "none";
-    return;
-  }
-
-  const matches = Object.entries(countryMap)
-    .filter(([code, name]) => code.startsWith(query) || name.toUpperCase().startsWith(query))
-    .slice(0, 10);
-
-  if (matches.length === 0) {
-    suggestionsBox.style.display = "none";
-    return;
-  }
-
-  matches.forEach(([code, name]) => {
-    const li = document.createElement("li");
-    li.textContent = `${code} - ${name}`;
-    li.addEventListener("click", () => {
-      countryInput.value = code;
-      suggestionsBox.style.display = "none";
-      validateAllFields();
-    });
-    suggestionsBox.appendChild(li);
-  });
-
-  // 👇 Reposition suggestion box
-  const rect = countryInput.getBoundingClientRect();
-  suggestionsBox.style.top = `${rect.bottom + window.scrollY}px`;
-  suggestionsBox.style.left = `${rect.left + window.scrollX}px`;
-  suggestionsBox.style.width = `${rect.width}px`;
-  suggestionsBox.style.position = "absolute";
-  suggestionsBox.style.display = "block";
-});
-
-// Close suggestions on click elsewhere
-document.addEventListener("click", e => {
-  if (!suggestionsBox.contains(e.target) && e.target !== countryInput) {
-    suggestionsBox.style.display = "none";
-  }
-});
-
 
 const countryMap = {
  "AD": "Andorra",
@@ -745,6 +700,50 @@ const countryMap = {
   "ZM": "Zambia",
   "ZW": "Zimbabwe"
 };
+
+  countryInput.addEventListener("input", () => {
+    const query = countryInput.value.toUpperCase();
+    suggestionsBox.innerHTML = "";
+
+    if (!query) {
+      suggestionsBox.style.display = "none";
+      return;
+    }
+
+    const matches = Object.entries(countryMap)
+      .filter(([code, name]) => code.startsWith(query) || name.toUpperCase().startsWith(query))
+      .slice(0, 10);
+
+    if (matches.length === 0) {
+      suggestionsBox.style.display = "none";
+      return;
+    }
+
+    matches.forEach(([code, name]) => {
+      const li = document.createElement("li");
+      li.textContent = `${code} - ${name}`;
+      li.addEventListener("click", () => {
+        countryInput.value = code;
+        suggestionsBox.style.display = "none";
+        if (typeof validateAllFields === "function") validateAllFields();
+      });
+      suggestionsBox.appendChild(li);
+    });
+
+    const rect = countryInput.getBoundingClientRect();
+    suggestionsBox.style.top = `${rect.bottom + window.scrollY}px`;
+    suggestionsBox.style.left = `${rect.left + window.scrollX}px`;
+    suggestionsBox.style.width = `${rect.width}px`;
+    suggestionsBox.style.position = "absolute";
+    suggestionsBox.style.display = "block";
+  });
+
+  document.addEventListener("click", e => {
+    if (!suggestionsBox.contains(e.target) && e.target !== countryInput) {
+      suggestionsBox.style.display = "none";
+    }
+  });
+});
 
 </script>
 <ul id="country-suggestions" class="autocomplete-list" style="display: none;"></ul>
