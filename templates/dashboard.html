@@ -22,8 +22,10 @@
     </div>
     <div class="vertical-field">
       <label for="Country">Country</label>
-      <input type="text" id="Country">
-      <ul id="country-suggestions" class="autocomplete-list" style="display: none;"></ul>
+      <div class="input-wrapper">
+        <input type="text" id="Country">
+        <ul id="country-suggestions" class="autocomplete-list" style="display: none;"></ul>
+      </div>
     </div>
     <div class="vertical-field">
       <label for="Address_1">Address 1</label>
@@ -59,8 +61,10 @@
     </div>
     <div class="vertical-field">
       <label for="Residential_Ind">Residential Ind</label>
-      <input type="text" id="Residential_Ind">
-      <ul id="residential-suggestions" class="autocomplete-list" style="display: none;"></ul>
+      <div class="input-wrapper">
+        <input type="text" id="Residential_Ind">
+        <ul id="residential-suggestions" class="autocomplete-list" style="display: none;"></ul>
+      </div>
     </div>
     <div class="vertical-field">
       <label for="Consignee_Email">Consignee Email</label>
@@ -68,8 +72,10 @@
     </div>
     <div class="vertical-field">
       <label for="Packaging_Type">Packaging Type</label>
-      <input type="text" id="Packaging_Type">
-      <ul id="packaging-suggestions" class="autocomplete-list" style="display: none;"></ul>
+      <div class="input-wrapper">
+        <input type="text" id="Packaging_Type">
+        <ul id="packaging-suggestions" class="autocomplete-list" style="display: none;"></ul>
+      </div>
     </div>
     <div class="vertical-field">
       <label for="Customs_Value">Customs Value</label>
@@ -119,13 +125,17 @@
     </div>
     <div class="vertical-field">
       <label for="Service">Service</label>
-      <input type="text" id="Service">
-      <ul id="service-suggestions" class="autocomplete-list" style="display: none;"></ul>
+      <div class="input-wrapper">
+        <input type="text" id="Service">
+        <ul id="service-suggestions" class="autocomplete-list" style="display: none;"></ul>
+      </div>
     </div>
     <div class="vertical-field">
       <label for="Delivery_Confirm">Delivery Confirm</label>
-      <input type="text" id="Delivery_Confirm">
-      <ul id="deliveryconfirm-suggestions" class="autocomplete-list" style="display: none;"></ul>
+      <div class="input-wrapper">
+        <input type="text" id="Delivery_Confirm">
+        <ul id="deliveryconfirm-suggestions" class="autocomplete-list" style="display: none;"></ul>
+      </div>
     </div>
     <div class="vertical-field">
       <label for="Shipper_Release">Shipper Release/Deliver Wthout Signature</label>
@@ -196,21 +206,21 @@
     <select id="QV_Notif_1-Ship">
         <option value="">--</option>
         <option value="1">1</option>
-      </select>
+    </select>
   </div>
   <div class="vertical-field">
     <label for="QV_Notif_1-Excp">E-mail Notification 1 - Exception</label>
     <select id="QV_Notif_1-Excp">
       <option value="">--</option>
       <option value="1">1</option>
-  </select>
+    </select>
   </div>
   <div class="vertical-field">
     <label for="QV_Notif_1-Delv">E-mail Notification 1 - Delivery</label>
     <select id="QV_Notif_1-Delv">
       <option value="">--</option>
       <option value="1">1</option>
-  </select>
+    </select>
   </div>
   <div class="vertical-field">
     <label for="QV_Notif_2-Addr">QV Notif 2-Addr</label>
@@ -228,14 +238,14 @@
     <select id="QV_Notif_2-Excp">
         <option value="">--</option>
         <option value="1">1</option>
-      </select>
+    </select>
   </div>
   <div class="vertical-field">
     <label for="QV_Notif_2-Delv">E-mail Notification 2 - Delivery</label>
     <select id="QV_Notif_2-Delv">
         <option value="">--</option>
         <option value="1">1</option>
-      </select>
+    </select>
   </div>
   <div class="vertical-field">
     <label for="QV_Notif_3-Addr">QV Notif 3-Addr</label>
@@ -246,21 +256,21 @@
     <select id="QV_Notif_3-Ship">
         <option value="">--</option>
         <option value="1">1</option>
-      </select>
+    </select>
   </div>
   <div class="vertical-field">
     <label for="QV_Notif_3-Excp">E-mail Notification 3 - Exception</label>
     <select id="QV_Notif_3-Excp">
         <option value="">--</option>
         <option value="1">1</option>
-      </select>
+    </select>
   </div>
   <div class="vertical-field">
     <label for="QV_Notif_3-Delv">E-mail Notification 3 - Delivery</label>
     <select id="QV_Notif_3-Delv">
         <option value="">--</option>
         <option value="1">1</option>
-      </select>
+    </select>
   </div>
   <div class="vertical-field">
     <label for="QV_Notif_4-Addr">QV Notif 4-Addr</label>
@@ -271,21 +281,21 @@
     <select id="QV_Notif_4-Ship">
         <option value="">--</option>
         <option value="1">1</option>
-      </select>
+    </select>
   </div>
   <div class="vertical-field">
     <label for="QV_Notif_4-Excp">E-mail Notification 4 - Exception</label>
     <select id="QV_Notif_4-Excp">
         <option value="">--</option>
         <option value="1">1</option>
-      </select>
+    </select>
   </div>
   <div class="vertical-field">
     <label for="QV_Notif_4-Delv">E-mail Notification 4 - Delivery</label>
     <select id="QV_Notif_4-Delv">
         <option value="">--</option>
         <option value="1">1</option>
-      </select>
+    </select>
   </div>
   <div class="vertical-field">
     <label for="QV_Notif_5-Addr">QV Notif 5-Addr</label>
@@ -296,21 +306,21 @@
     <select id="QV_Notif_5-Ship">
         <option value="">--</option>
         <option value="1">1</option>
-      </select>
+    </select>
   </div>
   <div class="vertical-field">
     <label for="QV_Notif_5-Excp">E-mail Notification 5 - Exception</label>
     <select id="QV_Notif_5-Excp">
         <option value="">--</option>
         <option value="1">1</option>
-      </select>
+    </select>
   </div>
   <div class="vertical-field">
     <label for="QV_Notif_5-Delv">E-mail Notification 5 - Delivery</label>
     <select id="QV_Notif_5-Delv">
         <option value="">--</option>
         <option value="1">1</option>
-      </select>
+    </select>
   </div>
   <div class="vertical-field">
     <label for="QV_Notif_Msg">QV Notif Msg</label>
@@ -325,7 +335,7 @@
     <select id="UPS_Premium_Care">
         <option value="">--</option>
         <option value="1">1</option>
-      </select>
+    </select>
   </div>
   <div class="vertical-field">
     <label for="ADL_Location_ID">ADL Location ID</label>
@@ -353,8 +363,10 @@
   </div>
   <div class="vertical-field">
     <label for="ADL_Deliver_to_Addressee">ADL Deliver to Addressee</label>
-    <input type="text" id="ADL_Deliver_to_Addressee">
-    <ul id="adldeliveraddr-suggestions" class="autocomplete-list" style="display: none;"></ul>
+    <div class="input-wrapper">
+      <input type="text" id="ADL_Deliver_to_Addressee">
+      <ul id="adldeliveraddr-suggestions" class="autocomplete-list" style="display: none;"></ul>
+    </div>
   </div>
   <div class="vertical-field">
     <label for="ADL_Shipper_Media_Type">ADL Shipper Media Type</label>
@@ -373,7 +385,7 @@
     <select id="ADL_Direct_Delivery_Only">
         <option value="">--</option>
         <option value="1">1</option>
-      </select>
+    </select>
   </div>
   <div class="vertical-field">
     <label for="Electronic_Package_Release_Authentication">Electronic Package Release Authentication</label>
@@ -385,7 +397,7 @@
         <option value="">--</option>
         <option value="0">0</option>
         <option value="1">1</option>
-      </select>
+    </select>
   </div>
   <div class="vertical-field">
     <label for="Lithium_Ion_In_Equipment">Lithium Ion In Equipment</label>
@@ -393,7 +405,7 @@
       <option value="">--</option>
         <option value="0">0</option>
         <option value="1">1</option>
-      </select>
+    </select>
   </div>
   <div class="vertical-field">
     <label for="Lithium_Ion_With_Equipment">Lithium Ion With_Equipment</label>
@@ -401,7 +413,7 @@
       <option value="">--</option>
         <option value="0">0</option>
         <option value="1">1</option>
-      </select>
+    </select>
   </div>
   <div class="vertical-field">
     <label for="Lithium_Metal_Alone">Lithium Metal Alone</label>
@@ -409,7 +421,7 @@
       <option value="">--</option>
         <option value="0">0</option>
         <option value="1">1</option>
-      </select>
+    </select>
   </div>
   <div class="vertical-field">
     <label for="Lithium_Metal_In_Equipment">Lithium Metal In Equipment</label>
@@ -417,7 +429,7 @@
       <option value="">--</option>
         <option value="0">0</option>
         <option value="1">1</option>
-      </select>
+    </select>
   </div>
   <div class="vertical-field">
     <label for="Lithium_Metal_With_Equipment">Lithium Metal With Equipment</label>
@@ -425,14 +437,14 @@
       <option value="">--</option>
         <option value="0">0</option>
         <option value="1">1</option>
-      </select>
+    </select>
   </div>
   <div class="vertical-field">
     <label for="Weekend_Commercial_Delivery">Weekend Commercial Delivery</label>
     <select id="Weekend_Commercial_Delivery">
       <option value="">--</option>
       <option value="1">1</option>
-      </select>
+    </select>
   </div>
   <div class="vertical-field">
     <label for="Dry_Ice_Weight">Dry Ice Weight</label>
@@ -966,9 +978,9 @@ const residentialMap = {
 
 const deliveryConfirmationMap = {
   "S": "Signature Required",
-  "N": "Delivery Confirmation with No Signature"
-  "A": "Adult Signature Required"
-  "V": "Verbal Confirmation"
+  "N": "Delivery Confirmation with No Signature",
+  "A": "Adult Signature Required",
+  "V": "Verbal Confirmation",
 };
 
 const ADLdeliverToAddresseeMap = {
