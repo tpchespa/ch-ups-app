@@ -196,11 +196,11 @@ input, select, textarea {
 #advanced-wrapper {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.5s ease;
+  transition: max-height 0.4s ease;
 }
 
 #advanced-wrapper.show {
-  max-height: 3000px; /* high enough to contain all content */
+  max-height: 3000px; /* enough to show full content */
 }
 
 .form-wrapper-scroll {
