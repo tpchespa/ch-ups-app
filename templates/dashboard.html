@@ -1029,69 +1029,60 @@ const serviceMap = {
   "95": "SurePost Media Mail"
 };
 
- function setupAutocomplete(inputId, suggestionsId, map) {
-    const input = document.getElementById(inputId);
-    const suggestionsBox = document.getElementById(suggestionsId);
-    if (!input || !suggestionsBox) return;
+function setupAutocomplete(inputId, suggestionsId, map) {
+  const input = document.getElementById(inputId);
+  const suggestionsBox = document.getElementById(suggestionsId);
 
-    function renderSuggestions(query) {
-      suggestionsBox.innerHTML = "";
+  if (!input || !suggestionsBox) return;
 
-      const matches = Object.entries(map)
-        .filter(([code, name]) =>
-          query === "" || code.startsWith(query) || name.toUpperCase().startsWith(query)
-        )
-        .slice(0, 25);
+  function renderSuggestions(query) {
+    suggestionsBox.innerHTML = "";
 
-      if (matches.length === 0) {
-        suggestionsBox.style.display = "none";
-        return;
-      }
+    const matches = Object.entries(map)
+      .filter(([code, name]) =>
+        query === "" || code.startsWith(query) || name.toUpperCase().startsWith(query)
+      )
+      .slice(0, 25);
 
-      matches.forEach(([code, name]) => {
-        const li = document.createElement("li");
-        li.textContent = `${code} - ${name}`;
-        li.addEventListener("click", () => {
-          input.value = code;
-          suggestionsBox.style.display = "none";
-          if (typeof validateAllFields === "function") validateAllFields();
-        });
-        suggestionsBox.appendChild(li);
-      });
-
-      const rect = input.getBoundingClientRect();
-      suggestionsBox.style.top = `${rect.bottom + window.scrollY}px`;
-      suggestionsBox.style.left = `${rect.left + window.scrollX}px`;
-      suggestionsBox.style.width = `${rect.width}px`;
-      suggestionsBox.style.position = "absolute";
-      suggestionsBox.style.display = "block";
+    if (matches.length === 0) {
+      suggestionsBox.style.display = "none";
+      return;
     }
 
-    input.addEventListener("input", () => {
-      const query = input.value.toUpperCase();
-      renderSuggestions(query);
-    });
-
-    input.addEventListener("focus", () => {
-      renderSuggestions(""); // show all on focus
-    });
-
-    document.addEventListener("click", e => {
-      if (!suggestionsBox.contains(e.target) && e.target !== input) {
+    matches.forEach(([code, name]) => {
+      const li = document.createElement("li");
+      li.textContent = `${code} - ${name}`;
+      li.addEventListener("click", () => {
+        input.value = code;
         suggestionsBox.style.display = "none";
-      }
+        if (typeof validateAllFields === "function") validateAllFields();
+      });
+      suggestionsBox.appendChild(li);
     });
+
+    // Position suggestionsBox below the input within the wrapper
+    suggestionsBox.style.position = "absolute";
+    suggestionsBox.style.top = `${input.offsetTop + input.offsetHeight}px`;
+    suggestionsBox.style.left = "0";
+    suggestionsBox.style.width = `${input.offsetWidth}px`;
+    suggestionsBox.style.display = "block";
   }
 
-  // Call for all three fields after DOM is ready
-  setupAutocomplete("Country", "country-suggestions", countryMap);
-  setupAutocomplete("Packaging_Type", "packaging-suggestions", packagingMap);
-  setupAutocomplete("Service", "service-suggestions", serviceMap);
-  setupAutocomplete("Delivery_Confirm", "deliveryconfirm-suggestions", deliveryConfirmationMap);
-  setupAutocomplete("Residential_Ind", "residential-suggestions", residentialMap);
-  setupAutocomplete("ADL_Deliver_to_Addressee", "adldeliveraddr-suggestions", ADLdeliverToAddresseeMap);
-});
+  input.addEventListener("input", () => {
+    const query = input.value.toUpperCase();
+    renderSuggestions(query);
+  });
 
+  input.addEventListener("focus", () => {
+    renderSuggestions(""); // Show all options on focus
+  });
+
+  document.addEventListener("click", e => {
+    if (!suggestionsBox.contains(e.target) && e.target !== input) {
+      suggestionsBox.style.display = "none";
+    }
+  });
+}
 
 const wrapper = document.getElementById("advanced-wrapper");
 const toggleBtn = document.getElementById("toggle-advanced");
