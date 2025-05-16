@@ -95,16 +95,19 @@ select::placeholder {
     color: #bbb; /* optional: lighter text */
 }
 
-.form-row input.input-error {
-  border: 1px solid #ff5252 !important;
-  background-color: #665500 !important;
-  color: #ffffff !important;
+input.input-error,
+select.input-error {
+  border: 1px solid #ffcc00 !important;  /* bright golden yellow border */
+  background-color: #332800 !important;  /* rich dark mustard background */
+  color: #fffbe6 !important;             /* very light yellow-white text */
 }
 
-input.input-error:focus {
+input.input-error:focus,
+select.input-error:focus {
   outline: none;
-  background-color: #554400 !important;
+  background-color: #403200 !important;
 }
+
 
 button {
     padding: 10px 16px;
@@ -214,7 +217,7 @@ input, select, textarea {
 .vertical-form {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 6px;  /* tighter spacing */
   max-width: 500px;
 }
 
@@ -235,11 +238,13 @@ input, select, textarea {
 .vertical-field input,
 .vertical-field select {
   flex: 1;
-  padding: 8px;
+  padding: 6px;
   background-color: #2a2a2a;
   border: 1px solid #444;
   color: #ffffff;
   border-radius: 4px;
+  font-size: 9pt;
+  line-height: 1.2;
 }
 
 
@@ -298,7 +303,7 @@ input, select, textarea {
 .autocomplete-list {
   background-color: #1e1e1e;
   border: 1px solid #444;
-  max-height: 150px;
+  max-height: 250px;
   overflow-y: auto;
   z-index: 9999;
   list-style: none;
