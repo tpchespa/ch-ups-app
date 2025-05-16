@@ -694,20 +694,9 @@ document.getElementById("form").onsubmit = function(e) {
   socket.emit("submit_form", data);
 };
 
-
-
-document.getElementById("toggle-advanced").addEventListener("click", () => {
-  const wrapper = document.getElementById("advanced-wrapper");
-  const toggle = document.getElementById("toggle-advanced");
-
-  const visible = wrapper.style.display === "block";
-  wrapper.style.display = visible ? "none" : "block";
-  toggle.textContent = visible ? "Show Advanced Fields" : "Hide Advanced Fields";
-});
-
 function renderRow(entry) {
   const row = document.createElement("tr");
-  row.setAttribute("data-id", entry.id);
+  row.setAttribute("data-id", entry.id);s
   row.innerHTML = `
     <td>${entry.data["_submitted_at"]?.slice(0, 19).replace("T", " ") || "?"}</td>
     <td>${entry.data["_submitted_by"] || "?"}</td>
@@ -1098,12 +1087,9 @@ function setupAutocomplete(inputId, suggestionsId, map) {
     const isVisible = wrapper.classList.toggle("show");
     toggleBtn.textContent = isVisible ? "Hide Advanced Fields" : "Show Advanced Fields";
     localStorage.setItem("advancedVisible", isVisible);
-    if (isVisible) {
-      wrapper.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+    if (isVisible) wrapper.scrollIntoView({ behavior: "smooth", block: "start" });
   });
 
-  // Restore state from localStorage
   if (localStorage.getItem("advancedVisible") === "true") {
     wrapper.classList.add("show");
     toggleBtn.textContent = "Hide Advanced Fields";
