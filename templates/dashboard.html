@@ -1030,84 +1030,85 @@ const serviceMap = {
 };
 
 function setupAutocomplete(inputId, suggestionsId, map) {
-  const input = document.getElementById(inputId);
-  const suggestionsBox = document.getElementById(suggestionsId);
+    const input = document.getElementById(inputId);
+    const suggestionsBox = document.getElementById(suggestionsId);
+    if (!input || !suggestionsBox) return;
 
-  if (!input || !suggestionsBox) return;
+    function renderSuggestions(query) {
+      suggestionsBox.innerHTML = "";
+      const matches = Object.entries(map)
+        .filter(([code, name]) =>
+          query === "" || code.startsWith(query) || name.toUpperCase().startsWith(query)
+        )
+        .slice(0, 25);
 
-  function renderSuggestions(query) {
-    suggestionsBox.innerHTML = "";
+      if (matches.length === 0) {
+        suggestionsBox.style.display = "none";
+        return;
+      }
 
-    const matches = Object.entries(map)
-      .filter(([code, name]) =>
-        query === "" || code.startsWith(query) || name.toUpperCase().startsWith(query)
-      )
-      .slice(0, 25);
+      matches.forEach(([code, name]) => {
+        const li = document.createElement("li");
+        li.textContent = `${code} - ${name}`;
+        li.addEventListener("click", () => {
+          input.value = code;
+          suggestionsBox.style.display = "none";
+          if (typeof validateAllFields === "function") validateAllFields();
+        });
+        suggestionsBox.appendChild(li);
+      });
 
-    if (matches.length === 0) {
-      suggestionsBox.style.display = "none";
-      return;
+      // Position the suggestions below the input field
+      suggestionsBox.style.position = "absolute";
+      suggestionsBox.style.top = `${input.offsetTop + input.offsetHeight}px`;
+      suggestionsBox.style.left = "0";
+      suggestionsBox.style.width = `${input.offsetWidth}px`;
+      suggestionsBox.style.display = "block";
     }
 
-    matches.forEach(([code, name]) => {
-      const li = document.createElement("li");
-      li.textContent = `${code} - ${name}`;
-      li.addEventListener("click", () => {
-        input.value = code;
-        suggestionsBox.style.display = "none";
-        if (typeof validateAllFields === "function") validateAllFields();
-      });
-      suggestionsBox.appendChild(li);
+    input.addEventListener("input", () => {
+      const query = input.value.toUpperCase();
+      renderSuggestions(query);
     });
 
-    // Position suggestionsBox below the input within the wrapper
-    suggestionsBox.style.position = "absolute";
-    suggestionsBox.style.top = `${input.offsetTop + input.offsetHeight}px`;
-    suggestionsBox.style.left = "0";
-    suggestionsBox.style.width = `${input.offsetWidth}px`;
-    suggestionsBox.style.display = "block";
+    input.addEventListener("focus", () => {
+      renderSuggestions("");
+    });
+
+    document.addEventListener("click", e => {
+      if (!suggestionsBox.contains(e.target) && e.target !== input) {
+        suggestionsBox.style.display = "none";
+      }
+    });
   }
 
-  input.addEventListener("input", () => {
-    const query = input.value.toUpperCase();
-    renderSuggestions(query);
-  });
+  // Setup all autocompletes here
+  setupAutocomplete("Country", "country-suggestions", countryMap);
+  setupAutocomplete("Residential_Ind", "residential-suggestions", residentialMap);
+  setupAutocomplete("Delivery_Confirm", "deliveryconfirm-suggestions", deliveryConfirmationMap);
+  setupAutocomplete("Packaging_Type", "packaging-suggestions", packagingMap);
+  setupAutocomplete("Service", "service-suggestions", serviceMap);
+  setupAutocomplete("ADL_Deliver_to_Addressee", "adldeliveraddr-suggestions", ADLdeliverToAddresseeMap);
 
-  input.addEventListener("focus", () => {
-    renderSuggestions(""); // Show all options on focus
-  });
+  // Toggle Advanced Fields (with scroll + remember state)
+  const wrapper = document.getElementById("advanced-wrapper");
+  const toggleBtn = document.getElementById("toggle-advanced");
 
-  document.addEventListener("click", e => {
-    if (!suggestionsBox.contains(e.target) && e.target !== input) {
-      suggestionsBox.style.display = "none";
+  toggleBtn.addEventListener("click", () => {
+    const isVisible = wrapper.classList.toggle("show");
+    toggleBtn.textContent = isVisible ? "Hide Advanced Fields" : "Show Advanced Fields";
+    localStorage.setItem("advancedVisible", isVisible);
+    if (isVisible) {
+      wrapper.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   });
-}
 
-const wrapper = document.getElementById("advanced-wrapper");
-const toggleBtn = document.getElementById("toggle-advanced");
-
-toggleBtn.addEventListener("click", () => {
-  const isVisible = wrapper.classList.toggle("show");
-  toggleBtn.textContent = isVisible ? "Hide Advanced Fields" : "Show Advanced Fields";
-
-  // Save toggle state
-  localStorage.setItem("advancedVisible", isVisible);
-
-  if (isVisible) {
-    wrapper.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-  const isVisible = localStorage.getItem("advancedVisible") === "true";
-
-  if (isVisible) {
+  // Restore state from localStorage
+  if (localStorage.getItem("advancedVisible") === "true") {
     wrapper.classList.add("show");
     toggleBtn.textContent = "Hide Advanced Fields";
   }
 });
-
 
 </script>
 <ul id="country-suggestions" class="autocomplete-list" style="display: none;"></ul>
