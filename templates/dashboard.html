@@ -300,6 +300,7 @@
   <div class="vertical-field">
     <label for="QV_Notif_3-Addr">QV Notif 3-Addr</label>
     <input type="text" id="QV_Notif_3-Addr">
+    <div class="field-error" id="error-QV_Notif_3-Addr"></div>
   </div>
   <div class="vertical-field">
     <label for="QV_Notif_3-Ship">QV Notif 3-Ship</label>
@@ -842,7 +843,7 @@ document.getElementById("form").onsubmit = function(e) {
     if (!input) return;
 
     let value = input.value.trim();
-    
+
     data[field] = value;
   });
 
@@ -851,7 +852,7 @@ document.getElementById("form").onsubmit = function(e) {
 
 function renderRow(entry) {
   const row = document.createElement("tr");
-  row.setAttribute("data-id", entry.id);s
+  row.setAttribute("data-id", entry.id);
   row.innerHTML = `
     <td>${entry.data["_submitted_at"]?.slice(0, 19).replace("T", " ") || "?"}</td>
     <td>${entry.data["_submitted_by"] || "?"}</td>
