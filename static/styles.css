@@ -281,6 +281,13 @@ input, select, textarea {
   scrollbar-color: #444 #1e1e1e;
 }
 
+.field-error {
+  color: #ffb3b3;
+  font-size: 9pt;
+  margin-left: 10px;
+}
+
+
 #error-box:empty {
   display: none;
 }
