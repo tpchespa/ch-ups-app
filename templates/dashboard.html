@@ -842,12 +842,7 @@ document.getElementById("form").onsubmit = function(e) {
     if (!input) return;
 
     let value = input.value.trim();
-
-    // Special handling for Weight
-    if (id === "Weight" && value.includes(",") && !/^".*"$/.test(value)) {
-      value = `"${value}"`;
-    }
-
+    
     data[field] = value;
   });
 
