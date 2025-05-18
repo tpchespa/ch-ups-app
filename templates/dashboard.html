@@ -209,7 +209,10 @@
     </div>
     <div class="vertical-field">
       <label for="Addl_handling">Addl handling</label>
-      <input type="text" id="Addl_handling">
+      <select id="Addl_handling">
+        <option value="">--</option>
+        <option value="1">1</option>
+      </select>
       <div class="field-error" id="error-Addl_handling"></div>
     </div>
     <div class="vertical-field">
@@ -651,7 +654,12 @@ const validateFields = [
   { id: "Reference_3", label: "Reference 3", max: 35 },
   { id: "Merchandise_Description", label: "Merchandise Description", max: 35 },
   { id: "City", label: "City", max: 30 },
-  { id: "State_Prov_Other", label: "State/Province/Other", max: 30 }
+  { id: "State_Prov_Other", label: "State/Province/Other", max: 30 },
+
+  { id: "Lenght", label: "Lenght", numeric: true,  max: 4 },
+  { id: "Width", label: "Width", numeric: true,  max: 4 },
+  { id: "Height", label: "Height", numeric: true,  max: 4 }
+
 ];
 
 const alphanumericRegex = /^[a-zA-Z0-9\\s]*$/;
