@@ -760,6 +760,9 @@ function validateAllFields() {
         hasError = true;
         return;
       }
+      
+      return; // done with this special case
+    }
 
     // Special country logic
     if (field.id === "Country") {
