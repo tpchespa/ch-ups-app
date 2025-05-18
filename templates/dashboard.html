@@ -588,6 +588,24 @@ document.getElementById("form").onsubmit = e => {
     socket.emit("submit_form", data);
 };
 
+socket.on("new_entry", data => {
+    document.getElementById("form-errors").style.display = "none";
+    document.querySelectorAll("input").forEach(input => input.classList.remove("input-error"));
+    const row = document.createElement("tr");
+    row.setAttribute("data-id", data.id);
+    row.innerHTML = `
+  <td>${data.data["_submitted_at"]?.slice(0, 19).replace("T", " ") || "?"}</td>
+  <td>${data.data["_submitted_by"] || "?"}</td>
+  <td>${data.data["Contact Name"]}</td>
+  <td>${data.data["Company or Name"]}</td>
+  <td>${data.data["Country"]}</td>
+  <td><button onclick="deleteEntry(${data.id})">Delete</button></td>
+`;
+    document.querySelector("#table tbody").appendChild(row);
+});
+
+const errorBox = document.getElementById("form-errors");
+
 socket.on('form_error', (payload) => {
   // Clear global box and any previous field errors
   document.getElementById("form-errors").style.display = "none";
@@ -619,29 +637,12 @@ socket.on('form_error', (payload) => {
   });
 });
 
-socket.on("new_entry", data => {
-    document.getElementById("form-errors").style.display = "none";
-    document.querySelectorAll("input").forEach(input => input.classList.remove("input-error"));
-    const row = document.createElement("tr");
-    row.setAttribute("data-id", data.id);
-    row.innerHTML = `
-  <td>${data.data["_submitted_at"]?.slice(0, 19).replace("T", " ") || "?"}</td>
-  <td>${data.data["_submitted_by"] || "?"}</td>
-  <td>${data.data["Contact Name"]}</td>
-  <td>${data.data["Company or Name"]}</td>
-  <td>${data.data["Country"]}</td>
-  <td><button onclick="deleteEntry(${data.id})">Delete</button></td>
-`;
-    document.querySelector("#table tbody").appendChild(row);
-});
-
-const errorBox = document.getElementById("form-errors");
-
 const validateFields = [
   { id: "Contact_Name", label: "Contact Name", max: 35 },
   { id: "Company_or_Name", label: "Company or Name", max: 35 },
-  { id: "Country", label: "Country", max: 2 },
-  { id: "Address_1", label: "Address 1", max: 35 },
+  { id: "Country", label: "Country", requiredOnly: true },
+  { id: "Packaging_Type", label: "Packaging Type", required: true, max: 2 },
+  { id: "Address_1", label: "Address 1", required: true, max: 35, alphanumeric: true },
   { id: "Address_2", label: "Address 2", max: 35 },
   { id: "Address_3", label: "Address 3", max: 35 },
   { id: "Description_of_Goods", label: "Description of Goods", max: 35 },
@@ -694,20 +695,35 @@ function validateAllFields() {
     const errorDiv = document.getElementById("error-" + field.id);
     if (!input || !errorDiv) return;
 
-    const value = input.value;
+    const value = input.value.trim();
     input.classList.remove("input-error");
     errorDiv.innerText = "";
 
-    if (value.length > field.max) {
+    // Check required
+    if (field.required && !value) {
+      input.classList.add("input-error");
+      errorDiv.innerText = `${field.label} is required.`;
+      hasError = true;
+      return;
+    }
+
+    // Check max length
+    if (field.max && value.length > field.max) {
       input.classList.add("input-error");
       errorDiv.innerText = `${field.label} must be ${field.max} characters or fewer.`;
       hasError = true;
-    } else if (!alphanumericRegex.test(value)) {
+      return;
+    }
+
+    // Check alphanumeric (optional)
+    if (field.alphanumeric && !alphanumericRegex.test(value)) {
       input.classList.add("input-error");
       errorDiv.innerText = `${field.label} must contain only letters, numbers, and spaces.`;
       hasError = true;
+      return;
     }
 
+    // Special country logic
     if (field.id === "Country") {
       if (value.length !== 2) {
         input.classList.add("input-error");
@@ -723,6 +739,7 @@ function validateAllFields() {
 
   return !hasError;
 }
+
 
 validateFields.forEach(field => {
   const input = document.getElementById(field.id);
