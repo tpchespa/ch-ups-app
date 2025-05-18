@@ -731,6 +731,14 @@ function validateAllFields() {
       return;
     }
 
+    // Numeric check
+    if (field.numeric && value && !/^\d+$/.test(value)) {
+      input.classList.add("input-error");
+      errorDiv.innerText = `${field.label} must contain only numbers.`;
+      hasError = true;
+      return;
+    }
+
     // Special country logic
     if (field.id === "Country") {
       if (value.length !== 2) {
