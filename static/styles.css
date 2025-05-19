@@ -233,6 +233,9 @@ input, select, textarea {
 
 /* Each row is a horizontal flex container */
 .horizontal-field {
+  position: relative; /* Allow absolute children (like tooltips) to position properly */
+  align-items: flex-start; /* better alignment with multi-line labels or errors */
+  min-height: 36px;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -405,8 +408,9 @@ input, select, textarea {
   gap: 4px;
   max-width: 180px;
   white-space: nowrap;
-  overflow: hidden;
+  overflow: visible; /* <-- allow the tooltip to overflow */
   text-overflow: ellipsis;
+  position: relative;
 }
 
 .tooltip-icon {
