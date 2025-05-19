@@ -413,6 +413,29 @@ input, select, textarea {
   pointer-events: none;
 }
 
+#vertical-table-wrapper {
+  margin-top: 30px;
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+#vertical-table {
+  border-collapse: collapse;
+  background-color: #1e1e1e;
+  color: #f0f0f0;
+  min-width: 600px;
+}
+
+#vertical-table th, #vertical-table td {
+  border: 1px solid #333;
+  padding: 8px;
+  text-align: left;
+}
+
+#vertical-table th {
+  background-color: #333;
+  white-space: nowrap;
+}
 
 /* Highlight your own entries subtly */
 .own-entry-row {

@@ -583,20 +583,31 @@
   <div id="form-errors" class="error-box" style="display: none;"></div>
 </div>
 
-  <h3>Live Table</h3>
-  <table id="table">
+<div id="vertical-table-wrapper">
+  <h3>Live Submissions</h3>
+  <table id="vertical-table">
     <thead>
       <tr>
-        <th>Time</th><th>User</th><th>Contact</th><th>Company</th><th>Country</th><th>Actions</th>
+        <th>Field</th>
       </tr>
     </thead>
-    <tbody></tbody>
+    <tbody>
+      <tr><th>Time</th></tr>
+      <tr><th>User</th></tr>
+      <tr><th>Contact</th></tr>
+      <tr><th>Company</th></tr>
+      <tr><th>Country</th></tr>
+      <tr><th>Actions</th></tr>
+    </tbody>
   </table>
+</div>
 
     <a href="/download" class="button-link">Download CSV</a>
 </div>
 
 <script>
+const currentUserEmail = "{{ current_user.email }}";
+
 const socket = io();
 document.getElementById("form").onsubmit = e => {
     e.preventDefault();
@@ -609,19 +620,26 @@ document.getElementById("form").onsubmit = e => {
 };
 
 socket.on("new_entry", data => {
-    document.getElementById("form-errors").style.display = "none";
-    document.querySelectorAll("input").forEach(input => input.classList.remove("input-error"));
-    const row = document.createElement("tr");
-    row.setAttribute("data-id", data.id);
-    row.innerHTML = `
-  <td>${data.data["_submitted_at"]?.slice(0, 19).replace("T", " ") || "?"}</td>
-  <td>${data.data["_submitted_by"] || "?"}</td>
-  <td>${data.data["Contact Name"]}</td>
-  <td>${data.data["Company or Name"]}</td>
-  <td>${data.data["Country"]}</td>
-  <td><button onclick="deleteEntry(${data.id})">Delete</button></td>
-`;
-    document.querySelector("#table tbody").appendChild(row);
+  // Clear old errors
+  document.getElementById("form-errors").style.display = "none";
+  document.querySelectorAll("input").forEach(input => input.classList.remove("input-error"));
+
+  // Add as a vertical column
+  const values = [
+    (data.data["_submitted_at"] || "").slice(0, 19).replace("T", " "),
+    data.data["_submitted_by"] || "?",
+    data.data["Contact Name"] || "",
+    data.data["Company or Name"] || "",
+    data.data["Country"] || "",
+    `<button onclick="deleteEntry(${data.id})">Delete</button>`
+  ];
+
+  const rows = document.querySelectorAll("#vertical-table tbody tr");
+  values.forEach((val, i) => {
+    const td = document.createElement("td");
+    td.innerHTML = val;
+    rows[i].appendChild(td);
+  });
 });
 
 const errorBox = document.getElementById("form-errors");
