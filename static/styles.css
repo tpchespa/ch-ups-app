@@ -240,10 +240,16 @@ input, select, textarea {
 
 /* Fixed width label on left */
 .horizontal-field label {
+  display: inline-block;
   min-width: 180px;
+  max-width: 180px;       /* fixes the label width */
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   color: #ffffff;
   font-weight: bold;
   font-size: 9pt;
+  cursor: help;            /* indicates tooltip available */
 }
 
 /* Input has flex-grow to fill space */
