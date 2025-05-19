@@ -238,18 +238,18 @@ input, select, textarea {
   gap: 12px;
 }
 
-/* Fixed width label on left */
 .horizontal-field label {
+  position: relative;
   display: inline-block;
   min-width: 180px;
-  max-width: 180px;       /* fixes the label width */
-  overflow: hidden;
+  max-width: 180px;
   white-space: nowrap;
+  overflow: hidden;
   text-overflow: ellipsis;
   color: #ffffff;
   font-weight: bold;
   font-size: 9pt;
-  cursor: help;            /* indicates tooltip available */
+  cursor: help;
 }
 
 /* Input has flex-grow to fill space */
@@ -370,7 +370,8 @@ input, select, textarea {
   cursor: help;
 }
 
-.tooltip-hover .tooltip-content {
+/* Tooltip container inside label */
+.horizontal-field label .tooltip-content {
   visibility: hidden;
   opacity: 0;
   width: max-content;
@@ -391,8 +392,57 @@ input, select, textarea {
   transform: translateY(5px);
 }
 
-.tooltip-hover:hover .tooltip-content {
+/* Show on hover */
+.horizontal-field label:hover .tooltip-content {
   visibility: visible;
   opacity: 1;
   transform: translateY(0);
+}
+
+.label-with-tooltip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  max-width: 180px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tooltip-icon {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  color: #ffcc00;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.tooltip-icon i {
+  margin-left: 4px;
+}
+
+.tooltip-icon .tooltip-content {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  bottom: 120%;
+  left: 0;
+  background-color: #222;
+  color: #ffcc00;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 9pt;
+  white-space: normal;
+  width: max-content;
+  max-width: 300px;
+  z-index: 9999;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.7);
+  transition: opacity 0.3s ease;
+}
+
+.tooltip-icon:hover .tooltip-content {
+  visibility: visible;
+  opacity: 1;
+}opacity: 1;
 }
