@@ -1,3 +1,9 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
     background-color: #121212;
     color: #f0f0f0;
@@ -243,8 +249,9 @@ input, select, textarea {
 /* Input has flex-grow to fill space */
 .horizontal-field input,
 .horizontal-field select {
-  flex: 0 0 250px; /* fixed width */
+  width: 250px;
   max-width: 250px;
+  flex: 0 0 250px;
   padding: 6px 8px;
   background-color: #2a2a2a;
   border: 1px solid #444;
@@ -316,12 +323,12 @@ input, select, textarea {
 
 .input-wrapper {
   position: relative;
-  display: flex;
   width: 250px;
+  flex: 0 0 250px;
 }
 
 .input-wrapper input {
-  flex: 1;
+  width: 100%;
   max-width: 250px;
 }
 
