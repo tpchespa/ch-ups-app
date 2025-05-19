@@ -23,8 +23,10 @@
       <label for="Contact_Name" class="label-with-tooltip">
       Contact Name
       <span class="tooltip-icon">
-      <i class="fas fa-circle-question"></i>
-      <span class="tooltip-content">First and last name of recipient. Required for international/export shipments or UPS Next Day Air Early AM service</span>
+        <i class="fas fa-circle-question"></i>
+        <span class="tooltip-content">
+          First and last name of recipient. Required for international/export shipments or UPS Next Day Air Early AM service
+        </span>
       </span>
       </label>
       <input type="text" id="Contact_Name">
@@ -1275,21 +1277,6 @@ function setupAutocomplete(inputId, suggestionsId, map) {
   if (localStorage.getItem("advancedVisible") === "true") {
     wrapper.classList.add("show");
     toggleBtn.textContent = "Hide Advanced Fields";
-  }
-});
-
-document.querySelectorAll('.horizontal-field label').forEach(label => {
-  const fullText = label.textContent.trim();
-  if (fullText.length > 24) {  // Customize the truncation threshold
-    const shortText = fullText.slice(0, 22).trim();
-
-    const tooltipSpan = document.createElement('span');
-    tooltipSpan.className = 'tooltip-content';
-    tooltipSpan.textContent = fullText;
-
-    label.classList.add('tooltip-hover');
-    label.textContent = shortText;
-    label.appendChild(tooltipSpan);
   }
 });
 
