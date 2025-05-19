@@ -17,7 +17,7 @@
 
 <div class="container">
 <h2>UPS Form</h2>
-
+<div class="form-and-table">
 <form id="form">
   <div class="vertical-form">
     <div class="horizontal-field">
@@ -578,29 +578,32 @@
   </div>
 
 </form>
+<div id="vertical-table-wrapper">
+    <h3>Live Submissions</h3>
+    <table id="vertical-table">
+      <thead>
+        <tr>
+          <th>Field</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><th>Time</th></tr>
+        <tr><th>User</th></tr>
+        <tr><th>Contact</th></tr>
+        <tr><th>Company</th></tr>
+        <tr><th>Country</th></tr>
+        <tr><th>Actions</th></tr>
+      </tbody>
+    </table>
+  </div>
+</div>  
+
 
 <div class="form-errors-wrapper">
   <div id="form-errors" class="error-box" style="display: none;"></div>
 </div>
 
-<div id="vertical-table-wrapper">
-  <h3>Live Submissions</h3>
-  <table id="vertical-table">
-    <thead>
-      <tr>
-        <th>Field</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><th>Time</th></tr>
-      <tr><th>User</th></tr>
-      <tr><th>Contact</th></tr>
-      <tr><th>Company</th></tr>
-      <tr><th>Country</th></tr>
-      <tr><th>Actions</th></tr>
-    </tbody>
-  </table>
-</div>
+
 
     <a href="/download" class="button-link">Download CSV</a>
 </div>
