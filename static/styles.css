@@ -412,3 +412,13 @@ input, select, textarea {
   white-space: normal;
   pointer-events: none;
 }
+
+
+/* Highlight your own entries subtly */
+.own-entry-row {
+  background-color: #1a2b1a !important; /* dark greenish tint */
+}
+
+.own-entry-row td {
+  color: #c8facc;
+}

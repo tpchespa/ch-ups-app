@@ -97,7 +97,7 @@ def logout():
 @login_required
 def dashboard():
     entries = UPSEntry.query.all()
-    return render_template('dashboard.html', entries=entries)
+    return render_template('dashboard.html', entries=entries, current_email=current_user.email)
 
 @app.route('/download')
 @login_required
@@ -154,16 +154,23 @@ def handle_submit(data):
 def handle_delete(data):
     try:
         entry = UPSEntry.query.get_or_404(data['id'])
+
+        # Check if the current user is the one who submitted the entry
+        if entry.data.get('_submitted_by') != current_user.email:
+            emit('form_error', {'errors': ["❌ You can only delete your own entries."]})
+            return
+
         db.session.delete(entry)
         db.session.commit()
         emit('entry_deleted', {'id': data['id']}, broadcast=True)
+
     except Exception as e:
         emit('error', {'message': str(e)})
 
 @app.route('/init-db')
 def init_db():
     db.create_all()
-    return "✅ Database initialized."
+    return "Database initialized."
 
 if __name__ == '__main__':
     socketio.run(app, debug=True)
