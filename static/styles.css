@@ -222,13 +222,15 @@ input, select, textarea {
 }
 
 .vertical-field {
-  display: flex;.field-error {
-  flex-direction: column; 
-  align-items: flex-start; 
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   gap: 4px;
 }
 
 .vertical-field label {
+  display: block;
+  width: 100%;
   min-width: 180px;
   color: #ffffff;
   font-weight: bold;
