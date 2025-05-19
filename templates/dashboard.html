@@ -1280,6 +1280,33 @@ function setupAutocomplete(inputId, suggestionsId, map) {
   }
 });
 
+document.querySelectorAll('.tooltip-icon').forEach(icon => {
+  let tooltip;
+
+  icon.addEventListener('mouseenter', e => {
+    const contentEl = icon.querySelector('.tooltip-content');
+    if (!contentEl) return;
+
+    // Create floating tooltip
+    tooltip = document.createElement('div');
+    tooltip.className = 'floating-tooltip';
+    tooltip.textContent = contentEl.textContent;
+    document.body.appendChild(tooltip);
+
+    // Positioning
+    const rect = icon.getBoundingClientRect();
+    tooltip.style.top = (window.scrollY + rect.top - tooltip.offsetHeight - 8) + 'px';
+    tooltip.style.left = (window.scrollX + rect.left) + 'px';
+  });
+
+  icon.addEventListener('mouseleave', () => {
+    if (tooltip) {
+      tooltip.remove();
+      tooltip = null;
+    }
+  });
+});
+</script>
 
 </script>
 <ul id="country-suggestions" class="autocomplete-list" style="display: none;"></ul>
