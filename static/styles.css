@@ -214,40 +214,42 @@ input, select, textarea {
   display: none; /* no longer needed with new layout */
 }
 
-.vertical-form {
+/* Overall form wrapper centered */
+.horizontal-form {
   display: flex;
   flex-direction: column;
-  gap: 6px;  /* tighter spacing */
-  max-width: 500px;
+  max-width: 800px;
+  margin: 0 auto;
+  gap: 10px;
 }
 
-.vertical-field {
+/* Each row is a horizontal flex container */
+.horizontal-field {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 4px;
+  align-items: center;
+  gap: 12px;
 }
 
-.vertical-field label {
-  display: block;
-  width: 100%;
+/* Fixed width label on left */
+.horizontal-field label {
   min-width: 180px;
   color: #ffffff;
   font-weight: bold;
-  font-size: 10pt;
+  font-size: 9pt;
 }
 
-.vertical-field input,
-.vertical-field select {
+/* Input has flex-grow to fill space */
+.horizontal-field input,
+.horizontal-field select {
   flex: 1;
-  padding: 6px;
+  padding: 6px 8px;
   background-color: #2a2a2a;
   border: 1px solid #444;
   color: #ffffff;
   border-radius: 4px;
   font-size: 9pt;
-  line-height: 1.2;
 }
+
 
 
 .form-submit {
@@ -292,10 +294,13 @@ input, select, textarea {
 }
 */
 
+/* Field error shown inline to the right of input */
 .field-error {
   color: #ffcc00;
-  font-size: 0.85em;
-  padding-left: 4px;
+  font-size: 0.8em;
+  min-width: 180px;
+  word-break: break-word;
+  white-space: normal;
 }
 
 #error-box:empty {
