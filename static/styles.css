@@ -222,10 +222,10 @@ input, select, textarea {
 }
 
 .vertical-field {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 12px;
+  display: flex;.field-error {
+  flex-direction: column; 
+  align-items: flex-start; 
+  gap: 4px;
 }
 
 .vertical-field label {
@@ -281,12 +281,20 @@ input, select, textarea {
   scrollbar-color: #444 #1e1e1e;
 }
 
+/*
+
 .field-error {
   color: #ffb3b3;
   font-size: 9pt;
   margin-left: 10px;
 }
+*/
 
+.field-error {
+  color: #ffcc00;
+  font-size: 0.85em;
+  padding-left: 4px;
+}
 
 #error-box:empty {
   display: none;
@@ -304,7 +312,12 @@ input, select, textarea {
 
 .input-wrapper {
   position: relative;
-  display: inline-block;
+  display: block; 
+  width: 100%; 
+}
+
+.input-wrapper input {
+  width: 100%;
 }
 
 .autocomplete-list {
@@ -314,6 +327,7 @@ input, select, textarea {
   right: 0;
   background-color: #1e1e1e;
   border: 1px solid #444;
+  width: 100% !important;
   max-height: 250px;
   overflow-y: auto;
   z-index: 9999;
