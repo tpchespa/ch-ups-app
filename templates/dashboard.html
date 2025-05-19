@@ -892,29 +892,28 @@ document.getElementById("form").onsubmit = function(e) {
 };
 
 function renderRow(entry) {
-  const row = document.createElement("tr");
-  row.setAttribute("data-id", entry.id);
+  const table = document.getElementById("vertical-table");
+  if (!table) return;
 
   const createdBy = entry.data["_submitted_by"] || "?";
+  const timestamp = entry.data["_submitted_at"]?.slice(0, 19).replace("T", " ") || "?";
   const canDelete = createdBy === currentUserEmail;
 
-  // Add class if the row belongs to current user
-  if (canDelete) {
-    row.classList.add("own-entry-row");
-  }
+  const values = [
+    timestamp,
+    createdBy,
+    entry.data["Contact Name"] || "",
+    entry.data["Company or Name"] || "",
+    entry.data["Country"] || "",
+    canDelete ? `<button onclick="deleteEntry(${entry.id})" class="delete-button">Delete</button>` : ""
+  ];
 
-  row.innerHTML = `
-    <td>${entry.data["_submitted_at"]?.slice(0, 19).replace("T", " ") || "?"}</td>
-    <td>${createdBy}</td>
-    <td>${entry.data["Contact Name"] || ""}</td>
-    <td>${entry.data["Company or Name"] || ""}</td>
-    <td>${entry.data["Country"] || ""}</td>
-    <td>
-      ${canDelete ? `<button onclick="deleteEntry(${entry.id})" class="delete-button">Delete</button>` : ""}
-    </td>
-  `;
-
-  document.querySelector("#table tbody").appendChild(row);
+  const rows = table.querySelectorAll("tbody tr");
+  values.forEach((val, index) => {
+    const cell = document.createElement("td");
+    cell.innerHTML = val;
+    rows[index].appendChild(cell);
+  });
 }
 
 
