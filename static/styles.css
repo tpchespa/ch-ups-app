@@ -85,6 +85,15 @@ header a {
     margin: 0; /* or margin-left/right: auto if you still want slight centering */
 }
 
+.form-and-table {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
 input, select {
     width: 100%;
     padding: 8px;
@@ -414,16 +423,16 @@ input, select, textarea {
 }
 
 #vertical-table-wrapper {
-  margin-top: 30px;
   overflow-x: auto;
   max-width: 100%;
 }
+
 
 #vertical-table {
   border-collapse: collapse;
   background-color: #1e1e1e;
   color: #f0f0f0;
-  min-width: 600px;
+  min-width: 400px;
 }
 
 #vertical-table th, #vertical-table td {

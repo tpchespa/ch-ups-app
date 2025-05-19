@@ -888,8 +888,6 @@ document.getElementById("form").onsubmit = function(e) {
   socket.emit("submit_form", data);
 };
 
-const currentUserEmail = "{{ current_email }}";
-
 function renderRow(entry) {
   const row = document.createElement("tr");
   row.setAttribute("data-id", entry.id);
