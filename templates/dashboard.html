@@ -13,7 +13,12 @@
 <form id="form">
   <div class="vertical-form">
     <div class="horizontal-field">
-      <label for="Contact_Name">Contact Name</label>
+      <label for="Contact_Name" class="tooltip-hover">Contact Name
+      <span class="tooltip-content">
+        First and last name of recipient
+        Required for international/export shipments or UPS Next Day Air Early AM service
+      </span>
+      </label>
       <input type="text" id="Contact_Name">
       <div class="field-error" id="error-Contact_Name"></div>
     </div>
@@ -659,6 +664,7 @@ const validateFields = [
   { id: "State_Prov_Other", label: "State/Province/Other", max: 30 },
 
   { id: "Packaging_Type", label: "Packaging Type", required: true, max: 2 },
+  { id: "Service", label: "Service", required: true, max: 2 },
 
   { id: "Weight", label: "Weight", conditionalWeight: true ,  max: 5 },
   { id: "Length", label: "Length", numeric: true,  max: 4 },
@@ -1263,6 +1269,22 @@ function setupAutocomplete(inputId, suggestionsId, map) {
     toggleBtn.textContent = "Hide Advanced Fields";
   }
 });
+
+document.querySelectorAll('.horizontal-field label').forEach(label => {
+  const fullText = label.textContent.trim();
+  if (fullText.length > 24) {  // Customize the truncation threshold
+    const shortText = fullText.slice(0, 22).trim() + '...';
+
+    const tooltipSpan = document.createElement('span');
+    tooltipSpan.className = 'tooltip-content';
+    tooltipSpan.textContent = fullText;
+
+    label.classList.add('tooltip-hover');
+    label.textContent = shortText;
+    label.appendChild(tooltipSpan);
+  }
+});
+
 
 </script>
 <ul id="country-suggestions" class="autocomplete-list" style="display: none;"></ul>
