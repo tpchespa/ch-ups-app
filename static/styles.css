@@ -366,52 +366,6 @@ input, select, textarea {
   background-color: #333;
 }
 
-.tooltip-hover {
-  position: relative;
-  display: inline-block;
-  cursor: help;
-}
-
-/* Tooltip container inside label */
-.horizontal-field label .tooltip-content {
-  visibility: hidden;
-  opacity: 0;
-  width: max-content;
-  max-width: 300px;
-  background-color: #222;
-  color: #ffcc00;
-  text-align: left;
-  padding: 6px 10px;
-  border-radius: 6px;
-  position: absolute;
-  z-index: 1000;
-  bottom: 120%;
-  left: 0;
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.7);
-  font-size: 9pt;
-  white-space: normal;
-  transform: translateY(5px);
-}
-
-/* Show on hover */
-.horizontal-field label:hover .tooltip-content {
-  visibility: visible;
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.label-with-tooltip {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  max-width: 180px;
-  white-space: nowrap;
-  overflow: visible; /* <-- allow the tooltip to overflow */
-  text-overflow: ellipsis;
-  position: relative;
-}
-
 .tooltip-icon {
   position: relative;
   display: inline-flex;
@@ -444,10 +398,6 @@ input, select, textarea {
   transition: opacity 0.3s ease;
 }
 
-.tooltip-icon:hover .tooltip-content {
-  visibility: visible;
-  opacity: 1;
-}
 
 .floating-tooltip {
   position: absolute;
