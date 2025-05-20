@@ -654,25 +654,85 @@ document.getElementById("form").onsubmit = e => {
 };
 
 socket.on("new_entry", data => {
-  // Clear old errors
+  // Clear old errors and highlights
   document.getElementById("form-errors").style.display = "none";
   document.querySelectorAll("input").forEach(input => input.classList.remove("input-error"));
 
-  // Add as a vertical column
+  const table = document.getElementById("vertical-table");
+  if (!table) return;
+
+  // ---- Add <th> for this new entry ----
+  const headerRow = table.querySelector("thead tr");
+  const th = document.createElement("th");
+  th.setAttribute("data-id", data.id);
+  th.innerText = `#${data.id}`;
+  headerRow.appendChild(th);
+
+  // ---- Format timestamp ----
+  let timestamp = "?";
+  if (data.data["_submitted_at"]) {
+    const date = new Date(data.data["_submitted_at"]);
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    timestamp = `${hours}:${minutes} ${day}.${month}`;
+  }
+
+  const createdBy = data.data["_submitted_by"] || "?";
+  const canDelete = createdBy === currentUserEmail;
+
+  // ---- Prepare column values ----
   const values = [
-    (data.data["_submitted_at"] || "").slice(0, 19).replace("T", " "),
-    data.data["_submitted_by"] || "?",
+    canDelete
+      ? `<button onclick="deleteEntry(${data.id})" class="tiny-delete">✖</button>`
+      : "&mdash;",
+    timestamp,
+    createdBy,
     data.data["Contact Name"] || "",
     data.data["Company or Name"] || "",
     data.data["Country"] || "",
-    `<button onclick="deleteEntry(${data.id})">Delete</button>`
+    data.data["Address 1"] || "",
+    data.data["Address 2"] || "",
+    data.data["Address 3"] || "",
+    data.data["City"] || "",
+    data.data["State/Prov/Other"] || "",
+    data.data["Postal Code"] || "",
+    data.data["Telephone"] || "",
+    data.data["Ext"] || "",
+    data.data["Residential Ind"] || "",
+    data.data["Consignee Email"] || "",
+    data.data["Packaging Type"] || "",
+    data.data["Customs Value"] || "",
+    data.data["Weight"] || "",
+    data.data["Length"] || "",
+    data.data["Width"] || "",
+    data.data["Height"] || "",
+    data.data["Unit of Measure"] || "",
+    data.data["Description of Goods"] || "",
+    data.data["Documents of No Commercial Value"] || "",
+    data.data["GNIFC"] || "",
+    data.data["Pkg Decl Value"] || "",
+    data.data["Service"] || "",
+    data.data["Delivery Confirm"] || "",
+    data.data["Shipper Release"] || "",
+    data.data["Ret of Documents"] || "",
+    data.data["Saturday Deliver"] || "",
+    data.data["Carbon Neutral"] || "",
+    data.data["Large Package"] || "",
+    data.data["Addl handling"] || "",
+    data.data["Reference 1"] || "",
+    data.data["Reference 2"] || "",
+    data.data["Reference 3"] || ""
   ];
 
-  const rows = document.querySelectorAll("#vertical-table tbody tr");
+  // ---- Append one <td> per row ----
+  const rows = table.querySelectorAll("tbody tr");
   values.forEach((val, i) => {
     const td = document.createElement("td");
     td.innerHTML = val;
-    rows[i].appendChild(td);
+    if (canDelete) td.classList.add("own-entry-cell");
+    rows[i]?.appendChild(td);
   });
 });
 
@@ -944,7 +1004,7 @@ document.getElementById("form").onsubmit = function(e) {
 function renderRow(entry) {
   const table = document.getElementById("vertical-table");
   if (!table) return;
-  
+
   const headerRow = table.querySelector("thead tr");
   const th = document.createElement("th");
   th.setAttribute("data-id", entry.id);

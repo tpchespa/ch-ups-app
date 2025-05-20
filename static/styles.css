@@ -93,7 +93,7 @@ header a {
 
 .form-and-table {
   display: flex;
-  gap: 60x;              /* more spacing between form and table */
+  gap: 70px;              /* more spacing between form and table */
   align-items: flex-start;
   padding: 20px;
   max-width: 1200px;
