@@ -93,7 +93,7 @@ header a {
 
 .form-and-table {
   display: flex;
-  gap: 48px;              /* more spacing between form and table */
+  gap: 60x;              /* more spacing between form and table */
   align-items: flex-start;
   padding: 20px;
   max-width: 1200px;
@@ -435,7 +435,7 @@ input, select, textarea {
   border-radius: 6px;
   background-color: #1e1e1e;
   padding: 12px 16px;        /* more room inside */
-  min-width: 500px;
+  min-width: 800px;
 }
 
 #vertical-table {
@@ -481,4 +481,20 @@ input, select, textarea {
 
 .own-entry-row td {
   color: #c8facc;
+}
+
+.tiny-delete {
+  background-color: #e53935;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  padding: 2px 6px;
+  font-size: 10pt;
+  cursor: pointer;
+  line-height: 1;
+  transition: background-color 0.2s ease;
+}
+
+.tiny-delete:hover {
+  background-color: #cc2f2f;
 }

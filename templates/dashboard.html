@@ -895,23 +895,31 @@ function renderRow(entry) {
   if (!table) return;
 
   const createdBy = entry.data["_submitted_by"] || "?";
-  const timestamp = entry.data["_submitted_at"]?.slice(0, 19).replace("T", " ") || "?";
+  let timestamp = "?";
+  if (entry.data["_submitted_at"]) {
+    const date = new Date(entry.data["_submitted_at"]);
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    timestamp = `${hours}:${minutes} ${day}.${month}`;
+  }
   const canDelete = createdBy === currentUserEmail;
 
   const values = [
+    canDelete ? `<button onclick="deleteEntry(${entry.id})" class="tiny-delete">✖</button>` : "&mdash;", // Actions row
     timestamp,
     createdBy,
     entry.data["Contact Name"] || "",
     entry.data["Company or Name"] || "",
-    entry.data["Country"] || "",
-    canDelete ? `<button onclick="deleteEntry(${entry.id})" class="delete-button">Delete</button>` : ""
+    entry.data["Country"] || ""
   ];
 
   const rows = table.querySelectorAll("tbody tr");
   values.forEach((val, index) => {
     const cell = document.createElement("td");
     cell.innerHTML = val;
-    rows[index].appendChild(cell);
+    rows[index]?.appendChild(cell);  // Defensive check
   });
 }
 
