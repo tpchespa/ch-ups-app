@@ -799,6 +799,7 @@ const validateFields = [
 ];
 
 const alphanumericRegex = /^[a-zA-Z0-9\\s]*$/;
+
 const validCountryCodes = new Set([
   "AD", "AE", "AF", "AG", "AI", "AL", "AM", "AO", "AQ", "AR", "AS", "AT", "AU", "AW", "AX", "AZ",
   "BA", "BB", "BD", "BE", "BF", "BG", "BH", "BI", "BJ", "BL", "BM", "BN", "BO", "BQ", "BR", "BS", "BT", "BV", "BW", "BY", "BZ",
@@ -937,24 +938,24 @@ socket.on("entry_deleted", data => {
 
   if (colIndex === -1) return;
 
-  // Brief fade or background change before deletion
+  // Highlight column before removing
   headerCells[colIndex].style.backgroundColor = "#300";
   document.querySelectorAll("#vertical-table tbody tr").forEach(row => {
     const td = row.querySelectorAll("td")[colIndex];
     if (td) td.style.backgroundColor = "#300";
   });
 
-  // Delay actual removal slightly for visual feedback
+  // Delay actual removal
   setTimeout(() => {
-    // Remove the <td> from each row
+    // Remove <td> cells
     document.querySelectorAll("#vertical-table tbody tr").forEach(row => {
-      const cells = row.querySelectorAll("td");
-      if (cells[colIndex]) cells[colIndex].remove();
+      const td = row.querySelectorAll("td")[colIndex];
+      if (td) td.remove();
     });
 
-    // Remove the <th>
+    // Remove <th> cell
     if (headerCells[colIndex]) headerCells[colIndex].remove();
-  }, 150);
+  }, 200);
 });
 
 const fieldOrder = [ "Contact Name", "Company or Name", "Country", "Address 1", "Address 2", "Address 3", "City", "State/Prov/Other",
