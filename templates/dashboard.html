@@ -588,12 +588,44 @@
         </tr>
       </thead>
       <tbody>
+        <tr><th>Actions</th></tr>
         <tr><th>Time</th></tr>
         <tr><th>User</th></tr>
-        <tr><th>Contact</th></tr>
-        <tr><th>Company</th></tr>
+        <tr><th>Contact Name</th></tr>
+        <tr><th>Company or Name</th></tr>
         <tr><th>Country</th></tr>
-        <tr><th>Actions</th></tr>
+        <tr><th>Address 1</th></tr>
+        <tr><th>Address 2</th></tr>
+        <tr><th>Address 3</th></tr>
+        <tr><th>City</th></tr>
+        <tr><th>State/Prov/Other</th></tr>
+        <tr><th>Postal Code</th></tr>
+        <tr><th>Telephone</th></tr>
+        <tr><th>Ext</th></tr>
+        <tr><th>Residential Ind</th></tr>
+        <tr><th>Consignee Email</th></tr>
+        <tr><th>Packaging Type</th></tr>
+        <tr><th>Customs Value</th></tr>
+        <tr><th>Weight</th></tr>
+        <tr><th>Length</th></tr>
+        <tr><th>Width</th></tr>
+        <tr><th>Height</th></tr>
+        <tr><th>Unit of Measure</th></tr>
+        <tr><th>Description of Goods</th></tr>
+        <tr><th>Documents of No Commercial Value</th></tr>
+        <tr><th>GNIFC</th></tr>
+        <tr><th>Pkg Decl Value</th></tr>
+        <tr><th>Service</th></tr>
+        <tr><th>Delivery Confirm</th></tr>
+        <tr><th>Shipper Release</th></tr>
+        <tr><th>Ret of Documents</th></tr>
+        <tr><th>Saturday Deliver</th></tr>
+        <tr><th>Carbon Neutral</th></tr>
+        <tr><th>Large Package</th></tr>
+        <tr><th>Addl handling</th></tr>
+        <tr><th>Reference 1</th></tr>
+        <tr><th>Reference 2</th></tr>
+        <tr><th>Reference 3</th></tr>
       </tbody>
     </table>
    
@@ -907,12 +939,44 @@ function renderRow(entry) {
   const canDelete = createdBy === currentUserEmail;
 
   const values = [
-    canDelete ? `<button onclick="deleteEntry(${entry.id})" class="tiny-delete">✖</button>` : "&mdash;", // Actions row
+    canDelete ? `<button onclick="deleteEntry(${entry.id})" class="tiny-delete">✖</button>` : "&mdash;", // Actions
     timestamp,
     createdBy,
     entry.data["Contact Name"] || "",
     entry.data["Company or Name"] || "",
-    entry.data["Country"] || ""
+    entry.data["Country"] || "",
+    entry.data["Address 1"] || "",
+    entry.data["Address 2"] || "",
+    entry.data["Address 3"] || "",
+    entry.data["City"] || "",
+    entry.data["State/Prov/Other"] || "",
+    entry.data["Postal Code"] || "",
+    entry.data["Telephone"] || "",
+    entry.data["Ext"] || "",
+    entry.data["Residential Ind"] || "",
+    entry.data["Consignee Email"] || "",
+    entry.data["Packaging Type"] || "",
+    entry.data["Customs Value"] || "",
+    entry.data["Weight"] || "",
+    entry.data["Length"] || "",
+    entry.data["Width"] || "",
+    entry.data["Height"] || "",
+    entry.data["Unit of Measure"] || "",
+    entry.data["Description of Goods"] || "",
+    entry.data["Documents of No Commercial Value"] || "",
+    entry.data["GNIFC"] || "",
+    entry.data["Pkg Decl Value"] || "",
+    entry.data["Service"] || "",
+    entry.data["Delivery Confirm"] || "",
+    entry.data["Shipper Release"] || "",
+    entry.data["Ret of Documents"] || "",
+    entry.data["Saturday Deliver"] || "",
+    entry.data["Carbon Neutral"] || "",
+    entry.data["Large Package"] || "",
+    entry.data["Addl handling"] || "",
+    entry.data["Reference 1"] || "",
+    entry.data["Reference 2"] || "",
+    entry.data["Reference 3"] || ""
   ];
 
   const rows = table.querySelectorAll("tbody tr");
