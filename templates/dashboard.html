@@ -867,8 +867,27 @@ function deleteEntry(id) {
 }
 
 socket.on("entry_deleted", data => {
-    const row = document.querySelector(`tr[data-id='${data.id}']`);
-    if (row) row.remove();
+  const columnId = data.id;
+
+  // Find the index of the column with this ID
+  const headerRow = document.querySelector("#vertical-table tr"); // The first <tr> is the header row
+  const headerCells = Array.from(headerRow.children);
+  const colIndex = headerCells.findIndex(cell => cell.getAttribute("data-id") == columnId);
+
+  if (colIndex === -1) return; // No match found
+
+  // Remove the corresponding <td> from each row (excluding the <thead>)
+  document.querySelectorAll("#vertical-table tbody tr").forEach(row => {
+    const cells = row.querySelectorAll("td");
+    if (cells[colIndex]) {
+      cells[colIndex].remove();
+    }
+  });
+
+  // Remove the <th> from header
+  if (headerCells[colIndex]) {
+    headerCells[colIndex].remove();
+  }
 });
 
 const fieldOrder = [ "Contact Name", "Company or Name", "Country", "Address 1", "Address 2", "Address 3", "City", "State/Prov/Other",
@@ -925,6 +944,12 @@ document.getElementById("form").onsubmit = function(e) {
 function renderRow(entry) {
   const table = document.getElementById("vertical-table");
   if (!table) return;
+  
+  const headerRow = table.querySelector("thead tr");
+  const th = document.createElement("th");
+  th.setAttribute("data-id", entry.id);
+  th.innerText = `#${entry.id}`;
+  headerRow.appendChild(th);
 
   const createdBy = entry.data["_submitted_by"] || "?";
   let timestamp = "?";
