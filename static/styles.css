@@ -85,9 +85,15 @@ header a {
     margin: 0; /* or margin-left/right: auto if you still want slight centering */
 }
 
+@media (max-width: 1000px) {
+  .form-and-table {
+    flex-direction: column;
+  }
+}
+
 .form-and-table {
   display: flex;
-  gap: 32px;
+  gap: 48px;              /* more spacing between form and table */
   align-items: flex-start;
   padding: 20px;
   max-width: 1200px;
@@ -428,36 +434,42 @@ input, select, textarea {
   border: 1px solid #444;
   border-radius: 6px;
   background-color: #1e1e1e;
-  padding: 10px;
+  padding: 12px 16px;        /* more room inside */
+  min-width: 500px;
 }
 
 #vertical-table {
   border-collapse: collapse;
   font-size: 9pt;
   width: 100%;
-  min-width: 500px;
+  min-width: 600px;
+  table-layout: fixed;       /* ensures even column sizing */
 }
 
 #vertical-table th,
 #vertical-table td {
   border: 1px solid #333;
-  padding: 6px 10px;
+  padding: 10px 12px;        /* bigger cells */
   background-color: #2a2a2a;
   color: #f0f0f0;
   font-family: Arial, sans-serif;
   text-align: left;
   vertical-align: top;
+  height: 38px;              /* stable row height */
 }
 
 #vertical-table th {
   background-color: #333;
   color: #fff;
   font-weight: bold;
-  width: 180px; /* aligns with your labels */
+  width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 #vertical-table td {
-  width: 250px; /* aligns with your input fields */
+  width: 250px;
   max-width: 250px;
   overflow-wrap: break-word;
   word-break: break-word;
