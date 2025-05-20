@@ -923,31 +923,38 @@ validateFields.forEach(field => {
 
 
 function deleteEntry(id) {
-    socket.emit("delete_entry", {id});
+  if (confirm("Are you sure you want to delete this entry?")) {
+    socket.emit("delete_entry", { id });
+  }
 }
 
 socket.on("entry_deleted", data => {
   const columnId = data.id;
 
-  // Find the index of the column with this ID
-  const headerRow = document.querySelector("#vertical-table tr"); // The first <tr> is the header row
+  const headerRow = document.querySelector("#vertical-table thead tr");
   const headerCells = Array.from(headerRow.children);
   const colIndex = headerCells.findIndex(cell => cell.getAttribute("data-id") == columnId);
 
-  if (colIndex === -1) return; // No match found
+  if (colIndex === -1) return;
 
-  // Remove the corresponding <td> from each row (excluding the <thead>)
+  // Brief fade or background change before deletion
+  headerCells[colIndex].style.backgroundColor = "#300";
   document.querySelectorAll("#vertical-table tbody tr").forEach(row => {
-    const cells = row.querySelectorAll("td");
-    if (cells[colIndex]) {
-      cells[colIndex].remove();
-    }
+    const td = row.querySelectorAll("td")[colIndex];
+    if (td) td.style.backgroundColor = "#300";
   });
 
-  // Remove the <th> from header
-  if (headerCells[colIndex]) {
-    headerCells[colIndex].remove();
-  }
+  // Delay actual removal slightly for visual feedback
+  setTimeout(() => {
+    // Remove the <td> from each row
+    document.querySelectorAll("#vertical-table tbody tr").forEach(row => {
+      const cells = row.querySelectorAll("td");
+      if (cells[colIndex]) cells[colIndex].remove();
+    });
+
+    // Remove the <th>
+    if (headerCells[colIndex]) headerCells[colIndex].remove();
+  }, 150);
 });
 
 const fieldOrder = [ "Contact Name", "Company or Name", "Country", "Address 1", "Address 2", "Address 3", "City", "State/Prov/Other",
