@@ -946,24 +946,34 @@ socket.on("entry_deleted", data => {
   const headerRow = document.getElementById("header-row");
 
   const deleteIndex = [...deleteRow.children].findIndex(th => th.getAttribute("data-id") == idToDelete);
-  const headerIndex = [...headerRow.children].findIndex(th => th.getAttribute("data-id") == idToDelete);
+  if (deleteIndex === -1) return;
 
-  if (deleteIndex === -1 || headerIndex === -1) return;
-
-  // Highlight before deletion
-  deleteRow.children[deleteIndex].style.backgroundColor = "#300";
-  headerRow.children[headerIndex].style.backgroundColor = "#300";
-  document.querySelectorAll("#vertical-table tbody tr").forEach(row => {
-    const cell = row.querySelectorAll("td")[headerIndex];
+  // Highlight column before deletion
+  [deleteRow, headerRow].forEach(row => {
+    const cell = row.children[deleteIndex];
     if (cell) cell.style.backgroundColor = "#300";
   });
 
+  const bodyRows = document.querySelectorAll("#vertical-table tbody tr");
+
+  bodyRows.forEach(row => {
+    const cells = row.querySelectorAll("td");
+    if (cells.length > deleteIndex && cells[deleteIndex]) {
+      cells[deleteIndex].style.backgroundColor = "#300";
+    }
+  });
+
   setTimeout(() => {
-    deleteRow.children[deleteIndex].remove();
-    headerRow.children[headerIndex].remove();
-    document.querySelectorAll("#vertical-table tbody tr").forEach(row => {
-      const cell = row.querySelectorAll("td")[headerIndex];
+    [deleteRow, headerRow].forEach(row => {
+      const cell = row.children[deleteIndex];
       if (cell) cell.remove();
+    });
+
+    bodyRows.forEach(row => {
+      const cells = row.querySelectorAll("td");
+      if (cells.length > deleteIndex && cells[deleteIndex]) {
+        cells[deleteIndex].remove();
+      }
     });
   }, 150);
 });
