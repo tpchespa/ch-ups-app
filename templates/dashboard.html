@@ -583,8 +583,12 @@
   <a href="/download" class="button-link">Download CSV</a>
   <table id="vertical-table">
     <thead>
-      <tr id="delete-row"></tr> <!-- Row with delete buttons -->
-      <tr id="header-row"></tr> <!-- Row with entry IDs -->
+      <tr id="delete-row">
+        <th></th> <!-- <-- This aligns with the label column -->
+      </tr>
+      <tr id="header-row">
+        <th></th> <!-- <-- This aligns with the label column -->
+      </tr>
     </thead>
     <tbody>
       <tr><th>Actions</th></tr>
