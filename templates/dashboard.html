@@ -591,7 +591,6 @@
       </tr>
     </thead>
     <tbody>
-      <tr><th>Actions</th></tr>
       <tr><th>Time</th></tr>
       <tr><th>User</th></tr>
       <tr><th>Contact Name</th></tr>
@@ -945,35 +944,32 @@ socket.on("entry_deleted", data => {
   const deleteRow = document.getElementById("delete-row");
   const headerRow = document.getElementById("header-row");
 
-  const deleteIndex = [...deleteRow.children].findIndex(th => th.getAttribute("data-id") == idToDelete);
-  if (deleteIndex === -1) return;
+  const columnIndex = [...headerRow.children].findIndex(th => th.getAttribute("data-id") == idToDelete);
 
-  // Highlight column before deletion
+  if (columnIndex === -1) return;
+
+  // Highlight column before removing
   [deleteRow, headerRow].forEach(row => {
-    const cell = row.children[deleteIndex];
+    const cell = row.children[columnIndex];
     if (cell) cell.style.backgroundColor = "#300";
   });
 
-  const bodyRows = document.querySelectorAll("#vertical-table tbody tr");
-
-  bodyRows.forEach(row => {
-    const cells = row.querySelectorAll("td");
-    if (cells.length > deleteIndex && cells[deleteIndex]) {
-      cells[deleteIndex].style.backgroundColor = "#300";
-    }
+  document.querySelectorAll("#vertical-table tbody tr").forEach(row => {
+    const cell = row.children[columnIndex];
+    if (cell) cell.style.backgroundColor = "#300";
   });
 
   setTimeout(() => {
+    // Remove from header
     [deleteRow, headerRow].forEach(row => {
-      const cell = row.children[deleteIndex];
+      const cell = row.children[columnIndex];
       if (cell) cell.remove();
     });
 
-    bodyRows.forEach(row => {
-      const cells = row.querySelectorAll("td");
-      if (cells.length > deleteIndex && cells[deleteIndex]) {
-        cells[deleteIndex].remove();
-      }
+    // Remove from each row in tbody
+    document.querySelectorAll("#vertical-table tbody tr").forEach(row => {
+      const cell = row.children[columnIndex];
+      if (cell) cell.remove();
     });
   }, 150);
 });
