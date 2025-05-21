@@ -579,57 +579,55 @@
 
 </form>
 <div id="vertical-table-wrapper">
-    <h3>Current Submissions</h3>
-    <a href="/download" class="button-link">Download CSV</a>
-    <table id="vertical-table">
-      <thead>
-        <tr>
-          <th>Field Label</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><th>Actions</th></tr>
-        <tr><th>Time</th></tr>
-        <tr><th>User</th></tr>
-        <tr><th>Contact Name</th></tr>
-        <tr><th>Company or Name</th></tr>
-        <tr><th>Country</th></tr>
-        <tr><th>Address 1</th></tr>
-        <tr><th>Address 2</th></tr>
-        <tr><th>Address 3</th></tr>
-        <tr><th>City</th></tr>
-        <tr><th>State/Prov/Other</th></tr>
-        <tr><th>Postal Code</th></tr>
-        <tr><th>Telephone</th></tr>
-        <tr><th>Ext</th></tr>
-        <tr><th>Residential Ind</th></tr>
-        <tr><th>Consignee Email</th></tr>
-        <tr><th>Packaging Type</th></tr>
-        <tr><th>Customs Value</th></tr>
-        <tr><th>Weight</th></tr>
-        <tr><th>Length</th></tr>
-        <tr><th>Width</th></tr>
-        <tr><th>Height</th></tr>
-        <tr><th>Unit of Measure</th></tr>
-        <tr><th>Description of Goods</th></tr>
-        <tr><th>Documents of No Commercial Value</th></tr>
-        <tr><th>GNIFC</th></tr>
-        <tr><th>Pkg Decl Value</th></tr>
-        <tr><th>Service</th></tr>
-        <tr><th>Delivery Confirm</th></tr>
-        <tr><th>Shipper Release</th></tr>
-        <tr><th>Ret of Documents</th></tr>
-        <tr><th>Saturday Deliver</th></tr>
-        <tr><th>Carbon Neutral</th></tr>
-        <tr><th>Large Package</th></tr>
-        <tr><th>Addl handling</th></tr>
-        <tr><th>Reference 1</th></tr>
-        <tr><th>Reference 2</th></tr>
-        <tr><th>Reference 3</th></tr>
-      </tbody>
-    </table>
-   
-  </div>
+  <h3>Current Submissions</h3>
+  <a href="/download" class="button-link">Download CSV</a>
+  <table id="vertical-table">
+    <thead>
+      <tr id="delete-row"></tr> <!-- Row with delete buttons -->
+      <tr id="header-row"></tr> <!-- Row with entry IDs -->
+    </thead>
+    <tbody>
+      <tr><th>Actions</th></tr>
+      <tr><th>Time</th></tr>
+      <tr><th>User</th></tr>
+      <tr><th>Contact Name</th></tr>
+      <tr><th>Company or Name</th></tr>
+      <tr><th>Country</th></tr>
+      <tr><th>Address 1</th></tr>
+      <tr><th>Address 2</th></tr>
+      <tr><th>Address 3</th></tr>
+      <tr><th>City</th></tr>
+      <tr><th>State/Prov/Other</th></tr>
+      <tr><th>Postal Code</th></tr>
+      <tr><th>Telephone</th></tr>
+      <tr><th>Ext</th></tr>
+      <tr><th>Residential Ind</th></tr>
+      <tr><th>Consignee Email</th></tr>
+      <tr><th>Packaging Type</th></tr>
+      <tr><th>Customs Value</th></tr>
+      <tr><th>Weight</th></tr>
+      <tr><th>Length</th></tr>
+      <tr><th>Width</th></tr>
+      <tr><th>Height</th></tr>
+      <tr><th>Unit of Measure</th></tr>
+      <tr><th>Description of Goods</th></tr>
+      <tr><th>Documents of No Commercial Value</th></tr>
+      <tr><th>GNIFC</th></tr>
+      <tr><th>Pkg Decl Value</th></tr>
+      <tr><th>Service</th></tr>
+      <tr><th>Delivery Confirm</th></tr>
+      <tr><th>Shipper Release</th></tr>
+      <tr><th>Ret of Documents</th></tr>
+      <tr><th>Saturday Deliver</th></tr>
+      <tr><th>Carbon Neutral</th></tr>
+      <tr><th>Large Package</th></tr>
+      <tr><th>Addl handling</th></tr>
+      <tr><th>Reference 1</th></tr>
+      <tr><th>Reference 2</th></tr>
+      <tr><th>Reference 3</th></tr>
+    </tbody>
+  </table>
+</div>
 </div>  
 
 
@@ -661,14 +659,28 @@ socket.on("new_entry", data => {
   const table = document.getElementById("vertical-table");
   if (!table) return;
 
-  // ---- Add <th> for this new entry ----
-  const headerRow = table.querySelector("thead tr");
+  const deleteRow = document.getElementById("delete-row");
+  const headerRow = document.getElementById("header-row");
+
+  // Determine ownership first
+  const createdBy = data.data["_submitted_by"] || "?";
+  const canDelete = createdBy === currentUserEmail;
+
+  // Add delete button cell
+  const deleteTh = document.createElement("th");
+  deleteTh.setAttribute("data-id", data.id);
+  deleteTh.innerHTML = canDelete
+    ? `<button onclick="deleteEntry(${data.id})" class="tiny-delete">✖</button>`
+    : "&mdash;";
+  deleteRow.appendChild(deleteTh);
+
+  // Add ID header cell
   const th = document.createElement("th");
   th.setAttribute("data-id", data.id);
   th.innerText = `#${data.id}`;
   headerRow.appendChild(th);
 
-  // ---- Format timestamp ----
+  // Format timestamp
   let timestamp = "?";
   if (data.data["_submitted_at"]) {
     const date = new Date(data.data["_submitted_at"]);
@@ -679,14 +691,8 @@ socket.on("new_entry", data => {
     timestamp = `${hours}:${minutes} ${day}.${month}`;
   }
 
-  const createdBy = data.data["_submitted_by"] || "?";
-  const canDelete = createdBy === currentUserEmail;
-
-  // ---- Prepare column values ----
+  // Data cells to insert
   const values = [
-    canDelete
-      ? `<button onclick="deleteEntry(${data.id})" class="tiny-delete">✖</button>`
-      : "&mdash;",
     timestamp,
     createdBy,
     data.data["Contact Name"] || "",
@@ -726,7 +732,6 @@ socket.on("new_entry", data => {
     data.data["Reference 3"] || ""
   ];
 
-  // ---- Append one <td> per row ----
   const rows = table.querySelectorAll("tbody tr");
   values.forEach((val, i) => {
     const td = document.createElement("td");
@@ -735,6 +740,7 @@ socket.on("new_entry", data => {
     rows[i]?.appendChild(td);
   });
 });
+
 
 const errorBox = document.getElementById("form-errors");
 
@@ -930,32 +936,32 @@ function deleteEntry(id) {
 }
 
 socket.on("entry_deleted", data => {
-  const columnId = data.id;
+  const idToDelete = data.id;
 
-  const headerRow = document.querySelector("#vertical-table thead tr");
-  const headerCells = Array.from(headerRow.children);
-  const colIndex = headerCells.findIndex(cell => cell.getAttribute("data-id") == columnId);
+  const deleteRow = document.getElementById("delete-row");
+  const headerRow = document.getElementById("header-row");
 
-  if (colIndex === -1) return;
+  const deleteIndex = [...deleteRow.children].findIndex(th => th.getAttribute("data-id") == idToDelete);
+  const headerIndex = [...headerRow.children].findIndex(th => th.getAttribute("data-id") == idToDelete);
 
-  // Highlight column before removing
-  headerCells[colIndex].style.backgroundColor = "#300";
+  if (deleteIndex === -1 || headerIndex === -1) return;
+
+  // Highlight before deletion
+  deleteRow.children[deleteIndex].style.backgroundColor = "#300";
+  headerRow.children[headerIndex].style.backgroundColor = "#300";
   document.querySelectorAll("#vertical-table tbody tr").forEach(row => {
-    const td = row.querySelectorAll("td")[colIndex];
-    if (td) td.style.backgroundColor = "#300";
+    const cell = row.querySelectorAll("td")[headerIndex];
+    if (cell) cell.style.backgroundColor = "#300";
   });
 
-  // Delay actual removal
   setTimeout(() => {
-    // Remove <td> cells
+    deleteRow.children[deleteIndex].remove();
+    headerRow.children[headerIndex].remove();
     document.querySelectorAll("#vertical-table tbody tr").forEach(row => {
-      const td = row.querySelectorAll("td")[colIndex];
-      if (td) td.remove();
+      const cell = row.querySelectorAll("td")[headerIndex];
+      if (cell) cell.remove();
     });
-
-    // Remove <th> cell
-    if (headerCells[colIndex]) headerCells[colIndex].remove();
-  }, 200);
+  }, 150);
 });
 
 const fieldOrder = [ "Contact Name", "Company or Name", "Country", "Address 1", "Address 2", "Address 3", "City", "State/Prov/Other",
@@ -1013,13 +1019,27 @@ function renderRow(entry) {
   const table = document.getElementById("vertical-table");
   if (!table) return;
 
-  const headerRow = table.querySelector("thead tr");
-  const th = document.createElement("th");
-  th.setAttribute("data-id", entry.id);
-  th.innerText = `#${entry.id}`;
-  headerRow.appendChild(th);
+  const deleteRow = document.getElementById("delete-row");
+  const headerRow = document.getElementById("header-row");
 
   const createdBy = entry.data["_submitted_by"] || "?";
+  const canDelete = createdBy === currentUserEmail;
+
+  // Add DELETE button <th>
+  const deleteTh = document.createElement("th");
+  deleteTh.setAttribute("data-id", entry.id);
+  deleteTh.innerHTML = canDelete
+    ? `<button onclick="deleteEntry(${entry.id})" class="tiny-delete">✖</button>`
+    : "&mdash;";
+  deleteRow.appendChild(deleteTh);
+
+  // Add entry ID header <th>
+  const idTh = document.createElement("th");
+  idTh.setAttribute("data-id", entry.id);
+  idTh.innerText = `#${entry.id}`;
+  headerRow.appendChild(idTh);
+
+  // Format timestamp
   let timestamp = "?";
   if (entry.data["_submitted_at"]) {
     const date = new Date(entry.data["_submitted_at"]);
@@ -1029,10 +1049,9 @@ function renderRow(entry) {
     const month = String(date.getMonth() + 1).padStart(2, "0");
     timestamp = `${hours}:${minutes} ${day}.${month}`;
   }
-  const canDelete = createdBy === currentUserEmail;
 
+  // Prepare field values
   const values = [
-    canDelete ? `<button onclick="deleteEntry(${entry.id})" class="tiny-delete">✖</button>` : "&mdash;", // Actions
     timestamp,
     createdBy,
     entry.data["Contact Name"] || "",
@@ -1074,9 +1093,10 @@ function renderRow(entry) {
 
   const rows = table.querySelectorAll("tbody tr");
   values.forEach((val, index) => {
-    const cell = document.createElement("td");
-    cell.innerHTML = val;
-    rows[index]?.appendChild(cell);  // Defensive check
+    const td = document.createElement("td");
+    td.innerHTML = val;
+    if (canDelete) td.classList.add("own-entry-cell");
+    rows[index]?.appendChild(td);
   });
 }
 
