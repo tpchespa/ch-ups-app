@@ -85,9 +85,9 @@ header a {
     margin: 0; /* or margin-left/right: auto if you still want slight centering */
 }
 
-@media (max-width: 1000px) {
-  .form-and-table {
-    flex-direction: column;
+@media (max-width: 600px) {
+  .horizontal-form {
+    flex-wrap: nowrap;
   }
 }
 
@@ -240,16 +240,23 @@ input, select, textarea {
 }
 
 .horizontal-form {
-  display: grid;
+  display: flex;
+  flex-wrap: nowrap;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 16px;
-  max-width: 1200px;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 12px;
+  width: 100%;
+  max-width: unset;
   margin: 0 auto;
 }
 
 .horizontal-field {
   display: flex;
   flex-direction: column;
+  min-width: 220px;
+  max-width: 220px;
+  flex: 0 0 220px;
 }
 
 .horizontal-field label {
