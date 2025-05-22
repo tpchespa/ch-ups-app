@@ -872,18 +872,19 @@ function setupAutocomplete(inputId, suggestionsId, map) {
   const wrapper = document.getElementById("advanced-wrapper");
   const toggleBtn = document.getElementById("toggle-advanced");
 
-  toggleBtn.addEventListener("click", () => {
-    const isVisible = wrapper.classList.toggle("show");
-    toggleBtn.textContent = isVisible ? "Hide Advanced Fields" : "Show Advanced Fields";
-    localStorage.setItem("advancedVisible", isVisible);
-    if (isVisible) wrapper.scrollIntoView({ behavior: "smooth", block: "start" });
-  });
+  if (toggleBtn && wrapper) {
+      toggleBtn.addEventListener("click", () => {
+        const isVisible = wrapper.classList.toggle("show");
+        toggleBtn.textContent = isVisible ? "Hide Advanced Fields" : "Show Advanced Fields";
+        localStorage.setItem("advancedVisible", isVisible);
+        if (isVisible) wrapper.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
 
-  if (localStorage.getItem("advancedVisible") === "true") {
-    wrapper.classList.add("show");
-    toggleBtn.textContent = "Hide Advanced Fields";
-  }
-
+    if (localStorage.getItem("advancedVisible") === "true") {
+      wrapper.classList.add("show");
+      toggleBtn.textContent = "Hide Advanced Fields";
+    }
+  }   
 
  document.querySelectorAll('.tooltip-icon').forEach(icon => {
   let tooltip;
