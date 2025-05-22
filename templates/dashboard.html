@@ -213,8 +213,6 @@
         <!-- JS-injected rows go here -->
       </tbody>
     </table>
-  </div>  
-
 
 <div class="form-errors-wrapper">
   <div id="form-errors" class="error-box" style="display: none;"></div>
@@ -223,14 +221,12 @@
 </div>
 
 <script>
-const currentUserEmail = "{{ current_user.email }}";
+document.addEventListener("DOMContentLoaded", () => {
+  const socket = io();
+  const currentUserEmail = "{{ current_user.email }}";
+  const errorBox = document.getElementById("form-errors");
+  const form = document.getElementById("form");
 
-document.getElementById("form").onsubmit = e => {
-  e.preventDefault();
-
-  const data = {};
-
-  // Preserve all 80 CSV-compatible fields (including unused ones)
   const fieldOrder = [
     "Contact Name","Company or Name","Country","Address 1","Address 2","Address 3","City","State/Prov/Other",
     "Postal Code","Telephone","Ext","Residential Ind","Consignee Email","Packaging Type","Customs Value",
@@ -251,184 +247,91 @@ document.getElementById("form").onsubmit = e => {
     "UPS SurePost®Limited Quantity/Lithium Battery"
   ];
 
-  fieldOrder.forEach(field => {
-    const id = field.replace(/\s|\//g, "_");
-    const el = document.getElementById(id);
-    data[field] = el ? el.value.trim() : "";
+  form.onsubmit = e => {
+    e.preventDefault();
+    if (!validateAllFields()) return;
+    const data = {};
+    fieldOrder.forEach(field => {
+      const id = field.replace(/\s|\//g, "_");
+      const input = document.getElementById(id);
+      if (input) data[field] = input.value.trim();
+    });
+    data["nr zamówienia gdzie będzie doliczony koszt"] = document.getElementById("Custom_Order_Number")?.value.trim() || "";
+    data["NR PROJEKTU"] = document.getElementById("Custom_Project_Number")?.value.trim() || "";
+    data["NR LISTU UPS"] = document.getElementById("Custom_UPS_Number")?.value.trim() || "";
+    data["KOSZT (LOGISTYKA)"] = document.getElementById("Custom_Cost")?.value.trim() || "";
+    data["DATA WYSYŁKI"] = document.getElementById("Custom_Ship_Date")?.value.trim() || "";
+    socket.emit("submit_form", data);
+  };
+
+  const firstFieldId = fieldOrder[0].replace(/\s|\//g, "_");
+  const firstInput = document.getElementById(firstFieldId);
+  firstInput?.addEventListener('paste', function (e) {
+    e.preventDefault();
+    const clipboard = e.clipboardData.getData('text/plain');
+    const values = clipboard.split('\t');
+    fieldOrder.forEach((field, i) => {
+      const id = field.replace(/\s|\//g, "_");
+      const input = document.getElementById(id);
+      if (input && values[i] !== undefined) input.value = values[i].trim();
+    });
+    if (typeof validateAllFields === "function") validateAllFields();
   });
 
-  // Add custom non-CSV fields
-  data["nr zamówienia gdzie będzie doliczony koszt"] = document.getElementById("Custom_Order_Number")?.value || "";
-  data["NR PROJEKTU"] = document.getElementById("Custom_Project_Number")?.value || "";
-  data["NR LISTU UPS"] = document.getElementById("Custom_UPS_Number")?.value || "";
-  data["KOSZT (LOGISTYKA)"] = document.getElementById("Custom_Cost")?.value || "";
-  data["DATA WYSYŁKI"] = document.getElementById("Custom_Ship_Date")?.value || "";
+  socket.on("new_entry", data => {
+    const tbody = document.getElementById("submission-body");
+    if (!tbody) return;
 
-  socket.emit("submit_form", data);
-};
+    const createdBy = data.data["_submitted_by"] || "?";
+    const canDelete = createdBy === currentUserEmail;
+    let timestamp = "?";
+    if (data.data["_submitted_at"]) {
+      const date = new Date(data.data["_submitted_at"]);
+      const hours = String(date.getHours()).padStart(2, "0");
+      const minutes = String(date.getMinutes()).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      timestamp = `${hours}:${minutes} ${day}.${month}`;
+    }
 
-socket.on("new_entry", data => {
-  const tbody = document.getElementById("submission-body");
-  if (!tbody) return;
+    const tr = document.createElement("tr");
+    tr.setAttribute("data-id", data.id);
+    const deleteTd = document.createElement("td");
+    deleteTd.innerHTML = canDelete
+      ? `<button onclick="deleteEntry(${data.id})" class="tiny-delete">✖</button>`
+      : "&mdash;";
+    tr.appendChild(deleteTd);
 
-  const createdBy = data.data["_submitted_by"] || "?";
-  const canDelete = createdBy === currentUserEmail;
+    const shownFields = [timestamp, createdBy,
+      data.data["Contact Name"], data.data["Company or Name"], data.data["Country"], data.data["Address 1"],
+      data.data["City"], data.data["State/Prov/Other"], data.data["Postal Code"], data.data["Telephone"],
+      data.data["Consignee Email"], data.data["Packaging Type"], data.data["Weight"], data.data["Length"],
+      data.data["Width"], data.data["Height"], data.data["Description of Goods"],
+      data.data["Documents of No Commercial Value"], data.data["Service"],
+      data.data["Reference 1"], data.data["Reference 2"],
+      data.data["nr zamówienia gdzie będzie doliczony koszt"],
+      data.data["NR PROJEKTU"], data.data["NR LISTU UPS"],
+      data.data["KOSZT (LOGISTYKA)"], data.data["DATA WYSYŁKI"]
+    ];
 
-  // Format submission time
-  let timestamp = "?";
-  if (data.data["_submitted_at"]) {
-    const date = new Date(data.data["_submitted_at"]);
-    const hours = String(date.getHours()).padStart(2, "0");
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    timestamp = `${hours}:${minutes} ${day}.${month}`;
-  }
+    shownFields.forEach(val => {
+      const td = document.createElement("td");
+      td.textContent = val || "";
+      if (canDelete) td.classList.add("own-entry-cell");
+      tr.appendChild(td);
+    });
 
-  // Create a new row and attach the entry ID for later deletion
-  const tr = document.createElement("tr");
-  tr.setAttribute("data-id", data.id);
-
-  // Add delete button cell as first column
-  const deleteTd = document.createElement("td");
-  if (canDelete) {
-    deleteTd.innerHTML = `<button onclick="deleteEntry(${data.id})" class="tiny-delete">✖</button>`;
-  } else {
-    deleteTd.innerHTML = "&mdash;";
-  }
-  tr.appendChild(deleteTd);
-
-  // Fields to display in the table (match your new layout)
-  const shownFields = [
-    timestamp,
-    createdBy,
-    data.data["Contact Name"] || "",
-    data.data["Company or Name"] || "",
-    data.data["Country"] || "",
-    data.data["Address 1"] || "",
-    data.data["City"] || "",
-    data.data["State/Prov/Other"] || "",
-    data.data["Postal Code"] || "",
-    data.data["Telephone"] || "",
-    data.data["Consignee Email"] || "",
-    data.data["Packaging Type"] || "",
-    data.data["Weight"] || "",
-    data.data["Length"] || "",
-    data.data["Width"] || "",
-    data.data["Height"] || "",
-    data.data["Description of Goods"] || "",
-    data.data["Documents of No Commercial Value"] || "",
-    data.data["Service"] || "",
-    data.data["Reference 1"] || "",
-    data.data["Reference 2"] || "",
-    data.data["nr zamówienia gdzie będzie doliczony koszt"] || "",
-    data.data["NR PROJEKTU"] || "",
-    data.data["NR LISTU UPS"] || "",
-    data.data["KOSZT (LOGISTYKA)"] || "",
-    data.data["DATA WYSYŁKI"] || ""
-  ];
-
-  // Create a new row
-  const tr = document.createElement("tr");
-
-  shownFields.forEach(val => {
-    const td = document.createElement("td");
-    td.textContent = val;
-    if (canDelete) td.classList.add("own-entry-cell");
-    tr.appendChild(td);
+    tbody.appendChild(tr);
   });
 
-  tbody.appendChild(tr);
+  socket.on("entry_deleted", data => {
+    const row = document.querySelector(`#submission-body tr[data-id="${data.id}"]`);
+    if (row) {
+      row.style.backgroundColor = "#300";
+      setTimeout(() => row.remove(), 150);
+    }
+  });
 });
-
-function renderRow(entry) {
-  const tbody = document.getElementById("submission-body");
-  if (!tbody) return;
-
-  const createdBy = entry.data["_submitted_by"] || "?";
-  const canDelete = createdBy === currentUserEmail;
-
-  // Format timestamp
-  let timestamp = "?";
-  if (entry.data["_submitted_at"]) {
-    const date = new Date(entry.data["_submitted_at"]);
-    const hours = String(date.getHours()).padStart(2, "0");
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    timestamp = `${hours}:${minutes} ${day}.${month}`;
-  }
-
-  // Create row for the entry
-  const tr = document.createElement("tr");
-  tr.setAttribute("data-id", entry.id);
-
-  // Add delete button cell
-  const deleteTd = document.createElement("td");
-  deleteTd.innerHTML = canDelete
-    ? `<button onclick="deleteEntry(${entry.id})" class="tiny-delete">✖</button>`
-    : "&mdash;";
-  tr.appendChild(deleteTd);
-
-  // Add selected fields + custom fields
-  const shownFields = [
-    timestamp,
-    createdBy,
-    entry.data["Contact Name"] || "",
-    entry.data["Company or Name"] || "",
-    entry.data["Country"] || "",
-    entry.data["Address 1"] || "",
-    entry.data["City"] || "",
-    entry.data["State/Prov/Other"] || "",
-    entry.data["Postal Code"] || "",
-    entry.data["Telephone"] || "",
-    entry.data["Consignee Email"] || "",
-    entry.data["Packaging Type"] || "",
-    entry.data["Weight"] || "",
-    entry.data["Length"] || "",
-    entry.data["Width"] || "",
-    entry.data["Height"] || "",
-    entry.data["Description of Goods"] || "",
-    entry.data["Documents of No Commercial Value"] || "",
-    entry.data["Service"] || "",
-    entry.data["Reference 1"] || "",
-    entry.data["Reference 2"] || "",
-    entry.data["nr zamówienia gdzie będzie doliczony koszt"] || "",
-    entry.data["NR PROJEKTU"] || "",
-    entry.data["NR LISTU UPS"] || "",
-    entry.data["KOSZT (LOGISTYKA)"] || "",
-    entry.data["DATA WYSYŁKI"] || ""
-  ];
-
-  shownFields.forEach(value => {
-    const td = document.createElement("td");
-    td.textContent = value;
-    if (canDelete) td.classList.add("own-entry-cell");
-    tr.appendChild(td);
-  });
-
-  tbody.appendChild(tr);
-}
-
-function deleteEntry(id) {
-  if (confirm("Are you sure you want to delete this entry?")) {
-    socket.emit("delete_entry", { id });
-  }
-}
-
-socket.on("entry_deleted", data => {
-  const row = document.querySelector(`#submission-body tr[data-id="${data.id}"]`);
-  if (!row) return;
-
-  // Highlight before removal
-  row.style.backgroundColor = "#300";
-
-  setTimeout(() => {
-    row.remove();
-  }, 150);
-});
-
-const errorBox = document.getElementById("form-errors");
 
 socket.on('form_error', (payload) => {
   // Clear global box and any previous field errors
