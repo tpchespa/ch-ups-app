@@ -221,348 +221,6 @@
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-  const socket = io();
-  const currentUserEmail = "{{ current_user.email }}";
-  const errorBox = document.getElementById("form-errors");
-  const form = document.getElementById("form");
-
-  const fieldOrder = [
-    "Contact Name","Company or Name","Country","Address 1","Address 2","Address 3","City","State/Prov/Other",
-    "Postal Code","Telephone","Ext","Residential Ind","Consignee Email","Packaging Type","Customs Value",
-    "Weight","Length","Width","Height","Unit of Measure","Description of Goods","Documents of No Commercial Value",
-    "GNIFC","Pkg Decl Value","Service","Delivery Confirm","Shipper Release","Ret of Documents","Saturday Deliver",
-    "Carbon Neutral","Large Package","Addl handling","Reference 1","Reference 2","Reference 3",
-    "QV Notif 1-Addr","QV Notif 1-Ship","QV Notif 1-Excp","QV Notif 1-Delv",
-    "QV Notif 2-Addr","QV Notif 2-Ship","QV Notif 2-Excp","QV Notif 2-Delv",
-    "QV Notif 3-Addr","QV Notif 3-Ship","QV Notif 3-Excp","QV Notif 3-Delv",
-    "QV Notif 4-Addr","QV Notif 4-Ship","QV Notif 4-Excp","QV Notif 4-Delv",
-    "QV Notif 5-Addr","QV Notif 5-Ship","QV Notif 5-Excp","QV Notif 5-Delv",
-    "QV Notif Msg","QV Failure Addr","UPS Premium Care","ADL Location ID","ADL Media Type",
-    "ADL Language","ADL Notification Addr","ADL Failure Addr","ADL COD Value","ADL Deliver to Addressee",
-    "ADL Shipper Media Type","ADL Shipper Language","ADL Shipper Notification Addr","ADL Direct Delivery Only",
-    "Electronic Package Release Authentication","Lithium Ion Alone","Lithium Ion In Equipment",
-    "Lithium Ion With_Equipment","Lithium Metal Alone","Lithium Metal In Equipment",
-    "Lithium Metal With Equipment","Weekend Commercial Delivery","Dry Ice Weight","Merchandise Description",
-    "UPS SurePost®Limited Quantity/Lithium Battery"
-  ];
-
-  form.onsubmit = e => {
-    e.preventDefault();
-    if (!validateAllFields()) return;
-    const data = {};
-    fieldOrder.forEach(field => {
-      const id = field.replace(/\s|\//g, "_");
-      const input = document.getElementById(id);
-      if (input) data[field] = input.value.trim();
-    });
-    data["nr zamówienia gdzie będzie doliczony koszt"] = document.getElementById("Custom_Order_Number")?.value.trim() || "";
-    data["NR PROJEKTU"] = document.getElementById("Custom_Project_Number")?.value.trim() || "";
-    data["NR LISTU UPS"] = document.getElementById("Custom_UPS_Number")?.value.trim() || "";
-    data["KOSZT (LOGISTYKA)"] = document.getElementById("Custom_Cost")?.value.trim() || "";
-    data["DATA WYSYŁKI"] = document.getElementById("Custom_Ship_Date")?.value.trim() || "";
-    socket.emit("submit_form", data);
-  };
-
-  const firstFieldId = fieldOrder[0].replace(/\s|\//g, "_");
-  const firstInput = document.getElementById(firstFieldId);
-  firstInput?.addEventListener('paste', function (e) {
-    e.preventDefault();
-    const clipboard = e.clipboardData.getData('text/plain');
-    const values = clipboard.split('\t');
-    fieldOrder.forEach((field, i) => {
-      const id = field.replace(/\s|\//g, "_");
-      const input = document.getElementById(id);
-      if (input && values[i] !== undefined) input.value = values[i].trim();
-    });
-    if (typeof validateAllFields === "function") validateAllFields();
-  });
-
-  socket.on("new_entry", data => {
-    const tbody = document.getElementById("submission-body");
-    if (!tbody) return;
-
-    const createdBy = data.data["_submitted_by"] || "?";
-    const canDelete = createdBy === currentUserEmail;
-    let timestamp = "?";
-    if (data.data["_submitted_at"]) {
-      const date = new Date(data.data["_submitted_at"]);
-      const hours = String(date.getHours()).padStart(2, "0");
-      const minutes = String(date.getMinutes()).padStart(2, "0");
-      const day = String(date.getDate()).padStart(2, "0");
-      const month = String(date.getMonth() + 1).padStart(2, "0");
-      timestamp = `${hours}:${minutes} ${day}.${month}`;
-    }
-
-    const tr = document.createElement("tr");
-    tr.setAttribute("data-id", data.id);
-    const deleteTd = document.createElement("td");
-    deleteTd.innerHTML = canDelete
-      ? `<button onclick="deleteEntry(${data.id})" class="tiny-delete">✖</button>`
-      : "&mdash;";
-    tr.appendChild(deleteTd);
-
-    const shownFields = [timestamp, createdBy,
-      data.data["Contact Name"], data.data["Company or Name"], data.data["Country"], data.data["Address 1"],
-      data.data["City"], data.data["State/Prov/Other"], data.data["Postal Code"], data.data["Telephone"],
-      data.data["Consignee Email"], data.data["Packaging Type"], data.data["Weight"], data.data["Length"],
-      data.data["Width"], data.data["Height"], data.data["Description of Goods"],
-      data.data["Documents of No Commercial Value"], data.data["Service"],
-      data.data["Reference 1"], data.data["Reference 2"],
-      data.data["nr zamówienia gdzie będzie doliczony koszt"],
-      data.data["NR PROJEKTU"], data.data["NR LISTU UPS"],
-      data.data["KOSZT (LOGISTYKA)"], data.data["DATA WYSYŁKI"]
-    ];
-
-    shownFields.forEach(val => {
-      const td = document.createElement("td");
-      td.textContent = val || "";
-      if (canDelete) td.classList.add("own-entry-cell");
-      tr.appendChild(td);
-    });
-
-    tbody.appendChild(tr);
-  });
-
-  socket.on("entry_deleted", data => {
-    const row = document.querySelector(`#submission-body tr[data-id="${data.id}"]`);
-    if (row) {
-      row.style.backgroundColor = "#300";
-      setTimeout(() => row.remove(), 150);
-    }
-  });
-});
-
-socket.on('form_error', (payload) => {
-  // Clear global box and any previous field errors
-  document.getElementById("form-errors").style.display = "none";
-  document.querySelectorAll("input").forEach(input => input.classList.remove("input-error"));
-  document.querySelectorAll(".field-error").forEach(div => div.innerText = "");
-
-  payload.errors.forEach(msg => {
-    let matched = false;
-
-    // Match to known fields and display inline error
-    validateFields.forEach(field => {
-      if (msg.includes(field.label)) {
-        const input = document.getElementById(field.id);
-        const errorDiv = document.getElementById("error-" + field.id);
-        if (input && errorDiv) {
-          input.classList.add("input-error");
-          errorDiv.innerText = msg;
-          matched = true;
-        }
-      }
-    });
-
-    // If not matched to a field, fall back to general error box
-    if (!matched) {
-      const errorBox = document.getElementById("form-errors");
-      errorBox.innerText += msg + "\n";
-      errorBox.style.display = "block";
-    }
-  });
-});
-
-const validateFields = [
-  { id: "Contact_Name", label: "Contact Name", max: 35 },
-  { id: "Company_or_Name", label: "Company or Name", required: true, max: 35, alphanumeric: true },
-  { id: "Country", label: "Country", required: true },
-  { id: "Address_1", label: "Address 1", required: true, max: 35, alphanumeric: true },
-  { id: "Address_2", label: "Address 2", max: 35 },
-  { id: "Address_3", label: "Address 3", max: 35 },
-  { id: "City", label: "City", required: true, max: 30, alphanumeric: true },
-
-  { id: "Description_of_Goods", label: "Description of Goods", max: 35 },
-  { id: "Reference_1", label: "Reference 1", max: 35 },
-  { id: "Reference_2", label: "Reference 2", max: 35 },
-  { id: "Reference_3", label: "Reference 3", max: 35 },
-  { id: "Merchandise_Description", label: "Merchandise Description", max: 35 },
-
-  { id: "State_Prov_Other", label: "State/Province/Other", max: 30 },
-
-  { id: "Packaging_Type", label: "Packaging Type", required: true, max: 2 },
-  { id: "Service", label: "Service", required: true, max: 2 },
-
-  { id: "Weight", label: "Weight", conditionalWeight: true ,  max: 5 },
-  { id: "Length", label: "Length", numeric: true,  max: 4 },
-  { id: "Width", label: "Width", numeric: true,  max: 4 },
-  { id: "Height", label: "Height", numeric: true,  max: 4 },
-
-  { id: "Ext", label: "Ext", alphanumeric: true,  max: 5 },
-
-];
-
-const alphanumericRegex = /^[a-zA-Z0-9\\s]*$/;
-
-const validCountryCodes = new Set([
-  "AD", "AE", "AF", "AG", "AI", "AL", "AM", "AO", "AQ", "AR", "AS", "AT", "AU", "AW", "AX", "AZ",
-  "BA", "BB", "BD", "BE", "BF", "BG", "BH", "BI", "BJ", "BL", "BM", "BN", "BO", "BQ", "BR", "BS", "BT", "BV", "BW", "BY", "BZ",
-  "CA", "CC", "CD", "CF", "CG", "CH", "CI", "CK", "CL", "CM", "CN", "CO", "CR", "CU", "CV", "CW", "CX", "CY", "CZ",
-  "DE", "DJ", "DK", "DM", "DO", "DZ",
-  "EC", "EE", "EG", "EH", "ER", "ES", "ET",
-  "FI", "FJ", "FM", "FO", "FR",
-  "GA", "GB", "GD", "GE", "GF", "GG", "GH", "GI", "GL", "GM", "GN", "GP", "GQ", "GR", "GT", "GU", "GW", "GY",
-  "HK", "HM", "HN", "HR", "HT", "HU",
-  "ID", "IE", "IL", "IM", "IN", "IO", "IQ", "IR", "IS", "IT",
-  "JE", "JM", "JO", "JP",
-  "KE", "KG", "KH", "KI", "KM", "KN", "KP", "KR", "KW", "KY", "KZ",
-  "LA", "LB", "LC", "LI", "LK", "LR", "LS", "LT", "LU", "LV", "LY",
-  "MA", "MC", "MD", "ME", "MF", "MG", "MH", "MK", "ML", "MM", "MN", "MO", "MP", "MQ", "MR", "MS", "MT", "MU", "MV", "MW", "MX", "MY", "MZ",
-  "NA", "NC", "NE", "NF", "NG", "NI", "NL", "NO", "NP", "NR", "NU", "NZ",
-  "OM",
-  "PA", "PE", "PF", "PG", "PH", "PK", "PL", "PM", "PN", "PR", "PT", "PW", "PY",
-  "QA",
-  "RE", "RO", "RS", "RU", "RW",
-  "SA", "SB", "SC", "SD", "SE", "SG", "SH", "SI", "SJ", "SK", "SL", "SM", "SN", "SO", "SR", "SS", "ST", "SV", "SX", "SY", "SZ",
-  "TC", "TD", "TF", "TG", "TH", "TJ", "TK", "TL", "TM", "TN", "TO", "TR", "TT", "TV", "TZ",
-  "UA", "UG", "UM", "US", "UY", "UZ",
-  "VA", "VC", "VE", "VG", "VI", "VN", "VU",
-  "WF", "WS",
-  "YE", "YT",
-  "ZA", "ZM", "ZW"
-]);
-
-function validateAllFields() {
-  let hasError = false;
-
-  // Clear all previous error messages and highlights
-  document.querySelectorAll(".field-error").forEach(div => div.innerText = "");
-  document.querySelectorAll("input").forEach(input => input.classList.remove("input-error"));
-
-  validateFields.forEach(field => {
-    const input = document.getElementById(field.id);
-    const errorDiv = document.getElementById("error-" + field.id);
-    if (!input || !errorDiv) return;
-
-    const value = input.value.trim();
-    input.classList.remove("input-error");
-    errorDiv.innerText = "";
-
-    // Check required
-    if (field.required && !value) {
-      input.classList.add("input-error");
-      errorDiv.innerText = `${field.label} is required.`;
-      hasError = true;
-      return;
-    }
-
-    // Check max length
-    if (field.max && value.length > field.max) {
-      input.classList.add("input-error");
-      errorDiv.innerText = `${field.label} must be ${field.max} characters or fewer.`;
-      hasError = true;
-      return;
-    }
-
-    // Check alphanumeric (optional)
-    if (field.alphanumeric && !alphanumericRegex.test(value)) {
-      input.classList.add("input-error");
-      errorDiv.innerText = `${field.label} must contain only letters, numbers, and spaces.`;
-      hasError = true;
-      return;
-    }
-
-    // Numeric check
-    if (field.numeric && value && !/^\d+$/.test(value)) {
-      input.classList.add("input-error");
-      errorDiv.innerText = `${field.label} must contain only numbers.`;
-      hasError = true;
-      return;
-    }
-
-    if (field.conditionalWeight) {
-      const packagingType = document.getElementById("Packaging_Type")?.value;
-
-      // Required if packaging type is "2"
-      if (packagingType === "2" && !value.trim()) {
-        input.classList.add("input-error");
-        errorDiv.innerText = `Weight is required for Packaging Type "2".`;
-        hasError = true;
-        return;
-      }
-
-      // If value is present, it must be numeric (allowing comma or dot)
-      if (value && !/^\d+([.,]\d+)?$/.test(value)) {
-        input.classList.add("input-error");
-        errorDiv.innerText = `Weight must be a number (e.g., 10 or 10.5 or 10,0).`;
-        hasError = true;
-        return;
-      }
-      
-      return; // done with this special case
-    }
-
-    // Special country logic
-    if (field.id === "Country") {
-      if (value.length !== 2) {
-        input.classList.add("input-error");
-        errorDiv.innerText = "Country code must be exactly 2 characters.";
-        hasError = true;
-      } else if (!validCountryCodes.has(value.toUpperCase())) {
-        input.classList.add("input-error");
-        errorDiv.innerText = "Invalid ISO country code (e.g., US, DE, JP).";
-        hasError = true;
-      }
-    }
-  });
-
-  return !hasError;
-}
-
-validateFields.forEach(field => {
-  const input = document.getElementById(field.id);
-  if (!input) return;
-  input.addEventListener("input", validateAllFields);
-});
-
-const firstFieldId = fieldOrder[0].replace(/\s|\//g, "_");
-const firstInput = document.getElementById(firstFieldId);
-
-firstInput.addEventListener('paste', function (e) {
-  e.preventDefault();
-  const clipboard = e.clipboardData.getData('text/plain');
-  const values = clipboard.split('\t');
-
-  fieldOrder.forEach((field, i) => {
-    const id = field.replace(/\s|\//g, "_");
-    const input = document.getElementById(id);
-    if (input && values[i] !== undefined) {
-      input.value = values[i];
-    }
-  });
-
-  if (typeof validateAllFields === "function") {
-    validateAllFields();
-  }
-});
-
-document.getElementById("form").onsubmit = function(e) {
-  e.preventDefault();
-  if (!validateAllFields()) return;
-
-  const data = {};
-
-  // Add the 80 CSV fields
-  fieldOrder.forEach(field => {
-    const id = field.replace(/\s|\//g, "_");
-    const input = document.getElementById(id);
-    if (!input) return;
-    data[field] = input.value.trim();
-  });
-
-  // Add custom non-CSV fields
-  data["nr zamówienia gdzie będzie doliczony koszt"] = document.getElementById("Custom_Order_Number")?.value.trim() || "";
-  data["NR PROJEKTU"] = document.getElementById("Custom_Project_Number")?.value.trim() || "";
-  data["NR LISTU UPS"] = document.getElementById("Custom_UPS_Number")?.value.trim() || "";
-  data["KOSZT (LOGISTYKA)"] = document.getElementById("Custom_Cost")?.value.trim() || "";
-  data["DATA WYSYŁKI"] = document.getElementById("Custom_Ship_Date")?.value.trim() || "";
-
-  socket.emit("submit_form", data);
-};
-
-
-document.addEventListener("DOMContentLoaded", () => {
 const countryMap = {
  "AD": "Andorra",
   "AE": "United Arab Emirates",
@@ -874,6 +532,284 @@ const serviceMap = {
   "95": "SurePost Media Mail"
 };
 
+document.addEventListener("DOMContentLoaded", () => {
+  const socket = io();
+  const currentUserEmail = "{{ current_user.email }}";
+  const errorBox = document.getElementById("form-errors");
+  const form = document.getElementById("form");
+
+  const validateFields = [
+    { id: "Contact_Name", label: "Contact Name", max: 35 },
+    { id: "Company_or_Name", label: "Company or Name", required: true, max: 35, alphanumeric: true },
+    { id: "Country", label: "Country", required: true },
+    { id: "Address_1", label: "Address 1", required: true, max: 35, alphanumeric: true },
+    { id: "City", label: "City", required: true, max: 30, alphanumeric: true },
+    { id: "State_Prov_Other", label: "State/Province/Other", max: 30 },
+    { id: "Packaging_Type", label: "Packaging Type", required: true, max: 2 },
+    { id: "Weight", label: "Weight", conditionalWeight: true ,  max: 5 },
+    { id: "Length", label: "Length", numeric: true,  max: 4 },
+    { id: "Width", label: "Width", numeric: true,  max: 4 },
+    { id: "Height", label: "Height", numeric: true,  max: 4 },
+    { id: "Description_of_Goods", label: "Description of Goods", max: 35 },
+    { id: "Service", label: "Service", required: true, max: 2 },
+    { id: "Reference_1", label: "Reference 1", max: 35 },
+    { id: "Reference_2", label: "Reference 2", max: 35 }
+
+  ];
+
+  const alphanumericRegex = /^[a-zA-Z0-9\\s]*$/;
+
+  const validCountryCodes = new Set([
+    "AD", "AE", "AF", "AG", "AI", "AL", "AM", "AO", "AQ", "AR", "AS", "AT", "AU", "AW", "AX", "AZ",
+    "BA", "BB", "BD", "BE", "BF", "BG", "BH", "BI", "BJ", "BL", "BM", "BN", "BO", "BQ", "BR", "BS", "BT", "BV", "BW", "BY", "BZ",
+    "CA", "CC", "CD", "CF", "CG", "CH", "CI", "CK", "CL", "CM", "CN", "CO", "CR", "CU", "CV", "CW", "CX", "CY", "CZ",
+    "DE", "DJ", "DK", "DM", "DO", "DZ",
+    "EC", "EE", "EG", "EH", "ER", "ES", "ET",
+    "FI", "FJ", "FM", "FO", "FR",
+    "GA", "GB", "GD", "GE", "GF", "GG", "GH", "GI", "GL", "GM", "GN", "GP", "GQ", "GR", "GT", "GU", "GW", "GY",
+    "HK", "HM", "HN", "HR", "HT", "HU",
+    "ID", "IE", "IL", "IM", "IN", "IO", "IQ", "IR", "IS", "IT",
+    "JE", "JM", "JO", "JP",
+    "KE", "KG", "KH", "KI", "KM", "KN", "KP", "KR", "KW", "KY", "KZ",
+    "LA", "LB", "LC", "LI", "LK", "LR", "LS", "LT", "LU", "LV", "LY",
+    "MA", "MC", "MD", "ME", "MF", "MG", "MH", "MK", "ML", "MM", "MN", "MO", "MP", "MQ", "MR", "MS", "MT", "MU", "MV", "MW", "MX", "MY", "MZ",
+    "NA", "NC", "NE", "NF", "NG", "NI", "NL", "NO", "NP", "NR", "NU", "NZ",
+    "OM",
+    "PA", "PE", "PF", "PG", "PH", "PK", "PL", "PM", "PN", "PR", "PT", "PW", "PY",
+    "QA",
+    "RE", "RO", "RS", "RU", "RW",
+    "SA", "SB", "SC", "SD", "SE", "SG", "SH", "SI", "SJ", "SK", "SL", "SM", "SN", "SO", "SR", "SS", "ST", "SV", "SX", "SY", "SZ",
+    "TC", "TD", "TF", "TG", "TH", "TJ", "TK", "TL", "TM", "TN", "TO", "TR", "TT", "TV", "TZ",
+    "UA", "UG", "UM", "US", "UY", "UZ",
+    "VA", "VC", "VE", "VG", "VI", "VN", "VU",
+    "WF", "WS",
+    "YE", "YT",
+    "ZA", "ZM", "ZW"
+  ]);
+
+  const fieldOrder = [
+    "Contact Name","Company or Name","Country","Address 1","Address 2","Address 3","City","State/Prov/Other",
+    "Postal Code","Telephone","Ext","Residential Ind","Consignee Email","Packaging Type","Customs Value",
+    "Weight","Length","Width","Height","Unit of Measure","Description of Goods","Documents of No Commercial Value",
+    "GNIFC","Pkg Decl Value","Service","Delivery Confirm","Shipper Release","Ret of Documents","Saturday Deliver",
+    "Carbon Neutral","Large Package","Addl handling","Reference 1","Reference 2","Reference 3",
+    "QV Notif 1-Addr","QV Notif 1-Ship","QV Notif 1-Excp","QV Notif 1-Delv",
+    "QV Notif 2-Addr","QV Notif 2-Ship","QV Notif 2-Excp","QV Notif 2-Delv",
+    "QV Notif 3-Addr","QV Notif 3-Ship","QV Notif 3-Excp","QV Notif 3-Delv",
+    "QV Notif 4-Addr","QV Notif 4-Ship","QV Notif 4-Excp","QV Notif 4-Delv",
+    "QV Notif 5-Addr","QV Notif 5-Ship","QV Notif 5-Excp","QV Notif 5-Delv",
+    "QV Notif Msg","QV Failure Addr","UPS Premium Care","ADL Location ID","ADL Media Type",
+    "ADL Language","ADL Notification Addr","ADL Failure Addr","ADL COD Value","ADL Deliver to Addressee",
+    "ADL Shipper Media Type","ADL Shipper Language","ADL Shipper Notification Addr","ADL Direct Delivery Only",
+    "Electronic Package Release Authentication","Lithium Ion Alone","Lithium Ion In Equipment",
+    "Lithium Ion With_Equipment","Lithium Metal Alone","Lithium Metal In Equipment",
+    "Lithium Metal With Equipment","Weekend Commercial Delivery","Dry Ice Weight","Merchandise Description",
+    "UPS SurePost®Limited Quantity/Lithium Battery"
+  ];
+
+  const firstFieldId = fieldOrder[0].replace(/\s|\//g, "_");
+  const firstInput = document.getElementById(firstFieldId);
+
+  form.onsubmit = e => {
+    e.preventDefault();
+    if (!validateAllFields()) return;
+    const data = {};
+    fieldOrder.forEach(field => {
+      const id = field.replace(/\s|\//g, "_");
+      const input = document.getElementById(id);
+      if (input) data[field] = input.value.trim();
+    });
+    data["nr zamówienia gdzie będzie doliczony koszt"] = document.getElementById("Custom_Order_Number")?.value.trim() || "";
+    data["NR PROJEKTU"] = document.getElementById("Custom_Project_Number")?.value.trim() || "";
+    data["NR LISTU UPS"] = document.getElementById("Custom_UPS_Number")?.value.trim() || "";
+    data["KOSZT (LOGISTYKA)"] = document.getElementById("Custom_Cost")?.value.trim() || "";
+    data["DATA WYSYŁKI"] = document.getElementById("Custom_Ship_Date")?.value.trim() || "";
+    socket.emit("submit_form", data);
+  };
+  
+  firstInput?.addEventListener('paste', function (e) {
+    e.preventDefault();
+    const clipboard = e.clipboardData.getData('text/plain');
+    const values = clipboard.split('\t');
+    fieldOrder.forEach((field, i) => {
+      const id = field.replace(/\s|\//g, "_");
+      const input = document.getElementById(id);
+      if (input && values[i] !== undefined) input.value = values[i].trim();
+    });
+    if (typeof validateAllFields === "function") validateAllFields();
+  });
+
+  socket.on("new_entry", data => {
+    const tbody = document.getElementById("submission-body");
+    if (!tbody) return;
+
+    const createdBy = data.data["_submitted_by"] || "?";
+    const canDelete = createdBy === currentUserEmail;
+    let timestamp = "?";
+    if (data.data["_submitted_at"]) {
+      const date = new Date(data.data["_submitted_at"]);
+      const hours = String(date.getHours()).padStart(2, "0");
+      const minutes = String(date.getMinutes()).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      timestamp = `${hours}:${minutes} ${day}.${month}`;
+    }
+
+    const tr = document.createElement("tr");
+    tr.setAttribute("data-id", data.id);
+    const deleteTd = document.createElement("td");
+    deleteTd.innerHTML = canDelete
+      ? `<button onclick="deleteEntry(${data.id})" class="tiny-delete">✖</button>`
+      : "&mdash;";
+    tr.appendChild(deleteTd);
+
+    const shownFields = [timestamp, createdBy,
+      data.data["Contact Name"], data.data["Company or Name"], data.data["Country"], data.data["Address 1"],
+      data.data["City"], data.data["State/Prov/Other"], data.data["Postal Code"], data.data["Telephone"],
+      data.data["Consignee Email"], data.data["Packaging Type"], data.data["Weight"], data.data["Length"],
+      data.data["Width"], data.data["Height"], data.data["Description of Goods"],
+      data.data["Documents of No Commercial Value"], data.data["Service"],
+      data.data["Reference 1"], data.data["Reference 2"],
+      data.data["nr zamówienia gdzie będzie doliczony koszt"],
+      data.data["NR PROJEKTU"], data.data["NR LISTU UPS"],
+      data.data["KOSZT (LOGISTYKA)"], data.data["DATA WYSYŁKI"]
+    ];
+
+    shownFields.forEach(val => {
+      const td = document.createElement("td");
+      td.textContent = val || "";
+      if (canDelete) td.classList.add("own-entry-cell");
+      tr.appendChild(td);
+    });
+
+    tbody.appendChild(tr);
+  });
+
+  socket.on("entry_deleted", data => {
+    const row = document.querySelector(`#submission-body tr[data-id="${data.id}"]`);
+    if (row) {
+      row.style.backgroundColor = "#300";
+      setTimeout(() => row.remove(), 150);
+    }
+  });
+
+  socket.on('form_error', (payload) => {
+  // Clear global box and any previous field errors
+  document.getElementById("form-errors").style.display = "none";
+  document.querySelectorAll("input").forEach(input => input.classList.remove("input-error"));
+  document.querySelectorAll(".field-error").forEach(div => div.innerText = "");
+
+  payload.errors.forEach(msg => {
+    let matched = false;
+
+    // Match to known fields and display inline error
+    validateFields.forEach(field => {
+      if (msg.includes(field.label)) {
+        const input = document.getElementById(field.id);
+        const errorDiv = document.getElementById("error-" + field.id);
+        if (input && errorDiv) {
+          input.classList.add("input-error");
+          errorDiv.innerText = msg;
+          matched = true;
+        }
+      }
+    });
+
+    // If not matched to a field, fall back to general error box
+    if (!matched) {
+      errorBox.innerText += msg + "\n";
+      errorBox.style.display = "block";
+    }
+  });
+});
+
+function validateAllFields() {
+  let hasError = false;
+
+  // Clear all previous error messages and highlights
+  document.querySelectorAll(".field-error").forEach(div => div.innerText = "");
+  document.querySelectorAll("input").forEach(input => input.classList.remove("input-error"));
+
+  validateFields.forEach(field => {
+    const input = document.getElementById(field.id);
+    const errorDiv = document.getElementById("error-" + field.id);
+    if (!input || !errorDiv) return;
+
+    const value = input.value.trim();
+    input.classList.remove("input-error");
+    errorDiv.innerText = "";
+
+    // Check required
+    if (field.required && !value) {
+      input.classList.add("input-error");
+      errorDiv.innerText = `${field.label} is required.`;
+      hasError = true;
+      return;
+    }
+
+    // Check max length
+    if (field.max && value.length > field.max) {
+      input.classList.add("input-error");
+      errorDiv.innerText = `${field.label} must be ${field.max} characters or fewer.`;
+      hasError = true;
+      return;
+    }
+
+    // Check alphanumeric (optional)
+    if (field.alphanumeric && !alphanumericRegex.test(value)) {
+      input.classList.add("input-error");
+      errorDiv.innerText = `${field.label} must contain only letters, numbers, and spaces.`;
+      hasError = true;
+      return;
+    }
+
+    // Numeric check
+    if (field.numeric && value && !/^\d+$/.test(value)) {
+      input.classList.add("input-error");
+      errorDiv.innerText = `${field.label} must contain only numbers.`;
+      hasError = true;
+      return;
+    }
+
+    if (field.conditionalWeight) {
+      const packagingType = document.getElementById("Packaging_Type")?.value;
+
+      // Required if packaging type is "2"
+      if (packagingType === "2" && !value.trim()) {
+        input.classList.add("input-error");
+        errorDiv.innerText = `Weight is required for Packaging Type "2".`;
+        hasError = true;
+        return;
+      }
+
+      // If value is present, it must be numeric (allowing comma or dot)
+      if (value && !/^\d+([.,]\d+)?$/.test(value)) {
+        input.classList.add("input-error");
+        errorDiv.innerText = `Weight must be a number (e.g., 10 or 10.5 or 10,0).`;
+        hasError = true;
+        return;
+      }
+      
+      return; // done with this special case
+    }
+
+    // Special country logic
+    if (field.id === "Country") {
+      if (value.length !== 2) {
+        input.classList.add("input-error");
+        errorDiv.innerText = "Country code must be exactly 2 characters.";
+        hasError = true;
+      } else if (!validCountryCodes.has(value.toUpperCase())) {
+        input.classList.add("input-error");
+        errorDiv.innerText = "Invalid ISO country code (e.g., US, DE, JP).";
+        hasError = true;
+      }
+    }
+  });
+
+  return !hasError;
+}
+
 function setupAutocomplete(inputId, suggestionsId, map) {
     const input = document.getElementById(inputId);
     const suggestionsBox = document.getElementById(suggestionsId);
@@ -929,8 +865,6 @@ function setupAutocomplete(inputId, suggestionsId, map) {
 
   // Setup all autocompletes here
   setupAutocomplete("Country", "country-suggestions", countryMap);
-
-  setupAutocomplete("Delivery_Confirm", "deliveryconfirm-suggestions", deliveryConfirmationMap);
   setupAutocomplete("Packaging_Type", "packaging-suggestions", packagingMap);
   setupAutocomplete("Service", "service-suggestions", serviceMap);
 
@@ -949,9 +883,9 @@ function setupAutocomplete(inputId, suggestionsId, map) {
     wrapper.classList.add("show");
     toggleBtn.textContent = "Hide Advanced Fields";
   }
-});
 
-document.querySelectorAll('.tooltip-icon').forEach(icon => {
+
+ document.querySelectorAll('.tooltip-icon').forEach(icon => {
   let tooltip;
 
   icon.addEventListener('mouseenter', e => {
@@ -989,12 +923,13 @@ document.querySelectorAll('.tooltip-icon').forEach(icon => {
       tooltip = null;
     }
   });
+}); 
+
 });
 
 </script>
 <ul id="country-suggestions" class="autocomplete-list" style="display: none;"></ul>
 <ul id="packaging-suggestions" class="autocomplete-list" style="display: none;"></ul>
 <ul id="service-suggestions" class="autocomplete-list" style="display: none;"></ul>
-<ul id="deliveryconfirm-suggestions" class="autocomplete-list" style="display: none;"></ul>
 </body>
 </html>
