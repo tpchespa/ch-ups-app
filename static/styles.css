@@ -131,13 +131,17 @@ select.input-error:focus {
 
 
 button {
-    padding: 10px 16px;
-    margin-top: 10px;
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 4px;
+  margin-top: 12px;
+  padding: 10px 18px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #43a047;
 }
 
 button.delete-button {
@@ -235,54 +239,59 @@ input, select, textarea {
   display: none; /* no longer needed with new layout */
 }
 
-/* Overall form wrapper centered */
+
+
 .horizontal-form {
   display: flex;
-  flex-direction: column;
-  max-width: 800px;
+  flex-wrap: wrap;
+  gap: 16px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 10px 20px;
-  gap: 10px;
 }
 
-
-/* Each row is a horizontal flex container */
 .horizontal-field {
-  position: relative; /* Allow absolute children (like tooltips) to position properly */
-  align-items: flex-start; /* better alignment with multi-line labels or errors */
-  min-height: 36px;
   display: flex;
-  align-items: center;
-  gap: 12px;
+  flex-direction: column;
+  min-width: 180px;
+  flex: 1 1 200px;
 }
 
 .horizontal-field label {
-  position: relative;
-  display: inline-block;
-  min-width: 180px;
-  max-width: 180px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  color: #ffffff;
   font-weight: bold;
   font-size: 9pt;
+  margin-bottom: 4px;
+  color: #ccc;
 }
 
-/* Input has flex-grow to fill space */
 .horizontal-field input,
 .horizontal-field select {
-  width: 250px;
-  max-width: 250px;
-  flex: 0 0 250px;
-  padding: 6px 8px;
-  background-color: #2a2a2a;
+  padding: 6px 10px;
+  font-size: 9pt;
+  background: #1e1e1e;
+  color: #fff;
   border: 1px solid #444;
-  color: #ffffff;
   border-radius: 4px;
+}
+
+#horizontal-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 24px;
   font-size: 9pt;
 }
 
+#horizontal-table th,
+#horizontal-table td {
+  border: 1px solid #333;
+  padding: 8px 10px;
+  text-align: left;
+  background: #1e1e1e;
+}
+
+#horizontal-table th {
+  background: #333;
+  color: #fff;
+}
 
 
 .form-submit {
@@ -426,6 +435,8 @@ input, select, textarea {
   z-index: 99999;
   white-space: normal;
   pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease-in;
 }
 
 #vertical-table-wrapper {

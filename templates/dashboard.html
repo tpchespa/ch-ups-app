@@ -16,622 +16,202 @@
   </header>
 
 <div class="container">
-<h2>UPS Form</h2>
-<div class="form-and-table">
-<form id="form">
-  <div class="vertical-form">
+  <h2>UPS Shipment Form</h2>
+  <form id="form" class="horizontal-form">
+
     <div class="horizontal-field">
-      <label for="Contact_Name" class="label-with-tooltip">
-      Contact Name
-      <span class="tooltip-icon">
-        <i class="fas fa-circle-question"></i>
-        <span class="tooltip-content">
-          First and last name of recipient. Required for international/export shipments or UPS Next Day Air Early AM service
-        </span>
-      </span>
-      </label>
+      <label for="Contact_Name">Contact Name</label>
       <input type="text" id="Contact_Name">
       <div class="field-error" id="error-Contact_Name"></div>
     </div>
+
     <div class="horizontal-field">
       <label for="Company_or_Name">Company or Name</label>
       <input type="text" id="Company_or_Name">
       <div class="field-error" id="error-Company_or_Name"></div>
     </div>
+
     <div class="horizontal-field">
-      <label for="Country">Country</label>
+      <label for="Country" class="label-with-tooltip">
+        Country
+        <span class="tooltip-icon">
+          <i class="fas fa-circle-question"></i>
+          <span class="tooltip-content">Enter 2-letter ISO code (e.g. PL, DE, US)</span>
+        </span>
+      </label>
       <div class="input-wrapper">
         <input type="text" id="Country">
         <ul id="country-suggestions" class="autocomplete-list" style="display: none;"></ul>
       </div>
       <div class="field-error" id="error-Country"></div>
     </div>
+
     <div class="horizontal-field">
       <label for="Address_1">Address 1</label>
       <input type="text" id="Address_1">
       <div class="field-error" id="error-Address_1"></div>
     </div>
-    <div class="horizontal-field">
-      <label for="Address_2">Address 2</label>
-      <input type="text" id="Address_2">
-      <div class="field-error" id="error-Address_2"></div>
-    </div>
-    <div class="horizontal-field">
-      <label for="Address_3">Address 3</label>
-      <input type="text" id="Address_3">
-      <div class="field-error" id="error-Address_3"></div>
-    </div>
+
     <div class="horizontal-field">
       <label for="City">City</label>
       <input type="text" id="City">
       <div class="field-error" id="error-City"></div>
     </div>
+
     <div class="horizontal-field">
       <label for="State_Prov_Other">State/Prov/Other</label>
       <input type="text" id="State_Prov_Other">
       <div class="field-error" id="error-State_Prov_Other"></div>
     </div>
+
     <div class="horizontal-field">
       <label for="Postal_Code">Postal Code</label>
       <input type="text" id="Postal_Code">
-      <div class="field-error" id="error-Postal_Code"></div>
     </div>
+
     <div class="horizontal-field">
       <label for="Telephone">Telephone</label>
       <input type="text" id="Telephone">
-      <div class="field-error" id="error-Telephone"></div>
     </div>
-    <div class="horizontal-field">
-      <label for="Ext">Ext</label>
-      <input type="text" id="Ext">
-      <div class="field-error" id="error-Ext"></div>
-    </div>
-    <div class="horizontal-field">
-      <label for="Residential_Ind">Residential Ind</label>
-      <div class="input-wrapper">
-        <input type="text" id="Residential_Ind">
-        <ul id="residential-suggestions" class="autocomplete-list" style="display: none;"></ul>
-      </div>
-      <div class="field-error" id="error-Residential_Ind"></div>
-    </div>
+
     <div class="horizontal-field">
       <label for="Consignee_Email">Consignee Email</label>
       <input type="text" id="Consignee_Email">
-      <div class="field-error" id="error-Consignee_Email"></div>
     </div>
+
     <div class="horizontal-field">
-      <label for="Packaging_Type">Packaging Type</label>
+      <label for="Packaging_Type" class="label-with-tooltip">
+        Packaging Type
+        <span class="tooltip-icon">
+          <i class="fas fa-circle-question"></i>
+          <span class="tooltip-content">UPS packaging code (e.g. 01 = Envelope, 2 = Customer Packaging)</span>
+        </span>
+      </label>
       <div class="input-wrapper">
         <input type="text" id="Packaging_Type">
         <ul id="packaging-suggestions" class="autocomplete-list" style="display: none;"></ul>
       </div>
       <div class="field-error" id="error-Packaging_Type"></div>
     </div>
-    <div class="horizontal-field">
-      <label for="Customs_Value">Customs Value</label>
-      <input type="text" id="Customs_Value">
-      <div class="field-error" id="error-Customs_Value"></div>
-    </div>
+
     <div class="horizontal-field">
       <label for="Weight">Weight</label>
       <input type="text" id="Weight">
       <div class="field-error" id="error-Weight"></div>
     </div>
+
     <div class="horizontal-field">
       <label for="Length">Length</label>
       <input type="text" id="Length">
       <div class="field-error" id="error-Length"></div>
     </div>
+
     <div class="horizontal-field">
       <label for="Width">Width</label>
       <input type="text" id="Width">
       <div class="field-error" id="error-Width"></div>
     </div>
+
     <div class="horizontal-field">
       <label for="Height">Height</label>
       <input type="text" id="Height">
       <div class="field-error" id="error-Height"></div>
     </div>
-    <div class="horizontal-field">
-      <label for="Unit_of_Measure">Unit of Measure</label>
-      <select id="Unit_of_Measure">
-        <option value="">--</option>
-        <option value="KG">KG</option>
-        <option value="LB">LB</option>
-      </select>
-      <div class="field-error" id="error-Unit_of_Measure"></div>
-    </div>
+
     <div class="horizontal-field">
       <label for="Description_of_Goods">Description of Goods</label>
       <input type="text" id="Description_of_Goods">
       <div class="field-error" id="error-Description_of_Goods"></div>
     </div>
+
     <div class="horizontal-field">
-      <label for="Documents_of_No_Commercial_Value" title="Documents of No Commercial Value">Documents of No Commercial Value</label>
+      <label for="Documents_of_No_Commercial_Value" class="label-with-tooltip">
+        Documents of No Commercial Value
+        <span class="tooltip-icon">
+          <i class="fas fa-circle-question"></i>
+          <span class="tooltip-content">Select "1" if documents are not commercial goods</span>
+        </span>
+      </label>
       <select id="Documents_of_No_Commercial_Value">
         <option value="">--</option>
-        <option value="1">1</option>
+        <option value="1">Yes</option>
       </select>
-      <div class="field-error" id="error-Documents_of_No_Commercial_Value"></div>
     </div>
+
     <div class="horizontal-field">
-      <label for="GNIFC">GNIFC</label>
-      <select id="GNIFC">
-        <option value="">--</option>
-        <option value="1">1</option>
-      </select>
-      <div class="field-error" id="error-GNIFC"></div>
-    </div>
-    <div class="horizontal-field">
-      <label for="Pkg_Decl_Value">Pkg Decl Value</label>
-      <input type="text" id="Pkg_Decl_Value">
-      <div class="field-error" id="error-Pkg_Decl_Value"></div>
-    </div>
-    <div class="horizontal-field">
-      <label for="Service">Service</label>
+      <label for="Service" class="label-with-tooltip">
+        Service
+        <span class="tooltip-icon">
+          <i class="fas fa-circle-question"></i>
+          <span class="tooltip-content">UPS service code (e.g. 65 = Saver, 07 = Express)</span>
+        </span>
+      </label>
       <div class="input-wrapper">
         <input type="text" id="Service">
         <ul id="service-suggestions" class="autocomplete-list" style="display: none;"></ul>
       </div>
       <div class="field-error" id="error-Service"></div>
     </div>
-    <div class="horizontal-field">
-      <label for="Delivery_Confirm">Delivery Confirm</label>
-      <div class="input-wrapper">
-        <input type="text" id="Delivery_Confirm">
-        <ul id="deliveryconfirm-suggestions" class="autocomplete-list" style="display: none;"></ul>
-      </div>
-      <div class="field-error" id="error-Delivery_Confirm"></div>
-    </div>
-    <div class="horizontal-field">
-      <label for="Shipper_Release">Shipper Release</label>
-      <select id="Shipper_Release">
-        <option value="">--</option>
-        <option value="1">1</option>
-      </select>
-      <div class="field-error" id="error-Shipper_Release"></div>
-    </div>
-    <div class="horizontal-field">
-      <label for="Ret_of_Documents">Ret of Documents</label>
-      <select id="Ret_of_Documents">
-        <option value="">--</option>
-        <option value="1">1</option>
-      </select>
-      <div class="field-error" id="error-Ret_of_Documents"></div>
-    </div>
-    <div class="horizontal-field">
-      <label for="Saturday_Deliver">Saturday Deliver</label>
-      <select id="Saturday_Deliver">
-        <option value="">--</option>
-        <option value="1">1</option>
-      </select>
-      <div class="field-error" id="error-Saturday_Deliver"></div>
-    </div>
-    <div class="horizontal-field">
-      <label for="Carbon_Neutral">Carbon Neutral</label>
-      <select id="Carbon_Neutral">
-        <option value="">--</option>
-        <option value="1">1</option>
-      </select>
-      <div class="field-error" id="error-Carbon_Neutral"></div>
-    </div>
-    <div class="horizontal-field">
-      <label for="Large_Package">Large Package</label>
-      <select id="Large_Package">
-        <option value="">--</option>
-        <option value="1">1</option>
-      </select>
-      <div class="field-error" id="error-Large_Package"></div>
-    </div>
-    <div class="horizontal-field">
-      <label for="Addl_handling">Addl handling</label>
-      <select id="Addl_handling">
-        <option value="">--</option>
-        <option value="1">1</option>
-      </select>
-      <div class="field-error" id="error-Addl_handling"></div>
-    </div>
+
     <div class="horizontal-field">
       <label for="Reference_1">Reference 1</label>
       <input type="text" id="Reference_1">
       <div class="field-error" id="error-Reference_1"></div>
     </div>
+
     <div class="horizontal-field">
       <label for="Reference_2">Reference 2</label>
       <input type="text" id="Reference_2">
       <div class="field-error" id="error-Reference_2"></div>
     </div>
+
+    <!-- Custom Non-CSV Fields -->
     <div class="horizontal-field">
-      <label for="Reference_3">Reference 3</label>
-      <input type="text" id="Reference_3">
-      <div class="field-error" id="error-Reference_3"></div>
+      <label for="Custom_Order_Number">nr zamówienia gdzie będzie doliczony koszt</label>
+      <input type="text" id="Custom_Order_Number">
     </div>
-  </div>
 
-  <div class="form-submit">
-    <button type="button" id="toggle-advanced" class="submit-button">
-      Show Advanced Fields
-    </button>
-  </div>
+    <div class="horizontal-field">
+      <label for="Custom_Project_Number">NR PROJEKTU</label>
+      <input type="text" id="Custom_Project_Number">
+    </div>
 
-  <div id="advanced-wrapper" class="vertical-form">
-  <div class="horizontal-field">
-    <label for="QV_Notif_1-Addr">QV Notif 1-Addr</label>
-    <input type="text" id="QV_Notif_1-Addr">
-    <div class="field-error" id="error-QV_Notif_1-Addr"></div>
-  </div>
-  <div class="horizontal-field">
-    <label for="QV_Notif_1-Ship">QV Notif 1-Ship</label>
-    <select id="QV_Notif_1-Ship">
-        <option value="">--</option>
-        <option value="1">1</option>
-    </select>
-    <div class="field-error" id="error-QV_Notif_1-Ship"></div>
-  </div>
-  <div class="horizontal-field">
-    <label for="QV_Notif_1-Excp">QV Notif 1-Excp</label>
-    <select id="QV_Notif_1-Excp">
-      <option value="">--</option>
-      <option value="1">1</option>
-    </select>
-    <div class="field-error" id="error-QV_Notif_1-Excp"></div>
-  </div>
-  <div class="horizontal-field">
-    <label for="QV_Notif_1-Delv">QV Notif 1-Delv</label>
-    <select id="QV_Notif_1-Delv">
-      <option value="">--</option>
-      <option value="1">1</option>
-    </select>
-    <div class="field-error" id="error-QV_Notif_1-Delv"></div>
-  </div>
-  <div class="horizontal-field">
-    <label for="QV_Notif_2-Addr">QV Notif 2-Addr</label>
-    <input type="text" id="QV_Notif_2-Addr">
-    <div class="field-error" id="error-QV_Notif_2-Addr"></div>
-  </div>
-  <div class="horizontal-field">
-    <label for="QV_Notif_2-Ship">QV Notif 2-Ship</label>
-    <select id="QV_Notif_2-Ship">
-      <option value="">--</option>
-      <option value="1">1</option>
-    </select>
-    <div class="field-error" id="error-QV_Notif_2-Ship"></div>
-  </div>
-  <div class="horizontal-field">
-    <label for="QV_Notif_2-Excp">QV Notif 2-Excp</label>
-    <select id="QV_Notif_2-Excp">
-        <option value="">--</option>
-        <option value="1">1</option>
-    </select>
-    <div class="field-error" id="error-QV_Notif_2-Excp"></div>
-  </div>
-  <div class="horizontal-field">
-    <label for="QV_Notif_2-Delv">QV Notif 2-Delv</label>
-    <select id="QV_Notif_2-Delv">
-        <option value="">--</option>
-        <option value="1">1</option>
-    </select>
-    <div class="field-error" id="error-QV_Notif_2-Delv"></div>
-  </div>
-  <div class="horizontal-field">
-    <label for="QV_Notif_3-Addr">QV Notif 3-Addr</label>
-    <input type="text" id="QV_Notif_3-Addr">
-    <div class="field-error" id="error-QV_Notif_3-Addr"></div>
-  </div>
-  <div class="horizontal-field">
-    <label for="QV_Notif_3-Ship">QV Notif 3-Ship</label>
-    <select id="QV_Notif_3-Ship">
-        <option value="">--</option>
-        <option value="1">1</option>
-    </select>
-    <div class="field-error" id="error-QV_Notif_3-Ship"></div>
-  </div>
-  <div class="horizontal-field">
-    <label for="QV_Notif_3-Excp">QV Notif 3-Excp</label>
-    <select id="QV_Notif_3-Excp">
-        <option value="">--</option>
-        <option value="1">1</option>
-    </select>
-    <div class="field-error" id="error-QV_Notif_3-Excp"></div>
-  </div>
-  <div class="horizontal-field">
-    <label for="QV_Notif_3-Delv">QV Notif 3-Delv</label>
-    <select id="QV_Notif_3-Delv">
-        <option value="">--</option>
-        <option value="1">1</option>
-    </select>
-    <div class="field-error" id="error-QV_Notif_3-Delv"></div>
-  </div>
-  <div class="horizontal-field">
-    <label for="QV_Notif_4-Addr">QV Notif 4-Addr</label>
-    <input type="text" id="QV_Notif_4-Addr">
-    <div class="field-error" id="error-QV_Notif_4-Addr"></div>
-  </div>
-  <div class="horizontal-field">
-    <label for="QV_Notif_4-Ship">QV Notif 4-Ship</label>
-    <select id="QV_Notif_4-Ship">
-        <option value="">--</option>
-        <option value="1">1</option>
-    </select>
-    <div class="field-error" id="error-QV_Notif_4-Ship"></div>
-  </div>
-  <div class="horizontal-field">
-    <label for="QV_Notif_4-Excp">QV Notif 4-Excp</label>
-    <select id="QV_Notif_4-Excp">
-        <option value="">--</option>
-        <option value="1">1</option>
-    </select>
-    <div class="field-error" id="error-QV_Notif_4-Excp"></div>
-  </div>
-  <div class="horizontal-field">
-    <label for="QV_Notif_4-Delv">QV Notif 4-Delv</label>
-    <select id="QV_Notif_4-Delv">
-        <option value="">--</option>
-        <option value="1">1</option>
-    </select>
-    <div class="field-error" id="error-QV_Notif_4-Delv"></div>
-  </div>
-  <div class="horizontal-field">
-    <label for="QV_Notif_5-Addr">QV Notif 5-Addr</label>
-    <input type="text" id="QV_Notif_5-Addr">
-    <div class="field-error" id="error-QV_Notif_5-Addr"></div>
-  </div>
-  <div class="horizontal-field">
-    <label for="QV_Notif_5-Ship">QV Notif 5-Ship</label>
-    <select id="QV_Notif_5-Ship">
-        <option value="">--</option>
-        <option value="1">1</option>
-    </select>
-    <div class="field-error" id="error-QV_Notif_5-Ship"></div>
-  </div>
-  <div class="horizontal-field">
-    <label for="QV_Notif_5-Excp">QV Notif 5-Excp</label>
-    <select id="QV_Notif_5-Excp">
-        <option value="">--</option>
-        <option value="1">1</option>
-    </select>
-    <div class="field-error" id="error-QV_Notif_5-Excp"></div>
-  </div>
-  <div class="horizontal-field">
-    <label for="QV_Notif_5-Delv">QV Notif 5-Delv</label>
-    <select id="QV_Notif_5-Delv">
-        <option value="">--</option>
-        <option value="1">1</option>
-    </select>
-    <div class="field-error" id="error-QV_Notif_5-Delv"></div>
-  </div>
-  <div class="horizontal-field">
-    <label for="QV_Notif_Msg">QV Notif Msg</label>
-    <input type="text" id="QV_Notif_Msg">
-    <div class="field-error" id="error-QV_Notif_Msg"></div>
-  </div>
-  <div class="horizontal-field">
-    <label for="QV_Failure_Addr">QV Failure Addr</label>
-    <input type="text" id="QV_Failure_Addr">
-    <div class="field-error" id="error-QV_Failure_Addr"></div>
-  </div>
-  <div class="horizontal-field">
-    <label for="UPS_Premium_Care">UPS Premium Care</label>
-    <select id="UPS_Premium_Care">
-        <option value="">--</option>
-        <option value="1">1</option>
-    </select>
-    <div class="field-error" id="error-UPS_Premium_Care"></div>
-  </div>
-  <div class="horizontal-field">
-    <label for="ADL_Location_ID">ADL Location ID</label>
-    <input type="text" id="ADL_Location_ID">
-    <div class="field-error" id="error-ADL_Location_ID"></div>
-  </div>
-  <div class="horizontal-field">
-    <label for="ADL_Media_Type">ADL Media Type</label>
-    <div class="input-wrapper">
-      <input type="text" id="ADL_Media_Type">
-      <ul id="adlmediatype-suggestions" class="autocomplete-list" style="display: none;"></ul>
+    <div class="horizontal-field">
+      <label for="Custom_UPS_Number">NR LISTU UPS</label>
+      <input type="text" id="Custom_UPS_Number">
     </div>
-    <div class="field-error" id="error-ADL_Media_Type"></div>
-  </div>
-  <div class="horizontal-field">
-    <label for="ADL_Language">ADL Language</label>
-    <input type="text" id="ADL_Language">
-    <div class="field-error" id="error-ADL_Language"></div>
-  </div>
-  <div class="horizontal-field">
-    <label for="ADL_Notification_Addr">ADL Notification Addr</label>
-    <input type="text" id="ADL_Notification_Addr">
-    <div class="field-error" id="error-ADL_Notification_Addr"></div>
-  </div>
-  <div class="horizontal-field">
-    <label for="ADL_Failure_Addr">ADL Failure Addr</label>
-    <input type="text" id="ADL_Failure_Addr">
-    <div class="field-error" id="error-ADL_Failure_Addr"></div>
-  </div>
-  <div class="horizontal-field">
-    <label for="ADL_COD_Value">ADL COD Value</label>
-    <input type="text" id="ADL_COD_Value">
-    <div class="field-error" id="error-ADL_COD_Value"></div>
-  </div>
-  <div class="horizontal-field">
-    <label for="ADL_Deliver_to_Addressee">ADL Deliver to Addressee</label>
-    <div class="input-wrapper">
-      <input type="text" id="ADL_Deliver_to_Addressee">
-      <ul id="adldeliveraddr-suggestions" class="autocomplete-list" style="display: none;"></ul>
+
+    <div class="horizontal-field">
+      <label for="Custom_Cost">KOSZT (LOGISTYKA)</label>
+      <input type="text" id="Custom_Cost">
     </div>
-    <div class="field-error" id="error-ADL_Deliver_to_Addresse"></div>
-  </div>
-  <div class="horizontal-field">
-    <label for="ADL_Shipper_Media_Type">ADL Shipper Media Type</label>
-    <div class="input-wrapper">
-      <input type="text" id="ADL_Shipper_Media_Type">
-      <ul id="adlshippermediatype-suggestions" class="autocomplete-list" style="display: none;"></ul>
+
+    <div class="horizontal-field">
+      <label for="Custom_Ship_Date">DATA WYSYŁKI</label>
+      <input type="date" id="Custom_Ship_Date">
     </div>
-    <div class="field-error" id="error-ADL_Shipper_Media_Type"></div>
-  </div>
-  <div class="horizontal-field">
-    <label for="ADL_Shipper_Language">ADL Shipper Language</label>
-    <input type="text" id="ADL_Shipper_Language">
-    <div class="field-error" id="error-ADL_Shipper_Language"></div>
-  </div>
-  <div class="horizontal-field">
-    <label for="ADL_Shipper_Notification_Addr">ADL Shipper Notification Addr</label>
-    <input type="text" id="ADL_Shipper_Notification_Addr">
-    <div class="field-error" id="error-ADL_Shipper_Notification_Addr"></div>
-  </div>
-  <div class="horizontal-field">
-    <label for="ADL_Direct_Delivery_Only">ADL Direct Delivery Only</label>
-    <select id="ADL_Direct_Delivery_Only">
-        <option value="">--</option>
-        <option value="1">1</option>
-    </select>
-    <div class="field-error" id="error-ADL_Direct_Delivery_Only"></div>
-  </div>
-  <div class="horizontal-field">
-    <label for="Electronic_Package_Release_Authentication" title="Electronic Package Release Authentication">Electronic Package Release Authentication</label>
-    <input type="text" id="Electronic_Package_Release_Authentication">
-    <div class="field-error" id="error-Electronic_Package_Release_Authentication"></div>
-  </div>
-  <div class="horizontal-field">
-    <label for="Lithium_Ion_Alone">Lithium Ion Alone</label>
-    <select id="Lithium_Ion_Alone">
-        <option value="">--</option>
-        <option value="0">0</option>
-        <option value="1">1</option>
-    </select>
-    <div class="field-error" id="error-Lithium_Ion_Alone"></div>
-  </div>
-  <div class="horizontal-field">
-    <label for="Lithium_Ion_In_Equipment">Lithium Ion In Equipment</label>
-    <select id="Lithium_Ion_In_Equipment">
-      <option value="">--</option>
-        <option value="0">0</option>
-        <option value="1">1</option>
-    </select>
-    <div class="field-error" id="error-Lithium_Ion_In_Equipment"></div>
-  </div>
-  <div class="horizontal-field">
-    <label for="Lithium_Ion_With_Equipment">Lithium Ion With_Equipment</label>
-    <select id="Lithium_Ion_With_Equipment">
-      <option value="">--</option>
-        <option value="0">0</option>
-        <option value="1">1</option>
-    </select>
-    <div class="field-error" id="error-Lithium_Ion_With_Equipment"></div>
-  </div>
-  <div class="horizontal-field">
-    <label for="Lithium_Metal_Alone">Lithium Metal Alone</label>
-    <select id="Lithium_Metal_Alone">
-      <option value="">--</option>
-        <option value="0">0</option>
-        <option value="1">1</option>
-    </select>
-    <div class="field-error" id="error-Lithium_Metal_Alone"></div>
-  </div>
-  <div class="horizontal-field">
-    <label for="Lithium_Metal_In_Equipment">Lithium Metal In Equipment</label>
-    <select id="Lithium_Metal_In_Equipment">
-      <option value="">--</option>
-        <option value="0">0</option>
-        <option value="1">1</option>
-    </select>
-    <div class="field-error" id="error-Lithium_Metal_In_Equipment"></div>
-  </div>
-  <div class="horizontal-field">
-    <label for="Lithium_Metal_With_Equipment">Lithium Metal With Equipment</label>
-    <select id="Lithium_Metal_With_Equipment">
-      <option value="">--</option>
-        <option value="0">0</option>
-        <option value="1">1</option>
-    </select>
-    <div class="field-error" id="error-Lithium_Metal_With_Equipment"></div>
-  </div>
-  <div class="horizontal-field">
-    <label for="Weekend_Commercial_Delivery">Weekend Commercial Delivery</label>
-    <select id="Weekend_Commercial_Delivery">
-      <option value="">--</option>
-      <option value="1">1</option>
-    </select>
-    <div class="field-error" id="error-Weekend_Commercial_Delivery"></div>
-  </div>
-  <div class="horizontal-field">
-    <label for="Dry_Ice_Weight">Dry Ice Weight</label>
-    <input type="text" id="Dry_Ice_Weight">
-    <div class="field-error" id="error-Dry_Ice_Weight"></div>
-  </div>
-  <div class="horizontal-field">
-    <label for="Merchandise_Description">Merchandise Description</label>
-    <input type="text" id="Merchandise_Description">
-    <div class="field-error" id="error-Merchandise_Description"></div>
-  </div>
-  <div class="horizontal-field">
-    <label for="UPS_SurePost®Limited_Quantity_Lithium_Battery" title="UPS SurePost®Limited Quantity/Lithium Battery">UPS SurePost®Limited Quantity/Lithium Battery</label>
-    <select id="UPS_SurePost®Limited_Quantity_Lithium_Battery">
-      <option value="">--</option>
-        <option value="0">0</option>
-        <option value="1">1</option>
-      </select>
-      <div class="field-error" id="error-UPS_SurePost®Limited_Quantity_Lithium_Battery"></div>
-  </div>
+
+    <button type="submit">Submit</button>
+  </form>
 </div>
 
-  <div class="form-submit">
-    <button type="submit" class="submit-button">Add</button>
-  </div>
-
-</form>
-<div id="vertical-table-wrapper">
-  <h3>Current Submissions</h3>
-  <a href="/download" class="button-link">Download CSV</a>
-  <table id="vertical-table">
-    <thead>
-      <tr id="delete-row">
-        <th></th> <!-- <-- This aligns with the label column -->
-      </tr>
-      <tr id="header-row">
-        <th></th> <!-- <-- This aligns with the label column -->
-      </tr>
-    </thead>
-    <tbody>
-      <tr><th>Time</th></tr>
-      <tr><th>User</th></tr>
-      <tr><th>Contact Name</th></tr>
-      <tr><th>Company or Name</th></tr>
-      <tr><th>Country</th></tr>
-      <tr><th>Address 1</th></tr>
-      <tr><th>Address 2</th></tr>
-      <tr><th>Address 3</th></tr>
-      <tr><th>City</th></tr>
-      <tr><th>State/Prov/Other</th></tr>
-      <tr><th>Postal Code</th></tr>
-      <tr><th>Telephone</th></tr>
-      <tr><th>Ext</th></tr>
-      <tr><th>Residential Ind</th></tr>
-      <tr><th>Consignee Email</th></tr>
-      <tr><th>Packaging Type</th></tr>
-      <tr><th>Customs Value</th></tr>
-      <tr><th>Weight</th></tr>
-      <tr><th>Length</th></tr>
-      <tr><th>Width</th></tr>
-      <tr><th>Height</th></tr>
-      <tr><th>Unit of Measure</th></tr>
-      <tr><th>Description of Goods</th></tr>
-      <tr><th>Documents of No Commercial Value</th></tr>
-      <tr><th>GNIFC</th></tr>
-      <tr><th>Pkg Decl Value</th></tr>
-      <tr><th>Service</th></tr>
-      <tr><th>Delivery Confirm</th></tr>
-      <tr><th>Shipper Release</th></tr>
-      <tr><th>Ret of Documents</th></tr>
-      <tr><th>Saturday Deliver</th></tr>
-      <tr><th>Carbon Neutral</th></tr>
-      <tr><th>Large Package</th></tr>
-      <tr><th>Addl handling</th></tr>
-      <tr><th>Reference 1</th></tr>
-      <tr><th>Reference 2</th></tr>
-      <tr><th>Reference 3</th></tr>
-    </tbody>
-  </table>
-</div>
-</div>  
+    <h3>Submitted Shipments</h3>
+    <table id="horizontal-table">
+      <thead>
+        <tr>
+          <th>Time</th><th>User</th>
+          <th>Contact Name</th><th>Company</th><th>Country</th><th>Address</th><th>City</th>
+          <th>State</th><th>Postal Code</th><th>Telephone</th><th>Email</th><th>Packaging</th><th>Weight</th>
+          <th>Length</th><th>Width</th><th>Height</th><th>Description</th><th>Docs No Value</th><th>Service</th>
+          <th>Ref1</th><th>Ref2</th>
+          <th>nr zam.</th><th>NR PROJEKTU</th><th>NR LISTU UPS</th><th>KOSZT</th><th>DATA WYSYŁKI</th>
+        </tr>
+      </thead>
+      <tbody id="submission-body">
+        <!-- JS-injected rows go here -->
+      </tbody>
+    </table>
+  </div>  
 
 
 <div class="form-errors-wrapper">
@@ -643,47 +223,56 @@
 <script>
 const currentUserEmail = "{{ current_user.email }}";
 
-const socket = io();
 document.getElementById("form").onsubmit = e => {
-    e.preventDefault();
-    let data = {};
-    ["Contact Name","Company or Name","Country","Address 1","Address 2","Address 3","City","State/Prov/Other","Postal Code","Telephone","Ext","Residential Ind","Consignee Email","Packaging Type","Customs Value","Weight","Length","Width","Height","Unit of Measure","Description of Goods","Documents of No Commercial Value","GNIFC","Pkg Decl Value","Service","Delivery Confirm","Shipper Release","Ret of Documents","Saturday Deliver","Carbon Neutral","Large Package","Addl handling","Reference 1","Reference 2","Reference 3","QV Notif 1-Addr","QV Notif 1-Ship","QV Notif 1-Excp","QV Notif 1-Delv","QV Notif 2-Addr","QV Notif 2-Ship","QV Notif 2-Excp","QV Notif 2-Delv","QV Notif 3-Addr","QV Notif 3-Ship","QV Notif 3-Excp","QV Notif 3-Delv","QV Notif 4-Addr","QV Notif 4-Ship","QV Notif 4-Excp","QV Notif 4-Delv","QV Notif 5-Addr","QV Notif 5-Ship","QV Notif 5-Excp","QV Notif 5-Delv","QV Notif Msg","QV Failure Addr","UPS Premium Care","ADL Location ID","ADL Media Type","ADL Language","ADL Notification Addr","ADL Failure Addr","ADL COD Value","ADL Deliver to Addressee","ADL Shipper Media Type","ADL Shipper Language","ADL Shipper Notification Addr","ADL Direct Delivery Only","Electronic Package Release Authentication","Lithium Ion Alone","Lithium Ion In Equipment","Lithium Ion With_Equipment","Lithium Metal Alone","Lithium Metal In Equipment","Lithium Metal With Equipment","Weekend Commercial Delivery","Dry Ice Weight","Merchandise Description","UPS SurePost®Limited Quantity/Lithium Battery"].forEach(field => {
-        let id = field.replace(/\s|\//g, "_");
-        data[field] = document.getElementById(id).value;
-    });
-    socket.emit("submit_form", data);
+  e.preventDefault();
+
+  const data = {};
+
+  // Preserve all 80 CSV-compatible fields (including unused ones)
+  const fieldOrder = [
+    "Contact Name","Company or Name","Country","Address 1","Address 2","Address 3","City","State/Prov/Other",
+    "Postal Code","Telephone","Ext","Residential Ind","Consignee Email","Packaging Type","Customs Value",
+    "Weight","Length","Width","Height","Unit of Measure","Description of Goods","Documents of No Commercial Value",
+    "GNIFC","Pkg Decl Value","Service","Delivery Confirm","Shipper Release","Ret of Documents","Saturday Deliver",
+    "Carbon Neutral","Large Package","Addl handling","Reference 1","Reference 2","Reference 3",
+    "QV Notif 1-Addr","QV Notif 1-Ship","QV Notif 1-Excp","QV Notif 1-Delv",
+    "QV Notif 2-Addr","QV Notif 2-Ship","QV Notif 2-Excp","QV Notif 2-Delv",
+    "QV Notif 3-Addr","QV Notif 3-Ship","QV Notif 3-Excp","QV Notif 3-Delv",
+    "QV Notif 4-Addr","QV Notif 4-Ship","QV Notif 4-Excp","QV Notif 4-Delv",
+    "QV Notif 5-Addr","QV Notif 5-Ship","QV Notif 5-Excp","QV Notif 5-Delv",
+    "QV Notif Msg","QV Failure Addr","UPS Premium Care","ADL Location ID","ADL Media Type",
+    "ADL Language","ADL Notification Addr","ADL Failure Addr","ADL COD Value","ADL Deliver to Addressee",
+    "ADL Shipper Media Type","ADL Shipper Language","ADL Shipper Notification Addr","ADL Direct Delivery Only",
+    "Electronic Package Release Authentication","Lithium Ion Alone","Lithium Ion In Equipment",
+    "Lithium Ion With_Equipment","Lithium Metal Alone","Lithium Metal In Equipment",
+    "Lithium Metal With Equipment","Weekend Commercial Delivery","Dry Ice Weight","Merchandise Description",
+    "UPS SurePost®Limited Quantity/Lithium Battery"
+  ];
+
+  fieldOrder.forEach(field => {
+    const id = field.replace(/\s|\//g, "_");
+    const el = document.getElementById(id);
+    data[field] = el ? el.value.trim() : "";
+  });
+
+  // Add custom non-CSV fields
+  data["nr zamówienia gdzie będzie doliczony koszt"] = document.getElementById("Custom_Order_Number")?.value || "";
+  data["NR PROJEKTU"] = document.getElementById("Custom_Project_Number")?.value || "";
+  data["NR LISTU UPS"] = document.getElementById("Custom_UPS_Number")?.value || "";
+  data["KOSZT (LOGISTYKA)"] = document.getElementById("Custom_Cost")?.value || "";
+  data["DATA WYSYŁKI"] = document.getElementById("Custom_Ship_Date")?.value || "";
+
+  socket.emit("submit_form", data);
 };
 
 socket.on("new_entry", data => {
-  // Clear old errors and highlights
-  document.getElementById("form-errors").style.display = "none";
-  document.querySelectorAll("input").forEach(input => input.classList.remove("input-error"));
+  const tbody = document.getElementById("submission-body");
+  if (!tbody) return;
 
-  const table = document.getElementById("vertical-table");
-  if (!table) return;
-
-  const deleteRow = document.getElementById("delete-row");
-  const headerRow = document.getElementById("header-row");
-
-  // Determine ownership first
   const createdBy = data.data["_submitted_by"] || "?";
   const canDelete = createdBy === currentUserEmail;
 
-  // Add delete button cell
-  const deleteTh = document.createElement("th");
-  deleteTh.setAttribute("data-id", data.id);
-  deleteTh.innerHTML = canDelete
-    ? `<button onclick="deleteEntry(${data.id})" class="tiny-delete">✖</button>`
-    : "&mdash;";
-  deleteRow.appendChild(deleteTh);
-
-  // Add ID header cell
-  const th = document.createElement("th");
-  th.setAttribute("data-id", data.id);
-  th.innerText = `#${data.id}`;
-  headerRow.appendChild(th);
-
-  // Format timestamp
+  // Format submission time
   let timestamp = "?";
   if (data.data["_submitted_at"]) {
     const date = new Date(data.data["_submitted_at"]);
@@ -694,56 +283,148 @@ socket.on("new_entry", data => {
     timestamp = `${hours}:${minutes} ${day}.${month}`;
   }
 
-  // Data cells to insert
-  const values = [
+  // Create a new row and attach the entry ID for later deletion
+  const tr = document.createElement("tr");
+  tr.setAttribute("data-id", data.id);
+
+  // Add delete button cell as first column
+  const deleteTd = document.createElement("td");
+  if (canDelete) {
+    deleteTd.innerHTML = `<button onclick="deleteEntry(${data.id})" class="tiny-delete">✖</button>`;
+  } else {
+    deleteTd.innerHTML = "&mdash;";
+  }
+  tr.appendChild(deleteTd);
+
+  // Fields to display in the table (match your new layout)
+  const shownFields = [
     timestamp,
     createdBy,
     data.data["Contact Name"] || "",
     data.data["Company or Name"] || "",
     data.data["Country"] || "",
     data.data["Address 1"] || "",
-    data.data["Address 2"] || "",
-    data.data["Address 3"] || "",
     data.data["City"] || "",
     data.data["State/Prov/Other"] || "",
     data.data["Postal Code"] || "",
     data.data["Telephone"] || "",
-    data.data["Ext"] || "",
-    data.data["Residential Ind"] || "",
     data.data["Consignee Email"] || "",
     data.data["Packaging Type"] || "",
-    data.data["Customs Value"] || "",
     data.data["Weight"] || "",
     data.data["Length"] || "",
     data.data["Width"] || "",
     data.data["Height"] || "",
-    data.data["Unit of Measure"] || "",
     data.data["Description of Goods"] || "",
     data.data["Documents of No Commercial Value"] || "",
-    data.data["GNIFC"] || "",
-    data.data["Pkg Decl Value"] || "",
     data.data["Service"] || "",
-    data.data["Delivery Confirm"] || "",
-    data.data["Shipper Release"] || "",
-    data.data["Ret of Documents"] || "",
-    data.data["Saturday Deliver"] || "",
-    data.data["Carbon Neutral"] || "",
-    data.data["Large Package"] || "",
-    data.data["Addl handling"] || "",
     data.data["Reference 1"] || "",
     data.data["Reference 2"] || "",
-    data.data["Reference 3"] || ""
+    data.data["nr zamówienia gdzie będzie doliczony koszt"] || "",
+    data.data["NR PROJEKTU"] || "",
+    data.data["NR LISTU UPS"] || "",
+    data.data["KOSZT (LOGISTYKA)"] || "",
+    data.data["DATA WYSYŁKI"] || ""
   ];
 
-  const rows = table.querySelectorAll("tbody tr");
-  values.forEach((val, i) => {
+  // Create a new row
+  const tr = document.createElement("tr");
+
+  shownFields.forEach(val => {
     const td = document.createElement("td");
-    td.innerHTML = val;
+    td.textContent = val;
     if (canDelete) td.classList.add("own-entry-cell");
-    rows[i]?.appendChild(td);
+    tr.appendChild(td);
   });
+
+  tbody.appendChild(tr);
 });
 
+function renderRow(entry) {
+  const tbody = document.getElementById("submission-body");
+  if (!tbody) return;
+
+  const createdBy = entry.data["_submitted_by"] || "?";
+  const canDelete = createdBy === currentUserEmail;
+
+  // Format timestamp
+  let timestamp = "?";
+  if (entry.data["_submitted_at"]) {
+    const date = new Date(entry.data["_submitted_at"]);
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    timestamp = `${hours}:${minutes} ${day}.${month}`;
+  }
+
+  // Create row for the entry
+  const tr = document.createElement("tr");
+  tr.setAttribute("data-id", entry.id);
+
+  // Add delete button cell
+  const deleteTd = document.createElement("td");
+  deleteTd.innerHTML = canDelete
+    ? `<button onclick="deleteEntry(${entry.id})" class="tiny-delete">✖</button>`
+    : "&mdash;";
+  tr.appendChild(deleteTd);
+
+  // Add selected fields + custom fields
+  const shownFields = [
+    timestamp,
+    createdBy,
+    entry.data["Contact Name"] || "",
+    entry.data["Company or Name"] || "",
+    entry.data["Country"] || "",
+    entry.data["Address 1"] || "",
+    entry.data["City"] || "",
+    entry.data["State/Prov/Other"] || "",
+    entry.data["Postal Code"] || "",
+    entry.data["Telephone"] || "",
+    entry.data["Consignee Email"] || "",
+    entry.data["Packaging Type"] || "",
+    entry.data["Weight"] || "",
+    entry.data["Length"] || "",
+    entry.data["Width"] || "",
+    entry.data["Height"] || "",
+    entry.data["Description of Goods"] || "",
+    entry.data["Documents of No Commercial Value"] || "",
+    entry.data["Service"] || "",
+    entry.data["Reference 1"] || "",
+    entry.data["Reference 2"] || "",
+    entry.data["nr zamówienia gdzie będzie doliczony koszt"] || "",
+    entry.data["NR PROJEKTU"] || "",
+    entry.data["NR LISTU UPS"] || "",
+    entry.data["KOSZT (LOGISTYKA)"] || "",
+    entry.data["DATA WYSYŁKI"] || ""
+  ];
+
+  shownFields.forEach(value => {
+    const td = document.createElement("td");
+    td.textContent = value;
+    if (canDelete) td.classList.add("own-entry-cell");
+    tr.appendChild(td);
+  });
+
+  tbody.appendChild(tr);
+}
+
+function deleteEntry(id) {
+  if (confirm("Are you sure you want to delete this entry?")) {
+    socket.emit("delete_entry", { id });
+  }
+}
+
+socket.on("entry_deleted", data => {
+  const row = document.querySelector(`#submission-body tr[data-id="${data.id}"]`);
+  if (!row) return;
+
+  // Highlight before removal
+  row.style.backgroundColor = "#300";
+
+  setTimeout(() => {
+    row.remove();
+  }, 150);
+});
 
 const errorBox = document.getElementById("form-errors");
 
@@ -924,71 +605,11 @@ function validateAllFields() {
   return !hasError;
 }
 
-
 validateFields.forEach(field => {
   const input = document.getElementById(field.id);
   if (!input) return;
   input.addEventListener("input", validateAllFields);
 });
-
-
-function deleteEntry(id) {
-  if (confirm("Are you sure you want to delete this entry?")) {
-    socket.emit("delete_entry", { id });
-  }
-}
-
-socket.on("entry_deleted", data => {
-  const idToDelete = data.id;
-
-  const deleteRow = document.getElementById("delete-row");
-  const headerRow = document.getElementById("header-row");
-
-  const columnIndex = [...headerRow.children].findIndex(th => th.getAttribute("data-id") == idToDelete);
-
-  if (columnIndex === -1) return;
-
-  // Highlight column before removing
-  [deleteRow, headerRow].forEach(row => {
-    const cell = row.children[columnIndex];
-    if (cell) cell.style.backgroundColor = "#300";
-  });
-
-  document.querySelectorAll("#vertical-table tbody tr").forEach(row => {
-    const cell = row.children[columnIndex];
-    if (cell) cell.style.backgroundColor = "#300";
-  });
-
-  setTimeout(() => {
-    // Remove from header
-    [deleteRow, headerRow].forEach(row => {
-      const cell = row.children[columnIndex];
-      if (cell) cell.remove();
-    });
-
-    // Remove from each row in tbody
-    document.querySelectorAll("#vertical-table tbody tr").forEach(row => {
-      const cell = row.children[columnIndex];
-      if (cell) cell.remove();
-    });
-  }, 150);
-});
-
-const fieldOrder = [ "Contact Name", "Company or Name", "Country", "Address 1", "Address 2", "Address 3", "City", "State/Prov/Other",
-    "Postal Code", "Telephone", "Ext", "Residential Ind", "Consignee Email", "Packaging Type", "Customs Value",
-    "Weight", "Length", "Width", "Height", "Unit of Measure", "Description of Goods", "Documents of No Commercial Value",
-    "GNIFC", "Pkg Decl Value", "Service", "Delivery Confirm", "Shipper Release", "Ret of Documents", "Saturday Deliver",
-    "Carbon Neutral", "Large Package", "Addl handling", "Reference 1", "Reference 2", "Reference 3", "QV Notif 1-Addr",
-    "QV Notif 1-Ship", "QV Notif 1-Excp", "QV Notif 1-Delv", "QV Notif 2-Addr", "QV Notif 2-Ship", "QV Notif 2-Excp",
-    "QV Notif 2-Delv", "QV Notif 3-Addr", "QV Notif 3-Ship", "QV Notif 3-Excp", "QV Notif 3-Delv", "QV Notif 4-Addr",
-    "QV Notif 4-Ship", "QV Notif 4-Excp", "QV Notif 4-Delv", "QV Notif 5-Addr", "QV Notif 5-Ship", "QV Notif 5-Excp",
-    "QV Notif 5-Delv", "QV Notif Msg", "QV Failure Addr", "UPS Premium Care", "ADL Location ID", "ADL Media Type",
-    "ADL Language", "ADL Notification Addr", "ADL Failure Addr", "ADL COD Value", "ADL Deliver to Addressee",
-    "ADL Shipper Media Type", "ADL Shipper Language", "ADL Shipper Notification Addr", "ADL Direct Delivery Only",
-    "Electronic Package Release Authentication", "Lithium Ion Alone", "Lithium Ion In Equipment",
-    "Lithium Ion With_Equipment", "Lithium Metal Alone", "Lithium Metal In Equipment",
-    "Lithium Metal With Equipment", "Weekend Commercial Delivery", "Dry Ice Weight", "Merchandise Description",
-    "UPS SurePost®Limited Quantity/Lithium Battery" ];
 
 const firstFieldId = fieldOrder[0].replace(/\s|\//g, "_");
 const firstInput = document.getElementById(firstFieldId);
@@ -1005,6 +626,10 @@ firstInput.addEventListener('paste', function (e) {
       input.value = values[i];
     }
   });
+
+  if (typeof validateAllFields === "function") {
+    validateAllFields();
+  }
 });
 
 document.getElementById("form").onsubmit = function(e) {
@@ -1012,108 +637,25 @@ document.getElementById("form").onsubmit = function(e) {
   if (!validateAllFields()) return;
 
   const data = {};
+
+  // Add the 80 CSV fields
   fieldOrder.forEach(field => {
     const id = field.replace(/\s|\//g, "_");
     const input = document.getElementById(id);
     if (!input) return;
-
-    let value = input.value.trim();
-
-    data[field] = value;
+    data[field] = input.value.trim();
   });
+
+  // Add custom non-CSV fields
+  data["nr zamówienia gdzie będzie doliczony koszt"] = document.getElementById("Custom_Order_Number")?.value.trim() || "";
+  data["NR PROJEKTU"] = document.getElementById("Custom_Project_Number")?.value.trim() || "";
+  data["NR LISTU UPS"] = document.getElementById("Custom_UPS_Number")?.value.trim() || "";
+  data["KOSZT (LOGISTYKA)"] = document.getElementById("Custom_Cost")?.value.trim() || "";
+  data["DATA WYSYŁKI"] = document.getElementById("Custom_Ship_Date")?.value.trim() || "";
 
   socket.emit("submit_form", data);
 };
 
-function renderRow(entry) {
-  const table = document.getElementById("vertical-table");
-  if (!table) return;
-
-  const deleteRow = document.getElementById("delete-row");
-  const headerRow = document.getElementById("header-row");
-
-  const createdBy = entry.data["_submitted_by"] || "?";
-  const canDelete = createdBy === currentUserEmail;
-
-  // Add DELETE button <th>
-  const deleteTh = document.createElement("th");
-  deleteTh.setAttribute("data-id", entry.id);
-  deleteTh.innerHTML = canDelete
-    ? `<button onclick="deleteEntry(${entry.id})" class="tiny-delete">✖</button>`
-    : "&mdash;";
-  deleteRow.appendChild(deleteTh);
-
-  // Add entry ID header <th>
-  const idTh = document.createElement("th");
-  idTh.setAttribute("data-id", entry.id);
-  idTh.innerText = `#${entry.id}`;
-  headerRow.appendChild(idTh);
-
-  // Format timestamp
-  let timestamp = "?";
-  if (entry.data["_submitted_at"]) {
-    const date = new Date(entry.data["_submitted_at"]);
-    const hours = String(date.getHours()).padStart(2, "0");
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    timestamp = `${hours}:${minutes} ${day}.${month}`;
-  }
-
-  // Prepare field values
-  const values = [
-    timestamp,
-    createdBy,
-    entry.data["Contact Name"] || "",
-    entry.data["Company or Name"] || "",
-    entry.data["Country"] || "",
-    entry.data["Address 1"] || "",
-    entry.data["Address 2"] || "",
-    entry.data["Address 3"] || "",
-    entry.data["City"] || "",
-    entry.data["State/Prov/Other"] || "",
-    entry.data["Postal Code"] || "",
-    entry.data["Telephone"] || "",
-    entry.data["Ext"] || "",
-    entry.data["Residential Ind"] || "",
-    entry.data["Consignee Email"] || "",
-    entry.data["Packaging Type"] || "",
-    entry.data["Customs Value"] || "",
-    entry.data["Weight"] || "",
-    entry.data["Length"] || "",
-    entry.data["Width"] || "",
-    entry.data["Height"] || "",
-    entry.data["Unit of Measure"] || "",
-    entry.data["Description of Goods"] || "",
-    entry.data["Documents of No Commercial Value"] || "",
-    entry.data["GNIFC"] || "",
-    entry.data["Pkg Decl Value"] || "",
-    entry.data["Service"] || "",
-    entry.data["Delivery Confirm"] || "",
-    entry.data["Shipper Release"] || "",
-    entry.data["Ret of Documents"] || "",
-    entry.data["Saturday Deliver"] || "",
-    entry.data["Carbon Neutral"] || "",
-    entry.data["Large Package"] || "",
-    entry.data["Addl handling"] || "",
-    entry.data["Reference 1"] || "",
-    entry.data["Reference 2"] || "",
-    entry.data["Reference 3"] || ""
-  ];
-
-  const rows = table.querySelectorAll("tbody tr");
-  values.forEach((val, index) => {
-    const td = document.createElement("td");
-    td.innerHTML = val;
-    if (canDelete) td.classList.add("own-entry-cell");
-    rows[index]?.appendChild(td);
-  });
-}
-
-
-{% for entry in entries %}
-  renderRow({ id: {{ entry.id }}, data: {{ entry.data|tojson }} });
-{% endfor %}
 
 document.addEventListener("DOMContentLoaded", () => {
 const countryMap = {
@@ -1436,7 +978,7 @@ function setupAutocomplete(inputId, suggestionsId, map) {
       suggestionsBox.innerHTML = "";
       const matches = Object.entries(map)
         .filter(([code, name]) =>
-          query === "" || code.startsWith(query) || name.toUpperCase().startsWith(query)
+          code.includes(query) || name.toUpperCase().includes(query)
         )
         .slice(0, 25);
 
@@ -1482,14 +1024,10 @@ function setupAutocomplete(inputId, suggestionsId, map) {
 
   // Setup all autocompletes here
   setupAutocomplete("Country", "country-suggestions", countryMap);
-  setupAutocomplete("Residential_Ind", "residential-suggestions", residentialMap);
+
   setupAutocomplete("Delivery_Confirm", "deliveryconfirm-suggestions", deliveryConfirmationMap);
   setupAutocomplete("Packaging_Type", "packaging-suggestions", packagingMap);
   setupAutocomplete("Service", "service-suggestions", serviceMap);
-  setupAutocomplete("ADL_Deliver_to_Addressee", "adldeliveraddr-suggestions", ADLdeliverToAddresseeMap);
-
-  setupAutocomplete("ADL_Media_Type", "adlmediatype-suggestions", ADLmediaType);
-  setupAutocomplete("ADL_Shipper_Media_Type", "adlshippermediatype-suggestions", ADLmediaType);
 
   // Toggle Advanced Fields (with scroll + remember state)
   const wrapper = document.getElementById("advanced-wrapper");
@@ -1519,12 +1057,25 @@ document.querySelectorAll('.tooltip-icon').forEach(icon => {
     tooltip = document.createElement('div');
     tooltip.className = 'floating-tooltip';
     tooltip.textContent = contentEl.textContent;
+    tooltip.style.opacity = "0"; // Start invisible
     document.body.appendChild(tooltip);
 
-    // Positioning
+    // Position tooltip
     const rect = icon.getBoundingClientRect();
     tooltip.style.top = (window.scrollY + rect.top - tooltip.offsetHeight - 8) + 'px';
     tooltip.style.left = (window.scrollX + rect.left) + 'px';
+
+    // Adjust if overflowing right edge
+    const tooltipWidth = tooltip.offsetWidth;
+    const viewportWidth = window.innerWidth;
+    if (rect.left + tooltipWidth > viewportWidth) {
+      tooltip.style.left = (viewportWidth - tooltipWidth - 8) + 'px';
+    }
+
+    // Fade in
+    requestAnimationFrame(() => {
+      tooltip.style.opacity = "1";
+    });
   });
 
   icon.addEventListener('mouseleave', () => {
@@ -1534,14 +1085,11 @@ document.querySelectorAll('.tooltip-icon').forEach(icon => {
     }
   });
 });
+
 </script>
 <ul id="country-suggestions" class="autocomplete-list" style="display: none;"></ul>
 <ul id="packaging-suggestions" class="autocomplete-list" style="display: none;"></ul>
 <ul id="service-suggestions" class="autocomplete-list" style="display: none;"></ul>
 <ul id="deliveryconfirm-suggestions" class="autocomplete-list" style="display: none;"></ul>
-<ul id="residential-suggestions" class="autocomplete-list" style="display: none;"></ul>
-<ul id="adldeliveraddr-suggestions" class="autocomplete-list" style="display: none;"></ul>
-<ul id="adlmediatype-suggestions" class="autocomplete-list" style="display: none;"></ul>
-<ul id="adlshippermediatype-suggestionss" class="autocomplete-list" style="display: none;"></ul>
 </body>
 </html>
