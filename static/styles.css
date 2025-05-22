@@ -239,11 +239,9 @@ input, select, textarea {
   display: none; /* no longer needed with new layout */
 }
 
-
-
 .horizontal-form {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 16px;
   max-width: 1200px;
   margin: 0 auto;
@@ -252,8 +250,6 @@ input, select, textarea {
 .horizontal-field {
   display: flex;
   flex-direction: column;
-  min-width: 180px;
-  flex: 1 1 200px;
 }
 
 .horizontal-field label {
@@ -327,6 +323,9 @@ input, select, textarea {
   scrollbar-color: #444 #1e1e1e;
 }
 
+.field-error:empty {
+  display: none;
+}
 
 /* Field error shown inline to the right of input */
 .field-error {
@@ -354,9 +353,9 @@ input, select, textarea {
 }
 
 .input-wrapper {
+  width: 100%;
+  flex: 1 1 auto;
   position: relative;
-  width: 250px;
-  flex: 0 0 250px;
 }
 
 .input-wrapper input {
