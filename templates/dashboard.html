@@ -18,16 +18,13 @@
 <div class="container">
   <h2>UPS Shipment Form</h2>
   <form id="form" class="form-wrapper" autocomplete="off">
-    <!-- Dummy fields -->
-      <input type="text" name="dummy_username" style="position: absolute; top: -9999px;" autocomplete="off">
-      <input type="password" name="dummy_password" style="position: absolute; top: -9999px;" autocomplete="new-password">
     <div class="form-submit">
       <button type="submit">Submit</button>
     </div>
     <div class="horizontal-form">
     <div class="horizontal-field">
       <label for="Contact_Name">Contact Name</label>
-      <input type="text" id="Contact_Name" name="contact_name_custom" autocomplete="off">
+      <input type="text" id="Contact_Name" name="con-na-custom" autocomplete="off">
       <div class="field-error" id="error-Contact_Name"></div>
     </div>
 
@@ -46,7 +43,7 @@
         </span>
       </label>
       <div class="input-wrapper">
-        <input type="text" id="Country" name="country_custom" autocomplete="off">
+        <input type="text" id="Country" autocomplete="off">
         <ul id="country-suggestions" class="autocomplete-list" style="display: none;"></ul>
       </div>
       <div class="field-error" id="error-Country"></div>
@@ -54,35 +51,35 @@
 
     <div class="horizontal-field">
       <label for="Address_1">Address 1</label>
-      <input type="text" id="Address_1" name="address_1_custom" autocomplete="off">
+      <input type="text" id="Address_1" autocomplete="off">
       <div class="field-error" id="error-Address_1"></div>
     </div>
 
     <div class="horizontal-field">
       <label for="City">City</label>
-      <input type="text" id="City" name="city_custom" autocomplete="off">
+      <input type="text" id="City" autocomplete="off">
       <div class="field-error" id="error-City"></div>
     </div>
 
     <div class="horizontal-field">
       <label for="State_Prov_Other">State/Prov/Other</label>
-      <input type="text" id="State_Prov_Other" name="state_custom" autocomplete="off">
+      <input type="text" id="State_Prov_Other" autocomplete="off">
       <div class="field-error" id="error-State_Prov_Other"></div>
     </div>
 
     <div class="horizontal-field">
       <label for="Postal_Code">Postal Code</label>
-      <input type="text" id="Postal_Code" name="postal_code_custom" autocomplete="off">
+      <input type="text" id="Postal_Code" autocomplete="off">
     </div>
 
     <div class="horizontal-field">
       <label for="Telephone">Telephone</label>
-      <input type="text" id="Telephone" name="telephone_custom" autocomplete="off">
+      <input type="text" id="Telephone" autocomplete="off">
     </div>
 
     <div class="horizontal-field">
       <label for="Consignee_Email">Consignee Email</label>
-      <input type="text" id="Consignee_Email" name="consignee_email_custom" autocomplete="off">
+      <input type="text" id="Consignee_Email" autocomplete="off">
     </div>
 
     <div class="horizontal-field">
@@ -830,58 +827,64 @@ function validateAllFields() {
 }
 
 function setupAutocomplete(inputId, suggestionsId, map) {
-    const input = document.getElementById(inputId);
-    const suggestionsBox = document.getElementById(suggestionsId);
-    if (!input || !suggestionsBox) return;
+  const input = document.getElementById(inputId);
+  const suggestionsBox = document.getElementById(suggestionsId);
+  const layer = document.getElementById("autocomplete-layer");
+  if (!input || !suggestionsBox || !layer) return;
 
-    function renderSuggestions(query) {
-      suggestionsBox.innerHTML = "";
-      const matches = Object.entries(map)
-        .filter(([code, name]) =>
-          code.includes(query) || name.toUpperCase().includes(query)
-        )
-        .slice(0, 25);
+  function renderSuggestions(query) {
+    suggestionsBox.innerHTML = "";
+    const matches = Object.entries(map)
+      .filter(([code, name]) =>
+        code.includes(query) || name.toUpperCase().includes(query)
+      )
+      .slice(0, 25);
 
-      if (matches.length === 0) {
-        suggestionsBox.style.display = "none";
-        return;
-      }
-
-      matches.forEach(([code, name]) => {
-        const li = document.createElement("li");
-        li.textContent = `${code} - ${name}`;
-        li.addEventListener("click", () => {
-          input.value = code;
-          suggestionsBox.style.display = "none";
-          if (typeof validateAllFields === "function") validateAllFields();
-        });
-        suggestionsBox.appendChild(li);
-      });
-
-      // Position the suggestions below the input field
-      suggestionsBox.style.position = "absolute";
-      suggestionsBox.style.top = `${input.offsetTop + input.offsetHeight}px`;
-      suggestionsBox.style.left = "0";
-      suggestionsBox.style.width = `${input.offsetWidth}px`;
-      suggestionsBox.style.display = "block";
+    if (matches.length === 0) {
+      suggestionsBox.style.display = "none";
+      return;
     }
 
-    input.addEventListener("input", () => {
-      const query = input.value.toUpperCase();
-      renderSuggestions(query);
-    });
-
-    input.addEventListener("focus", () => {
-      renderSuggestions("");
-    });
-
-    document.addEventListener("click", e => {
-      if (!suggestionsBox.contains(e.target) && e.target !== input) {
+    matches.forEach(([code, name]) => {
+      const li = document.createElement("li");
+      li.textContent = `${code} - ${name}`;
+      li.addEventListener("click", () => {
+        input.value = code;
         suggestionsBox.style.display = "none";
-      }
+        if (typeof validateAllFields === "function") validateAllFields();
+      });
+      suggestionsBox.appendChild(li);
     });
+
+    // Move suggestions box to the floating layer
+    if (!layer.contains(suggestionsBox)) {
+      layer.appendChild(suggestionsBox);
+    }
+
+    // Position suggestions box just below the input field
+    const inputRect = input.getBoundingClientRect();
+    suggestionsBox.style.position = "absolute";
+    suggestionsBox.style.top = `${window.scrollY + inputRect.bottom}px`;
+    suggestionsBox.style.left = `${window.scrollX + inputRect.left}px`;
+    suggestionsBox.style.width = `${inputRect.width}px`;
+    suggestionsBox.style.display = "block";
   }
 
+  input.addEventListener("input", () => {
+    const query = input.value.toUpperCase();
+    renderSuggestions(query);
+  });
+
+  input.addEventListener("focus", () => {
+    renderSuggestions("");
+  });
+
+  document.addEventListener("click", e => {
+    if (!suggestionsBox.contains(e.target) && e.target !== input) {
+      suggestionsBox.style.display = "none";
+    }
+  });
+}
   // Setup all autocompletes here
   setupAutocomplete("Country", "country-suggestions", countryMap);
   setupAutocomplete("Packaging_Type", "packaging-suggestions", packagingMap);
@@ -917,7 +920,12 @@ function setupAutocomplete(inputId, suggestionsId, map) {
     tooltip.className = 'floating-tooltip';
     tooltip.textContent = contentEl.textContent;
     tooltip.style.opacity = "0"; // Start invisible
-    document.body.appendChild(tooltip);
+    document.getElementById("autocomplete-layer").appendChild(suggestionsBox);
+    const inputRect = input.getBoundingClientRect();
+    suggestionsBox.style.top = `${window.scrollY + inputRect.bottom}px`;
+    suggestionsBox.style.left = `${window.scrollX + inputRect.left}px`;
+    suggestionsBox.style.width = `${inputRect.width}px`;
+
 
     // Position tooltip
     const rect = icon.getBoundingClientRect();
@@ -948,6 +956,7 @@ function setupAutocomplete(inputId, suggestionsId, map) {
 });
 
 </script>
+<div id="autocomplete-layer"></div>
 <ul id="country-suggestions" class="autocomplete-list" style="display: none;"></ul>
 <ul id="packaging-suggestions" class="autocomplete-list" style="display: none;"></ul>
 <ul id="service-suggestions" class="autocomplete-list" style="display: none;"></ul>

@@ -527,3 +527,24 @@ input, select, textarea {
 .tiny-delete:hover {
   background-color: #cc2f2f;
 }
+
+#autocomplete-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+  pointer-events: none; /* so it doesn’t interfere with clicks */
+}
+
+.autocomplete-list {
+  position: absolute;
+  z-index: 10001;
+  background-color: #1e1e1e;
+  border: 1px solid #444;
+  max-height: 250px;
+  overflow-y: auto;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  pointer-events: auto;
+}
