@@ -154,13 +154,13 @@
     </div>
 
     <div class="horizontal-field">
-      <label for="Reference_1">Reference 1</label>
+      <label for="Reference_1">Kod klienta</label>
       <input type="text" id="Reference_1" autocomplete="off"> 
       <div class="field-error" id="error-Reference_1"></div>
     </div>
 
     <div class="horizontal-field">
-      <label for="Reference_2">Reference 2</label>
+      <label for="Reference_2">Kod handlowca</label>
       <input type="text" id="Reference_2" autocomplete="off">
       <div class="field-error" id="error-Reference_2"></div>
     </div>
@@ -554,7 +554,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   ];
 
-  const alphanumericRegex = /^[a-zA-Z0-9\\s]*$/;
+  const alphanumericRegex = /^[\p{L}0-9\s]*$/u;
 
   const validCountryCodes = new Set([
     "AD", "AE", "AF", "AG", "AI", "AL", "AM", "AO", "AQ", "AR", "AS", "AT", "AU", "AW", "AX", "AZ",
@@ -628,11 +628,17 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
     const clipboard = e.clipboardData.getData('text/plain');
     const values = clipboard.split('\t');
+
     fieldOrder.forEach((field, i) => {
       const id = field.replace(/\s|\//g, "_");
       const input = document.getElementById(id);
-      if (input && values[i] !== undefined) input.value = values[i].trim();
+      if (input && values[i] !== undefined) {
+        input.value = values[i]
+          .trim()                 // remove leading/trailing spaces
+          .replace(/\s+/g, " ");  // collapse multiple spaces into one
+      }
     });
+
     if (typeof validateAllFields === "function") validateAllFields();
   });
 
