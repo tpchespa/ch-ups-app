@@ -627,17 +627,26 @@ document.addEventListener("DOMContentLoaded", () => {
   firstInput?.addEventListener('paste', function (e) {
     e.preventDefault();
     const clipboard = e.clipboardData.getData('text/plain');
-    const values = clipboard.split('\t');
+    const values = clipboard.split('\t').map(v => v.trim());
 
-    fieldOrder.forEach((field, i) => {
-      const id = field.replace(/\s|\//g, "_");
+    if (values.length !== fieldOrder.length) {
+      alert(`Pasted ${values.length} values but expected ${fieldOrder.length}. Some fields may be misaligned.`);
+    }
+
+    let valueIndex = 0;
+    for (let i = 0; i < fieldOrder.length && valueIndex < values.length; i++) {
+      const id = fieldOrder[i].replace(/\s|\//g, "_");
       const input = document.getElementById(id);
-      if (input && values[i] !== undefined) {
-        input.value = values[i]
-          .trim()                 // remove leading/trailing spaces
-          .replace(/\s+/g, " ");  // collapse multiple spaces into one
+      if (input) {
+        const value = values[valueIndex];
+        if (value !== undefined) {
+          input.value = value.replace(/\s+/g, " ");
+        } else {
+          input.value = "";
+        }
+        valueIndex++;
       }
-    });
+    }
 
     if (typeof validateAllFields === "function") validateAllFields();
   });
