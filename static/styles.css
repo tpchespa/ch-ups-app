@@ -382,32 +382,6 @@ input, select, textarea {
   max-width: 250px;
 }
 
-.autocomplete-list {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  background-color: #1e1e1e;
-  border: 1px solid #444;
-  width: 100% !important;
-  max-height: 250px;
-  overflow-y: auto;
-  z-index: 9999;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.autocomplete-list li {
-  padding: 6px 12px;
-  cursor: pointer;
-  color: #f0f0f0;
-}
-
-.autocomplete-list li:hover {
-  background-color: #333;
-}
-
 .tooltip-icon {
   position: relative;
   display: inline-flex;
@@ -533,7 +507,7 @@ input, select, textarea {
   top: 0;
   left: 0;
   z-index: 10000;
-  pointer-events: none; /* so it doesn’t interfere with clicks */
+  pointer-events: none; /* allows clicks to pass through unless on suggestions */
 }
 
 .autocomplete-list {
@@ -546,5 +520,16 @@ input, select, textarea {
   list-style: none;
   margin: 0;
   padding: 0;
-  pointer-events: auto;
+  pointer-events: auto; /* re-enable interaction */
+  width: auto; /* Let JavaScript set the width */
+}
+
+.autocomplete-list li {
+  padding: 6px 12px;
+  cursor: pointer;
+  color: #f0f0f0;
+}
+
+.autocomplete-list li:hover {
+  background-color: #333;
 }
