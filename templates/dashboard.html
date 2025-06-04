@@ -829,6 +829,70 @@ function validateAllFields() {
   return !hasError;
 }
 
+validateFields.forEach(field => {
+  const input = document.getElementById(field.id);
+  const errorDiv = document.getElementById("error-" + field.id);
+  if (input && errorDiv) {
+    input.addEventListener('blur', () => {
+      // Validate only this field
+      const value = input.value.trim();
+      input.classList.remove("input-error");
+      errorDiv.innerText = "";
+
+      if (field.required && !value) {
+        input.classList.add("input-error");
+        errorDiv.innerText = `${field.label} is required.`;
+        return;
+      }
+
+      if (field.max && value.length > field.max) {
+        input.classList.add("input-error");
+        errorDiv.innerText = `${field.label} must be ${field.max} characters or fewer.`;
+        return;
+      }
+
+      if (field.alphanumeric && !/^[\p{L}0-9\s]*$/u.test(value)) {
+        input.classList.add("input-error");
+        errorDiv.innerText = `${field.label} must contain only letters, numbers, and spaces.`;
+        return;
+      }
+
+      if (field.numeric && value && !/^\d+$/.test(value)) {
+        input.classList.add("input-error");
+        errorDiv.innerText = `${field.label} must contain only numbers.`;
+        return;
+      }
+
+      if (field.conditionalWeight) {
+        const packagingType = document.getElementById("Packaging_Type")?.value;
+        if (packagingType === "2" && !value.trim()) {
+          input.classList.add("input-error");
+          errorDiv.innerText = `Weight is required for Packaging Type "2".`;
+          return;
+        }
+
+        if (value && !/^\d+([.,]\d+)?$/.test(value)) {
+          input.classList.add("input-error");
+          errorDiv.innerText = `Weight must be a number (e.g., 10 or 10.5).`;
+          return;
+        }
+      }
+
+      if (field.id === "Country") {
+        if (value.length !== 2) {
+          input.classList.add("input-error");
+          errorDiv.innerText = "Country code must be exactly 2 characters.";
+        } else if (!validCountryCodes.has(value.toUpperCase())) {
+          input.classList.add("input-error");
+          errorDiv.innerText = "Invalid ISO country code (e.g., US, DE, JP).";
+        }
+      }
+    });
+  }
+});
+
+
+
 function setupAutocomplete(inputId, suggestionsId, map) {
   const input = document.getElementById(inputId);
   const suggestionsBox = document.getElementById(suggestionsId);
