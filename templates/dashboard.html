@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html>
-<head><link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"><title>UPS Full Form</title><script src="https://cdn.socket.io/4.3.2/socket.io.min.js"></script>
+<head>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <title>UPS Full Form</title>
+  <script src="https://cdn.socket.io/4.3.2/socket.io.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <link
   rel="stylesheet"
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
@@ -756,10 +760,10 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   socket.on("entry_deleted", data => {
-    const row = document.querySelector(`#submission-body tr[data-id="${data.id}"]`);
+    const row = document.querySelector(`tr[data-id="${data.id}"]`);
     if (row) {
-      row.style.backgroundColor = "#300";
-      setTimeout(() => row.remove(), 150);
+      row.classList.add("fading-out");
+      setTimeout(() => row.remove(), 300);
     }
   });
 
@@ -1069,19 +1073,77 @@ function setupAutocomplete(inputId, suggestionsId, map) {
 
 });
 
+let recentlyDeleted = null;
+
 function deleteEntry(id) {
   const row = document.querySelector(`tr[data-id="${id}"]`);
   if (!row) return;
 
-  if (confirm("Are you sure you want to delete this entry?")) {
-    // Add a class to fade out
-    row.classList.add("fading-out");
+  Swal.fire({
+    title: 'Are you sure?',
+    text: 'This shipment will be deleted.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Yes, delete it',
+    cancelButtonText: 'Cancel',
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Save backup of data
+      const cells = Array.from(row.children).map(td => td.innerHTML);
+      recentlyDeleted = { id, cells };
 
-    // Wait for animation, then emit deletion
-    setTimeout(() => {
-      socket.emit("delete_entry", { id });
-    }, 300); // matches the animation duration
-  }
+      // Animate out
+      row.classList.add("fading-out");
+      setTimeout(() => {
+        row.remove();
+
+        // Send delete request
+        socket.emit("delete_entry", { id });
+
+        // Show undo toast
+        Swal.fire({
+          toast: true,
+          position: 'bottom-end',
+          icon: 'info',
+          title: 'Deleted. Click to undo.',
+          showConfirmButton: true,
+          confirmButtonText: 'Undo',
+          timer: 5000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener('click', () => Swal.close());
+          },
+        }).then((result) => {
+          if (result.isConfirmed && recentlyDeleted) {
+            socket.emit("submit_form", rebuildDataFromCells(recentlyDeleted.cells));
+            recentlyDeleted = null;
+          }
+        });
+
+      }, 300);
+    }
+  });
+}
+
+function rebuildDataFromCells(cells) {
+  const fieldMap = [
+    "Time", "_submitted_by", "Contact Name", "Company or Name", "Country", "Address 1", "City", "State/Prov/Other",
+    "Postal Code", "Telephone", "Consignee Email", "Packaging Type", "Weight", "Length", "Width", "Height",
+    "Description of Goods", "Documents of No Commercial Value", "Service", "Reference 1", "Reference 2",
+    "nr zamówienia gdzie będzie doliczony koszt", "NR PROJEKTU", "NR LISTU UPS", "KOSZT (LOGISTYKA)", "DATA WYSYŁKI"
+  ];
+
+  const data = {};
+  fieldMap.forEach((key, i) => {
+    if (i < cells.length) {
+      const raw = cells[i];
+      const clean = raw.replace(/<[^>]+>/g, '').trim(); // strip HTML
+      if (key === "Time" || key === "_submitted_by") return; // skip non-form fields
+      data[key] = clean;
+    }
+  });
+
+  return data;
 }
 
 </script>

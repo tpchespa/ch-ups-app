@@ -535,11 +535,9 @@ input, select, textarea {
 }
 
 .fading-out {
-  transition: opacity 0.3s ease, height 0.3s ease;
   opacity: 0;
   height: 0;
-  padding: 0;
-  margin: 0;
+  transition: opacity 0.3s ease, height 0.3s ease, padding 0.3s ease;
+  padding: 0 !important;
   overflow: hidden;
-  row.style.backgroundColor = "#330000";
 }
