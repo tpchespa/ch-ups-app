@@ -71,6 +71,22 @@ def reset_password(user_id):
     db.session.commit()
     return redirect(url_for('admin_users'))
 
+@app.route('/admin/delete-user/<int:user_id>', methods=['POST'])
+@login_required
+def delete_user(user_id):
+    if not current_user.is_admin:
+        return "Unauthorized", 403
+
+    user = User.query.get_or_404(user_id)
+
+    # Prevent self-deletion
+    if user.id == current_user.id:
+        return "You cannot delete yourself.", 400
+
+    db.session.delete(user)
+    db.session.commit()
+    return redirect(url_for('admin_users'))
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -189,7 +205,7 @@ def handle_delete(data):
 
     except Exception as e:
         emit('error', {'message': str(e)})
-        
+
 @app.route('/init-db')
 def init_db():
     db.create_all()
