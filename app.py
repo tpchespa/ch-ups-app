@@ -48,6 +48,19 @@ class UPSEntry(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     data = db.Column(db.JSON)
 
+class SavedContact(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_email = db.Column(db.String(150), index=True)
+    contact_name = db.Column(db.String(100))
+    company_name = db.Column(db.String(100))
+    country = db.Column(db.String(10))
+    address_1 = db.Column(db.String(150))
+    city = db.Column(db.String(100))
+    state = db.Column(db.String(100))
+    postal_code = db.Column(db.String(20))
+    telephone = db.Column(db.String(50))
+    email = db.Column(db.String(100))
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -152,6 +165,42 @@ def download():
     df.to_csv(output, index=False, header=False)
     output.seek(0)
     return send_file(io.BytesIO(output.getvalue().encode()), mimetype='text/csv', as_attachment=True, download_name='ups_export.csv')
+
+@app.route('/save_contact', methods=['POST'])
+@login_required
+def save_contact():
+    data = request.json
+    contact = SavedContact(
+        user_email=current_user.email,
+        contact_name=data.get("Contact Name"),
+        company_name=data.get("Company or Name"),
+        country=data.get("Country"),
+        address_1=data.get("Address 1"),
+        city=data.get("City"),
+        state=data.get("State/Prov/Other"),
+        postal_code=data.get("Postal Code"),
+        telephone=data.get("Telephone"),
+        email=data.get("Consignee Email")
+    )
+    db.session.add(contact)
+    db.session.commit()
+    return {"success": True}
+
+@app.route('/get_contacts')
+@login_required
+def get_contacts():
+    contacts = SavedContact.query.filter_by(user_email=current_user.email).all()
+    return [{
+        "Contact Name": c.contact_name,
+        "Company or Name": c.company_name,
+        "Country": c.country,
+        "Address 1": c.address_1,
+        "City": c.city,
+        "State/Prov/Other": c.state,
+        "Postal Code": c.postal_code,
+        "Telephone": c.telephone,
+        "Consignee Email": c.email
+    } for c in contacts]
 
 @socketio.on('submit_form')
 def handle_submit(data):

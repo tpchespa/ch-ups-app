@@ -22,8 +22,11 @@
 <div class="container">
   <h2>UPS Shipment Form</h2>
   <form id="form" class="form-wrapper" autocomplete="off">
-    <div class="form-submit">
+    <div class="form-submit" style="display: flex; gap: 16px; align-items: center;">
       <button type="submit">Submit</button>
+      <label><input type="checkbox" id="saveContactCheckbox"> Save contact for reuse</label>
+      <input id="contactSearch" list="contactList" placeholder="Select saved contact..." autocomplete="off" />
+      <datalist id="contactList"></datalist>
     </div>
     <div class="horizontal-form">
     <div class="horizontal-field">
@@ -662,18 +665,29 @@ document.addEventListener("DOMContentLoaded", () => {
   form.onsubmit = e => {
     e.preventDefault();
     if (!validateAllFields()) return;
+
     const data = {};
     fieldOrder.forEach(field => {
       const id = field.replace(/\s|\//g, "_");
       const input = document.getElementById(id);
       if (input) data[field] = input.value.trim();
     });
+
     data["nr zamówienia gdzie będzie doliczony koszt"] = document.getElementById("Custom_Order_Number")?.value.trim() || "";
     data["NR PROJEKTU"] = document.getElementById("Custom_Project_Number")?.value.trim() || "";
     data["NR LISTU UPS"] = document.getElementById("Custom_UPS_Number")?.value.trim() || "";
     data["KOSZT (LOGISTYKA)"] = document.getElementById("Custom_Cost")?.value.trim() || "";
     data["DATA WYSYŁKI"] = document.getElementById("Custom_Ship_Date")?.value.trim() || "";
+
     socket.emit("submit_form", data);
+
+    if (document.getElementById("saveContactCheckbox").checked) {
+      fetch("/save_contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      }).then(() => fetchSavedContacts());
+    }
   };
   
   firstInput?.addEventListener('paste', function (e) {
@@ -946,6 +960,33 @@ validateFields.forEach(field => {
   }
 });
 
+
+async function fetchSavedContacts() {
+  const res = await fetch("/get_contacts");
+  const contacts = await res.json();
+  const list = document.getElementById("contactList");
+  list.innerHTML = "";
+  contacts.forEach(contact => {
+    const opt = document.createElement("option");
+    opt.value = contact["Company or Name"] + " | " + contact["Contact Name"];
+    opt.dataset.json = JSON.stringify(contact);
+    list.appendChild(opt);
+  });
+}
+
+document.getElementById("contactSearch").addEventListener("change", e => {
+  const selected = Array.from(document.getElementById("contactList").options)
+    .find(opt => opt.value === e.target.value);
+  if (!selected) return;
+  const data = JSON.parse(selected.dataset.json);
+  Object.entries(data).forEach(([field, value]) => {
+    const id = field.replace(/\s|\//g, "_");
+    const input = document.getElementById(id);
+    if (input) input.value = value;
+  });
+});
+
+fetchSavedContacts();
 
 
 function setupAutocomplete(inputId, suggestionsId, map) {
