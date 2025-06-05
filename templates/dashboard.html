@@ -843,7 +843,7 @@ validateFields.forEach(field => {
   const input = document.getElementById(field.id);
   const errorDiv = document.getElementById("error-" + field.id);
   if (input && errorDiv) {
-    input.addEventListener('blur', () => {
+    input.addEventListener('input', () => {
       // Validate only this field
       const value = input.value.trim();
       input.classList.remove("input-error");
