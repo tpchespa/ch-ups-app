@@ -752,12 +752,6 @@ document.addEventListener("DOMContentLoaded", () => {
     tbody.appendChild(tr);
   });
 
-  function deleteEntry(id) {
-    if (confirm("Are you sure you want to delete this entry?")) {
-      socket.emit("delete_entry", { id });
-    }
-  }
-
   socket.on("entry_deleted", data => {
     const row = document.querySelector(`#submission-body tr[data-id="${data.id}"]`);
     if (row) {
@@ -1071,6 +1065,12 @@ function setupAutocomplete(inputId, suggestionsId, map) {
   });
 
 });
+
+function deleteEntry(id) {
+  if (confirm("Are you sure you want to delete this entry?")) {
+    socket.emit("delete_entry", { id });
+  }
+}
 
 </script>
 <div id="autocomplete-layer"></div>
