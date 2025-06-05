@@ -42,6 +42,7 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(150), unique=True, index=True)
     password = db.Column(db.String(256))
+    is_admin = db.Column(db.Boolean, default=False) 
 
 class UPSEntry(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -50,6 +51,25 @@ class UPSEntry(db.Model):
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+@app.route('/admin/users')
+@login_required
+def admin_users():
+    if not current_user.is_admin:
+        return "Unauthorized", 403
+    users = User.query.all()
+    return render_template('admin_users.html', users=users)
+
+@app.route('/admin/reset-password/<int:user_id>', methods=['POST'])
+@login_required
+def reset_password(user_id):
+    if not current_user.is_admin:
+        return "Unauthorized", 403
+    user = User.query.get_or_404(user_id)
+    new_pw = request.form['new_password']
+    user.password = generate_password_hash(new_pw)
+    db.session.commit()
+    return redirect(url_for('admin_users'))
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -80,11 +100,15 @@ def login():
     error = None
     if request.method == 'POST':
         user = User.query.filter_by(email=request.form['email']).first()
-        if user and check_password_hash(user.password, request.form['password']):
-            login_user(user)
-            return redirect(url_for('dashboard'))
-        else:
-            error = "Invalid email or password."
+        try:
+            if user and check_password_hash(user.password, request.form['password']):
+                login_user(user)
+                return redirect(url_for('dashboard'))
+            else:
+                error = "Invalid email or password."
+        except ValueError:
+            error = "Corrupted password hash. Contact admin."
+
 
     return render_template('login.html', error=error)
 @app.route('/logout')
@@ -155,8 +179,7 @@ def handle_delete(data):
     try:
         entry = UPSEntry.query.get_or_404(data['id'])
 
-        # Check if the current user is the one who submitted the entry
-        if entry.data.get('_submitted_by') != current_user.email:
+        if not current_user.is_admin and entry.data.get('_submitted_by') != current_user.email:
             emit('form_error', {'errors': ["❌ You can only delete your own entries."]})
             return
 
@@ -166,7 +189,7 @@ def handle_delete(data):
 
     except Exception as e:
         emit('error', {'message': str(e)})
-
+        
 @app.route('/init-db')
 def init_db():
     db.create_all()

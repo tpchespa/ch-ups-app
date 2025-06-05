@@ -215,7 +215,7 @@
   {% for entry in entries %}
   <tr data-id="{{ entry.id }}" data-json='{{ entry.data | tojson }}'>
     <td>
-      {% if entry.data["_submitted_by"] == current_email %}
+      {% if entry.data["_submitted_by"] == current_email or current_user.is_admin %}
       <button class="tiny-delete" onclick="deleteEntry('{{ entry.id }}')">✖</button>
       {% else %}
       &mdash;

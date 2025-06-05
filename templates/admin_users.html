@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin - User Management</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <header>
+    <div>Admin Panel – {{ current_user.email }}</div>
+    <a href="{{ url_for('dashboard') }}">← Back to Dashboard</a>
+  </header>
+
+  <div class="container">
+    <h2>Registered Users</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Email</th>
+          <th>Is Admin</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in users %}
+        <tr>
+          <td>{{ user.id }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ '✅' if user.is_admin else '—' }}</td>
+          <td>
+            <form action="{{ url_for('reset_password', user_id=user.id) }}" method="post" style="display: flex; gap: 6px;">
+              <input type="password" name="new_password" placeholder="New password" required style="max-width: 160px;">
+              <button type="submit">Change</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>
