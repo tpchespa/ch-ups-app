@@ -263,6 +263,9 @@
 </div>
 
 <script>
+
+let socket;
+
 const countryMap = {
  "AD": "Andorra",
   "AE": "United Arab Emirates",
@@ -575,7 +578,7 @@ const serviceMap = {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-  const socket = io();
+  socket = io();
   const currentUserEmail = "{{ current_user.email }}";
   const errorBox = document.getElementById("form-errors");
   const form = document.getElementById("form");
@@ -1067,8 +1070,17 @@ function setupAutocomplete(inputId, suggestionsId, map) {
 });
 
 function deleteEntry(id) {
+  const row = document.querySelector(`tr[data-id="${id}"]`);
+  if (!row) return;
+
   if (confirm("Are you sure you want to delete this entry?")) {
-    socket.emit("delete_entry", { id });
+    // Add a class to fade out
+    row.classList.add("fading-out");
+
+    // Wait for animation, then emit deletion
+    setTimeout(() => {
+      socket.emit("delete_entry", { id });
+    }, 300); // matches the animation duration
   }
 }
 
