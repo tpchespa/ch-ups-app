@@ -217,7 +217,14 @@
       &mdash;
       {% endif %}
     </td>
-    <td>{{ entry.data["_submitted_at"] | default("?")[:16].replace("T", " ") }}</td>
+    {% set ts = entry.data["_submitted_at"] %}
+    <td>
+      {% if ts %}
+        {{ ts[:16].replace("T", " ") }}
+      {% else %}
+        ?
+      {% endif %}
+    </td>
     <td>{{ entry.data["_submitted_by"] | default("?") }}</td>
     <td>{{ entry.data["Contact Name"] }}</td>
     <td>{{ entry.data["Company or Name"] }}</td>
