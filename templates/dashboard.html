@@ -213,7 +213,7 @@
     </tr>
   </thead>
   {% for entry in entries %}
-  <tr data-id="{{ entry.id }}">
+  <tr data-id="{{ entry.id }}" data-json='{{ entry.data | tojson }}'>
     <td>
       {% if entry.data["_submitted_by"] == current_email %}
       <button class="tiny-delete" onclick="deleteEntry('{{ entry.id }}')">✖</button>
@@ -1088,19 +1088,22 @@ function deleteEntry(id) {
     cancelButtonText: 'Cancel',
   }).then((result) => {
     if (result.isConfirmed) {
-      // Save backup of data
-      const cells = Array.from(row.children).map(td => td.innerHTML);
-      recentlyDeleted = { id, cells };
+      // Save full data from row attribute
+      const json = row.getAttribute("data-json");
+      if (!json) return;
 
-      // Animate out
+      try {
+        recentlyDeleted = JSON.parse(json);
+      } catch (e) {
+        console.error("Failed to parse row data for undo", e);
+        return;
+      }
+
       row.classList.add("fading-out");
       setTimeout(() => {
         row.remove();
-
-        // Send delete request
         socket.emit("delete_entry", { id });
 
-        // Show undo toast
         Swal.fire({
           toast: true,
           position: 'bottom-end',
@@ -1110,12 +1113,9 @@ function deleteEntry(id) {
           confirmButtonText: 'Undo',
           timer: 5000,
           timerProgressBar: true,
-          didOpen: (toast) => {
-            toast.addEventListener('click', () => Swal.close());
-          },
-        }).then((result) => {
+        }).then(result => {
           if (result.isConfirmed && recentlyDeleted) {
-            socket.emit("submit_form", rebuildDataFromCells(recentlyDeleted.cells));
+            socket.emit("submit_form", recentlyDeleted);
             recentlyDeleted = null;
           }
         });
