@@ -208,6 +208,43 @@
       <th>nr zam.</th><th>NR PROJEKTU</th><th>NR LISTU UPS</th><th>KOSZT</th><th>DATA WYSYŁKI</th>
     </tr>
   </thead>
+  {% for entry in entries %}
+  <tr data-id="{{ entry.id }}">
+    <td>
+      {% if entry.data["_submitted_by"] == current_email %}
+      <button class="tiny-delete" onclick="deleteEntry('{{ entry.id }}')">✖</button>
+      {% else %}
+      &mdash;
+      {% endif %}
+    </td>
+    <td>{{ entry.data["_submitted_at"] | default("?")[:16].replace("T", " ") }}</td>
+    <td>{{ entry.data["_submitted_by"] | default("?") }}</td>
+    <td>{{ entry.data["Contact Name"] }}</td>
+    <td>{{ entry.data["Company or Name"] }}</td>
+    <td>{{ entry.data["Country"] }}</td>
+    <td>{{ entry.data["Address 1"] }}</td>
+    <td>{{ entry.data["City"] }}</td>
+    <td>{{ entry.data["State/Prov/Other"] }}</td>
+    <td>{{ entry.data["Postal Code"] }}</td>
+    <td>{{ entry.data["Telephone"] }}</td>
+    <td>{{ entry.data["Consignee Email"] }}</td>
+    <td>{{ entry.data["Packaging Type"] }}</td>
+    <td>{{ entry.data["Weight"] }}</td>
+    <td>{{ entry.data["Length"] }}</td>
+    <td>{{ entry.data["Width"] }}</td>
+    <td>{{ entry.data["Height"] }}</td>
+    <td>{{ entry.data["Description of Goods"] }}</td>
+    <td>{{ entry.data["Documents of No Commercial Value"] }}</td>
+    <td>{{ entry.data["Service"] }}</td>
+    <td>{{ entry.data["Reference 1"] }}</td>
+    <td>{{ entry.data["Reference 2"] }}</td>
+    <td>{{ entry.data["nr zamówienia gdzie będzie doliczony koszt"] }}</td>
+    <td>{{ entry.data["NR PROJEKTU"] }}</td>
+    <td>{{ entry.data["NR LISTU UPS"] }}</td>
+    <td>{{ entry.data["KOSZT (LOGISTYKA)"] }}</td>
+    <td>{{ entry.data["DATA WYSYŁKI"] }}</td>
+  </tr>
+  {% endfor %}
   <tbody id="submission-body">
   </tbody>
 </table>
