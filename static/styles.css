@@ -541,3 +541,36 @@ input, select, textarea {
   padding: 0 !important;
   overflow: hidden;
 }
+
+.form-actions-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.save-contact-label {
+  font-size: 9pt;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  margin-top: 4px;
+  margin-bottom: 0;
+}
+
+.save-contact-label input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+}
+
+.contact-dropdown {
+  min-width: 220px;
+  max-width: 260px;
+  padding: 6px 10px;
+  font-size: 9pt;
+  background-color: #2a2a2a;
+  border: 1px solid #444;
+  border-radius: 4px;
+  color: #f0f0f0;
+}
