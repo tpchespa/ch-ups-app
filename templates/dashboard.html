@@ -594,7 +594,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll('td[data-ts]').forEach(td => {
     const raw = td.getAttribute('data-ts');
     if (!raw) return;
-    const d = new Date(raw);
+    const d = new Date(raw + "Z");
     const day = String(d.getDate()).padStart(2, '0');
     const month = String(d.getMonth() + 1).padStart(2, '0');
     const hours = String(d.getHours()).padStart(2, '0');
@@ -737,7 +737,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const canDelete = createdBy === currentUserEmail;
     let timestamp = "?";
     if (data.data["_submitted_at"]) {
-      const date = new Date(data.data["_submitted_at"]);
+      const date = new Date(data.data["_submitted_at"] + "Z");
       const hours = String(date.getHours()).padStart(2, "0");
       const minutes = String(date.getMinutes()).padStart(2, "0");
       const day = String(date.getDate()).padStart(2, "0");
