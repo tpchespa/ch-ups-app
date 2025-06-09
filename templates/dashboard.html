@@ -37,13 +37,32 @@
     </div>
     <div class="horizontal-form">
     <div class="horizontal-field">
-      <label for="Contact_Name">Contact Name</label>
+      <label for="Contact_Name" class="label-with-tooltip">
+        Contact Name
+      <span class="tooltip-icon">
+        <i class="fas fa-circle-question"></i>
+        <span class="tooltip-content">
+          Field Type: Alphanumeric, Maximum Characters: 35, Required: Conditional. 
+          First and last name of recipient
+          Required for international/export shipments or UPS Next Day Air Early AM service
+        </span>
+      </span>
+      </label>
       <input type="text" id="Contact_Name" name="con-na-custom" autocomplete="off">
       <div class="field-error" id="error-Contact_Name"></div>
     </div>
 
     <div class="horizontal-field">
-      <label for="Company_or_Name">Company or Name</label>
+      <label for="Company_or_Name" class="label-with-tooltip">
+        Company or Name
+      <span class="tooltip-icon">
+        <i class="fas fa-circle-question"></i>
+        <span class="tooltip-content">
+          Field Type: Alphanumeric, Maximum Characters: 35, Required: Yes.
+          Company name of recipient (or First and Last name of recipient if company is not applicable)
+        </span>
+      </span>
+      </label>
       <input type="text" id="Company_or_Name" autocomplete="off">
       <div class="field-error" id="error-Company_or_Name"></div>
     </div>
