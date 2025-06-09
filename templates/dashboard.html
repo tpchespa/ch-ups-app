@@ -42,9 +42,9 @@
       <span class="tooltip-icon">
         <i class="fas fa-circle-question"></i>
         <span class="tooltip-content">
-          Field Type: Alphanumeric, Maximum Characters: 35, Required: Conditional.<br/>
-          First and last name of recipient<br/>
-          Required for international/export shipments or UPS Next Day Air Early AM service
+          First and last name of recipient.
+          Required for international/export shipments or UPS Next Day Air Early AM service.
+          Field Type: Alphanumeric, Maximum Characters: 35, Required: Conditional.
         </span>
       </span>
       </label>
@@ -58,8 +58,8 @@
       <span class="tooltip-icon">
         <i class="fas fa-circle-question"></i>
         <span class="tooltip-content">
-          Field Type: Alphanumeric, Maximum Characters: 35, Required: Yes.<br/>
-          Company name of recipient (or First and Last name of recipient if company is not applicable)
+          Company name of recipient (or First and Last name of recipient if company is not applicable).
+          Field Type: Alphanumeric, Maximum Characters: 35, Required: Yes.
         </span>
       </span>
       </label>
@@ -73,9 +73,9 @@
         <span class="tooltip-icon">
           <i class="fas fa-circle-question"></i>
           <span class="tooltip-content">
-            Field Type: Alphanumeric, Maximum Characters: 2, Required: Yes.<br/>
-            Recipient's country; only ISO Alpha-2 codes are accepted<br/>
+            Recipient's country; only ISO Alpha-2 codes are accepted.
             (e.g.: US=United States,JP=Japan, DE=Germany,etc.)
+            Field Type: Alphanumeric, Maximum Characters: 2, Required: Yes.
           </span>
         </span>
       </label>
@@ -232,7 +232,22 @@
 </div>
 
 <h3>Submitted Shipments</h3>
+<div style="margin-top: 10px; margin-bottom: 10px;">
+  <label for="filter-date">Select Date:</label>
+  <input type="date" id="filter-date" value="{{ selected_date }}">
+  <button onclick="applyDateFilter()">View</button>
+</div>
+
+<script>
+  function applyDateFilter() {
+    const date = document.getElementById("filter-date").value;
+    if (date) {
+      window.location.href = `/?date=${date}`;
+    }
+  }
+</script>
 <a href="/download" class="button-link">Download Full CSV</a>
+<h4>Showing submissions for: {{ selected_date }}</h4>
 <table id="horizontal-table">
   <thead>
     <tr>

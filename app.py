@@ -4,6 +4,7 @@ from flask_login import LoginManager, login_user, login_required, logout_user, U
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_socketio import SocketIO, emit
 from datetime import datetime
+from datetime import date
 import pandas as pd
 import io
 import os
@@ -149,8 +150,22 @@ def logout():
 @app.route('/')
 @login_required
 def dashboard():
+    selected_date = request.args.get("date")
+    if selected_date:
+        selected_date_obj = datetime.strptime(selected_date, "%Y-%m-%d").date()
+    else:
+        selected_date_obj = date.today()
+
     entries = UPSEntry.query.all()
-    return render_template('dashboard.html', entries=entries, current_email=current_user.email)
+    filtered = []
+    for e in entries:
+        ts = e.data.get("_submitted_at")
+        if ts:
+            entry_date = datetime.fromisoformat(ts).date()
+            if entry_date == selected_date_obj:
+                filtered.append(e)
+
+    return render_template('dashboard.html', entries=filtered, current_email=current_user.email, selected_date=selected_date_obj.isoformat())
 
 @app.route('/download')
 @login_required
