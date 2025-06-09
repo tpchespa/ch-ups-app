@@ -232,13 +232,7 @@
       {% endif %}
     </td>
     {% set ts = entry.data["_submitted_at"] %}
-    <td>
-      {% if ts %}
-        {{ ts[:16].replace("T", " ") }}
-      {% else %}
-        ?
-      {% endif %}
-    </td>
+    <td data-ts="{{ ts }}"></td>
     <td>{{ entry.data["_submitted_by"] | default("?") }}</td>
     <td>{{ entry.data["Contact Name"] }}</td>
     <td>{{ entry.data["Company or Name"] }}</td>
@@ -597,6 +591,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const errorBox = document.getElementById("form-errors");
   const form = document.getElementById("form");
 
+  document.querySelectorAll('td[data-ts]').forEach(td => {
+    const raw = td.getAttribute('data-ts');
+    if (!raw) return;
+    const d = new Date(raw);
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const hours = String(d.getHours()).padStart(2, '0');
+    const minutes = String(d.getMinutes()).padStart(2, '0');
+    td.textContent = `${day}-${month} ${hours}:${minutes}`;
+  });
+
   const validateFields = [
     { id: "Contact_Name", label: "Contact Name", max: 35 },
     { id: "Company_or_Name", label: "Company or Name", required: true, max: 35, alphanumeric: true },
@@ -737,7 +742,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const minutes = String(date.getMinutes()).padStart(2, "0");
       const day = String(date.getDate()).padStart(2, "0");
       const month = String(date.getMonth() + 1).padStart(2, "0");
-      timestamp = `${hours}:${minutes} ${day}.${month}`;
+      timestamp = `${day}-${month} ${hours}:${minutes}`;
     }
 
     const tr = document.createElement("tr");
