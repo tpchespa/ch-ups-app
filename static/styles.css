@@ -564,6 +564,19 @@ input, select, textarea {
   height: 16px;
 }
 
+.contact-search-row {
+  margin-top: 6px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.contact-label {
+  font-size: 9pt;
+  white-space: nowrap;
+}
+
 .contact-dropdown {
   min-width: 220px;
   max-width: 260px;
