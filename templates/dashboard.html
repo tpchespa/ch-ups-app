@@ -24,8 +24,11 @@
   <form id="form" class="form-wrapper" autocomplete="off">
     <div class="form-submit" style="display: flex; gap: 16px; align-items: center;">
       <button type="submit">Submit</button>
-      <label><input type="checkbox" id="saveContactCheckbox"> Save contact for reuse</label>
-      <input id="contactSearch" list="contactList" placeholder="Select saved contact..." autocomplete="off" />
+      <label class="save-contact-label">
+        <input type="checkbox" id="saveContactCheckbox" />
+        Save contact
+      </label>
+      <input id="contactSearch" list="contactList" placeholder="Select saved contact..." autocomplete="off" class="contact-dropdown" />
       <datalist id="contactList"></datalist>
     </div>
     <div class="horizontal-form">
