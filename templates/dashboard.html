@@ -1269,6 +1269,17 @@ function rebuildDataFromCells(cells) {
 document.addEventListener("DOMContentLoaded", function () {
   let pickerInstance;
   const pickerInput = document.getElementById("unified-picker");
+  const viewMode = document.getElementById("view-mode");
+
+  // Detect current mode from URL
+  const urlParams = new URLSearchParams(window.location.search);
+  let initialMode = "date";
+  if (urlParams.has("month")) {
+    initialMode = "month";
+  }
+
+  // Set dropdown value to match URL
+  viewMode.value = initialMode;
 
   function initFlatpickr(mode) {
     if (pickerInstance) {
@@ -1299,13 +1310,12 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Initialize default (day mode)
-  initFlatpickr("date");
+  // 🔹 Initialize the picker based on detected mode
+  initFlatpickr(initialMode);
 
-  // React to dropdown change
-  document.getElementById("view-mode").addEventListener("change", function () {
-    const mode = this.value;
-    initFlatpickr(mode);
+  // 🔹 Update picker mode on dropdown change
+  viewMode.addEventListener("change", function () {
+    initFlatpickr(this.value);
   });
 });
 
