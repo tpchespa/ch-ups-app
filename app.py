@@ -204,6 +204,22 @@ def download():
     output.seek(0)
     return send_file(io.BytesIO(output.getvalue().encode()), mimetype='text/csv', as_attachment=True, download_name='ups_export.csv')
 
+@app.route('/download_xlsx')
+@login_required
+def download_xlsx():
+    entries = UPSEntry.query.all()
+    rows = []
+    for e in entries:
+        row = [e.data.get(field, "") for field in FIELD_ORDER]
+        rows.append(row)
+    df = pd.DataFrame(rows, columns=FIELD_ORDER)
+    output = io.BytesIO()
+    with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
+        df.to_excel(writer, index=False, sheet_name='UPS Export')
+    output.seek(0)
+    return send_file(output, mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                     as_attachment=True, download_name='ups_export.xlsx')
+
 @app.route('/save_contact', methods=['POST'])
 @login_required
 def save_contact():
