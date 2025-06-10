@@ -227,7 +227,9 @@ def download():
     output = io.StringIO()
     df.to_csv(output, index=False, header=False)
     output.seek(0)
-    return send_file(io.BytesIO(output.getvalue().encode()), mimetype='text/csv', as_attachment=True, download_name='ups_export.csv')
+    now = datetime.now().strftime("%H-%M %d-%m")
+    filename = f"{now}_UPS.csv"
+    return send_file(io.BytesIO(output.getvalue().encode()), mimetype='text/csv', as_attachment=True, download_name=filename)
 
 
 @app.route('/download_xlsx')
@@ -268,8 +270,10 @@ def download_xlsx():
     with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
         df.to_excel(writer, index=False, sheet_name='UPS Export')
     output.seek(0)
+    now = datetime.now().strftime("%H-%M %d-%m")
+    filename = f"{now}_UPS.xlsx"
     return send_file(output, mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                     as_attachment=True, download_name='ups_export.xlsx')
+                     as_attachment=True, download_name=filename)
 
 @app.route('/save_contact', methods=['POST'])
 @login_required
