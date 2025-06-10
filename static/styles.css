@@ -635,3 +635,17 @@ input, select, textarea {
 .flatpickr-monthSelect-month:hover {
   background-color: #444 !important;
 }
+
+.button-link.xlsx-button {
+  background-color: #217346;
+  color: white;
+  font-weight: bold;
+  border-radius: 4px;
+  padding: 10px 16px;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.button-link.xlsx-button:hover {
+  background-color: #1e5f3f;
+}

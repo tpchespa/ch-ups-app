@@ -285,7 +285,10 @@
   </div>
 
 <a href="/download{% if selected_date %}?date={{ selected_date }}{% elif selected_month %}?month={{ selected_month }}{% endif %}" class="button-link">Download CSV file</a>
-<a href="/download_xlsx{% if selected_date %}?date={{ selected_date }}{% elif selected_month %}?month={{ selected_month }}{% endif %}" class="button-link">Download XLSX file</a>
+<a href="/download_xlsx{% if selected_date %}?date={{ selected_date }}{% elif selected_month %}?month={{ selected_month }}{% endif %}" class="button-link xlsx-button">
+  <i class="fas fa-file-excel" style="margin-right: 6px;"></i>
+  Download XLSX file
+</a>
 </div>
 <h4>
   {% if selected_month %}
