@@ -606,3 +606,32 @@ input, select, textarea {
   background-color: #1c1c1c;
   outline: none;
 }
+
+.label-inline {
+  font-size: 10pt;
+  color: #f0f0f0;
+  white-space: nowrap;
+  margin-right: 4px;
+}
+
+.flatpickr-calendar {
+  background-color: #1e1e1e !important;
+  color: #f0f0f0;
+  border: 1px solid #333;
+}
+
+.flatpickr-months, .flatpickr-monthSelect-months {
+  background-color: #1e1e1e !important;
+}
+
+.flatpickr-monthSelect-month {
+  background-color: #2a2a2a !important;
+  color: #f0f0f0 !important;
+  border-radius: 4px;
+  padding: 6px 10px;
+  transition: background-color 0.2s ease;
+}
+
+.flatpickr-monthSelect-month:hover {
+  background-color: #444 !important;
+}

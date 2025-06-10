@@ -258,15 +258,18 @@
 </div>
 
 <h3>Submitted Shipments</h3>
-<div style="display: inline-flex; gap: 12px; align-items: center; margin: 20px 0; padding: 10px 16px; border-radius: 8px; background-color: #1e1e1e; border: 1px solid #333;">
-  <label for="view-mode">View by:</label>
-  <select id="view-mode" class="small-input">
-    <option value="date" selected>Day</option>
-    <option value="month">Month</option>
-  </select>
-  <input id="unified-picker" class="date-input small-input">
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 12px; margin-bottom: 20px;">
+  <div style="display: inline-flex; gap: 12px; align-items: center; padding: 10px 16px; border-radius: 8px; background-color: #1e1e1e; border: 1px solid #333;">
+    <label for="view-mode" class="label-inline">View by:</label>
+    <select id="view-mode" class="small-input">
+      <option value="date" selected>Day</option>
+      <option value="month">Month</option>
+    </select>
+    <input id="unified-picker" class="date-input small-input">
+  </div>
+
+  <a href="/download" class="button-link">Download Full CSV</a>
 </div>
-<a href="/download" class="button-link">Download Full CSV</a>
 <h4>
   {% if selected_month %}
     Showing entries for {{ selected_month }}
