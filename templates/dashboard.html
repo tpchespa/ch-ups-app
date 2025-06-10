@@ -5,7 +5,11 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
   
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css">
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/index.js"></script>
+
   <script src="https://cdn.socket.io/4.3.2/socket.io.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <link
@@ -254,15 +258,17 @@
 </div>
 
 <h3>Submitted Shipments</h3>
-<div style="margin-top: 10px; margin-bottom: 10px;">
-  <label for="filter-date">Select Date:</label>
-  <input type="date" id="filter-date" class="date-input small-input">
-  <button onclick="applyDateFilter()">View</button>
+<div style="margin-bottom: 10px;">
+  <label for="view-mode">View by:</label>
+  <select id="view-mode" class="small-input">
+    <option value="date" selected>Day</option>
+    <option value="month">Month</option>
+  </select>
 </div>
 
-<input type="month" id="month-picker" class="date-input small-input">
-<button onclick="filterByMonth()">View Month</button>
-
+<div style="margin-bottom: 10px;">
+  <input id="unified-picker" class="date-input small-input">
+</div>
 <a href="/download" class="button-link">Download Full CSV</a>
 <h4>
   {% if selected_month %}
@@ -1261,20 +1267,47 @@ function rebuildDataFromCells(cells) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  flatpickr("#filter-date", {
-    defaultDate: "{{ selected_date }}",
-    onChange: function(selectedDates, dateStr, instance) {
-      window.location.href = `/?date=${dateStr}`;
-    }
-  }).open(); // Auto-open on load
-});
+  let pickerInstance;
+  const pickerInput = document.getElementById("unified-picker");
 
-function filterByMonth() {
-  const monthVal = document.getElementById("month-picker").value;
-  if (monthVal) {
-    window.location.href = `/?month=${monthVal}`;
+  function initFlatpickr(mode) {
+    if (pickerInstance) {
+      pickerInstance.destroy();
+    }
+
+    if (mode === "month") {
+      pickerInstance = flatpickr(pickerInput, {
+        dateFormat: "Y-m",
+        defaultDate: "{{ selected_month or selected_date }}",
+        plugins: [new monthSelectPlugin({
+          shorthand: true,
+          dateFormat: "Y-m",
+          altFormat: "F Y"
+        })],
+        onChange: function(selectedDates, dateStr) {
+          window.location.href = `/?month=${dateStr}`;
+        }
+      });
+    } else {
+      pickerInstance = flatpickr(pickerInput, {
+        dateFormat: "Y-m-d",
+        defaultDate: "{{ selected_date }}",
+        onChange: function(selectedDates, dateStr) {
+          window.location.href = `/?date=${dateStr}`;
+        }
+      });
+    }
   }
-}
+
+  // Initialize default (day mode)
+  initFlatpickr("date");
+
+  // React to dropdown change
+  document.getElementById("view-mode").addEventListener("change", function () {
+    const mode = this.value;
+    initFlatpickr(mode);
+  });
+});
 
 </script>
 <div id="autocomplete-layer"></div>
