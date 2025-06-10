@@ -589,20 +589,12 @@ input, select, textarea {
 }
 
 .date-input.small-input {
-  max-width: 180px;
+  max-width: 180px !important;
+  width: 100%;
   font-size: 10pt;
   padding: 6px 8px;
   background-color: #2a2a2a;
   color: #f0f0f0;
   border: 1px solid #444;
   border-radius: 4px;
-}
-
-#view-mode.small-input {
-  background-color: #2a2a2a;
-  color: #f0f0f0;
-  border: 1px solid #444;
-  border-radius: 4px;
-  padding: 6px 8px;
-  font-size: 10pt;
 }

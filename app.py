@@ -155,6 +155,8 @@ def dashboard():
     warsaw = pytz.timezone("Europe/Warsaw")
 
     selected_date_str = request.args.get("date")
+    if not selected_date_str:
+        selected_date_str = datetime.now(warsaw).strftime("%Y-%m-%d")
     selected_month_str = request.args.get("month")
 
     entries = UPSEntry.query.all()
@@ -186,9 +188,10 @@ def dashboard():
     return render_template('dashboard.html', entries=filtered,
                            current_email=current_user.email,
                            selected_date=selected_date_str or '',
-                           selected_month=selected_month_str or '')
+                           selected_month=selected_month_str or '',
+                           selected_date=selected_date_str)
 
-    
+
 @app.route('/download')
 @login_required
 def download():
