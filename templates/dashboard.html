@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
   <title>UPS Full Form</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="https://cdn.socket.io/4.3.2/socket.io.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <link
@@ -253,20 +256,21 @@
 <h3>Submitted Shipments</h3>
 <div style="margin-top: 10px; margin-bottom: 10px;">
   <label for="filter-date">Select Date:</label>
-  <input type="date" id="filter-date" value="{{ selected_date }}">
+  <input type="date" id="filter-date" class="date-input small-input">
   <button onclick="applyDateFilter()">View</button>
 </div>
 
-<script>
-  function applyDateFilter() {
-    const date = document.getElementById("filter-date").value;
-    if (date) {
-      window.location.href = `/?date=${date}`;
-    }
-  }
-</script>
+<input type="month" id="month-picker" class="date-input small-input">
+<button onclick="filterByMonth()">View Month</button>
+
 <a href="/download" class="button-link">Download Full CSV</a>
-<h4>Showing submissions for: {{ selected_date }}</h4>
+<h4>
+  {% if selected_month %}
+    Showing entries for {{ selected_month }}
+  {% elif selected_date %}
+    Showing entries for {{ selected_date }}
+  {% endif %}
+</h4>
 <table id="horizontal-table">
   <thead>
     <tr>
@@ -1254,6 +1258,22 @@ function rebuildDataFromCells(cells) {
   });
 
   return data;
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  flatpickr("#filter-date", {
+    defaultDate: "{{ selected_date }}",
+    onChange: function(selectedDates, dateStr, instance) {
+      window.location.href = `/?date=${dateStr}`;
+    }
+  }).open(); // Auto-open on load
+});
+
+function filterByMonth() {
+  const monthVal = document.getElementById("month-picker").value;
+  if (monthVal) {
+    window.location.href = `/?month=${monthVal}`;
+  }
 }
 
 </script>

@@ -152,26 +152,43 @@ def logout():
 @app.route('/')
 @login_required
 def dashboard():
-    selected_date_str = request.args.get("date")
     warsaw = pytz.timezone("Europe/Warsaw")
 
-    if selected_date_str:
-        selected_date = datetime.strptime(selected_date_str, "%Y-%m-%d").date()
-    else:
-        selected_date = datetime.now(warsaw).date()
+    selected_date_str = request.args.get("date")
+    selected_month_str = request.args.get("month")
 
     entries = UPSEntry.query.all()
     filtered = []
+
     for e in entries:
         ts = e.data.get("_submitted_at")
-        if ts:
-            # Parse as UTC and convert to Warsaw time
-            utc_time = datetime.fromisoformat(ts).replace(tzinfo=pytz.utc)
-            local_time = utc_time.astimezone(warsaw)
+        if not ts:
+            continue
+
+        utc_time = datetime.fromisoformat(ts).replace(tzinfo=pytz.utc)
+        local_time = utc_time.astimezone(warsaw)
+
+        if selected_date_str:
+            selected_date = datetime.strptime(selected_date_str, "%Y-%m-%d").date()
             if local_time.date() == selected_date:
                 filtered.append(e)
 
-    return render_template('dashboard.html', entries=filtered, current_email=current_user.email, selected_date=selected_date.isoformat())
+        elif selected_month_str:
+            y, m = map(int, selected_month_str.split("-"))
+            if local_time.year == y and local_time.month == m:
+                filtered.append(e)
+
+        elif not selected_date_str and not selected_month_str:
+            # Default to today
+            if local_time.date() == datetime.now(warsaw).date():
+                filtered.append(e)
+
+    return render_template('dashboard.html', entries=filtered,
+                           current_email=current_user.email,
+                           selected_date=selected_date_str or '',
+                           selected_month=selected_month_str or '')
+
+    
 @app.route('/download')
 @login_required
 def download():
