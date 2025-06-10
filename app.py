@@ -9,6 +9,8 @@ import pandas as pd
 import io
 import os
 import json
+import pytz
+from datetime import datetime, date
 
 FIELD_ORDER = [
     "Contact Name", "Company or Name", "Country", "Address 1", "Address 2", "Address 3", "City", "State/Prov/Other",
@@ -150,23 +152,26 @@ def logout():
 @app.route('/')
 @login_required
 def dashboard():
-    selected_date = request.args.get("date")
-    if selected_date:
-        selected_date_obj = datetime.strptime(selected_date, "%Y-%m-%d").date()
+    selected_date_str = request.args.get("date")
+    warsaw = pytz.timezone("Europe/Warsaw")
+
+    if selected_date_str:
+        selected_date = datetime.strptime(selected_date_str, "%Y-%m-%d").date()
     else:
-        selected_date_obj = date.today()
+        selected_date = datetime.now(warsaw).date()
 
     entries = UPSEntry.query.all()
     filtered = []
     for e in entries:
         ts = e.data.get("_submitted_at")
         if ts:
-            entry_date = datetime.fromisoformat(ts).date()
-            if entry_date == selected_date_obj:
+            # Parse as UTC and convert to Warsaw time
+            utc_time = datetime.fromisoformat(ts).replace(tzinfo=pytz.utc)
+            local_time = utc_time.astimezone(warsaw)
+            if local_time.date() == selected_date:
                 filtered.append(e)
 
-    return render_template('dashboard.html', entries=filtered, current_email=current_user.email, selected_date=selected_date_obj.isoformat())
-
+    return render_template('dashboard.html', entries=filtered, current_email=current_user.email, selected_date=selected_date.isoformat())
 @app.route('/download')
 @login_required
 def download():

@@ -86,13 +86,32 @@
     </div>
 
     <div class="horizontal-field">
-      <label for="Address_1">Address 1</label>
+      <label for="Address_1" class="label-with-tooltip">
+        Address 1
+        <span class="tooltip-icon">
+          <i class="fas fa-circle-question"></i>
+          <span class="tooltip-content">
+            Address 1 for recipient.
+            Field Type: Alphanumeric, Maximum Characters: 35, Required: Yes.
+          </span>
+        </span>
+
+      </label>
       <input type="text" id="Address_1" autocomplete="off">
       <div class="field-error" id="error-Address_1"></div>
     </div>
 
     <div class="horizontal-field">
-      <label for="City">City</label>
+      <label for="City" class="label-with-tooltip">
+        City
+        <span class="tooltip-icon">
+          <i class="fas fa-circle-question"></i>
+          <span class="tooltip-content">
+            Recipient's city
+            Field Type: Alphanumeric, Maximum Characters: 30, Required: Yes.
+          </span>
+        </span>
+      </label>
       <input type="text" id="City" autocomplete="off">
       <div class="field-error" id="error-City"></div>
     </div>
