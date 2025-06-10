@@ -187,10 +187,8 @@ def dashboard():
 
     return render_template('dashboard.html', entries=filtered,
                            current_email=current_user.email,
-                           selected_date=selected_date_str or '',
-                           selected_month=selected_month_str or '',
-                           selected_date=selected_date_str)
-
+                           selected_date=selected_date_str,
+                           selected_month=selected_month_str or '')
 
 @app.route('/download')
 @login_required
