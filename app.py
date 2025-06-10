@@ -193,25 +193,76 @@ def dashboard():
 @app.route('/download')
 @login_required
 def download():
+    warsaw = pytz.timezone("Europe/Warsaw")
+    selected_date_str = request.args.get("date")
+    selected_month_str = request.args.get("month")
+
     entries = UPSEntry.query.all()
-    rows = []
+    filtered = []
+
     for e in entries:
+        ts = e.data.get("_submitted_at")
+        if not ts:
+            continue
+
+        utc_time = datetime.fromisoformat(ts).replace(tzinfo=pytz.utc)
+        local_time = utc_time.astimezone(warsaw)
+
+        if selected_date_str:
+            selected_date = datetime.strptime(selected_date_str, "%Y-%m-%d").date()
+            if local_time.date() == selected_date:
+                filtered.append(e)
+
+        elif selected_month_str:
+            y, m = map(int, selected_month_str.split("-"))
+            if local_time.year == y and local_time.month == m:
+                filtered.append(e)
+
+    rows = []
+    for e in filtered:
         row = [e.data.get(field, "") for field in FIELD_ORDER]
         rows.append(row)
+
     df = pd.DataFrame(rows)
     output = io.StringIO()
     df.to_csv(output, index=False, header=False)
     output.seek(0)
     return send_file(io.BytesIO(output.getvalue().encode()), mimetype='text/csv', as_attachment=True, download_name='ups_export.csv')
 
+
 @app.route('/download_xlsx')
 @login_required
 def download_xlsx():
+    warsaw = pytz.timezone("Europe/Warsaw")
+    selected_date_str = request.args.get("date")
+    selected_month_str = request.args.get("month")
+
     entries = UPSEntry.query.all()
-    rows = []
+    filtered = []
+
     for e in entries:
+        ts = e.data.get("_submitted_at")
+        if not ts:
+            continue
+
+        utc_time = datetime.fromisoformat(ts).replace(tzinfo=pytz.utc)
+        local_time = utc_time.astimezone(warsaw)
+
+        if selected_date_str:
+            selected_date = datetime.strptime(selected_date_str, "%Y-%m-%d").date()
+            if local_time.date() == selected_date:
+                filtered.append(e)
+
+        elif selected_month_str:
+            y, m = map(int, selected_month_str.split("-"))
+            if local_time.year == y and local_time.month == m:
+                filtered.append(e)
+
+    rows = []
+    for e in filtered:
         row = [e.data.get(field, "") for field in FIELD_ORDER]
         rows.append(row)
+
     df = pd.DataFrame(rows, columns=FIELD_ORDER)
     output = io.BytesIO()
     with pd.ExcelWriter(output, engine='xlsxwriter') as writer:

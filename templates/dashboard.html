@@ -284,8 +284,8 @@
     <input id="unified-picker" class="date-input small-input">
   </div>
 
-  <a href="/download" class="button-link">Download Full CSV</a>
-  <a href="/download_xlsx" class="button-link">Download Full XLSX</a>
+<a href="/download{% if selected_date %}?date={{ selected_date }}{% elif selected_month %}?month={{ selected_month }}{% endif %}" class="button-link">Download CSV file</a>
+<a href="/download_xlsx{% if selected_date %}?date={{ selected_date }}{% elif selected_month %}?month={{ selected_month }}{% endif %}" class="button-link">Download XLSX file</a>
 </div>
 <h4>
   {% if selected_month %}
