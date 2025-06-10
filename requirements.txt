@@ -10,3 +10,4 @@ Werkzeug
 gunicorn
 gevent
 pytz
+xlsxwriter
