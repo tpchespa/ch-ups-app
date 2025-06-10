@@ -124,7 +124,18 @@
     </div>
 
     <div class="horizontal-field">
-      <label for="State_Prov_Other">State/Prov/Other</label>
+      <label for="State_Prov_Other" class="label-with-tooltip">
+      State/Prov/Other
+      <span class="tooltip-icon">
+        <i class="fas fa-circle-question"></i>
+        <span class="tooltip-content">
+          Recipient's State or Province, if applicable
+          Required for certain destination countries
+          Field Type: Alphanumeric, Maximum Characters: 30, Required: Conditional.
+        </span>
+      </span>
+
+      </label>
       <input type="text" id="State_Prov_Other" autocomplete="off">
       <div class="field-error" id="error-State_Prov_Other"></div>
     </div>
@@ -132,11 +143,13 @@
     <div class="horizontal-field">
       <label for="Postal_Code">Postal Code</label>
       <input type="text" id="Postal_Code" autocomplete="off">
+      <div class="field-error" id="error-Postal_Code"></div>
     </div>
 
     <div class="horizontal-field">
       <label for="Telephone">Telephone</label>
       <input type="text" id="Telephone" autocomplete="off">
+      <div class="field-error" id="error-Telephone"></div>
     </div>
 
     <div class="horizontal-field">
@@ -149,7 +162,10 @@
         Packaging Type
         <span class="tooltip-icon">
           <i class="fas fa-circle-question"></i>
-          <span class="tooltip-content">UPS packaging code (e.g. 01 = Envelope, 2 = Customer Packaging)</span>
+          <span class="tooltip-content">
+          UPS packaging code (e.g. 01 = Envelope, 2 = Customer Packaging)
+          Field Type: Alphanumeric, Maximum Characters: 2, Required: Yes.
+          </span>
         </span>
       </label>
       <div class="input-wrapper">
@@ -193,7 +209,7 @@
         Documents of No Commercial Value
         <span class="tooltip-icon">
           <i class="fas fa-circle-question"></i>
-          <span class="tooltip-content">Select "1" if documents are not commercial goods</span>
+          <span class="tooltip-content">Indicates the shipment does not contain any dutiable items</span>
         </span>
       </label>
       <select id="Documents_of_No_Commercial_Value">
@@ -675,7 +691,9 @@ document.addEventListener("DOMContentLoaded", () => {
     { id: "Country", label: "Country", required: true },
     { id: "Address_1", label: "Address 1", required: true, max: 35, alphanumeric: true },
     { id: "City", label: "City", required: true, max: 30, alphanumeric: true },
-    { id: "State_Prov_Other", label: "State/Province/Other", max: 30 },
+    { id: "Postal_Code", label: "Postal_Code", max: 10, alphanumeric: true },
+    { id: "State_Prov_Other", label: "State/Province/Other", max: 30, alphanumeric: true },
+    { id: "Telephone", label: "Telephone", max: 15, alphanumeric: true },
     { id: "Packaging_Type", label: "Packaging Type", required: true, max: 2 },
     { id: "Weight", label: "Weight", conditionalWeight: true ,  max: 5 },
     { id: "Length", label: "Length", numeric: true,  max: 4 },
@@ -778,7 +796,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // if (values.length !== fieldOrder.length) {
     //   alert(`Pasted ${values.length} values but expected ${fieldOrder.length}. Some fields may be misaligned.`);
     // }
-    
+
     let valueIndex = 0;
     for (let i = 0; i < fieldOrder.length && valueIndex < values.length; i++) {
       const id = fieldOrder[i].replace(/\s|\//g, "_");
