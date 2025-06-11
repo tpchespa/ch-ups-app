@@ -886,11 +886,11 @@ document.addEventListener("DOMContentLoaded", () => {
         confirmButtonText: 'Continue'
       }).then(() => {
         socket.emit("submit_form", data);
-        clearForm();
+
       });
     } else {
       socket.emit("submit_form", data);
-      clearForm();
+
     }
 
     if (document.getElementById("saveContactCheckbox").checked) {
@@ -934,6 +934,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const tbody = document.getElementById("submission-body");
     if (!tbody) return;
 
+    if ((data.data["_submitted_by"] || "") === currentUserEmail) {
+      clearForm();
+      SwalWithDarkTheme({
+        toast: true,
+        position: 'top-end',
+        icon: 'success',
+        title: 'Shipment added and form cleared.',
+        showConfirmButton: false,
+        timer: 2000
+      });
+    }
+
     const createdBy = data.data["_submitted_by"] || "?";
     const canDelete = createdBy === currentUserEmail;
     let timestamp = "?";
@@ -943,7 +955,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const minutes = String(date.getMinutes()).padStart(2, "0");
       const day = String(date.getDate()).padStart(2, "0");
       const month = String(date.getMonth() + 1).padStart(2, "0");
-      timestamp = `${day}-${month} ${hours}:${minutes}`;
+      timestamp = `${hours}:${minutes}`;
     }
 
     const tr = document.createElement("tr");
