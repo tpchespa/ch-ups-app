@@ -926,7 +926,15 @@ document.addEventListener("DOMContentLoaded", () => {
       deleteBtn.textContent = "✖";
       deleteBtn.className = "tiny-delete";
       deleteBtn.addEventListener("click", () => {
-        if (confirm("Are you sure you want to delete this entry?")) {
+       SwalWithDarkTheme.fire({
+          title: 'Are you sure?',
+          text: 'This shipment will be deleted.',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Yes, delete it',
+          cancelButtonText: 'Cancel',
+        }).then((result) => {
+          if (result.isConfirmed) {
           socket.emit("delete_entry", { id: data.id });
         }
       });
