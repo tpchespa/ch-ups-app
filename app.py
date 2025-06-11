@@ -189,10 +189,16 @@ def dashboard():
     filtered.sort(key=lambda x: x[0])
     filtered_entries = [e for _, e in filtered]
 
-    return render_template('dashboard.html', entries=filtered_entries,
-                           current_email=current_user.email,
-                           selected_date=selected_date_str,
-                           selected_month=selected_month_str or '')
+    today_str = datetime.utcnow().date().isoformat()
+
+    return render_template(
+        'dashboard.html',
+        entries=filtered_entries,
+        current_email=current_user.email,
+        selected_date=selected_date_str,
+        selected_month=selected_month_str or '',
+        today=today_str 
+    )
 
 @app.route('/download')
 @login_required

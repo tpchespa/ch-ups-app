@@ -316,13 +316,9 @@
     <tr data-id="{{ entry.id }}" data-json='{{ entry.data | tojson }}'>
       {% set ts = entry.data["_submitted_at"] %}
       {% set entry_date = ts[:10] if ts else "" %}
-      {% set today = namespace(value='') %}
-      {% if not today.value %}
-        {% set today.value = datetime.utcnow().date().isoformat() %}
-      {% endif %}
 
       <td>
-        {% if (entry.data["_submitted_by"] == current_email and entry_date == today.value) or current_user.is_admin %}
+        {% if (entry.data["_submitted_by"] == current_email and entry_date == today) or current_user.is_admin %}
           <button class="tiny-delete" onclick="deleteEntry('{{ entry.id }}')">✖</button>
         {% else %}
           &mdash;
