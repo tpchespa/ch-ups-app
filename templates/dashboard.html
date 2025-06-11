@@ -816,7 +816,11 @@ document.addEventListener("DOMContentLoaded", () => {
     "UPS SurePost®Limited Quantity/Lithium Battery"
   ];
 
-  //const firstFieldId = fieldOrder[0].replace(/\s|\//g, "_");
+  function getSafeId(fieldName) {
+    return fieldName.replace(/[^a-zA-Z0-9_]/g, "_");
+  }
+  
+  const firstFieldId = getSafeId(fieldOrder[0]);
   const firstInput = document.getElementById(firstFieldId);
 
   function clearForm() {
