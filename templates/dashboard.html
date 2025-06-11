@@ -816,19 +816,6 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
     if (!validateAllFields()) return;
 
-    const data = {};
-    fieldOrder.forEach(field => {
-      const id = field.replace(/\s|\//g, "_");
-      const input = document.getElementById(id);
-      if (input) data[field] = input.value.trim();
-    });
-
-    data["nr zamówienia gdzie będzie doliczony koszt"] = document.getElementById("Custom_Order_Number")?.value.trim() || "";
-    data["NR PROJEKTU"] = document.getElementById("Custom_Project_Number")?.value.trim() || "";
-    data["NR LISTU UPS"] = document.getElementById("Custom_UPS_Number")?.value.trim() || "";
-    data["KOSZT (LOGISTYKA)"] = document.getElementById("Custom_Cost")?.value.trim() || "";
-    data["DATA WYSYŁKI"] = document.getElementById("Custom_Ship_Date")?.value.trim() || "";
-
     let altered = false;
 
     validateFields.forEach(field => {
@@ -843,6 +830,20 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
     });
+
+    // Re-read all inputs AFTER cleaning
+    const data = {};
+    fieldOrder.forEach(field => {
+      const id = field.replace(/\s|\//g, "_");
+      const input = document.getElementById(id);
+      if (input) data[field] = input.value.trim();
+    });
+
+    data["nr zamówienia gdzie będzie doliczony koszt"] = document.getElementById("Custom_Order_Number")?.value.trim() || "";
+    data["NR PROJEKTU"] = document.getElementById("Custom_Project_Number")?.value.trim() || "";
+    data["NR LISTU UPS"] = document.getElementById("Custom_UPS_Number")?.value.trim() || "";
+    data["KOSZT (LOGISTYKA)"] = document.getElementById("Custom_Cost")?.value.trim() || "";
+    data["DATA WYSYŁKI"] = document.getElementById("Custom_Ship_Date")?.value.trim() || "";
 
     if (altered) {
       Swal.fire({
