@@ -936,7 +936,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if ((data.data["_submitted_by"] || "") === currentUserEmail) {
       clearForm();
-      SwalWithDarkTheme({
+      SwalWithDarkTheme.fire({
         toast: true,
         position: 'top-end',
         icon: 'success',
