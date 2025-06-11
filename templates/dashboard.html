@@ -990,7 +990,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function validateAllFields() {
   let hasError = false;
-  
+
   document.querySelectorAll(".field-error").forEach(div => {
     div.innerText = "";
     div.classList.remove("field-warning");
@@ -1005,154 +1005,75 @@ function validateAllFields() {
     const errorDiv = document.getElementById("error-" + field.id);
     if (!input || !errorDiv) return;
 
-    const value = input.value.trim();
-    input.classList.remove("input-error");
-    errorDiv.innerText = "";
+    input.addEventListener('input', () => {
+      const value = input.value.trim();
+      input.classList.remove("input-error");
+      errorDiv.innerText = "";
+      errorDiv.classList.remove("field-warning");
 
-    // Check required
-    if (field.required && !value) {
-      input.classList.add("input-error");
-      errorDiv.innerText = `${field.label} is required.`;
-      hasError = true;
-      return;
-    }
-
-    // Check max length
-    if (field.max && value.length > field.max) {
-      input.classList.add("input-error");
-      errorDiv.innerText = `${field.label} must be ${field.max} characters or fewer.`;
-      hasError = true;
-      return;
-    }
-
-    // Check alphanumeric
-    if (field.alphanumeric && !alphanumericRegex.test(value)) {
-      const { cleaned, wasModified } = cleanInputValue(value, field.id === "Postal_Code");
-      if (wasModified) {
-        input.value = cleaned;
-        errorDiv.innerText = `${field.label} auto-corrected for submission.`;
-        errorDiv.classList.add("field-warning");
-      } else {
+      if (field.required && !value) {
         input.classList.add("input-error");
-        errorDiv.innerText = `${field.label} must contain only letters, numbers, and spaces.`;
-        hasError = true;
-        return;
-      }
-    }
-
-    // Numeric check
-    if (field.numeric && value && !/^\d+$/.test(value)) {
-      input.classList.add("input-error");
-      errorDiv.innerText = `${field.label} must contain only numbers.`;
-      hasError = true;
-      return;
-    }
-
-    if (field.conditionalWeight) {
-      const packagingType = document.getElementById("Packaging_Type")?.value;
-
-      // Required if packaging type is "2"
-      if (packagingType === "2" && !value.trim()) {
-        input.classList.add("input-error");
-        errorDiv.innerText = `Weight is required for Packaging Type "2".`;
-        hasError = true;
+        errorDiv.innerText = `${field.label} is required.`;
         return;
       }
 
-      // If value is present, it must be numeric (allowing comma or dot)
-      if (value && !/^\d+([.,]\d+)?$/.test(value)) {
+      if (field.max && value.length > field.max) {
         input.classList.add("input-error");
-        errorDiv.innerText = `Weight must be a number (e.g., 10 or 10.5 or 10,0).`;
-        hasError = true;
+        errorDiv.innerText = `${field.label} must be ${field.max} characters or fewer.`;
         return;
       }
-      
-      return; // done with this special case
-    }
 
-    // Special country logic
-    if (field.id === "Country") {
-      if (value.length !== 2) {
-        input.classList.add("input-error");
-        errorDiv.innerText = "Country code must be exactly 2 characters.";
-        hasError = true;
-      } else if (!validCountryCodes.has(value.toUpperCase())) {
-        input.classList.add("input-error");
-        errorDiv.innerText = "Invalid ISO country code (e.g., US, DE, JP).";
-        hasError = true;
+      if (field.alphanumeric) {
+        const { cleaned, wasModified } = cleanInputValue(value, field.id === "Postal_Code");
+
+        if (!/^[\p{L}0-9\s]*$/u.test(value)) {
+          if (wasModified) {
+            input.classList.remove("input-error");
+            errorDiv.innerText = `${field.label} contains special characters and will be auto-corrected.`;
+            errorDiv.classList.add("field-warning");
+          } else {
+            input.classList.add("input-error");
+            errorDiv.innerText = `${field.label} must contain only letters, numbers, and spaces.`;
+          }
+          return;
+        }
       }
-    }
+
+      if (field.numeric && value && !/^\d+$/.test(value)) {
+        input.classList.add("input-error");
+        errorDiv.innerText = `${field.label} must contain only numbers.`;
+        return;
+      }
+
+      if (field.conditionalWeight) {
+        const packagingType = document.getElementById("Packaging_Type")?.value;
+        if (packagingType === "2" && !value.trim()) {
+          input.classList.add("input-error");
+          errorDiv.innerText = `Weight is required for Packaging Type "2".`;
+          return;
+        }
+
+        if (value && !/^\d+([.,]\d+)?$/.test(value)) {
+          input.classList.add("input-error");
+          errorDiv.innerText = `Weight must be a number (e.g., 10 or 10.5).`;
+          return;
+        }
+      }
+
+      if (field.id === "Country") {
+        if (value.length !== 2) {
+          input.classList.add("input-error");
+          errorDiv.innerText = "Country code must be exactly 2 characters.";
+        } else if (!validCountryCodes.has(value.toUpperCase())) {
+          input.classList.add("input-error");
+          errorDiv.innerText = "Invalid ISO country code (e.g., US, DE, JP).";
+        }
+      }
+    });
   });
 
   return !hasError;
 }
-
-input.addEventListener('input', () => {
-  const value = input.value.trim();
-  input.classList.remove("input-error");
-  errorDiv.innerText = "";
-  errorDiv.classList.remove("field-warning");
-
-  if (field.required && !value) {
-    input.classList.add("input-error");
-    errorDiv.innerText = `${field.label} is required.`;
-    return;
-  }
-
-  if (field.max && value.length > field.max) {
-    input.classList.add("input-error");
-    errorDiv.innerText = `${field.label} must be ${field.max} characters or fewer.`;
-    return;
-  }
-
-  if (field.alphanumeric) {
-    const { cleaned, wasModified } = cleanInputValue(value, field.id === "Postal_Code");
-
-    if (!/^[\p{L}0-9\s]*$/u.test(value)) {
-      if (wasModified) {
-        input.classList.remove("input-error");
-        errorDiv.innerText = `${field.label} contains special characters and will be auto-corrected.`;
-        errorDiv.classList.add("field-warning");
-      } else {
-        input.classList.add("input-error");
-        errorDiv.innerText = `${field.label} must contain only letters, numbers, and spaces.`;
-      }
-      return;
-    }
-  }
-
-  if (field.numeric && value && !/^\d+$/.test(value)) {
-    input.classList.add("input-error");
-    errorDiv.innerText = `${field.label} must contain only numbers.`;
-    return;
-  }
-
-  if (field.conditionalWeight) {
-    const packagingType = document.getElementById("Packaging_Type")?.value;
-    if (packagingType === "2" && !value.trim()) {
-      input.classList.add("input-error");
-      errorDiv.innerText = `Weight is required for Packaging Type "2".`;
-      return;
-    }
-
-    if (value && !/^\d+([.,]\d+)?$/.test(value)) {
-      input.classList.add("input-error");
-      errorDiv.innerText = `Weight must be a number (e.g., 10 or 10.5).`;
-      return;
-    }
-  }
-
-  if (field.id === "Country") {
-    if (value.length !== 2) {
-      input.classList.add("input-error");
-      errorDiv.innerText = "Country code must be exactly 2 characters.";
-    } else if (!validCountryCodes.has(value.toUpperCase())) {
-      input.classList.add("input-error");
-      errorDiv.innerText = "Invalid ISO country code (e.g., US, DE, JP).";
-    }
-  }
-});
-
 
 async function fetchSavedContacts() {
   const res = await fetch("/get_contacts");
