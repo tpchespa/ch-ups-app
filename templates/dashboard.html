@@ -27,333 +27,337 @@
   </header>
 
 <div class="dashboard-wrapper">
-<div class="container">
-  <h2>UPS Shipment Form</h2>
-  <form id="form" class="form-wrapper" autocomplete="off">
-    <div class="form-submit form-actions-row">
-      <button type="submit">Submit</button>
+  <div class="dashboard-inner">
+    <div class="container">
+      <h2>UPS Shipment Form</h2>
+      <form id="form" class="form-wrapper" autocomplete="off">
+        <div class="form-submit form-actions-row">
+          <button type="submit">Submit</button>
 
-        <label class="save-contact-label">
-          <input type="checkbox" id="saveContactCheckbox" />
-          Save contact
-        </label>
-      </div>
-    <div class="contact-search-row">
-      <label for="contactSearch" class="contact-label">Load saved contact:</label>
-      <input id="contactSearch" list="contactList" placeholder="Start typing..." autocomplete="off" class="contact-dropdown" />
-      <datalist id="contactList"></datalist>
-    </div>
-    <div class="horizontal-form">
-    <div class="horizontal-field">
-      <label for="Contact_Name" class="label-with-tooltip">
-        Contact Name
-      <span class="tooltip-icon">
-        <i class="fas fa-circle-question"></i>
-        <span class="tooltip-content">
-          First and last name of recipient.
-          Required for international/export shipments or UPS Next Day Air Early AM service.
-          Field Type: Alphanumeric, Maximum Characters: 35, Required: Conditional.
-        </span>
-      </span>
-      </label>
-      <input type="text" id="Contact_Name" name="con-na-custom" autocomplete="off">
-      <div class="field-error" id="error-Contact_Name"></div>
-    </div>
-
-    <div class="horizontal-field">
-      <label for="Company_or_Name" class="label-with-tooltip">
-        Company or Name
-      <span class="tooltip-icon">
-        <i class="fas fa-circle-question"></i>
-        <span class="tooltip-content">
-          Company name of recipient (or First and Last name of recipient if company is not applicable).
-          Field Type: Alphanumeric, Maximum Characters: 35, Required: Yes.
-        </span>
-      </span>
-      </label>
-      <input type="text" id="Company_or_Name" autocomplete="off">
-      <div class="field-error" id="error-Company_or_Name"></div>
-    </div>
-
-    <div class="horizontal-field">
-      <label for="Country" class="label-with-tooltip">
-        Country
-        <span class="tooltip-icon">
-          <i class="fas fa-circle-question"></i>
-          <span class="tooltip-content">
-            Recipient's country; only ISO Alpha-2 codes are accepted.
-            (e.g.: US=United States,JP=Japan, DE=Germany,etc.)
-            Field Type: Alphanumeric, Maximum Characters: 2, Required: Yes.
+            <label class="save-contact-label">
+              <input type="checkbox" id="saveContactCheckbox" />
+              Save contact
+            </label>
+          </div>
+        <div class="contact-search-row">
+          <label for="contactSearch" class="contact-label">Load saved contact:</label>
+          <input id="contactSearch" list="contactList" placeholder="Start typing..." autocomplete="off" class="contact-dropdown" />
+          <datalist id="contactList"></datalist>
+        </div>
+        <div class="horizontal-form">
+        <div class="horizontal-field">
+          <label for="Contact_Name" class="label-with-tooltip">
+            Contact Name
+          <span class="tooltip-icon">
+            <i class="fas fa-circle-question"></i>
+            <span class="tooltip-content">
+              First and last name of recipient.
+              Required for international/export shipments or UPS Next Day Air Early AM service.
+              Field Type: Alphanumeric, Maximum Characters: 35, Required: Conditional.
+            </span>
           </span>
-        </span>
-      </label>
-      <div class="input-wrapper">
-        <input type="text" id="Country" autocomplete="off">
-      </div>
-      <div class="field-error" id="error-Country"></div>
-    </div>
+          </label>
+          <input type="text" id="Contact_Name" name="con-na-custom" autocomplete="off">
+          <div class="field-error" id="error-Contact_Name"></div>
+        </div>
 
-    <div class="horizontal-field">
-      <label for="Address_1" class="label-with-tooltip">
-        Address 1
-        <span class="tooltip-icon">
-          <i class="fas fa-circle-question"></i>
-          <span class="tooltip-content">
-            Address 1 for recipient.
-            Field Type: Alphanumeric, Maximum Characters: 35, Required: Yes.
+        <div class="horizontal-field">
+          <label for="Company_or_Name" class="label-with-tooltip">
+            Company or Name
+          <span class="tooltip-icon">
+            <i class="fas fa-circle-question"></i>
+            <span class="tooltip-content">
+              Company name of recipient (or First and Last name of recipient if company is not applicable).
+              Field Type: Alphanumeric, Maximum Characters: 35, Required: Yes.
+            </span>
           </span>
-        </span>
+          </label>
+          <input type="text" id="Company_or_Name" autocomplete="off">
+          <div class="field-error" id="error-Company_or_Name"></div>
+        </div>
 
-      </label>
-      <input type="text" id="Address_1" autocomplete="off">
-      <div class="field-error" id="error-Address_1"></div>
-    </div>
+        <div class="horizontal-field">
+          <label for="Country" class="label-with-tooltip">
+            Country
+            <span class="tooltip-icon">
+              <i class="fas fa-circle-question"></i>
+              <span class="tooltip-content">
+                Recipient's country; only ISO Alpha-2 codes are accepted.
+                (e.g.: US=United States,JP=Japan, DE=Germany,etc.)
+                Field Type: Alphanumeric, Maximum Characters: 2, Required: Yes.
+              </span>
+            </span>
+          </label>
+          <div class="input-wrapper">
+            <input type="text" id="Country" autocomplete="off">
+          </div>
+          <div class="field-error" id="error-Country"></div>
+        </div>
 
-    <div class="horizontal-field">
-      <label for="City" class="label-with-tooltip">
-        City
-        <span class="tooltip-icon">
-          <i class="fas fa-circle-question"></i>
-          <span class="tooltip-content">
-            Recipient's city
-            Field Type: Alphanumeric, Maximum Characters: 30, Required: Yes.
+        <div class="horizontal-field">
+          <label for="Address_1" class="label-with-tooltip">
+            Address 1
+            <span class="tooltip-icon">
+              <i class="fas fa-circle-question"></i>
+              <span class="tooltip-content">
+                Address 1 for recipient.
+                Field Type: Alphanumeric, Maximum Characters: 35, Required: Yes.
+              </span>
+            </span>
+
+          </label>
+          <input type="text" id="Address_1" autocomplete="off">
+          <div class="field-error" id="error-Address_1"></div>
+        </div>
+
+        <div class="horizontal-field">
+          <label for="City" class="label-with-tooltip">
+            City
+            <span class="tooltip-icon">
+              <i class="fas fa-circle-question"></i>
+              <span class="tooltip-content">
+                Recipient's city
+                Field Type: Alphanumeric, Maximum Characters: 30, Required: Yes.
+              </span>
+            </span>
+          </label>
+          <input type="text" id="City" autocomplete="off">
+          <div class="field-error" id="error-City"></div>
+        </div>
+
+        <div class="horizontal-field">
+          <label for="State_Prov_Other" class="label-with-tooltip">
+          State/Prov/Other
+          <span class="tooltip-icon">
+            <i class="fas fa-circle-question"></i>
+            <span class="tooltip-content">
+              Recipient's State or Province, if applicable
+              Required for certain destination countries
+              Field Type: Alphanumeric, Maximum Characters: 30, Required: Conditional.
+            </span>
           </span>
-        </span>
-      </label>
-      <input type="text" id="City" autocomplete="off">
-      <div class="field-error" id="error-City"></div>
-    </div>
 
-    <div class="horizontal-field">
-      <label for="State_Prov_Other" class="label-with-tooltip">
-      State/Prov/Other
-      <span class="tooltip-icon">
-        <i class="fas fa-circle-question"></i>
-        <span class="tooltip-content">
-          Recipient's State or Province, if applicable
-          Required for certain destination countries
-          Field Type: Alphanumeric, Maximum Characters: 30, Required: Conditional.
-        </span>
-      </span>
+          </label>
+          <input type="text" id="State_Prov_Other" autocomplete="off">
+          <div class="field-error" id="error-State_Prov_Other"></div>
+        </div>
 
-      </label>
-      <input type="text" id="State_Prov_Other" autocomplete="off">
-      <div class="field-error" id="error-State_Prov_Other"></div>
-    </div>
+        <div class="horizontal-field">
+          <label for="Postal_Code">Postal Code</label>
+          <input type="text" id="Postal_Code" autocomplete="off">
+          <div class="field-error" id="error-Postal_Code"></div>
+        </div>
 
-    <div class="horizontal-field">
-      <label for="Postal_Code">Postal Code</label>
-      <input type="text" id="Postal_Code" autocomplete="off">
-      <div class="field-error" id="error-Postal_Code"></div>
-    </div>
+        <div class="horizontal-field">
+          <label for="Telephone">Telephone</label>
+          <input type="text" id="Telephone" autocomplete="off">
+          <div class="field-error" id="error-Telephone"></div>
+        </div>
 
-    <div class="horizontal-field">
-      <label for="Telephone">Telephone</label>
-      <input type="text" id="Telephone" autocomplete="off">
-      <div class="field-error" id="error-Telephone"></div>
-    </div>
+        <div class="horizontal-field">
+          <label for="Consignee_Email">Consignee Email</label>
+          <input type="text" id="Consignee_Email" autocomplete="off">
+        </div>
 
-    <div class="horizontal-field">
-      <label for="Consignee_Email">Consignee Email</label>
-      <input type="text" id="Consignee_Email" autocomplete="off">
-    </div>
+        <div class="horizontal-field">
+          <label for="Packaging_Type" class="label-with-tooltip">
+            Packaging Type
+            <span class="tooltip-icon">
+              <i class="fas fa-circle-question"></i>
+              <span class="tooltip-content">
+              UPS packaging code (e.g. 01 = Envelope, 2 = Customer Packaging)
+              Field Type: Alphanumeric, Maximum Characters: 2, Required: Yes.
+              </span>
+            </span>
+          </label>
+          <div class="input-wrapper">
+            <input type="text" id="Packaging_Type" autocomplete="off">
+          </div>
+          <div class="field-error" id="error-Packaging_Type"></div>
+        </div>
 
-    <div class="horizontal-field">
-      <label for="Packaging_Type" class="label-with-tooltip">
-        Packaging Type
-        <span class="tooltip-icon">
-          <i class="fas fa-circle-question"></i>
-          <span class="tooltip-content">
-          UPS packaging code (e.g. 01 = Envelope, 2 = Customer Packaging)
-          Field Type: Alphanumeric, Maximum Characters: 2, Required: Yes.
-          </span>
-        </span>
-      </label>
-      <div class="input-wrapper">
-        <input type="text" id="Packaging_Type" autocomplete="off">
+        <div class="horizontal-field">
+          <label for="Weight">Weight</label>
+          <input type="text" id="Weight" autocomplete="off">
+          <div class="field-error" id="error-Weight"></div>
+        </div>
+
+        <div class="horizontal-field">
+          <label for="Length">Length</label>
+          <input type="text" id="Length" autocomplete="off">
+          <div class="field-error" id="error-Length"></div>
+        </div>
+
+        <div class="horizontal-field">
+          <label for="Width">Width</label>
+          <input type="text" id="Width" autocomplete="off">
+          <div class="field-error" id="error-Width"></div>
+        </div>
+
+        <div class="horizontal-field">
+          <label for="Height">Height</label>
+          <input type="text" id="Height" autocomplete="off">
+          <div class="field-error" id="error-Height"></div>
+        </div>
+
+        <div class="horizontal-field">
+          <label for="Description_of_Goods">Description of Goods</label>
+          <input type="text" id="Description_of_Goods" autocomplete="off">
+          <div class="field-error" id="error-Description_of_Goods"></div>
+        </div>
+
+        <div class="horizontal-field">
+          <label for="Documents_of_No_Commercial_Value" class="label-with-tooltip">
+            Documents of No Commercial Value
+            <span class="tooltip-icon">
+              <i class="fas fa-circle-question"></i>
+              <span class="tooltip-content">Indicates the shipment does not contain any dutiable items</span>
+            </span>
+          </label>
+          <select id="Documents_of_No_Commercial_Value">
+            <option value="">--</option>
+            <option value="1">1</option>
+          </select>
+        </div>
+
+        <div class="horizontal-field">
+          <label for="Service" class="label-with-tooltip">
+            Service
+            <span class="tooltip-icon">
+              <i class="fas fa-circle-question"></i>
+              <span class="tooltip-content">UPS service code (e.g. 65 = Saver, 07 = Express)</span>
+            </span>
+          </label>
+          <div class="input-wrapper">
+            <input type="text" id="Service" autocomplete="off">
+          </div>
+          <div class="field-error" id="error-Service"></div>
+        </div>
+
+        <div class="horizontal-field">
+          <label for="Reference_1">Kod klienta</label>
+          <input type="text" id="Reference_1" autocomplete="off"> 
+          <div class="field-error" id="error-Reference_1"></div>
+        </div>
+
+        <div class="horizontal-field">
+          <label for="Reference_2">Kod handlowca</label>
+          <input type="text" id="Reference_2" autocomplete="off">
+          <div class="field-error" id="error-Reference_2"></div>
+        </div>
+
+        <!-- Custom Non-CSV Fields -->
+        <div class="horizontal-field">
+          <label for="Custom_Order_Number">Nr zamówienia gdzie będzie doliczony koszt</label>
+          <input type="text" id="Custom_Order_Number">
+        </div>
+
+        <div class="horizontal-field">
+          <label for="Custom_Project_Number">Nr projektu</label>
+          <input type="text" id="Custom_Project_Number">
+        </div>
+
+        <div class="horizontal-field">
+          <label for="Custom_UPS_Number">Nr listu UPS</label>
+          <input type="text" id="Custom_UPS_Number">
+        </div>
+
+        <div class="horizontal-field">
+          <label for="Custom_Cost">Koszt (Logistyka))</label>
+          <input type="text" id="Custom_Cost">
+        </div>
+
+        <div class="horizontal-field">
+          <label for="Custom_Ship_Date">Data wysyłki</label>
+          <input type="date" id="Custom_Ship_Date">
+        </div>
       </div>
-      <div class="field-error" id="error-Packaging_Type"></div>
+      </form>
     </div>
-
-    <div class="horizontal-field">
-      <label for="Weight">Weight</label>
-      <input type="text" id="Weight" autocomplete="off">
-      <div class="field-error" id="error-Weight"></div>
-    </div>
-
-    <div class="horizontal-field">
-      <label for="Length">Length</label>
-      <input type="text" id="Length" autocomplete="off">
-      <div class="field-error" id="error-Length"></div>
-    </div>
-
-    <div class="horizontal-field">
-      <label for="Width">Width</label>
-      <input type="text" id="Width" autocomplete="off">
-      <div class="field-error" id="error-Width"></div>
-    </div>
-
-    <div class="horizontal-field">
-      <label for="Height">Height</label>
-      <input type="text" id="Height" autocomplete="off">
-      <div class="field-error" id="error-Height"></div>
-    </div>
-
-    <div class="horizontal-field">
-      <label for="Description_of_Goods">Description of Goods</label>
-      <input type="text" id="Description_of_Goods" autocomplete="off">
-      <div class="field-error" id="error-Description_of_Goods"></div>
-    </div>
-
-    <div class="horizontal-field">
-      <label for="Documents_of_No_Commercial_Value" class="label-with-tooltip">
-        Documents of No Commercial Value
-        <span class="tooltip-icon">
-          <i class="fas fa-circle-question"></i>
-          <span class="tooltip-content">Indicates the shipment does not contain any dutiable items</span>
-        </span>
-      </label>
-      <select id="Documents_of_No_Commercial_Value">
-        <option value="">--</option>
-        <option value="1">1</option>
-      </select>
-    </div>
-
-    <div class="horizontal-field">
-      <label for="Service" class="label-with-tooltip">
-        Service
-        <span class="tooltip-icon">
-          <i class="fas fa-circle-question"></i>
-          <span class="tooltip-content">UPS service code (e.g. 65 = Saver, 07 = Express)</span>
-        </span>
-      </label>
-      <div class="input-wrapper">
-        <input type="text" id="Service" autocomplete="off">
-      </div>
-      <div class="field-error" id="error-Service"></div>
-    </div>
-
-    <div class="horizontal-field">
-      <label for="Reference_1">Kod klienta</label>
-      <input type="text" id="Reference_1" autocomplete="off"> 
-      <div class="field-error" id="error-Reference_1"></div>
-    </div>
-
-    <div class="horizontal-field">
-      <label for="Reference_2">Kod handlowca</label>
-      <input type="text" id="Reference_2" autocomplete="off">
-      <div class="field-error" id="error-Reference_2"></div>
-    </div>
-
-    <!-- Custom Non-CSV Fields -->
-    <div class="horizontal-field">
-      <label for="Custom_Order_Number">Nr zamówienia gdzie będzie doliczony koszt</label>
-      <input type="text" id="Custom_Order_Number">
-    </div>
-
-    <div class="horizontal-field">
-      <label for="Custom_Project_Number">Nr projektu</label>
-      <input type="text" id="Custom_Project_Number">
-    </div>
-
-    <div class="horizontal-field">
-      <label for="Custom_UPS_Number">Nr listu UPS</label>
-      <input type="text" id="Custom_UPS_Number">
-    </div>
-
-    <div class="horizontal-field">
-      <label for="Custom_Cost">Koszt (Logistyka))</label>
-      <input type="text" id="Custom_Cost">
-    </div>
-
-    <div class="horizontal-field">
-      <label for="Custom_Ship_Date">Data wysyłki</label>
-      <input type="date" id="Custom_Ship_Date">
-    </div>
-  </div>
-  </form>
-</div>
 
 <div class="submissions-section">
-<h3>Submitted Shipments</h3>
-<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 12px; margin-bottom: 20px;">
-  <div style="display: inline-flex; gap: 12px; align-items: center; padding: 10px 16px; border-radius: 8px; background-color: #1e1e1e; border: 1px solid #333;">
-    <label for="view-mode" class="label-inline">View by:</label>
-    <select id="view-mode" class="small-input">
-      <option value="date" selected>Day</option>
-      <option value="month">Month</option>
-    </select>
-    <input id="unified-picker" class="date-input small-input">
-  </div>
+  <h3>Submitted Shipments</h3>
+  <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 12px; margin-bottom: 20px;">
+    <div style="display: inline-flex; gap: 12px; align-items: center; padding: 10px 16px; border-radius: 8px; background-color: #1e1e1e; border: 1px solid #333;">
+      <label for="view-mode" class="label-inline">View by:</label>
+      <select id="view-mode" class="small-input">
+        <option value="date" selected>Day</option>
+        <option value="month">Month</option>
+      </select>
+      <input id="unified-picker" class="date-input small-input">
+    </div>
 
-<a href="/download{% if selected_date %}?date={{ selected_date }}{% elif selected_month %}?month={{ selected_month }}{% endif %}" class="button-link">Download CSV file</a>
-<a href="/download_xlsx{% if selected_date %}?date={{ selected_date }}{% elif selected_month %}?month={{ selected_month }}{% endif %}" class="button-link xlsx-button">
-  <i class="fas fa-file-excel" style="margin-right: 6px;"></i>
-  Download XLSX file
-</a>
-</div>
-<h4>
-  {% if selected_month %}
-    Showing entries for {{ selected_month }}
-  {% elif selected_date %}
-    Showing entries for {{ selected_date }}
-  {% endif %}
-</h4>
-<table id="horizontal-table">
-  <thead>
-    <tr>
-      <th></th>
-      <th>Time</th><th>User</th>
-      <th>Contact Name</th><th>Company or Name</th><th>Country</th><th>Address 1</th><th>City</th>
-      <th>State/Prov/Other</th><th>Postal Code</th><th>Telephone</th><th>Consignee Email</th><th>Packaging Type</th><th>Weight</th>
-      <th>Length</th><th>Width</th><th>Height</th><th>Description of Goods</th><th>Docs No Value</th><th>Service</th>
-      <th>Kod klienta</th><th>Kod handlowca</th>
-      <th>nr zam.</th><th>NR PROJEKTU</th><th>NR LISTU UPS</th><th>KOSZT</th><th>DATA WYSYŁKI</th>
+  <a href="/download{% if selected_date %}?date={{ selected_date }}{% elif selected_month %}?month={{ selected_month }}{% endif %}" class="button-link">Download CSV file</a>
+  <a href="/download_xlsx{% if selected_date %}?date={{ selected_date }}{% elif selected_month %}?month={{ selected_month }}{% endif %}" class="button-link xlsx-button">
+    <i class="fas fa-file-excel" style="margin-right: 6px;"></i>
+    Download XLSX file
+  </a>
+  </div>
+  <h4>
+    {% if selected_month %}
+      Showing entries for {{ selected_month }}
+    {% elif selected_date %}
+      Showing entries for {{ selected_date }}
+    {% endif %}
+  </h4>
+  <table id="horizontal-table">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Time</th><th>User</th>
+        <th>Contact Name</th><th>Company or Name</th><th>Country</th><th>Address 1</th><th>City</th>
+        <th>State/Prov/Other</th><th>Postal Code</th><th>Telephone</th><th>Consignee Email</th><th>Packaging Type</th><th>Weight</th>
+        <th>Length</th><th>Width</th><th>Height</th><th>Description of Goods</th><th>Docs No Value</th><th>Service</th>
+        <th>Kod klienta</th><th>Kod handlowca</th>
+        <th>nr zam.</th><th>NR PROJEKTU</th><th>NR LISTU UPS</th><th>KOSZT</th><th>DATA WYSYŁKI</th>
+      </tr>
+    </thead>
+    {% for entry in entries %}
+    <tr data-id="{{ entry.id }}" data-json='{{ entry.data | tojson }}'>
+      <td>
+        {% if entry.data["_submitted_by"] == current_email or current_user.is_admin %}
+        <button class="tiny-delete" onclick="deleteEntry('{{ entry.id }}')">✖</button>
+        {% else %}
+        &mdash;
+        {% endif %}
+      </td>
+      {% set ts = entry.data["_submitted_at"] %}
+      <td data-ts="{{ ts }}"></td>
+      <td>{{ entry.data["_submitted_by"] | default("?") }}</td>
+      <td>{{ entry.data["Contact Name"] }}</td>
+      <td>{{ entry.data["Company or Name"] }}</td>
+      <td>{{ entry.data["Country"] }}</td>
+      <td>{{ entry.data["Address 1"] }}</td>
+      <td>{{ entry.data["City"] }}</td>
+      <td>{{ entry.data["State/Prov/Other"] }}</td>
+      <td>{{ entry.data["Postal Code"] }}</td>
+      <td>{{ entry.data["Telephone"] }}</td>
+      <td>{{ entry.data["Consignee Email"] }}</td>
+      <td>{{ entry.data["Packaging Type"] }}</td>
+      <td>{{ entry.data["Weight"] }}</td>
+      <td>{{ entry.data["Length"] }}</td>
+      <td>{{ entry.data["Width"] }}</td>
+      <td>{{ entry.data["Height"] }}</td>
+      <td>{{ entry.data["Description of Goods"] }}</td>
+      <td>{{ entry.data["Documents of No Commercial Value"] }}</td>
+      <td>{{ entry.data["Service"] }}</td>
+      <td>{{ entry.data["Reference 1"] }}</td>
+      <td>{{ entry.data["Reference 2"] }}</td>
+      <td>{{ entry.data["nr zamówienia gdzie będzie doliczony koszt"] }}</td>
+      <td>{{ entry.data["NR PROJEKTU"] }}</td>
+      <td>{{ entry.data["NR LISTU UPS"] }}</td>
+      <td>{{ entry.data["KOSZT (LOGISTYKA)"] }}</td>
+      <td>{{ entry.data["DATA WYSYŁKI"] }}</td>
     </tr>
-  </thead>
-  {% for entry in entries %}
-  <tr data-id="{{ entry.id }}" data-json='{{ entry.data | tojson }}'>
-    <td>
-      {% if entry.data["_submitted_by"] == current_email or current_user.is_admin %}
-      <button class="tiny-delete" onclick="deleteEntry('{{ entry.id }}')">✖</button>
-      {% else %}
-      &mdash;
-      {% endif %}
-    </td>
-    {% set ts = entry.data["_submitted_at"] %}
-    <td data-ts="{{ ts }}"></td>
-    <td>{{ entry.data["_submitted_by"] | default("?") }}</td>
-    <td>{{ entry.data["Contact Name"] }}</td>
-    <td>{{ entry.data["Company or Name"] }}</td>
-    <td>{{ entry.data["Country"] }}</td>
-    <td>{{ entry.data["Address 1"] }}</td>
-    <td>{{ entry.data["City"] }}</td>
-    <td>{{ entry.data["State/Prov/Other"] }}</td>
-    <td>{{ entry.data["Postal Code"] }}</td>
-    <td>{{ entry.data["Telephone"] }}</td>
-    <td>{{ entry.data["Consignee Email"] }}</td>
-    <td>{{ entry.data["Packaging Type"] }}</td>
-    <td>{{ entry.data["Weight"] }}</td>
-    <td>{{ entry.data["Length"] }}</td>
-    <td>{{ entry.data["Width"] }}</td>
-    <td>{{ entry.data["Height"] }}</td>
-    <td>{{ entry.data["Description of Goods"] }}</td>
-    <td>{{ entry.data["Documents of No Commercial Value"] }}</td>
-    <td>{{ entry.data["Service"] }}</td>
-    <td>{{ entry.data["Reference 1"] }}</td>
-    <td>{{ entry.data["Reference 2"] }}</td>
-    <td>{{ entry.data["nr zamówienia gdzie będzie doliczony koszt"] }}</td>
-    <td>{{ entry.data["NR PROJEKTU"] }}</td>
-    <td>{{ entry.data["NR LISTU UPS"] }}</td>
-    <td>{{ entry.data["KOSZT (LOGISTYKA)"] }}</td>
-    <td>{{ entry.data["DATA WYSYŁKI"] }}</td>
-  </tr>
-  {% endfor %}
-  <tbody id="submission-body">
-  </tbody>
-</table>
+    {% endfor %}
+    <tbody id="submission-body">
+    </tbody>
+  </table>
+  </div>
+  </div>
 </div>
-</div>
+
+
 <div class="form-errors-wrapper">
   <div id="form-errors" class="error-box" style="display: none;"></div>
 </div>
