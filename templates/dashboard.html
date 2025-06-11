@@ -369,6 +369,12 @@
 
 <script>
 
+const SwalWithDarkTheme = Swal.mixin({
+  customClass: {
+    popup: 'swal2-popup'
+  }
+});
+
 let socket;
 
 const countryMap = {
@@ -847,7 +853,7 @@ document.addEventListener("DOMContentLoaded", () => {
     data["DATA WYSYŁKI"] = document.getElementById("Custom_Ship_Date")?.value.trim() || "";
 
     if (altered) {
-      Swal.fire({
+      SwalWithDarkTheme.fire({
         icon: 'info',
         title: 'Input Adjusted',
         text: 'Some fields contained special characters and were auto-corrected before submission.',
@@ -1236,7 +1242,7 @@ function deleteEntry(id) {
   const row = document.querySelector(`tr[data-id="${id}"]`);
   if (!row) return;
 
-  Swal.fire({
+  SwalWithDarkTheme.fire({
     title: 'Are you sure?',
     text: 'This shipment will be deleted.',
     icon: 'warning',
@@ -1261,7 +1267,7 @@ function deleteEntry(id) {
         row.remove();
         socket.emit("delete_entry", { id });
 
-        Swal.fire({
+        SwalWithDarkTheme.fire({
           toast: true,
           position: 'bottom-end',
           icon: 'info',
