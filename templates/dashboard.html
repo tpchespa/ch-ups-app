@@ -728,6 +728,39 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const alphanumericRegex = /^[\p{L}0-9\s]*$/u;
 
+  function cleanInputValue(value, isPostalCode = false) {
+    let cleaned = value;
+    let wasModified = false;
+
+    // Special handling for Postal Code
+    if (isPostalCode) {
+      const postalCleaned = cleaned.replace(/[^0-9]/g, '');
+      if (postalCleaned !== cleaned) {
+        wasModified = true;
+        cleaned = postalCleaned;
+      }
+      return { cleaned, wasModified };
+    }
+
+    // Replace special chars between digits with space
+    cleaned = cleaned.replace(/(\d)[^\p{L}\d\s]+(?=\d)/gu, (_, d) => {
+      wasModified = true;
+      return d + ' ';
+    });
+
+    // Remove special chars between words
+    cleaned = cleaned.replace(/(\p{L})[^\p{L}\d\s]+(?=\p{L})/gu, (_, letter) => {
+      wasModified = true;
+      return letter;
+    });
+
+    // Remove all other special characters
+    const finalCleaned = cleaned.replace(/[^\p{L}\d\s]/gu, '');
+    if (finalCleaned !== cleaned) wasModified = true;
+
+    return { cleaned: finalCleaned, wasModified };
+  }
+
   const validCountryCodes = new Set([
     "AD", "AE", "AF", "AG", "AI", "AL", "AM", "AO", "AQ", "AR", "AS", "AT", "AU", "AW", "AX", "AZ",
     "BA", "BB", "BD", "BE", "BF", "BG", "BH", "BI", "BJ", "BL", "BM", "BN", "BO", "BQ", "BR", "BS", "BT", "BV", "BW", "BY", "BZ",
@@ -796,7 +829,33 @@ document.addEventListener("DOMContentLoaded", () => {
     data["KOSZT (LOGISTYKA)"] = document.getElementById("Custom_Cost")?.value.trim() || "";
     data["DATA WYSYŁKI"] = document.getElementById("Custom_Ship_Date")?.value.trim() || "";
 
-    socket.emit("submit_form", data);
+    let altered = false;
+
+    validateFields.forEach(field => {
+      const input = document.getElementById(field.id);
+      if (!input) return;
+
+      if (field.alphanumeric) {
+        const { cleaned, wasModified } = cleanInputValue(input.value, field.id === "Postal_Code");
+        if (wasModified) {
+          input.value = cleaned;
+          altered = true;
+        }
+      }
+    });
+
+    if (altered) {
+      Swal.fire({
+        icon: 'info',
+        title: 'Input Adjusted',
+        text: 'Some fields contained special characters and were auto-corrected before submission.',
+        confirmButtonText: 'Continue'
+      }).then(() => {
+        socket.emit("submit_form", data);
+      });
+    } else {
+      socket.emit("submit_form", data);
+    }
 
     if (document.getElementById("saveContactCheckbox").checked) {
       fetch("/save_contact", {
@@ -931,6 +990,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function validateAllFields() {
   let hasError = false;
+  
+  document.querySelectorAll(".field-error").forEach(div => {
+    div.innerText = "";
+    div.classList.remove("field-warning");
+  });
 
   // Clear all previous error messages and highlights
   document.querySelectorAll(".field-error").forEach(div => div.innerText = "");
@@ -961,12 +1025,19 @@ function validateAllFields() {
       return;
     }
 
-    // Check alphanumeric (optional)
+    // Check alphanumeric
     if (field.alphanumeric && !alphanumericRegex.test(value)) {
-      input.classList.add("input-error");
-      errorDiv.innerText = `${field.label} must contain only letters, numbers, and spaces.`;
-      hasError = true;
-      return;
+      const { cleaned, wasModified } = cleanInputValue(value, field.id === "Postal_Code");
+      if (wasModified) {
+        input.value = cleaned;
+        errorDiv.innerText = `${field.label} auto-corrected for submission.`;
+        errorDiv.classList.add("field-warning");
+      } else {
+        input.classList.add("input-error");
+        errorDiv.innerText = `${field.label} must contain only letters, numbers, and spaces.`;
+        hasError = true;
+        return;
+      }
     }
 
     // Numeric check

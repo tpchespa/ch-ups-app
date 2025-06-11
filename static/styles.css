@@ -674,3 +674,8 @@ input, select, textarea {
 .button-link.xlsx-button:hover {
   background-color: #1e5f3f;
 }
+
+.field-warning {
+  color: #d4b106;
+  font-size: 0.85em;
+}
