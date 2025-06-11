@@ -819,6 +819,25 @@ document.addEventListener("DOMContentLoaded", () => {
   const firstFieldId = fieldOrder[0].replace(/\s|\//g, "_");
   const firstInput = document.getElementById(firstFieldId);
 
+  function clearForm() {
+    form.reset(); // clears standard inputs
+
+    // Clear custom fields explicitly
+    document.getElementById("Custom_Order_Number")?.value = "";
+    document.getElementById("Custom_Project_Number")?.value = "";
+    document.getElementById("Custom_UPS_Number")?.value = "";
+    document.getElementById("Custom_Cost")?.value = "";
+    document.getElementById("Custom_Ship_Date")?.value = "";
+
+    // Clear visual validation states
+    document.querySelectorAll(".field-error").forEach(div => {
+      div.innerText = "";
+      div.classList.remove("field-warning");
+    });
+    document.querySelectorAll("input").forEach(input => input.classList.remove("input-error"));
+  }
+
+
   form.onsubmit = e => {
     e.preventDefault();
     if (!validateAllFields()) return;
@@ -860,9 +879,11 @@ document.addEventListener("DOMContentLoaded", () => {
         confirmButtonText: 'Continue'
       }).then(() => {
         socket.emit("submit_form", data);
+        clearForm();
       });
     } else {
       socket.emit("submit_form", data);
+      clearForm();
     }
 
     if (document.getElementById("saveContactCheckbox").checked) {
