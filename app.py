@@ -157,7 +157,6 @@ def dashboard():
     selected_date_str = request.args.get("date")
     selected_month_str = request.args.get("month")
 
-    # Only default to today if neither is provided
     if not selected_date_str and not selected_month_str:
         selected_date_str = datetime.now(warsaw).strftime("%Y-%m-%d")
 
@@ -175,19 +174,22 @@ def dashboard():
         if selected_date_str:
             selected_date = datetime.strptime(selected_date_str, "%Y-%m-%d").date()
             if local_time.date() == selected_date:
-                filtered.append(e)
+                filtered.append((utc_time, e))  # include timestamp for sorting
 
         elif selected_month_str:
             y, m = map(int, selected_month_str.split("-"))
             if local_time.year == y and local_time.month == m:
-                filtered.append(e)
+                filtered.append((utc_time, e))
 
         elif not selected_date_str and not selected_month_str:
-            # Default to today
             if local_time.date() == datetime.now(warsaw).date():
-                filtered.append(e)
+                filtered.append((utc_time, e))
 
-    return render_template('dashboard.html', entries=filtered,
+    # Sort by timestamp (oldest first)
+    filtered.sort(key=lambda x: x[0])
+    filtered_entries = [e for _, e in filtered]
+
+    return render_template('dashboard.html', entries=filtered_entries,
                            current_email=current_user.email,
                            selected_date=selected_date_str,
                            selected_month=selected_month_str or '')
