@@ -155,9 +155,11 @@ def dashboard():
     warsaw = pytz.timezone("Europe/Warsaw")
 
     selected_date_str = request.args.get("date")
-    if not selected_date_str:
-        selected_date_str = datetime.now(warsaw).strftime("%Y-%m-%d")
     selected_month_str = request.args.get("month")
+
+    # Only default to today if neither is provided
+    if not selected_date_str and not selected_month_str:
+        selected_date_str = datetime.now(warsaw).strftime("%Y-%m-%d")
 
     entries = UPSEntry.query.all()
     filtered = []
