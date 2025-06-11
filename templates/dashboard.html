@@ -26,6 +26,7 @@
     <a href="/logout">Logout</a>
   </header>
 
+<div class="dashboard-wrapper">
 <div class="container">
   <h2>UPS Shipment Form</h2>
   <form id="form" class="form-wrapper" autocomplete="off">
@@ -273,6 +274,7 @@
   </form>
 </div>
 
+<div class="submissions-section">
 <h3>Submitted Shipments</h3>
 <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 12px; margin-bottom: 20px;">
   <div style="display: inline-flex; gap: 12px; align-items: center; padding: 10px 16px; border-radius: 8px; background-color: #1e1e1e; border: 1px solid #333;">
@@ -350,7 +352,8 @@
   <tbody id="submission-body">
   </tbody>
 </table>
-
+</div>
+</div>
 <div class="form-errors-wrapper">
   <div id="form-errors" class="error-box" style="display: none;"></div>
 </div>
