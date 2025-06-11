@@ -33,6 +33,19 @@ header a {
     text-decoration: none;
 }
 
+.dashboard-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.submissions-section {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 .auth-container {
   max-width: 400px;
   margin: 40px auto;
@@ -81,8 +94,8 @@ header a {
 
 
 .container {
-    padding: 20px;
-    margin: 0; /* or margin-left/right: auto if you still want slight centering */
+  padding: 0;
+  margin: 0;
 }
 
 @media (max-width: 600px) {
