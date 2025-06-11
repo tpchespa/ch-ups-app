@@ -920,6 +920,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const tr = document.createElement("tr");
     tr.setAttribute("data-id", data.id);
+    tr.setAttribute("data-json", JSON.stringify(data.data)); // helpful for delete/undo
 
     const deleteTd = document.createElement("td");
     if (canDelete) {
@@ -937,12 +938,36 @@ document.addEventListener("DOMContentLoaded", () => {
           cancelButtonText: 'Cancel',
         }).then((result) => {
           if (result.isConfirmed) {
-            socket.emit("delete_entry", { id: data.id });
+            // store the data for potential undo
+            recentlyDeleted = data.data;
+
+            tr.classList.add("fading-out");
+            setTimeout(() => {
+              tr.remove();
+              socket.emit("delete_entry", { id: data.id });
+
+              SwalWithDarkTheme.fire({
+                toast: true,
+                position: 'bottom-end',
+                icon: 'info',
+                title: 'Deleted. Click to undo.',
+                showConfirmButton: true,
+                confirmButtonText: 'Undo',
+                timer: 5000,
+                timerProgressBar: true,
+              }).then(result => {
+                if (result.isConfirmed && recentlyDeleted) {
+                  socket.emit("submit_form", recentlyDeleted);
+                  recentlyDeleted = null;
+                }
+              });
+
+            }, 300);
           }
         });
       });
 
-      deleteTd.appendChild(deleteBtn); // <-- this was not properly nested
+      deleteTd.appendChild(deleteBtn);
     } else {
       deleteTd.innerHTML = "&mdash;";
     }
