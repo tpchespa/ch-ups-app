@@ -920,13 +920,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const tr = document.createElement("tr");
     tr.setAttribute("data-id", data.id);
+
     const deleteTd = document.createElement("td");
     if (canDelete) {
       const deleteBtn = document.createElement("button");
       deleteBtn.textContent = "✖";
       deleteBtn.className = "tiny-delete";
+
       deleteBtn.addEventListener("click", () => {
-       SwalWithDarkTheme.fire({
+        SwalWithDarkTheme.fire({
           title: 'Are you sure?',
           text: 'This shipment will be deleted.',
           icon: 'warning',
@@ -935,10 +937,12 @@ document.addEventListener("DOMContentLoaded", () => {
           cancelButtonText: 'Cancel',
         }).then((result) => {
           if (result.isConfirmed) {
-          socket.emit("delete_entry", { id: data.id });
-        }
+            socket.emit("delete_entry", { id: data.id });
+          }
+        });
       });
-      deleteTd.appendChild(deleteBtn);
+
+      deleteTd.appendChild(deleteBtn); // <-- this was not properly nested
     } else {
       deleteTd.innerHTML = "&mdash;";
     }
