@@ -357,9 +357,18 @@ def handle_delete(data):
     try:
         entry = UPSEntry.query.get_or_404(data['id'])
 
-        if not current_user.is_admin and entry.data.get('_submitted_by') != current_user.email:
-            emit('form_error', {'errors': ["❌ You can only delete your own entries."]})
-            return
+        if not current_user.is_admin:
+            if entry.data.get('_submitted_by') != current_user.email:
+                emit('form_error', {'errors': ["❌ You can only delete your own entries."]})
+                return
+
+            # Prevent deleting old entries
+            ts = entry.data.get('_submitted_at')
+            if ts:
+                entry_date = datetime.fromisoformat(ts).date()
+                if entry_date != datetime.utcnow().date():
+                    emit('form_error', {'errors': ["❌ You can only delete today's entries."]})
+                    return
 
         db.session.delete(entry)
         db.session.commit()
