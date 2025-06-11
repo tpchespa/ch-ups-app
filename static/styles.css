@@ -34,15 +34,10 @@ header a {
 }
 
 .dashboard-wrapper {
-  padding: 20px;
+  padding: 10px;
   display: flex;
-  justify-content: center;
 }
 
-.dashboard-inner {
-  width: 100%;
-  max-width: 1800px;
-}
 
 .submissions-section {
   margin-top: 40px;
