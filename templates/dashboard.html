@@ -277,7 +277,7 @@
 
 <div class="submissions-section">
   <h3>Submitted Shipments</h3>
-  <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 12px; margin-bottom: 20px;">
+  <div class="submission-controls">
     <div style="display: inline-flex; gap: 12px; align-items: center; padding: 10px 16px; border-radius: 8px; background-color: #1e1e1e; border: 1px solid #333;">
       <label for="view-mode" class="label-inline">View by:</label>
       <select id="view-mode" class="small-input">
@@ -695,7 +695,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has("month")) {
-      const day = d.getDate();  // no leading zero
+      const day = String(d.getDate()).padStart(2, '0'); 
       td.textContent = `${day}; ${timeStr}`;
     } else {
       td.textContent = timeStr;
