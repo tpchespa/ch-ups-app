@@ -821,16 +821,23 @@ document.addEventListener("DOMContentLoaded", () => {
   const firstInput = document.getElementById(firstFieldId);
 
   function clearForm() {
-    form.reset();
+    form.reset(); // Clear standard fields
 
-    // Clear custom fields explicitly
-    document.getElementById("Custom_Order_Number")?.value = "";
-    document.getElementById("Custom_Project_Number")?.value = "";
-    document.getElementById("Custom_UPS_Number")?.value = "";
-    document.getElementById("Custom_Cost")?.value = "";
-    document.getElementById("Custom_Ship_Date")?.value = "";
+    // Clear custom fields safely
+    const customIds = [
+      "Custom_Order_Number",
+      "Custom_Project_Number",
+      "Custom_UPS_Number",
+      "Custom_Cost",
+      "Custom_Ship_Date"
+    ];
 
-    // Clear visual validation states
+    customIds.forEach(id => {
+      const input = document.getElementById(id);
+      if (input) input.value = "";
+    });
+
+    // Clear error visuals
     document.querySelectorAll(".field-error").forEach(div => {
       div.innerText = "";
       div.classList.remove("field-warning");
