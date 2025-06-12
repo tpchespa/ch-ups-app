@@ -1090,7 +1090,7 @@ function validateAllFields() {
     const errorDiv = document.getElementById("error-" + field.id);
     if (!input || !errorDiv) return;
 
-    input.addEventListener('input', () => {
+    const validateField = () => {
       const value = input.value.trim();
       input.classList.remove("input-error");
       errorDiv.innerText = "";
@@ -1099,18 +1099,19 @@ function validateAllFields() {
       if (field.required && !value) {
         input.classList.add("input-error");
         errorDiv.innerText = `${field.label} is required.`;
+        hasError = true;
         return;
       }
 
       if (field.max && value.length > field.max) {
         input.classList.add("input-error");
         errorDiv.innerText = `${field.label} must be ${field.max} characters or fewer.`;
+        hasError = true;
         return;
       }
 
       if (field.alphanumeric) {
         const { cleaned, wasModified } = cleanInputValue(value, field.id === "Postal_Code");
-
         if (!/^[\p{L}0-9\s]*$/u.test(value)) {
           if (wasModified) {
             input.classList.remove("input-error");
@@ -1119,6 +1120,7 @@ function validateAllFields() {
           } else {
             input.classList.add("input-error");
             errorDiv.innerText = `${field.label} must contain only letters, numbers, and spaces.`;
+            hasError = true;
           }
           return;
         }
@@ -1127,6 +1129,7 @@ function validateAllFields() {
       if (field.numeric && value && !/^\d+$/.test(value)) {
         input.classList.add("input-error");
         errorDiv.innerText = `${field.label} must contain only numbers.`;
+        hasError = true;
         return;
       }
 
@@ -1135,12 +1138,14 @@ function validateAllFields() {
         if (packagingType === "2" && !value.trim()) {
           input.classList.add("input-error");
           errorDiv.innerText = `Weight is required for Packaging Type "2".`;
+          hasError = true;
           return;
         }
 
         if (value && !/^\d+([.,]\d+)?$/.test(value)) {
           input.classList.add("input-error");
           errorDiv.innerText = `Weight must be a number (e.g., 10 or 10.5).`;
+          hasError = true;
           return;
         }
       }
@@ -1149,12 +1154,19 @@ function validateAllFields() {
         if (value.length !== 2) {
           input.classList.add("input-error");
           errorDiv.innerText = "Country code must be exactly 2 characters.";
+          hasError = true;
         } else if (!validCountryCodes.has(value.toUpperCase())) {
           input.classList.add("input-error");
           errorDiv.innerText = "Invalid ISO country code (e.g., US, DE, JP).";
+          hasError = true;
         }
       }
-    });
+    };
+
+    input.addEventListener('input', validateField);
+    input.addEventListener('blur', validateField);
+
+    validateField();
   });
 
   return !hasError;
