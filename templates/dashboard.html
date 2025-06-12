@@ -1195,6 +1195,7 @@ document.getElementById("contactSearch").addEventListener("change", e => {
     const input = document.getElementById(id);
     if (input) input.value = value;
   });
+  document.getElementById("contactSearch").value = ""
 });
 
 fetchSavedContacts();
