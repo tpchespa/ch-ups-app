@@ -681,3 +681,28 @@ input, select, textarea {
   min-height: 14px;
   margin-top: 0px;
 }
+
+.login-instructions {
+  background-color: #1e1e1e; /* dark background */
+  color: #f0f0f0;           /* light text */
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.login-instructions h2,
+.login-instructions h3 {
+  color: #ffffff;
+  margin-top: 0;
+}
+
+.login-instructions ul {
+  padding-left: 20px;
+}
+
+.login-instructions li {
+  margin-bottom: 8px;
+}
