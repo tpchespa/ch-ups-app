@@ -308,7 +308,7 @@ def save_contact():
 @app.route('/get_contacts')
 @login_required
 def get_contacts():
-    contacts = SavedContact.query.filter_by(user_email=current_user.email).all()
+    contacts = SavedContact.query.all()
     return [{
         "Contact Name": c.contact_name,
         "Company or Name": c.company_name,
