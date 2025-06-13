@@ -178,25 +178,61 @@
         </div>
 
         <div class="horizontal-field">
-          <label for="Weight">Weight</label>
+          <label for="Weight" class="label-with-tooltip">
+            Weight
+            <span class="tooltip-icon">
+              <i class="fas fa-circle-question"></i>
+              <span class="tooltip-content">
+                Required for a packaging type 2 (Other Packaging/Customer Packaging). Optional for packaging type 1 (UPS Letter/Envelope).
+                Field Type: Numeric, Maximum Characters: 5, Required: Conditional.
+              </span>
+            </span>
+          </label>
           <input type="text" id="Weight" autocomplete="off">
           <div class="field-error" id="error-Weight"></div>
         </div>
 
         <div class="horizontal-field">
-          <label for="Length">Length</label>
+          <label for="Length" class="label-with-tooltip">
+            Length
+            <span class="tooltip-icon">
+              <i class="fas fa-circle-question"></i>
+              <span class="tooltip-content">
+                Defaults to inches for U.S./PR; centimeters everywhere else. CA has choice between inches and centimeters.
+                Field Type: Numeric, Maximum Characters: 4, Required: No.
+              </span>
+            </span>
+          </label>
           <input type="text" id="Length" autocomplete="off">
           <div class="field-error" id="error-Length"></div>
         </div>
 
         <div class="horizontal-field">
-          <label for="Width">Width</label>
+          <label for="Width">
+            Width
+            <span class="tooltip-icon">
+              <i class="fas fa-circle-question"></i>
+              <span class="tooltip-content">
+                Defaults to inches for U.S./PR; centimeters everywhere else. CA has choice between inches and centimeters.
+                Field Type: Numeric, Maximum Characters: 4, Required: No.
+              </span>
+            </span>
+          </label>
           <input type="text" id="Width" autocomplete="off">
           <div class="field-error" id="error-Width"></div>
         </div>
 
         <div class="horizontal-field">
-          <label for="Height">Height</label>
+          <label for="Height">
+            Height
+            <span class="tooltip-icon">
+              <i class="fas fa-circle-question"></i>
+              <span class="tooltip-content">
+                Defaults to inches for U.S./PR; centimeters everywhere else. CA has choice between inches and centimeters.
+                Field Type: Numeric, Maximum Characters: 4, Required: No.
+              </span>
+            </span>
+          </label>
           <input type="text" id="Height" autocomplete="off">
           <div class="field-error" id="error-Height"></div>
         </div>
