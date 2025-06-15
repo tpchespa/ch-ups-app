@@ -706,3 +706,20 @@ input, select, textarea {
 .login-instructions li {
   margin-bottom: 8px;
 }
+
+.tiny-manage-button {
+  padding: 4px 8px;
+  margin-left: 6px;
+  font-size: 11pt;
+  background-color: #444;
+  color: #fff;
+  border-radius: 4px;
+  text-decoration: none;
+  display: inline-block;
+  line-height: 1;
+  transition: background-color 0.2s ease;
+}
+
+.tiny-manage-button:hover {
+  background-color: #666;
+}
