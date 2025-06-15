@@ -13,22 +13,49 @@
 
   <div class="container">
     <h3>Add New Contact</h3>
-    <form method="POST" action="{{ url_for('add_contact') }}" class="form-wrapper" style="max-width: 600px;">
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-        <input type="text" name="company_name" placeholder="Company or Name" required>
-        <input type="text" name="contact_name" placeholder="Contact Name">
-        <input type="text" name="country" placeholder="Country (e.g. PL)" required>
-        <input type="text" name="address_1" placeholder="Address 1" required>
-        <input type="text" name="city" placeholder="City" required>
-        <input type="text" name="state" placeholder="State/Prov/Other">
-        <input type="text" name="postal_code" placeholder="Postal Code">
-        <input type="text" name="telephone" placeholder="Telephone">
-        <input type="email" name="email" placeholder="Consignee Email">
+    <form method="POST" action="{{ url_for('add_contact') }}" id="contact-form" class="form-wrapper" autocomplete="off">
+      <div class="vertical-form">
+        <div class="horizontal-field">
+          <label for="company_name">Company or Name</label>
+          <input type="text" id="company_name" name="company_name" required>
+        </div>
+        <div class="horizontal-field">
+          <label for="contact_name">Contact Name</label>
+          <input type="text" id="contact_name" name="contact_name">
+        </div>
+        <div class="horizontal-field">
+          <label for="country">Country</label>
+          <input type="text" id="country" name="country" required>
+        </div>
+        <div class="horizontal-field">
+          <label for="address_1">Address 1</label>
+          <input type="text" id="address_1" name="address_1" required>
+        </div>
+        <div class="horizontal-field">
+          <label for="city">City</label>
+          <input type="text" id="city" name="city" required>
+        </div>
+        <div class="horizontal-field">
+          <label for="state">State/Prov/Other</label>
+          <input type="text" id="state" name="state">
+        </div>
+        <div class="horizontal-field">
+          <label for="postal_code">Postal Code</label>
+          <input type="text" id="postal_code" name="postal_code">
+        </div>
+        <div class="horizontal-field">
+          <label for="telephone">Telephone</label>
+          <input type="text" id="telephone" name="telephone">
+        </div>
+        <div class="horizontal-field">
+          <label for="email">Consignee Email</label>
+          <input type="email" id="email" name="email">
+        </div>
       </div>
-      <button type="submit" style="margin-top: 10px;">Add Contact</button>
+      <button type="submit" style="margin-top: 12px;">Add Contact</button>
     </form>
     <hr>
-    
+
     <h2>Saved Contacts</h2>
 
     {% if contacts %}
@@ -72,5 +99,19 @@
     <p>No saved contacts found.</p>
     {% endif %}
   </div>
+<script>
+document.getElementById("company_name")?.addEventListener("paste", function (e) {
+  e.preventDefault();
+  const fields = [
+    "company_name", "contact_name", "country", "address_1",
+    "city", "state", "postal_code", "telephone", "email"
+  ];
+  const values = e.clipboardData.getData('text/plain').split('\t');
+  fields.forEach((field, i) => {
+    const input = document.getElementById(field);
+    if (input && values[i]) input.value = values[i].trim();
+  });
+});
+</script>
 </body>
 </html>
