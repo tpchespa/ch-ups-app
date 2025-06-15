@@ -285,6 +285,50 @@ def download_xlsx():
     return send_file(output, mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                      as_attachment=True, download_name=filename)
 
+@app.route('/contacts/manage')
+@login_required
+def manage_contacts():
+    contacts = SavedContact.query.order_by(SavedContact.company_name.asc()).all()
+    return render_template('manage_contacts.html', contacts=contacts)
+    
+@app.route('/contacts/add', methods=['POST'])
+@login_required
+def add_contact():
+    form = request.form
+    filters = {
+        "company_name": form.get("company_name"),
+        "address_1": form.get("address_1"),
+        "country": form.get("country")
+    }
+
+    existing = SavedContact.query.filter_by(**filters).first()
+    if existing:
+        return redirect(url_for('manage_contacts'))
+
+    contact = SavedContact(
+        user_email=current_user.email,
+        contact_name=form.get("contact_name"),
+        company_name=form.get("company_name"),
+        country=form.get("country"),
+        address_1=form.get("address_1"),
+        city=form.get("city"),
+        state=form.get("state"),
+        postal_code=form.get("postal_code"),
+        telephone=form.get("telephone"),
+        email=form.get("email")
+    )
+    db.session.add(contact)
+    db.session.commit()
+    return redirect(url_for('manage_contacts'))
+
+@app.route('/contacts/delete/<int:contact_id>', methods=['POST'])
+@login_required
+def delete_contact(contact_id):
+    contact = SavedContact.query.get_or_404(contact_id)
+    db.session.delete(contact)
+    db.session.commit()
+    return redirect(url_for('manage_contacts'))
+
 @app.route('/save_contact', methods=['POST'])
 @login_required
 def save_contact():

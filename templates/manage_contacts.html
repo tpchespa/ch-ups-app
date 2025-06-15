@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Manage Saved Contacts</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <header>
+    <div>Welcome, {{ current_user.email }}</div>
+    <a href="/">← Back to Dashboard</a>
+    <a href="/logout">Logout</a>
+  </header>
+
+  <div class="container">
+    <h3>Add New Contact</h3>
+    <form method="POST" action="{{ url_for('add_contact') }}" class="form-wrapper" style="max-width: 600px;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+        <input type="text" name="company_name" placeholder="Company or Name" required>
+        <input type="text" name="contact_name" placeholder="Contact Name">
+        <input type="text" name="country" placeholder="Country (e.g. PL)" required>
+        <input type="text" name="address_1" placeholder="Address 1" required>
+        <input type="text" name="city" placeholder="City" required>
+        <input type="text" name="state" placeholder="State/Prov/Other">
+        <input type="text" name="postal_code" placeholder="Postal Code">
+        <input type="text" name="telephone" placeholder="Telephone">
+        <input type="email" name="email" placeholder="Consignee Email">
+      </div>
+      <button type="submit" style="margin-top: 10px;">Add Contact</button>
+    </form>
+    <hr>
+    
+    <h2>Saved Contacts</h2>
+
+    {% if contacts %}
+    <table>
+      <thead>
+        <tr>
+          <th>Company</th>
+          <th>Contact Name</th>
+          <th>Country</th>
+          <th>Address</th>
+          <th>City</th>
+          <th>State</th>
+          <th>Postal</th>
+          <th>Telephone</th>
+          <th>Email</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for contact in contacts %}
+        <tr>
+          <td>{{ contact.company_name }}</td>
+          <td>{{ contact.contact_name }}</td>
+          <td>{{ contact.country }}</td>
+          <td>{{ contact.address_1 }}</td>
+          <td>{{ contact.city }}</td>
+          <td>{{ contact.state }}</td>
+          <td>{{ contact.postal_code }}</td>
+          <td>{{ contact.telephone }}</td>
+          <td>{{ contact.email }}</td>
+          <td>
+            <form action="{{ url_for('delete_contact', contact_id=contact.id) }}" method="POST" onsubmit="return confirm('Delete this contact?');">
+              <button class="tiny-delete" type="submit">✖</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p>No saved contacts found.</p>
+    {% endif %}
+  </div>
+</body>
+</html>
