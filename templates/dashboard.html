@@ -934,7 +934,19 @@ document.addEventListener("DOMContentLoaded", () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
-      }).then(() => fetchSavedContacts());
+      }).then(res => {
+        if (res.status === 409) {
+          SwalWithDarkTheme.fire({
+            icon: "info",
+            title: "Contact already exists",
+            text: "This contact is already in the saved list.",
+            timer: 3000,
+            showConfirmButton: false
+          });
+        } else {
+          fetchSavedContacts();  // Refresh list
+        }
+      });
     }
   };
   

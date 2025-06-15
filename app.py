@@ -285,25 +285,38 @@ def download_xlsx():
     return send_file(output, mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                      as_attachment=True, download_name=filename)
 
-@app.route('/save_contact', methods=['POST'])
-@login_required
-def save_contact():
-    data = request.json
-    contact = SavedContact(
-        user_email=current_user.email,
-        contact_name=data.get("Contact Name"),
-        company_name=data.get("Company or Name"),
-        country=data.get("Country"),
-        address_1=data.get("Address 1"),
-        city=data.get("City"),
-        state=data.get("State/Prov/Other"),
-        postal_code=data.get("Postal Code"),
-        telephone=data.get("Telephone"),
-        email=data.get("Consignee Email")
-    )
-    db.session.add(contact)
-    db.session.commit()
-    return {"success": True}
+    @app.route('/save_contact', methods=['POST'])
+    @login_required
+    def save_contact():
+        data = request.json
+
+        # Define key fields to check for duplicates
+        filters = {
+            "company_name": data.get("Company or Name"),
+            "address_1": data.get("Address 1"),
+            "country": data.get("Country")
+        }
+
+        # Check for existing contact with same key fields
+        existing = SavedContact.query.filter_by(**filters).first()
+        if existing:
+            return {"success": False, "message": "Contact already exists."}, 409
+
+        contact = SavedContact(
+            user_email=current_user.email,
+            contact_name=data.get("Contact Name"),
+            company_name=data.get("Company or Name"),
+            country=data.get("Country"),
+            address_1=data.get("Address 1"),
+            city=data.get("City"),
+            state=data.get("State/Prov/Other"),
+            postal_code=data.get("Postal Code"),
+            telephone=data.get("Telephone"),
+            email=data.get("Consignee Email")
+        )
+        db.session.add(contact)
+        db.session.commit()
+        return {"success": True}
 
 @app.route('/get_contacts')
 @login_required
