@@ -324,26 +324,27 @@ input, select, textarea {
 
 #horizontal-table-wrapper {
   overflow-x: auto;
-  padding: 10px;
+  width: 100%;
 }
 
 #horizontal-table {
-  transform: scale(0.9);
-  transform-origin: top left;
-  display: inline-block;
   width: 100%;
   border-collapse: collapse;
   margin-top: 0px;
-  font-size: 9pt;
+  font-size: 8pt; 
+  table-layout: fixed; 
 }
-
 
 #horizontal-table th,
 #horizontal-table td {
+  min-width: 80px;
   border: 1px solid #333;
-  padding: 8px 10px;
+  padding: 4px 6px; 
   text-align: left;
   background: #1e1e1e;
+  word-wrap: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 #horizontal-table th {
