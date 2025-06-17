@@ -45,7 +45,8 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(150), unique=True, index=True)
     password = db.Column(db.String(256))
-    is_admin = db.Column(db.Boolean, default=False) 
+    is_admin = db.Column(db.Boolean, default=False)
+    role = db.Column(db.String(50), default="User") 
 
 class UPSEntry(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -75,6 +76,17 @@ def admin_users():
         return "Unauthorized", 403
     users = User.query.all()
     return render_template('admin_users.html', users=users)
+
+@app.route('/admin/change-role/<int:user_id>', methods=['POST'])
+@login_required
+def change_user_role(user_id):
+    if not current_user.is_admin:
+        return "Unauthorized", 403
+    user = User.query.get_or_404(user_id)
+    new_role = request.form['new_role']
+    user.role = new_role
+    db.session.commit()
+    return redirect(url_for('admin_users'))
 
 @app.route('/admin/reset-password/<int:user_id>', methods=['POST'])
 @login_required
@@ -290,7 +302,7 @@ def download_xlsx():
 def manage_contacts():
     contacts = SavedContact.query.order_by(SavedContact.company_name.asc()).all()
     return render_template('manage_contacts.html', contacts=contacts)
-    
+
 @app.route('/contacts/add', methods=['POST'])
 @login_required
 def add_contact():
