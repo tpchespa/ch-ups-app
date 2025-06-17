@@ -322,13 +322,21 @@ input, select, textarea {
   border-bottom: 1px solid #444;
 }
 
+#horizontal-table-wrapper {
+  overflow-x: auto;
+  padding: 10px;
+}
 
 #horizontal-table {
+  transform: scale(0.9);
+  transform-origin: top left;
+  display: inline-block;
   width: 100%;
   border-collapse: collapse;
   margin-top: 0px;
   font-size: 9pt;
 }
+
 
 #horizontal-table th,
 #horizontal-table td {
