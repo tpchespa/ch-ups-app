@@ -170,6 +170,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
  initializeCellTracking();
  setupSaveAllButton(SwalWithDarkTheme);
- warnOnExit();
+ warnOnExit(SwalWithDarkTheme);
  
 });

@@ -59,11 +59,33 @@ export function setupSaveAllButton(SwalWithDarkTheme) {
   });
 }
 
-export function warnOnExit() {
-  window.addEventListener("beforeunload", (e) => {
-    if (hasUnsavedChanges) {
+export function warnOnExit(SwalWithDarkTheme) {
+  // Intercept navigation via links, form buttons, etc.
+  document.querySelectorAll("a[href], button[type='submit'], form").forEach(el => {
+    el.addEventListener("click", (e) => {
+      if (!hasUnsavedChanges) return;
+
       e.preventDefault();
-      e.returnValue = '';
-    }
+
+      SwalWithDarkTheme.fire({
+        icon: 'warning',
+        title: 'Unsaved Changes',
+        text: 'You have unsaved changes. Are you sure you want to leave?',
+        showCancelButton: true,
+        confirmButtonText: 'Leave',
+        cancelButtonText: 'Stay',
+        reverseButtons: true
+      }).then(result => {
+        if (result.isConfirmed) {
+          if (el.tagName === "A") {
+            window.location.href = el.getAttribute("href");
+          } else if (el.tagName === "FORM") {
+            el.submit();
+          } else if (el.type === "submit") {
+            el.form?.submit();
+          }
+        }
+      });
+    });
   });
 }
