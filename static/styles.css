@@ -352,6 +352,10 @@ input, select, textarea {
   color: #fff;
 }
 
+.editable-cell {
+  background-color: #2b2b2b;
+  outline: 1px dashed #666;
+}
 
 .form-submit {
   margin-top: 12px;
@@ -737,3 +741,4 @@ input, select, textarea {
 .tiny-manage-button i {
   font-size: 14px;
 }
+

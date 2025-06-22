@@ -357,7 +357,7 @@
     <tr data-id="{{ entry.id }}" data-json='{{ entry.data | tojson }}'>
       {% set ts = entry.data["_submitted_at"] %}
       {% set entry_date = ts[:10] if ts else "" %}
-
+      {% set can_edit = (current_user.is_admin or current_user.role == 'Logistic' or entry.data["_submitted_by"] == current_email) %}
       <td>
         {% if (entry.data["_submitted_by"] == current_email and entry_date == today) or current_user.is_admin %}
           <button class="tiny-delete" onclick="deleteEntry('{{ entry.id }}')">✖</button>
@@ -368,30 +368,35 @@
       {% set ts = entry.data["_submitted_at"] %}
       <td data-ts="{{ ts }}"></td>
       <td>{{ entry.data["_submitted_by"] | default("?") }}</td>
-      <td>{{ entry.data["Contact Name"] }}</td>
-      <td>{{ entry.data["Company or Name"] }}</td>
-      <td>{{ entry.data["Country"] }}</td>
-      <td>{{ entry.data["Address 1"] }}</td>
-      <td>{{ entry.data["City"] }}</td>
-      <td>{{ entry.data["State/Prov/Other"] }}</td>
-      <td>{{ entry.data["Postal Code"] }}</td>
-      <td>{{ entry.data["Telephone"] }}</td>
-      <td>{{ entry.data["Consignee Email"] }}</td>
-      <td>{{ entry.data["Packaging Type"] }}</td>
-      <td>{{ entry.data["Weight"] }}</td>
-      <td>{{ entry.data["Length"] }}</td>
-      <td>{{ entry.data["Width"] }}</td>
-      <td>{{ entry.data["Height"] }}</td>
-      <td>{{ entry.data["Description of Goods"] }}</td>
-      <td>{{ entry.data["Documents of No Commercial Value"] }}</td>
-      <td>{{ entry.data["Service"] }}</td>
-      <td>{{ entry.data["Reference 1"] }}</td>
-      <td>{{ entry.data["Reference 2"] }}</td>
-      <td>{{ entry.data["nr zamówienia gdzie będzie doliczony koszt"] }}</td>
-      <td>{{ entry.data["NR PROJEKTU"] }}</td>
-      <td>{{ entry.data["NR LISTU UPS"] }}</td>
-      <td>{{ entry.data["KOSZT (LOGISTYKA)"] }}</td>
-      <td>{{ entry.data["DATA WYSYŁKI"] }}</td>
+      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Contact Name"] }}</td>
+      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Company or Name"] }}</td>
+      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Country"] }}</td>
+      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Address 1"] }}</td>
+      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["City"] }}</td>
+      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["State/Prov/Other"] }}</td>
+      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Postal Code"] }}</td>
+      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Telephone"] }}</td>
+      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Consignee Email"] }}</td>
+      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Packaging Type"] }}</td>
+      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Weight"] }}</td>
+      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Length"] }}</td>
+      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Width"] }}</td>
+      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Height"] }}</td>
+      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Description of Goods"] }}</td>
+      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Documents of No Commercial Value"] }}</td>
+      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Service"] }}</td>
+      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Reference 1"] }}</td>
+      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Reference 2"] }}</td>
+      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["nr zamówienia gdzie będzie doliczony koszt"] }}</td>
+      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["NR PROJEKTU"] }}</td>
+      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["NR LISTU UPS"] }}</td>
+      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["KOSZT (LOGISTYKA)"] }}</td>
+      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["DATA WYSYŁKI"] }}</td>
+      {% if can_edit %}
+        <td><button onclick="saveRowChanges({{ entry.id }}, this)">💾</button></td>
+      {% else %}
+        <td></td>
+      {% endif %}
     </tr>
     {% endfor %}
     <tbody id="submission-body">
@@ -1125,6 +1130,39 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+function saveRowChanges(entryId, button) {
+  const row = button.closest("tr");
+  const cells = row.querySelectorAll("td");
+
+  const fieldMap = [
+    "Time", "_submitted_by", "Contact Name", "Company or Name", "Country", "Address 1", "City",
+    "State/Prov/Other", "Postal Code", "Telephone", "Consignee Email", "Packaging Type", "Weight",
+    "Length", "Width", "Height", "Description of Goods", "Documents of No Commercial Value", "Service",
+    "Reference 1", "Reference 2", "nr zamówienia gdzie będzie doliczony koszt", "NR PROJEKTU",
+    "NR LISTU UPS", "KOSZT (LOGISTYKA)", "DATA WYSYŁKI"
+  ];
+
+  const data = {};
+  for (let i = 2; i < fieldMap.length; i++) {
+    const cell = cells[i];
+    if (cell) {
+      data[fieldMap[i]] = cell.textContent.trim();
+    }
+  }
+
+  fetch(`/update-entry/${entryId}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  }).then(res => {
+    if (res.ok) {
+      SwalWithDarkTheme.fire({ icon: "success", text: "Changes saved!" });
+    } else {
+      SwalWithDarkTheme.fire({ icon: "error", text: "Failed to save changes." });
+    }
+  });
+}
 
 function validateAllFields() {
   let hasError = false;

@@ -425,6 +425,39 @@ def handle_submit(data):
     except Exception as e:
         emit('error', {'message': str(e)})
 
+@app.route('/update-entry/<int:entry_id>', methods=['POST'])
+@login_required
+def update_entry(entry_id):
+    entry = UPSEntry.query.get_or_404(entry_id)
+
+    # Only allow edits by admin, Logistic role, or original submitter
+    is_authorized = (
+        current_user.is_admin or
+        current_user.role == "Logistic" or
+        entry.data.get("_submitted_by") == current_user.email
+    )
+
+    if not is_authorized:
+        return {"error": "Unauthorized"}, 403
+
+    updated_data = request.json
+
+    # Keep protected fields
+    protected_keys = {"_submitted_by", "_submitted_at"}
+    preserved = {k: entry.data.get(k) for k in protected_keys}
+
+    # Only allow updates to shipment-related fields
+    allowed_keys = set(entry.data.keys()) - protected_keys
+    for key in allowed_keys:
+        if key in updated_data:
+            entry.data[key] = updated_data[key]
+
+    # Reapply preserved metadata
+    entry.data.update(preserved)
+
+    db.session.commit()
+    return {"success": True}
+
 @socketio.on('delete_entry')
 def handle_delete(data):
     try:
