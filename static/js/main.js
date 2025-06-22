@@ -7,7 +7,6 @@ import { fetchSavedContacts, setupContactSelection } from './contacts.js';
 import { initDatePicker } from './datepicker.js';
 import { saveRowChanges } from './rowActions.js';
 window.saveRowChanges = saveRowChanges;
-window.SwalWithDarkTheme = SwalWithDarkTheme;
 
 document.addEventListener("DOMContentLoaded", () => {
   const socket = io();
@@ -19,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
       popup: 'swal2-popup'
     }
   });
+  window.SwalWithDarkTheme = SwalWithDarkTheme;
 
   // Initialize core modules
   initDatePicker();
