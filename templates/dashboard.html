@@ -1515,19 +1515,18 @@ function saveRowChanges(entryId, button) {
   const cells = row.querySelectorAll("td");
 
   const fieldMap = [
-    "Time", "_submitted_by", "Contact Name", "Company or Name", "Country", "Address 1", "City",
-    "State/Prov/Other", "Postal Code", "Telephone", "Consignee Email", "Packaging Type", "Weight",
-    "Length", "Width", "Height", "Description of Goods", "Documents of No Commercial Value", "Service",
-    "Reference 1", "Reference 2", "nr zamówienia gdzie będzie doliczony koszt", "NR PROJEKTU",
-    "NR LISTU UPS", "KOSZT (LOGISTYKA)", "DATA WYSYŁKI"
+    "Contact Name", "Company or Name", "Country", "Address 1", "City",
+    "State/Prov/Other", "Postal Code", "Telephone", "Consignee Email", "Packaging Type",
+    "Weight", "Length", "Width", "Height", "Description of Goods", "Documents of No Commercial Value",
+    "Service", "Reference 1", "Reference 2", "nr zamówienia gdzie będzie doliczony koszt",
+    "NR PROJEKTU", "NR LISTU UPS", "KOSZT (LOGISTYKA)", "DATA WYSYŁKI"
   ];
 
   const data = {};
-  for (let i = 2; i < fieldMap.length; i++) {
-    const cell = cells[i];
-    if (cell) {
-      data[fieldMap[i]] = cell.textContent.trim();
-    }
+  // Start at i = 3 to skip delete button, Time, User
+  for (let i = 0; i < fieldMap.length; i++) {
+    const cell = cells[i + 3]; // offset by 3: delete, time, user
+    data[fieldMap[i]] = cell.textContent.trim();
   }
 
   fetch(`/update-entry/${entryId}`, {
