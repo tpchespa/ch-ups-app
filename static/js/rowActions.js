@@ -1,5 +1,5 @@
 
-export function saveRowChanges(entryId, button) {
+export function saveRowChanges(entryId, button, SwalWithDarkTheme) {
   const row = button.closest("tr");
   const cells = row.querySelectorAll("td");
 

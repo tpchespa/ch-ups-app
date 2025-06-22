@@ -55,7 +55,9 @@ export function setupTooltipHandlers() {
       tooltip._moveHandler = moveTooltip;
 
       requestAnimationFrame(() => {
-        tooltip.style.opacity = "1";
+        if (tooltip) {
+          tooltip.style.opacity = "1";
+        }
       });
     });
 

@@ -394,7 +394,7 @@
       <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["KOSZT (LOGISTYKA)"] }}</td>
       <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["DATA WYSYŁKI"] }}</td>
       {% if can_edit %}
-        <td><button onclick="saveRowChanges({{ entry.id }}, this)">💾</button></td>
+        <td><button onclick="window.saveRowChanges('{{ entry.id }}', this, window.SwalWithDarkTheme)">💾</button></td>
       {% else %}
         <td></td>
       {% endif %}
