@@ -342,6 +342,11 @@
     {% endif %}
   </h4>
   <div id="horizontal-table-wrapper">
+    {% if entries and (current_user.is_admin or current_user.role == 'Logistics') %}
+      <div class="submission-controls" style="align-items: flex-end;">
+        <button id="save-all-button" class="global-save-button">💾 Save All Changes</button>
+      </div>
+    {% endif %}
   <table id="horizontal-table">
     <thead>
       <tr>
@@ -354,53 +359,48 @@
         <th>nr zam.</th><th>NR PROJEKTU</th><th>NR LISTU UPS</th><th>KOSZT</th><th>DATA WYSYŁKI</th>
       </tr>
     </thead>
-    {% for entry in entries %}
-    <tr data-id="{{ entry.id }}" data-json='{{ entry.data | tojson }}'>
-      {% set ts = entry.data["_submitted_at"] %}
-      {% set entry_date = ts[:10] if ts else "" %}
-      {% set can_edit = (current_user.is_admin or current_user.role == 'Logistics' or entry.data["_submitted_by"] == current_email) %}
-      <td>
-        {% if (entry.data["_submitted_by"] == current_email and entry_date == today) or current_user.is_admin %}
-          <button class="tiny-delete" onclick="deleteEntry('{{ entry.id }}')">✖</button>
-        {% else %}
-          &mdash;
-        {% endif %}
-      </td>
-      {% set ts = entry.data["_submitted_at"] %}
-      <td data-ts="{{ ts }}"></td>
-      <td>{{ entry.data["_submitted_by"] | default("?") }}</td>
-      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Contact Name"] }}</td>
-      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Company or Name"] }}</td>
-      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Country"] }}</td>
-      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Address 1"] }}</td>
-      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["City"] }}</td>
-      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["State/Prov/Other"] }}</td>
-      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Postal Code"] }}</td>
-      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Telephone"] }}</td>
-      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Consignee Email"] }}</td>
-      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Packaging Type"] }}</td>
-      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Weight"] }}</td>
-      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Length"] }}</td>
-      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Width"] }}</td>
-      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Height"] }}</td>
-      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Description of Goods"] }}</td>
-      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Documents of No Commercial Value"] }}</td>
-      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Service"] }}</td>
-      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Reference 1"] }}</td>
-      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Reference 2"] }}</td>
-      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["nr zamówienia gdzie będzie doliczony koszt"] }}</td>
-      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["NR PROJEKTU"] }}</td>
-      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["NR LISTU UPS"] }}</td>
-      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["KOSZT (LOGISTYKA)"] }}</td>
-      <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["DATA WYSYŁKI"] }}</td>
-      {% if can_edit %}
-        <td><button onclick="window.saveRowChanges('{{ entry.id }}', this, window.SwalWithDarkTheme)">💾</button></td>
-      {% else %}
-        <td></td>
-      {% endif %}
-    </tr>
-    {% endfor %}
     <tbody id="submission-body">
+      {% for entry in entries %}
+      <tr data-id="{{ entry.id }}" data-json='{{ entry.data | tojson }}'>
+        {% set ts = entry.data["_submitted_at"] %}
+        {% set entry_date = ts[:10] if ts else "" %}
+        {% set can_edit = (current_user.is_admin or current_user.role == 'Logistics' or entry.data["_submitted_by"] == current_email) %}
+        <td>
+          {% if (entry.data["_submitted_by"] == current_email and entry_date == today) or current_user.is_admin %}
+            <button class="tiny-delete" onclick="deleteEntry('{{ entry.id }}')">✖</button>
+          {% else %}
+            &mdash;
+          {% endif %}
+        </td>
+        {% set ts = entry.data["_submitted_at"] %}
+        <td data-ts="{{ ts }}"></td>
+        <td>{{ entry.data["_submitted_by"] | default("?") }}</td>
+        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Contact Name"] }}</td>
+        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Company or Name"] }}</td>
+        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Country"] }}</td>
+        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Address 1"] }}</td>
+        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["City"] }}</td>
+        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["State/Prov/Other"] }}</td>
+        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Postal Code"] }}</td>
+        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Telephone"] }}</td>
+        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Consignee Email"] }}</td>
+        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Packaging Type"] }}</td>
+        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Weight"] }}</td>
+        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Length"] }}</td>
+        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Width"] }}</td>
+        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Height"] }}</td>
+        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Description of Goods"] }}</td>
+        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Documents of No Commercial Value"] }}</td>
+        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Service"] }}</td>
+        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Reference 1"] }}</td>
+        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Reference 2"] }}</td>
+        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["nr zamówienia gdzie będzie doliczony koszt"] }}</td>
+        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["NR PROJEKTU"] }}</td>
+        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["NR LISTU UPS"] }}</td>
+        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["KOSZT (LOGISTYKA)"] }}</td>
+        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["DATA WYSYŁKI"] }}</td>
+        </tr>
+      {% endfor %}
     </tbody>
   </table>
   </div>

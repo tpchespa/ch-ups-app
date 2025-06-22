@@ -7,7 +7,8 @@ import { fetchSavedContacts, setupContactSelection } from './contacts.js';
 import { initDatePicker } from './datepicker.js';
 import { saveRowChanges } from './rowActions.js';
 import { deleteEntry } from './rowActions.js';
-window.saveRowChanges = saveRowChanges;
+import { initializeCellTracking, setupSaveAllButton, warnOnExit } from './tableChangeTracker.js';
+
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -21,6 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  window.saveRowChanges = saveRowChanges;
   window.SwalWithDarkTheme = SwalWithDarkTheme;
   window.deleteEntry = (id) => deleteEntry(id, SwalWithDarkTheme, socket);
 
@@ -165,5 +167,9 @@ document.addEventListener("DOMContentLoaded", () => {
     td.textContent = timeStr;
   }
 });
+
+ initializeCellTracking();
+ setupSaveAllButton(SwalWithDarkTheme);
+ warnOnExit();
  
 });
