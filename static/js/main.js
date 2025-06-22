@@ -5,6 +5,8 @@ import { clearForm, setupTooltipHandlers } from './uiHelpers.js';
 import { setupAutocomplete } from './autocomplete.js';
 import { fetchSavedContacts, setupContactSelection } from './contacts.js';
 import { initDatePicker } from './datepicker.js';
+import { saveRowChanges } from './rowActions.js';
+window.saveRowChanges = saveRowChanges;
 
 document.addEventListener("DOMContentLoaded", () => {
   const socket = io();

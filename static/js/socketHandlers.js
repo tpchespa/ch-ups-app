@@ -22,14 +22,28 @@ export function initializeSocketHandlers(socket, currentUserEmail, SwalWithDarkT
 
     const createdBy = data.data["_submitted_by"] || "?";
     const canDelete = createdBy === currentUserEmail;
+    
     let timestamp = "?";
-    if (data.data["_submitted_at"]) {
-      const date = new Date(data.data["_submitted_at"] + "Z");
-      const hours = String(date.getHours()).padStart(2, "0");
-      const minutes = String(date.getMinutes()).padStart(2, "0");
-      const day = String(date.getDate()).padStart(2, "0");
-      const month = String(date.getMonth() + 1).padStart(2, "0");
-      timestamp = `${hours}:${minutes}`;
+    const rawTS = data.data["_submitted_at"];
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const isMonthView = urlParams.has("month");
+
+    if (rawTS) {
+      try {
+        const date = new Date(rawTS.endsWith("Z") ? rawTS : rawTS + "Z");
+        const hours = String(date.getHours()).padStart(2, "0");
+        const minutes = String(date.getMinutes()).padStart(2, "0");
+        const timeStr = `${hours}:${minutes}`;
+        if (isMonthView) {
+          const day = String(date.getDate()).padStart(2, '0');
+          timestamp = `${day}; ${timeStr}`;
+        } else {
+          timestamp = timeStr;
+        }
+      } catch (err) {
+        console.warn("Invalid _submitted_at timestamp:", rawTS);
+      }
     }
 
     const tr = document.createElement("tr");
