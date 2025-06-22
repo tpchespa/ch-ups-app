@@ -6,7 +6,9 @@ import { setupAutocomplete } from './autocomplete.js';
 import { fetchSavedContacts, setupContactSelection } from './contacts.js';
 import { initDatePicker } from './datepicker.js';
 import { saveRowChanges } from './rowActions.js';
+import { deleteEntry } from './rowActions.js';
 window.saveRowChanges = saveRowChanges;
+window.deleteEntry = (id) => deleteEntry(id, SwalWithDarkTheme, socket);
 
 document.addEventListener("DOMContentLoaded", () => {
   const socket = io();

@@ -29,3 +29,53 @@ export function saveRowChanges(entryId, button, SwalWithDarkTheme) {
     }
   });
 }
+
+export function deleteEntry(entryId, SwalWithDarkTheme, socket) {
+  const row = document.querySelector(`tr[data-id="${entryId}"]`);
+  if (!row) return;
+
+  const json = row.getAttribute("data-json");
+  if (!json) return;
+
+  let recentlyDeleted = null;
+
+  try {
+    recentlyDeleted = JSON.parse(json);
+  } catch (e) {
+    console.error("Failed to parse row data for undo", e);
+    return;
+  }
+
+  SwalWithDarkTheme.fire({
+    title: 'Are you sure?',
+    text: 'This shipment will be deleted.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Yes, delete it',
+    cancelButtonText: 'Cancel',
+  }).then((result) => {
+    if (result.isConfirmed) {
+      row.classList.add("fading-out");
+      setTimeout(() => {
+        row.remove();
+        socket.emit("delete_entry", { id: entryId });
+
+        SwalWithDarkTheme.fire({
+          toast: true,
+          position: 'bottom-end',
+          icon: 'info',
+          title: 'Deleted. Click to undo.',
+          showConfirmButton: true,
+          confirmButtonText: 'Undo',
+          timer: 5000,
+          timerProgressBar: true,
+        }).then(result => {
+          if (result.isConfirmed && recentlyDeleted) {
+            socket.emit("submit_form", recentlyDeleted);
+          }
+        });
+
+      }, 300);
+    }
+  });
+}
