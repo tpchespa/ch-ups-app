@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
       popup: 'swal2-popup'
     }
   });
-  
+
   window.SwalWithDarkTheme = SwalWithDarkTheme;
   window.deleteEntry = (id) => deleteEntry(id, SwalWithDarkTheme, socket);
 
@@ -146,4 +146,24 @@ document.addEventListener("DOMContentLoaded", () => {
       toggleBtn.textContent = "Hide Advanced Fields";
     }
   }
+
+
+ document.querySelectorAll('td[data-ts]').forEach(td => {
+  const raw = td.getAttribute('data-ts');
+  if (!raw) return;
+
+  const d = new Date(raw.endsWith("Z") ? raw : raw + "Z");
+  const hours = String(d.getHours()).padStart(2, '0');
+  const minutes = String(d.getMinutes()).padStart(2, '0');
+  const timeStr = `${hours}:${minutes}`;
+
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.has("month")) {
+    const day = String(d.getDate()).padStart(2, '0');
+    td.textContent = `${day}; ${timeStr}`;
+  } else {
+    td.textContent = timeStr;
+  }
+});
+ 
 });
