@@ -60,7 +60,14 @@ export function setupSaveAllButton(SwalWithDarkTheme) {
 }
 
 export function warnOnExit(SwalWithDarkTheme) {
-  // Intercept navigation via links, form buttons, etc.
+  // Fallback native dialog for refresh, tab close, etc.
+  window.addEventListener("beforeunload", (e) => {
+    if (!hasUnsavedChanges) return;
+    e.preventDefault();
+    e.returnValue = ''; // required for Chrome
+  });
+
+  // Intercept in-page navigation (clicks on links, submits, buttons)
   document.querySelectorAll("a[href], button[type='submit'], form").forEach(el => {
     el.addEventListener("click", (e) => {
       if (!hasUnsavedChanges) return;
