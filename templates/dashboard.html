@@ -415,26 +415,6 @@
 
 <script>
 
-function saveRowChanges(entryId, button) {
-  const row = button.closest("tr");
-  const cells = row.querySelectorAll("td");
-
-  const fieldMap = [
-    "Time", "_submitted_by", "Contact Name", "Company or Name", "Country", "Address 1", "City",
-    "State/Prov/Other", "Postal Code", "Telephone", "Consignee Email", "Packaging Type", "Weight",
-    "Length", "Width", "Height", "Description of Goods", "Documents of No Commercial Value", "Service",
-    "Reference 1", "Reference 2", "nr zamówienia gdzie będzie doliczony koszt", "NR PROJEKTU",
-    "NR LISTU UPS", "KOSZT (LOGISTYKA)", "DATA WYSYŁKI"
-  ];
-
-  const data = {};
-  for (let i = 2; i < fieldMap.length; i++) {
-    const cell = cells[i];
-    if (cell) {
-      data[fieldMap[i]] = cell.textContent.trim();
-    }
-  }  
-
 const SwalWithDarkTheme = Swal.mixin({
   customClass: {
     popup: 'swal2-popup'
@@ -1151,19 +1131,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-  fetch(`/update-entry/${entryId}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data)
-  }).then(res => {
-    if (res.ok) {
-      SwalWithDarkTheme.fire({ icon: "success", text: "Changes saved!" });
-    } else {
-      SwalWithDarkTheme.fire({ icon: "error", text: "Failed to save changes." });
-    }
-  });
-}
-
 function validateAllFields() {
   let hasError = false;
 
@@ -1542,6 +1509,39 @@ document.addEventListener("DOMContentLoaded", function () {
     initFlatpickr(this.value);
   });
 });
+
+function saveRowChanges(entryId, button) {
+  const row = button.closest("tr");
+  const cells = row.querySelectorAll("td");
+
+  const fieldMap = [
+    "Time", "_submitted_by", "Contact Name", "Company or Name", "Country", "Address 1", "City",
+    "State/Prov/Other", "Postal Code", "Telephone", "Consignee Email", "Packaging Type", "Weight",
+    "Length", "Width", "Height", "Description of Goods", "Documents of No Commercial Value", "Service",
+    "Reference 1", "Reference 2", "nr zamówienia gdzie będzie doliczony koszt", "NR PROJEKTU",
+    "NR LISTU UPS", "KOSZT (LOGISTYKA)", "DATA WYSYŁKI"
+  ];
+
+  const data = {};
+  for (let i = 2; i < fieldMap.length; i++) {
+    const cell = cells[i];
+    if (cell) {
+      data[fieldMap[i]] = cell.textContent.trim();
+    }
+  }
+
+  fetch(`/update-entry/${entryId}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  }).then(res => {
+    if (res.ok) {
+      SwalWithDarkTheme.fire({ icon: "success", text: "Changes saved!" });
+    } else {
+      SwalWithDarkTheme.fire({ icon: "error", text: "Failed to save changes." });
+    }
+  });
+}
 
 </script>
 <div id="autocomplete-layer"></div>
