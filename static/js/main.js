@@ -8,7 +8,7 @@ import { initDatePicker } from './datepicker.js';
 import { saveRowChanges } from './rowActions.js';
 import { deleteEntry } from './rowActions.js';
 window.saveRowChanges = saveRowChanges;
-window.deleteEntry = (id) => deleteEntry(id, SwalWithDarkTheme, socket);
+
 
 document.addEventListener("DOMContentLoaded", () => {
   const socket = io();
@@ -20,7 +20,9 @@ document.addEventListener("DOMContentLoaded", () => {
       popup: 'swal2-popup'
     }
   });
+  
   window.SwalWithDarkTheme = SwalWithDarkTheme;
+  window.deleteEntry = (id) => deleteEntry(id, SwalWithDarkTheme, socket);
 
   // Initialize core modules
   initDatePicker();
