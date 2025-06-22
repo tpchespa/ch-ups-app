@@ -430,7 +430,6 @@ def handle_submit(data):
 def update_entry(entry_id):
     entry = UPSEntry.query.get_or_404(entry_id)
 
-    # Only allow edits by admin, Logistic role, or original submitter
     is_authorized = (
         current_user.is_admin or
         current_user.role == "Logistic" or
@@ -442,21 +441,22 @@ def update_entry(entry_id):
 
     updated_data = request.json
 
-    # Keep protected fields
     protected_keys = {"_submitted_by", "_submitted_at"}
     preserved = {k: entry.data.get(k) for k in protected_keys}
 
-    # Only allow updates to shipment-related fields
     allowed_keys = set(entry.data.keys()) - protected_keys
+    new_data = dict(entry.data)
+
     for key in allowed_keys:
         if key in updated_data:
-            entry.data[key] = updated_data[key]
+            new_data[key] = updated_data[key]
 
-    # Reapply preserved metadata
-    entry.data.update(preserved)
+    new_data.update(preserved)
+    entry.data = new_data  # trigger SQLAlchemy to detect change
 
     db.session.commit()
     return {"success": True}
+
 
 @socketio.on('delete_entry')
 def handle_delete(data):
