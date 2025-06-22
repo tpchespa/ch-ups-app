@@ -432,7 +432,7 @@ def update_entry(entry_id):
 
     is_authorized = (
         current_user.is_admin or
-        current_user.role == "Logistic" or
+        current_user.role == "Logistics" or
         entry.data.get("_submitted_by") == current_user.email
     )
 
