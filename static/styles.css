@@ -335,11 +335,19 @@ input, select, textarea {
   table-layout: fixed; 
 }
 
+#horizontal-table th {
+  background: #444;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 7pt;
+  text-transform: uppercase;
+}
+
 #horizontal-table th,
 #horizontal-table td {
   min-width: 80px;
   border: 1px solid #333;
-  padding: 4px 6px; 
+  padding: 3px 5px; 
   text-align: left;
   background: #1e1e1e;
   word-wrap: break-word;
@@ -347,15 +355,27 @@ input, select, textarea {
   text-overflow: ellipsis;
 }
 
-#horizontal-table th {
-  background: #333;
-  color: #fff;
+#horizontal-table th:first-child,
+#horizontal-table td:first-child {
+  width: 32px;         /* size for the delete button */
+  min-width: 32px;
+  max-width: 32px;
+  text-align: center;
+  padding: 2px 4px;
+}
+
+#horizontal-table th:nth-child(2),
+#horizontal-table td:nth-child(2) {
+  width: 48px;         /* time column */
+  min-width: 48px;
+  max-width: 48px;
+  text-align: center;
 }
 
 #horizontal-table td.editable-cell {
   background-color: #2f2f2f;
   color: #ffffff;
-  padding: 6px 8px;
+  padding: 4px 6px;
   border-radius: 6px;
   font-size: 8pt;
   font-family: inherit;
@@ -367,7 +387,7 @@ input, select, textarea {
 }
 
 #horizontal-table td.editable-cell:hover {
-  background-color: #393939 !important;
+  background-color: #464646 !important;
   box-shadow: inset 0 0 2px #000, 0 0 0 2px #4da6ff;
 }
 
