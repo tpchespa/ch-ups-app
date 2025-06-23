@@ -353,7 +353,7 @@ input, select, textarea {
 }
 
 #horizontal-table td.editable-cell {
-  background-color: #2f2f2f !important;
+  background-color: #2f2f2f;
   color: #ffffff;
   padding: 6px 8px;
   border-radius: 6px;
