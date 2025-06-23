@@ -103,7 +103,7 @@
 document.getElementById("company_name")?.addEventListener("paste", function (e) {
   e.preventDefault();
   const fields = [
-    "company_name", "contact_name", "country", "address_1",
+    "contact_name", "company_name", "country", "address_1",
     "city", "state", "postal_code", "telephone", "email"
   ];
   const values = e.clipboardData.getData('text/plain').split('\t');
