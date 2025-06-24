@@ -23,7 +23,10 @@ export function setupAutocomplete(inputId, suggestionsId, map) {
       li.addEventListener("click", () => {
         input.value = code;
         suggestionsBox.style.display = "none";
-        if (typeof window.validateAllFields === "function") window.validateAllFields();
+        if (typeof window.validateAllFields === "function") {
+          const event = new Event("blur");
+          input.dispatchEvent(event);
+        }
       });
       suggestionsBox.appendChild(li);
     });

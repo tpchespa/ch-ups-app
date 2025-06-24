@@ -1,5 +1,6 @@
 import { countryMap, packagingMap, serviceMap } from './fieldMappings.js';
 import { validateAllFields, validateFields, cleanInputValue } from './formValidation.js';
+import { setupFieldValidation } from './formValidation.js';
 import { initializeSocketHandlers } from './socketHandlers.js';
 import { clearForm, setupTooltipHandlers } from './uiHelpers.js';
 import { setupAutocomplete } from './autocomplete.js';
@@ -31,6 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
   setupTooltipHandlers();
   setupContactSelection();
   fetchSavedContacts();
+  setupFieldValidation();
   initializeSocketHandlers(socket, currentUserEmail, SwalWithDarkTheme);
 
   // Autocomplete fields

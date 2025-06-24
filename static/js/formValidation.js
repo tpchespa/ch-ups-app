@@ -9,13 +9,13 @@ export const validateFields = [
   { id: "Postal_Code", label: "Postal_Code", max: 10, alphanumeric: true },
   { id: "State_Prov_Other", label: "State/Province/Other", max: 30, alphanumeric: true },
   { id: "Telephone", label: "Telephone", max: 15, alphanumeric: true },
-  { id: "Packaging_Type", label: "Packaging Type", required: true, max: 2 },
+  { id: "Packaging_Type", label: "Packaging Type", required: true },
   { id: "Weight", label: "Weight", conditionalWeight: true, max: 5 },
   { id: "Length", label: "Length", numeric: true, max: 4 },
   { id: "Width", label: "Width", numeric: true, max: 4 },
   { id: "Height", label: "Height", numeric: true, max: 4 },
   { id: "Description_of_Goods", label: "Description of Goods", max: 35, alphanumeric: true },
-  { id: "Service", label: "Service", required: true, max: 2 },
+  { id: "Service", label: "Service", required: true },
   { id: "Reference_1", label: "Reference 1", max: 35, alphanumeric: true },
   { id: "Reference_2", label: "Reference 2", max: 35, alphanumeric: true }
 ];
@@ -155,4 +155,14 @@ export function validateAllFields() {
   });
 
   return !hasError;
+}
+
+export function setupFieldValidation() {
+  validateFields.forEach(field => {
+    const input = document.getElementById(field.id);
+    if (!input) return;
+
+    input.addEventListener("input", () => validateAllFields());
+    input.addEventListener("blur", () => validateAllFields());
+  });
 }
