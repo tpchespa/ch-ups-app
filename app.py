@@ -496,6 +496,15 @@ def update_user_name(user_id):
     db.session.commit()
     return redirect(url_for('admin_users'))
 
+@app.route('/patch-db')
+def patch_db():
+    try:
+        db.engine.execute('ALTER TABLE "user" ADD COLUMN first_name VARCHAR(100);')
+        db.engine.execute('ALTER TABLE "user" ADD COLUMN last_name VARCHAR(100);')
+        return "Columns added."
+    except Exception as e:
+        return f"Error: {e}"
+
 @app.route('/init-db')
 def init_db():
     db.create_all()
