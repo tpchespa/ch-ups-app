@@ -78,6 +78,10 @@ def admin_users():
     if not current_user.is_admin:
         return "Unauthorized", 403
     users = User.query.all()
+    user_display_names = {
+        u.email: f"{u.first_name} {u.last_name[0]}." if u.first_name and u.last_name else u.email
+        for u in users
+    }
     return render_template('admin_users.html', users=users)
 
 @app.route('/admin/change-role/<int:user_id>', methods=['POST'])
@@ -212,7 +216,8 @@ def dashboard():
         current_email=current_user.email,
         selected_date=selected_date_str,
         selected_month=selected_month_str or '',
-        today=today_str 
+        today=today_str,
+        user_display_names=user_display_names 
     )
 
 @app.route('/download')
@@ -497,16 +502,6 @@ def update_user_name(user_id):
     db.session.commit()
     return redirect(url_for('admin_users'))
 
-@app.route('/patch-db')
-def patch_db():
-    try:
-        with db.engine.connect() as connection:
-            connection.execute(text('ALTER TABLE "user" ADD COLUMN first_name VARCHAR(100);'))
-            connection.execute(text('ALTER TABLE "user" ADD COLUMN last_name VARCHAR(100);'))
-        return "Columns added successfully."
-    except Exception as e:
-        return f"Error: {e}"
-        
 @app.route('/init-db')
 def init_db():
     db.create_all()

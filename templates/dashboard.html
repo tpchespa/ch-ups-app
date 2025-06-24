@@ -23,7 +23,7 @@
 </head>
 <body>
   <header>
-    <div>Welcome, {{ current_user.email }}</div>
+    <div>Welcome, {{ current_user.first_name or current_user.email }}</div>
     <a href="/logout">Logout</a>
   </header>
 
@@ -379,7 +379,7 @@
         </td>
         {% set ts = entry.data["_submitted_at"] %}
         <td data-ts="{{ ts }}"></td>
-        <td>{{ entry.data["_submitted_by"] | default("?") }}</td>
+        <td>{{ user_display_names[entry.data["_submitted_by"]] if entry.data["_submitted_by"] in user_display_names else entry.data["_submitted_by"] }}</td>
         <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Contact Name"] }}</td>
         <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Company or Name"] }}</td>
         <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Country"] }}</td>
