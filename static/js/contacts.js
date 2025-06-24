@@ -29,8 +29,8 @@ export function setupContactSelection() {
       if (input) {
         input.value = value;
 
-        if (typeof window.validateField === "function") {
-          window.validateField(id);
+        if (typeof window.validateFieldDirect === "function") {
+          window.validateFieldDirect(id);
         }
       }
     });

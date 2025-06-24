@@ -167,9 +167,71 @@ export function setupFieldValidation() {
   });
 }
 
-export function validateField(fieldId) {
+export function validateFieldDirect(fieldId) {
+  const fieldDef = validateFields.find(f => f.id === fieldId);
   const input = document.getElementById(fieldId);
-  if (!input) return;
-  input.dispatchEvent(new Event("input"));
-  input.dispatchEvent(new Event("blur"));
+  const errorDiv = document.getElementById("error-" + fieldId);
+  if (!fieldDef || !input || !errorDiv) return;
+
+  const value = input.value.trim();
+  errorDiv.innerText = "";
+  input.classList.remove("input-error");
+  errorDiv.classList.remove("field-warning");
+
+  if (fieldDef.required && !value) {
+    errorDiv.innerText = `${fieldDef.label} is required.`;
+    input.classList.add("input-error");
+    return;
+  }
+
+  if (fieldDef.max && value.length > fieldDef.max) {
+    errorDiv.innerText = `${fieldDef.label} must be ${fieldDef.max} characters or fewer.`;
+    input.classList.add("input-error");
+    return;
+  }
+
+  if (fieldDef.alphanumeric) {
+    const { wasModified } = cleanInputValue(value, fieldId === "Postal_Code");
+    if (!/^[\p{L}0-9\s]*$/u.test(value)) {
+      if (wasModified) {
+        errorDiv.innerText = `${fieldDef.label} contains special characters and will be auto-corrected.`;
+        errorDiv.classList.add("field-warning");
+      } else {
+        errorDiv.innerText = `${fieldDef.label} must contain only letters, numbers, and spaces.`;
+        input.classList.add("input-error");
+      }
+      return;
+    }
+  }
+
+  if (fieldDef.numeric && value && !/^\d+$/.test(value)) {
+    errorDiv.innerText = `${fieldDef.label} must contain only numbers.`;
+    input.classList.add("input-error");
+    return;
+  }
+
+  if (fieldDef.conditionalWeight) {
+    const packagingType = document.getElementById("Packaging_Type")?.value;
+    if (packagingType === "2" && !value) {
+      errorDiv.innerText = `Weight is required for Packaging Type "2".`;
+      input.classList.add("input-error");
+      return;
+    }
+
+    if (value && !/^\d+([.,]\d+)?$/.test(value)) {
+      errorDiv.innerText = `Weight must be a number (e.g., 10 or 10.5).`;
+      input.classList.add("input-error");
+      return;
+    }
+  }
+
+  if (fieldId === "Country") {
+    if (value.length !== 2) {
+      errorDiv.innerText = "Country code must be exactly 2 characters.";
+      input.classList.add("input-error");
+    } else if (!validCountryCodes.has(value.toUpperCase())) {
+      errorDiv.innerText = "Invalid ISO country code (e.g., US, DE, JP).";
+      input.classList.add("input-error");
+    }
+  }
 }
