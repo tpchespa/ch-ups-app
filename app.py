@@ -46,7 +46,9 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(150), unique=True, index=True)
     password = db.Column(db.String(256))
     is_admin = db.Column(db.Boolean, default=False)
-    role = db.Column(db.String(50), default="User") 
+    role = db.Column(db.String(50), default="User")
+    first_name = db.Column(db.String(100))
+    last_name = db.Column(db.String(100))
 
 class UPSEntry(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -482,6 +484,17 @@ def handle_delete(data):
 
     except Exception as e:
         emit('error', {'message': str(e)})
+
+@app.route('/admin/update-name/<int:user_id>', methods=['POST'])
+@login_required
+def update_user_name(user_id):
+    if not current_user.is_admin:
+        return "Unauthorized", 403
+    user = User.query.get_or_404(user_id)
+    user.first_name = request.form['first_name']
+    user.last_name = request.form['last_name']
+    db.session.commit()
+    return redirect(url_for('admin_users'))
 
 @app.route('/init-db')
 def init_db():

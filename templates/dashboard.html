@@ -31,6 +31,15 @@
   <div class="container">
       <h2>UPS Shipment Form</h2>
       <form id="form" class="form-wrapper" autocomplete="off">
+        
+        <div class="contact-search-row">
+          <label for="contactSearch" class="contact-label">Load saved contact:</label>
+          <input id="contactSearch" list="contactList" placeholder="Start typing..." autocomplete="off" class="contact-dropdown" />
+          <datalist id="contactList"></datalist>
+          <a href="/contacts/manage" class="tiny-manage-button" title="Manage saved contacts">
+            <i class="fas fa-cog"></i>
+          </a>
+        </div>
 
         <div class="horizontal-form">
         <div class="horizontal-field">
@@ -306,15 +315,6 @@
               </label>
           </div>
 
-          <div class="contact-search-row">
-            <label for="contactSearch" class="contact-label">Load saved contact:</label>
-            <input id="contactSearch" list="contactList" placeholder="Start typing..." autocomplete="off" class="contact-dropdown" />
-            <datalist id="contactList"></datalist>
-            <a href="/contacts/manage" class="tiny-manage-button" title="Manage saved contacts">
-              <i class="fas fa-cog"></i>
-            </a>
-          </div>
-          
           </form>
           <div id="autocomplete-layer"></div>
         
