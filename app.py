@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, send_file
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import text
 from flask_login import LoginManager, login_user, login_required, logout_user, UserMixin, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_socketio import SocketIO, emit
@@ -499,12 +500,13 @@ def update_user_name(user_id):
 @app.route('/patch-db')
 def patch_db():
     try:
-        db.engine.execute('ALTER TABLE "user" ADD COLUMN first_name VARCHAR(100);')
-        db.engine.execute('ALTER TABLE "user" ADD COLUMN last_name VARCHAR(100);')
-        return "Columns added."
+        with db.engine.connect() as connection:
+            connection.execute(text('ALTER TABLE "user" ADD COLUMN first_name VARCHAR(100);'))
+            connection.execute(text('ALTER TABLE "user" ADD COLUMN last_name VARCHAR(100);'))
+        return "Columns added successfully."
     except Exception as e:
         return f"Error: {e}"
-
+        
 @app.route('/init-db')
 def init_db():
     db.create_all()
