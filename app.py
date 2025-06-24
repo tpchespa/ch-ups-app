@@ -78,10 +78,6 @@ def admin_users():
     if not current_user.is_admin:
         return "Unauthorized", 403
     users = User.query.all()
-    user_display_names = {
-        u.email: f"{u.first_name} {u.last_name[0]}." if u.first_name and u.last_name else u.email
-        for u in users
-    }
     return render_template('admin_users.html', users=users)
 
 @app.route('/admin/change-role/<int:user_id>', methods=['POST'])
@@ -209,6 +205,12 @@ def dashboard():
     filtered_entries = [e for _, e in filtered]
 
     today_str = datetime.utcnow().date().isoformat()
+
+    users = User.query.all()
+    user_display_names = {
+        u.email: f"{u.first_name} {u.last_name[0]}." if u.first_name and u.last_name else u.email
+        for u in users
+    }
 
     return render_template(
         'dashboard.html',
