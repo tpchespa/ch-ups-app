@@ -26,7 +26,13 @@ export function setupContactSelection() {
     Object.entries(data).forEach(([field, value]) => {
       const id = field.replace(/\s|\//g, "_");
       const input = document.getElementById(id);
-      if (input) input.value = value;
+      if (input) {
+        input.value = value;
+
+        // Trigger validation for this input
+        input.dispatchEvent(new Event("input"));
+        input.dispatchEvent(new Event("blur"));
+      }
     });
 
     searchInput.value = "";
