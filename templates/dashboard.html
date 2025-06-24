@@ -31,22 +31,6 @@
   <div class="container">
       <h2>UPS Shipment Form</h2>
       <form id="form" class="form-wrapper" autocomplete="off">
-        <div class="form-submit form-actions-row">
-          <button type="submit">Submit</button>
-
-            <label class="save-contact-label">
-              <input type="checkbox" id="saveContactCheckbox" />
-              Save contact
-            </label>
-          </div>
-          <div class="contact-search-row">
-            <label for="contactSearch" class="contact-label">Load saved contact:</label>
-            <input id="contactSearch" list="contactList" placeholder="Start typing..." autocomplete="off" class="contact-dropdown" />
-            <datalist id="contactList"></datalist>
-            <a href="/contacts/manage" class="tiny-manage-button" title="Manage saved contacts">
-              <i class="fas fa-cog"></i>
-            </a>
-          </div>
 
         <div class="horizontal-form">
         <div class="horizontal-field">
@@ -304,7 +288,7 @@
             </div>
 
             <div class="horizontal-field">
-              <label for="Custom_Cost">Koszt (Logistyka))</label>
+              <label for="Custom_Cost">Koszt (Logistyka)</label>
               <input type="text" id="Custom_Cost">
             </div>
 
@@ -313,6 +297,24 @@
               <input type="date" id="Custom_Ship_Date">
             </div>
           </div>
+
+          <div class="form-submit form-actions-row">
+            <button type="submit">Submit</button>
+              <label class="save-contact-label">
+                <input type="checkbox" id="saveContactCheckbox" />
+                Save contact
+              </label>
+          </div>
+
+          <div class="contact-search-row">
+            <label for="contactSearch" class="contact-label">Load saved contact:</label>
+            <input id="contactSearch" list="contactList" placeholder="Start typing..." autocomplete="off" class="contact-dropdown" />
+            <datalist id="contactList"></datalist>
+            <a href="/contacts/manage" class="tiny-manage-button" title="Manage saved contacts">
+              <i class="fas fa-cog"></i>
+            </a>
+          </div>
+          
           </form>
           <div id="autocomplete-layer"></div>
         

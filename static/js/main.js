@@ -38,9 +38,19 @@ document.addEventListener("DOMContentLoaded", () => {
   window.validateFieldDirect = validateFieldDirect;
 
   // Autocomplete fields
-  setupAutocomplete("Country", "country-suggestions", countryMap);
-  setupAutocomplete("Packaging_Type", "packaging-suggestions", packagingMap);
-  setupAutocomplete("Service", "service-suggestions", serviceMap);
+  const enablePackagingAutocomplete = false;
+  const enableServiceAutocomplete = false;
+  const enableCountryAutocomplete = true;
+  if (enableCountryAutocomplete) {
+    setupAutocomplete("Country", "country-suggestions", countryMap);
+  }
+  if (enablePackagingAutocomplete) {
+    setupAutocomplete("Packaging_Type", "packaging-suggestions", packagingMap);
+  }
+  if (enableServiceAutocomplete) {
+    setupAutocomplete("Service", "service-suggestions", serviceMap);
+  }
+  
 
   // Set up paste handling for Excel-style input
   const firstField = validateFields[0]?.id;

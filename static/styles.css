@@ -787,3 +787,7 @@ input, select, textarea {
   font-size: 14px;
 }
 
+#packaging-suggestions,
+#service-suggestions {
+  display: none;
+}
