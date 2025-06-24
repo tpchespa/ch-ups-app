@@ -26,12 +26,14 @@ export function setupContactSelection() {
     Object.entries(data).forEach(([field, value]) => {
       const id = field.replace(/\s|\//g, "_");
       const input = document.getElementById(id);
-      if (input) input.value = value;
-    });
+      if (input) {
+        input.value = value;
 
-    if (typeof window.validateAllFields === "function") {
-      window.validateAllFields();
-    }
+        if (typeof window.validateField === "function") {
+          window.validateField(id);
+        }
+      }
+    });
 
     searchInput.value = "";
   });

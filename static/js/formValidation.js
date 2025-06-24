@@ -166,3 +166,10 @@ export function setupFieldValidation() {
     input.addEventListener("blur", () => validateAllFields());
   });
 }
+
+export function validateField(fieldId) {
+  const input = document.getElementById(fieldId);
+  if (!input) return;
+  input.dispatchEvent(new Event("input"));
+  input.dispatchEvent(new Event("blur"));
+}

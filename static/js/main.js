@@ -1,6 +1,7 @@
 import { countryMap, packagingMap, serviceMap } from './fieldMappings.js';
 import { validateAllFields, validateFields, cleanInputValue } from './formValidation.js';
 import { setupFieldValidation } from './formValidation.js';
+import { validateField } from './formValidation.js';
 import { initializeSocketHandlers } from './socketHandlers.js';
 import { clearForm, setupTooltipHandlers } from './uiHelpers.js';
 import { setupAutocomplete } from './autocomplete.js';
@@ -25,6 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.saveRowChanges = saveRowChanges;
   window.SwalWithDarkTheme = SwalWithDarkTheme;
+  window.validateField = validateField;
   window.deleteEntry = (id) => deleteEntry(id, SwalWithDarkTheme, socket);
 
   // Initialize core modules
