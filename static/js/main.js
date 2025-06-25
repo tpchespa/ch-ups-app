@@ -183,7 +183,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
  document.getElementById("download-visible-xlsx")?.addEventListener("click", exportVisibleTableToXLSX);
- 
+
  document.getElementById('user-filter')?.addEventListener('change', () => {
    const selectedUser = document.getElementById('user-filter').value;
    const selectedDate = document.getElementById('unified-picker')?.value;
@@ -202,4 +202,21 @@ document.addEventListener("DOMContentLoaded", () => {
  setupSaveAllButton(SwalWithDarkTheme);
  warnOnExit(SwalWithDarkTheme);
  
+ const banner = document.getElementById("dev-banner");
+ const closeBtn = document.getElementById("close-banner");
+
+ if (banner && closeBtn) {
+   const bannerKey = "devBannerDismissed";
+
+   // Show banner if not previously dismissed
+   if (!localStorage.getItem(bannerKey)) {
+     banner.style.display = "block";
+   }
+
+   closeBtn.addEventListener("click", () => {
+     banner.style.display = "none";
+     localStorage.setItem(bannerKey, "true");
+   });
+ }
+
 });
