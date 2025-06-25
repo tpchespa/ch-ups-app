@@ -20,7 +20,7 @@ export function initializeSocketHandlers(socket, currentUserEmail, SwalWithDarkT
       });
     }
 
-    const createdBy = data.data["_submitted_by"] || "?";
+    const createdBy = data.user_display || data.data["_submitted_by"] || "?";
     const canDelete = createdBy === currentUserEmail;
     
     let timestamp = "?";

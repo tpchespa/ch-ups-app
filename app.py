@@ -430,7 +430,18 @@ def handle_submit(data):
         db.session.add(entry)
         db.session.commit()
 
-        emit('new_entry', {'id': entry.id, 'data': entry.data}, broadcast=True)
+        # Format name
+        full_name = (
+            f"{current_user.first_name} {current_user.last_name[0]}."
+            if current_user.first_name and current_user.last_name
+            else current_user.email
+        )
+
+        emit('new_entry', {
+            'id': entry.id,
+            'data': entry.data,
+            'user_display': full_name
+        }, broadcast=True)
 
     except Exception as e:
         emit('error', {'message': str(e)})
