@@ -6,7 +6,7 @@ export const validateFields = [
   { id: "Country", label: "Country", required: true },
   { id: "Address_1", label: "Address 1", required: true, max: 35, alphanumeric: true },
   { id: "City", label: "City", required: true, max: 30, alphanumeric: true },
-  { id: "Postal_Code", label: "Postal_Code", max: 10, alphanumeric: true },
+  { id: "Postal_Code", label: "Postal Code", max: 10, alphanumeric: true },
   { id: "State_Prov_Other", label: "State/Province/Other", max: 30, alphanumeric: true },
   { id: "Telephone", label: "Telephone", max: 15, alphanumeric: true },
   { id: "Packaging_Type", label: "Packaging Type", required: true },
@@ -100,7 +100,7 @@ export function validateAllFields() {
     }
 
     if (field.alphanumeric) {
-      const { wasModified } = cleanInputValue(value, field.id === "Postal_Code");
+      const { wasModified } = cleanInputValue(value, field.label === "Postal Code");
       if (!/^[\p{L}0-9\s]*$/u.test(value)) {
         if (wasModified) {
           errorDiv.innerText = `${field.label} contains special characters and will be auto-corrected.`;

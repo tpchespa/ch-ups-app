@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const input = document.getElementById(field.id);
         if (!input) return;
         if (field.alphanumeric) {
-          const { cleaned, wasModified } = cleanInputValue(input.value, field.id === "Postal_Code");
+          const { cleaned, wasModified } = cleanInputValue(input.value, field.label === "Postal Code");
           if (wasModified) {
             input.value = cleaned;
             altered = true;
