@@ -10,6 +10,7 @@ import { initDatePicker } from './datepicker.js';
 import { saveRowChanges } from './rowActions.js';
 import { deleteEntry } from './rowActions.js';
 import { initializeCellTracking, setupSaveAllButton, warnOnExit } from './tableChangeTracker.js';
+import { exportVisibleTableToXLSX } from './tableExport.js';
 
 
 
@@ -181,6 +182,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+ document.getElementById("download-visible-xlsx")?.addEventListener("click", exportVisibleTableToXLSX);
+ 
  document.getElementById('user-filter')?.addEventListener('change', () => {
    const selectedUser = document.getElementById('user-filter').value;
    const selectedDate = document.getElementById('unified-picker')?.value;
