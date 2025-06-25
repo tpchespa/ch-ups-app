@@ -365,11 +365,9 @@
     {% endif %}
   </h4>
   <div id="horizontal-table-wrapper">
-    {% if entries and (current_user.is_admin or current_user.role == 'Logistics') %}
       <div class="submission-controls" style="align-items: flex-end;">
         <button id="save-all-button" class="global-save-button">💾 Save All Changes</button>
       </div>
-    {% endif %}
   <table id="horizontal-table">
     <thead>
       <tr>
