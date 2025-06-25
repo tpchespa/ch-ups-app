@@ -1,16 +1,16 @@
-import { countryMap, packagingMap, serviceMap } from './fieldMappings.js';
-import { validateAllFields, validateFields, cleanInputValue } from './formValidation.js';
-import { setupFieldValidation } from './formValidation.js';
-import { validateFieldDirect } from './formValidation.js';
-import { initializeSocketHandlers } from './socketHandlers.js';
-import { clearForm, setupTooltipHandlers } from './uiHelpers.js';
-import { setupAutocomplete } from './autocomplete.js';
-import { fetchSavedContacts, setupContactSelection } from './contacts.js';
-import { initDatePicker } from './datepicker.js';
-import { saveRowChanges } from './rowActions.js';
-import { deleteEntry } from './rowActions.js';
-import { initializeCellTracking, setupSaveAllButton, warnOnExit } from './tableChangeTracker.js';
-import { exportVisibleTableToXLSX } from './tableExport.js';
+import { countryMap, packagingMap, serviceMap } from './fieldMappings.js?v=1.0.1';
+import { validateAllFields, validateFields, cleanInputValue } from './formValidation.js?v=1.0.1';
+import { setupFieldValidation } from './formValidation.js?v=1.0.1';
+import { validateFieldDirect } from './formValidation.js?v=1.0.1';
+import { initializeSocketHandlers } from './socketHandlers.js?v=1.0.1';
+import { clearForm, setupTooltipHandlers } from './uiHelpers.js?v=1.0.1';
+import { setupAutocomplete } from './autocomplete.js?v=1.0.1';
+import { fetchSavedContacts, setupContactSelection } from './contacts.js?v=1.0.1';
+import { initDatePicker } from './datepicker.js?v=1.0.1';
+import { saveRowChanges } from './rowActions.js?v=1.0.1';
+import { deleteEntry } from './rowActions.js?v=1.0.1';
+import { initializeCellTracking, setupSaveAllButton, warnOnExit } from './tableChangeTracker.js?v=1.0.1';
+import { exportVisibleTableToXLSX } from './tableExport.js?v=1.0.1';
 
 
 
