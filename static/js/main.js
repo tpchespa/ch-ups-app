@@ -163,7 +163,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-
  document.querySelectorAll('td[data-ts]').forEach(td => {
   const raw = td.getAttribute('data-ts');
   if (!raw) return;
@@ -181,6 +180,20 @@ document.addEventListener("DOMContentLoaded", () => {
     td.textContent = timeStr;
   }
 });
+
+ document.getElementById('user-filter')?.addEventListener('change', () => {
+   const selectedUser = document.getElementById('user-filter').value;
+   const selectedDate = document.getElementById('unified-picker')?.value;
+   const viewMode = document.getElementById('view-mode')?.value;
+
+   const params = new URLSearchParams();
+
+   if (selectedUser) params.set('user', selectedUser);
+   if (selectedDate && viewMode === 'date') params.set('date', selectedDate);
+   if (selectedDate && viewMode === 'month') params.set('month', selectedDate);
+
+   window.location.href = `/?${params.toString()}`;
+ });
 
  initializeCellTracking();
  setupSaveAllButton(SwalWithDarkTheme);

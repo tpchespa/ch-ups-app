@@ -31,7 +31,7 @@
   <div class="container">
       <h2>UPS Shipment Form</h2>
       <form id="form" class="form-wrapper" autocomplete="off">
-        
+
         <div class="contact-search-row">
           <label for="contactSearch" class="contact-label">Load saved contact:</label>
           <input id="contactSearch" list="contactList" placeholder="Start typing..." autocomplete="off" class="contact-dropdown" />
@@ -311,7 +311,7 @@
             <button type="submit">Submit</button>
               <label class="save-contact-label">
                 <input type="checkbox" id="saveContactCheckbox" />
-                Save contact
+                Save current contact
               </label>
           </div>
 
@@ -332,11 +332,20 @@
       </select>
       <input id="unified-picker" class="date-input small-input">
     </div>
+    <div style="display: inline-flex; gap: 12px; align-items: center; padding: 10px 16px; border-radius: 8px; background-color: #1e1e1e; border: 1px solid #333;">
+      <label for="user-filter" class="label-inline">Filter by user:</label>
+      <select id="user-filter" class="small-input">
+        <option value="">All Users</option>
+        {% for email, display_name in user_display_names.items() %}
+          <option value="{{ email }}" {% if email == selected_user %}selected{% endif %}>{{ display_name }}</option>
+        {% endfor %}
+      </select>
+    </div>
 
-  <a href="/download{% if selected_date %}?date={{ selected_date }}{% elif selected_month %}?month={{ selected_month }}{% endif %}" class="button-link">Download CSV file</a>
-  <a href="/download_xlsx{% if selected_date %}?date={{ selected_date }}{% elif selected_month %}?month={{ selected_month }}{% endif %}" class="button-link xlsx-button">
+  <a href="/download{% if selected_date %}?date={{ selected_date }}{% elif selected_month %}?month={{ selected_month }}{% endif %}{% if selected_user %}{{ '&' if selected_date or selected_month else '?' }}user={{ selected_user }}{% endif %}" class="button-link">Download UPS CSV</a>
+  <a href="/download_xlsx{% if selected_date %}?date={{ selected_date }}{% elif selected_month %}?month={{ selected_month }}{% endif %}{% if selected_user %}{{ '&' if selected_date or selected_month else '?' }}user={{ selected_user }}{% endif %}" class="button-link xlsx-button">
     <i class="fas fa-file-excel" style="margin-right: 6px;"></i>
-    Download XLSX file
+    Download UPS XLSX 
   </a>
   </div>
   <h4>

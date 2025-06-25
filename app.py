@@ -171,6 +171,7 @@ def dashboard():
 
     selected_date_str = request.args.get("date")
     selected_month_str = request.args.get("month")
+    selected_user = request.args.get("user")
 
     if not selected_date_str and not selected_month_str:
         selected_date_str = datetime.now(warsaw).strftime("%Y-%m-%d")
@@ -185,6 +186,9 @@ def dashboard():
 
         utc_time = datetime.fromisoformat(ts).replace(tzinfo=pytz.utc)
         local_time = utc_time.astimezone(warsaw)
+
+        if selected_user and e.data.get("_submitted_by") != selected_user:
+            continue 
 
         if selected_date_str:
             selected_date = datetime.strptime(selected_date_str, "%Y-%m-%d").date()
@@ -218,6 +222,7 @@ def dashboard():
         current_email=current_user.email,
         selected_date=selected_date_str,
         selected_month=selected_month_str or '',
+        selected_user=selected_user,
         today=today_str,
         user_display_names=user_display_names 
     )
@@ -228,6 +233,7 @@ def download():
     warsaw = pytz.timezone("Europe/Warsaw")
     selected_date_str = request.args.get("date")
     selected_month_str = request.args.get("month")
+    selected_user = request.args.get("user")
 
     entries = UPSEntry.query.all()
     filtered = []
@@ -239,6 +245,9 @@ def download():
 
         utc_time = datetime.fromisoformat(ts).replace(tzinfo=pytz.utc)
         local_time = utc_time.astimezone(warsaw)
+
+        if selected_user and e.data.get("_submitted_by") != selected_user:
+            continue
 
         if selected_date_str:
             selected_date = datetime.strptime(selected_date_str, "%Y-%m-%d").date()
@@ -270,6 +279,7 @@ def download_xlsx():
     warsaw = pytz.timezone("Europe/Warsaw")
     selected_date_str = request.args.get("date")
     selected_month_str = request.args.get("month")
+    selected_user = request.args.get("user")
 
     entries = UPSEntry.query.all()
     filtered = []
@@ -281,6 +291,9 @@ def download_xlsx():
 
         utc_time = datetime.fromisoformat(ts).replace(tzinfo=pytz.utc)
         local_time = utc_time.astimezone(warsaw)
+
+        if selected_user and e.data.get("_submitted_by") != selected_user:
+            continue
 
         if selected_date_str:
             selected_date = datetime.strptime(selected_date_str, "%Y-%m-%d").date()
