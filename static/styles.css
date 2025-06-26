@@ -792,83 +792,9 @@ input, select, textarea {
   display: none;
 }
 
-/* --- Dark mode overrides for Tabulator table --- */
-
 .tabulator {
-  background-color: #1e1e1e;
-  color: #f0f0f0;
   font-family: 'Inter', sans-serif;
-  font-size: 9pt;
-  border: 1px solid #444;
-}
-
-.tabulator .tabulator-header {
-  background-color: #2a2a2a !important;
-  border-bottom: 1px solid #444 !important;
-}
-
-.tabulator .tabulator-col {
-  background-color: #2a2a2a !important;
-  color: #f0f0f0 !important;
-  border-right: 1px solid #444 !important;
-}
-
-.tabulator .tabulator-col-content {
-  padding: 6px 8px !important;
-}
-
-.tabulator .tabulator-col-title {
-  font-weight: bold !important;
-  color: #f0f0f0 !important;
   font-size: 8pt;
-  text-transform: uppercase;
-}
-
-.tabulator .tabulator-sortable:hover {
-  background-color: #333 !important;
-}
-
-.tabulator .tabulator-col .tabulator-arrow {
-  border-top: 6px solid #f0f0f0 !important;
-}
-
-.tabulator .tabulator-col.sort-asc .tabulator-arrow {
-  border-bottom: 6px solid #f0f0f0 !important;
-}
-
-.tabulator .tabulator-cell {
-  background-color: #1e1e1e !important;
-  color: #f0f0f0 !important;
-  border-right: 1px solid #333 !important;
-  border-bottom: 1px solid #333 !important;
-}
-
-.tabulator .tabulator-row:hover {
-  background-color: #2b2b2b !important;
-}
-
-.tabulator .tabulator-row.tabulator-selected {
-  background-color: #333 !important;
-}
-
-.tabulator .tabulator-cell input {
-  background-color: #2a2a2a !important;
-  color: #fff !important;
-  border: 1px solid #555 !important;
-}
-
-.tabulator .tabulator-cell.tabulator-editing {
-  background-color: #1c1c1c !important;
-  border: 1px solid #4da6ff !important;
-}
-
-.tabulator .tabulator-footer {
-  background-color: #1e1e1e !important;
-  color: #aaa !important;
-  border-top: 1px solid #444 !important;
-}
-
-.readonly-row {
-  background-color: #1a1a1a !important;
-  opacity: 0.75;
+  border: 1px solid #444;
+  border-radius: 6px;
 }
