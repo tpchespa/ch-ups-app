@@ -1,5 +1,3 @@
-import { validateFieldDirect } from './formValidation.js';
-
 export const alphanumericRegex = /^[\p{L}0-9\s]*$/u;
 
 export const validateFields = [
