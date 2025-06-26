@@ -502,19 +502,20 @@
           { title: "KOSZT", field: "KOSZT", editor: "input", editable: editableRule },
           { title: "DATA WYSYŁKI", field: "DATA WYSYŁKI", editor: "input", editable: editableRule },
         ],
-        cellEdited: function (cell) {
-          const row = cell.getRow();
-          const id = row.getData().id;
-          const field = cell.getColumn().getField();
-          const value = cell.getValue();
+      });
 
-          console.log("Edited:", id, field, value)
+      table.on("cellEdited", function (cell) {
+        const row = cell.getRow();
+        const id = row.getData().id;
+        const field = cell.getColumn().getField();
+        const value = cell.getValue();
 
-          if (!changedRows[id]) changedRows[id] = {};
-          changedRows[id][field] = value;
+        console.log("Edited:", id, field, value); // confirm edit fires
 
-          cell.getElement().classList.add("unsaved-change");
-        }
+        if (!changedRows[id]) changedRows[id] = {};
+        changedRows[id][field] = value;
+
+        cell.getElement().classList.add("unsaved-change");
       });
 
       document.getElementById("save-all-button").addEventListener("click", () => {
@@ -575,7 +576,7 @@
   window.currentUserEmail = "{{ current_user.email }}";
 </script>
 
-<script type="module" src="/static/js/main.js?v=1.0.2"></script>
+<script type="module" src="/static/js/main.js?v=1.0.3"></script>
 
 
 <ul id="country-suggestions" class="autocomplete-list" style="display: none;"></ul>
