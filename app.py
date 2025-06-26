@@ -330,13 +330,10 @@ def manage_contacts():
 @login_required
 def add_contact():
     form = request.form
-    filters = {
-        "company_name": form.get("company_name"),
-        "address_1": form.get("address_1"),
-        "country": form.get("country")
-    }
-
-    existing = SavedContact.query.filter_by(**filters).first()
+    existing = SavedContact.query.filter_by(
+        user_email=current_user.email,
+        contact_name=form.get("contact_name")
+    ).first()
     if existing:
         return redirect(url_for('manage_contacts'))
 
@@ -369,13 +366,10 @@ def delete_contact(contact_id):
 def save_contact():
     data = request.json
 
-    filters = {
-        "company_name": data.get("Company or Name"),
-        "address_1": data.get("Address 1"),
-        "country": data.get("Country")
-    }
-
-    existing = SavedContact.query.filter_by(**filters).first()
+    existing = SavedContact.query.filter_by(
+        user_email=current_user.email,
+        contact_name=data.get("Contact Name")
+    ).first()
     if existing:
         return {"success": False, "message": "Contact already exists."}, 409
 
