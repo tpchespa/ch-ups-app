@@ -792,6 +792,59 @@ input, select, textarea {
   display: none;
 }
 
+/* --- Dark mode overrides for Tabulator table --- */
+
+.tabulator {
+  background-color: #1e1e1e;
+  color: #f0f0f0;
+  font-family: 'Inter', sans-serif;
+  font-size: 9pt;
+  border: 1px solid #444;
+}
+
+.tabulator .tabulator-header {
+  background-color: #2a2a2a;
+  border-bottom: 1px solid #444;
+}
+
+.tabulator .tabulator-col {
+  background-color: #2a2a2a;
+  color: #f0f0f0;
+  border-right: 1px solid #444;
+}
+
+.tabulator .tabulator-cell {
+  background-color: #1e1e1e;
+  color: #f0f0f0;
+  border-right: 1px solid #333;
+  border-bottom: 1px solid #333;
+}
+
+.tabulator .tabulator-row:hover {
+  background-color: #2b2b2b;
+}
+
+.tabulator .tabulator-row.tabulator-selected {
+  background-color: #333;
+}
+
+.tabulator .tabulator-cell input {
+  background-color: #2a2a2a;
+  color: #fff;
+  border: 1px solid #555;
+}
+
+.tabulator .tabulator-cell.tabulator-editing {
+  background-color: #1c1c1c !important;
+  border: 1px solid #4da6ff !important;
+}
+
+.tabulator .tabulator-footer {
+  background-color: #1e1e1e;
+  color: #aaa;
+  border-top: 1px solid #444;
+}
+
 .readonly-row {
   background-color: #1a1a1a;
   opacity: 0.75;
