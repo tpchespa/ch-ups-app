@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/style.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css">
+  <link href="https://unpkg.com/tabulator-tables@5.5.0/dist/css/tabulator.min.css" rel="stylesheet">
+  <script src="https://unpkg.com/tabulator-tables@5.5.0/dist/js/tabulator.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/index.js"></script>
   <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
@@ -370,65 +372,162 @@
     {% endif %}
   </h4>
   <div id="horizontal-table-wrapper">
-      <div class="submission-controls" style="align-items: flex-end;">
-        <button id="save-all-button" class="global-save-button">💾 Save All Changes</button>
-      </div>
-  <table id="horizontal-table">
-    <thead>
-      <tr>
-        <th></th>
-        <th>Time</th><th>User</th>
-        <th>Contact Name</th><th>Company or Name</th><th>Country</th><th>Address 1</th><th>City</th>
-        <th>State/Prov/Other</th><th>Postal Code</th><th>Telephone</th><th>Consignee Email</th><th>Packaging Type</th><th>Weight</th>
-        <th>Length</th><th>Width</th><th>Height</th><th>Description of Goods</th><th>Docs No Value</th><th>Service</th>
-        <th>Kod klienta</th><th>Kod handlowca</th>
-        <th>nr zam.</th><th>NR PROJEKTU</th><th>NR LISTU UPS</th><th>KOSZT</th><th>DATA WYSYŁKI</th>
-      </tr>
-    </thead>
-    <tbody id="submission-body">
-      {% for entry in entries %}
-      <tr data-id="{{ entry.id }}" data-json='{{ entry.data | tojson }}'>
-        {% set ts = entry.data["_submitted_at"] %}
-        {% set entry_date = ts[:10] if ts else "" %}
-        {% set can_edit = (current_user.is_admin or current_user.role == 'Logistics' or entry.data["_submitted_by"] == current_email) %}
-        <td>
-          {% if (entry.data["_submitted_by"] == current_email and entry_date == today) or current_user.is_admin %}
-            <button class="tiny-delete" onclick="deleteEntry('{{ entry.id }}')">✖</button>
-          {% else %}
-            &mdash;
-          {% endif %}
-        </td>
-        {% set ts = entry.data["_submitted_at"] %}
-        <td data-ts="{{ ts }}"></td>
-        <td>{{ user_display_names[entry.data["_submitted_by"]] if entry.data["_submitted_by"] in user_display_names else entry.data["_submitted_by"] }}</td>
-        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Contact Name"] }}</td>
-        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Company or Name"] }}</td>
-        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Country"] }}</td>
-        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Address 1"] }}</td>
-        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["City"] }}</td>
-        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["State/Prov/Other"] }}</td>
-        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Postal Code"] }}</td>
-        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Telephone"] }}</td>
-        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Consignee Email"] }}</td>
-        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Packaging Type"] }}</td>
-        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Weight"] }}</td>
-        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Length"] }}</td>
-        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Width"] }}</td>
-        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Height"] }}</td>
-        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Description of Goods"] }}</td>
-        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Documents of No Commercial Value"] }}</td>
-        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Service"] }}</td>
-        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Reference 1"] }}</td>
-        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["Reference 2"] }}</td>
-        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["nr zamówienia gdzie będzie doliczony koszt"] }}</td>
-        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["NR PROJEKTU"] }}</td>
-        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["NR LISTU UPS"] }}</td>
-        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["KOSZT (LOGISTYKA)"] }}</td>
-        <td contenteditable="{{ 'true' if can_edit else 'false' }}" class="{% if can_edit %}editable-cell{% endif %}">{{ entry.data["DATA WYSYŁKI"] }}</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+    <!-- Tabulator container -->
+    <div id="tabulator-table"></div>
+
+    <!-- Save All Changes button -->
+    <div class="submission-controls">
+      <button id="save-all-button" class="global-save-button">💾 Save All Changes</button>
+    </div>
+
+    <script>
+      const currentUser = {
+        email: "{{ current_email }}",
+        is_admin: {{ 'true' if current_user.is_admin else 'false' }},
+        role: "{{ current_user.role }}"
+      };
+      const tableData = [
+        {% for entry in entries %}
+          {
+            id: "{{ entry.id }}",
+            "Time": "{{ entry.data['_submitted_at'][:16] }}",
+            "User": "{{ user_display_names[entry.data['_submitted_by']] if entry.data['_submitted_by'] in user_display_names else entry.data['_submitted_by'] }}",
+            "Submitted By": "{{ entry.data['_submitted_by'] }}",
+            "Contact Name": "{{ entry.data['Contact Name']|e }}",
+            "Company or Name": "{{ entry.data['Company or Name']|e }}",
+            "Country": "{{ entry.data['Country']|e }}",
+            "Address 1": "{{ entry.data['Address 1']|e }}",
+            "City": "{{ entry.data['City']|e }}",
+            "State/Prov/Other": "{{ entry.data['State/Prov/Other']|e }}",
+            "Postal Code": "{{ entry.data['Postal Code']|e }}",
+            "Telephone": "{{ entry.data['Telephone']|e }}",
+            "Consignee Email": "{{ entry.data['Consignee Email']|e }}",
+            "Packaging Type": "{{ entry.data['Packaging Type']|e }}",
+            "Weight": "{{ entry.data['Weight']|e }}",
+            "Length": "{{ entry.data['Length']|e }}",
+            "Width": "{{ entry.data['Width']|e }}",
+            "Height": "{{ entry.data['Height']|e }}",
+            "Description of Goods": "{{ entry.data['Description of Goods']|e }}",
+            "Docs No Value": "{{ entry.data['Documents of No Commercial Value']|e }}",
+            "Service": "{{ entry.data['Service']|e }}",
+            "Kod klienta": "{{ entry.data['Reference 1']|e }}",
+            "Kod handlowca": "{{ entry.data['Reference 2']|e }}",
+            "nr zam.": "{{ entry.data['nr zamówienia gdzie będzie doliczony koszt']|e }}",
+            "NR PROJEKTU": "{{ entry.data['NR PROJEKTU']|e }}",
+            "NR LISTU UPS": "{{ entry.data['NR LISTU UPS']|e }}",
+            "KOSZT": "{{ entry.data['KOSZT (LOGISTYKA)']|e }}",
+            "DATA WYSYŁKI": "{{ entry.data['DATA WYSYŁKI']|e }}"
+          }{% if not loop.last %},{% endif %}
+        {% endfor %}
+      ];
+
+      let changedRows = {};
+
+      function editableRule(cell) {
+        const rowData = cell.getRow().getData();
+        return (
+          currentUser.is_admin ||
+          currentUser.role === 'Logistics' ||
+          rowData["Submitted By"] === currentUser.email
+        );
+      }
+
+      const table = new Tabulator("#tabulator-table", {
+        data: tableData,
+        layout: "fitDataStretch",
+        reactiveData: true,
+        height: "auto",
+        rowFormatter: function(row) {
+          const data = row.getData();
+          const canEdit = (
+            currentUser.is_admin ||
+            currentUser.role === 'Logistics' ||
+            data["Submitted By"] === currentUser.email
+          );
+
+          if (!canEdit) {
+            row.getElement().classList.add("readonly-row");
+          }
+        },
+        columns: [
+          {
+            title: "✖", width: 40, hozAlign: "center",
+            formatter: function(cell) {
+              const data = cell.getRow().getData();
+              const canEdit =
+                currentUser.is_admin ||
+                currentUser.role === "Logistics" ||
+                data["Submitted By"] === currentUser.email;
+
+              return canEdit ? "✖" : "";
+            },
+            cellClick: function (e, cell) {
+              const data = cell.getRow().getData();
+              if (
+                currentUser.is_admin ||
+                currentUser.role === "Logistics" ||
+                data["Submitted By"] === currentUser.email
+              ) {
+                if (confirm("Delete this row?")) {
+                  cell.getRow().delete();
+                }
+              }
+            }
+          }
+          { title: "Time", field: "Time", width: 90, sorter: "string" },
+          { title: "User", field: "User", width: 100 },
+          { title: "Contact Name", field: "Contact Name", editor: "input", editable: editableRule },
+          { title: "Company or Name", field: "Company or Name", editor: "input", editable: editableRule },
+          { title: "Country", field: "Country", editor: "input", editable: editableRule },
+          { title: "Address 1", field: "Address 1", editor: "input", editable: editableRule },
+          { title: "City", field: "City", editor: "input", editable: editableRule },
+          { title: "State/Prov/Other", field: "State/Prov/Other", editor: "input", editable: editableRule },
+          { title: "Postal Code", field: "Postal Code", editor: "input", editable: editableRule },
+          { title: "Telephone", field: "Telephone", editor: "input", editable: editableRule },
+          { title: "Consignee Email", field: "Consignee Email", editor: "input", editable: editableRule },
+          { title: "Packaging Type", field: "Packaging Type", editor: "input", editable: editableRule },
+          { title: "Weight", field: "Weight", editor: "input", editable: editableRule },
+          { title: "Length", field: "Length", editor: "input", editable: editableRule },
+          { title: "Width", field: "Width", editor: "input", editable: editableRule },
+          { title: "Height", field: "Height", editor: "input", editable: editableRule },
+          { title: "Description of Goods", field: "Description of Goods", editor: "input", editable: editableRule },
+          { title: "Docs No Value", field: "Docs No Value", editor: "input", editable: editableRule },
+          { title: "Service", field: "Service", editor: "input", editable: editableRule },
+          { title: "Kod klienta", field: "Kod klienta", editor: "input", editable: editableRule },
+          { title: "Kod handlowca", field: "Kod handlowca", editor: "input", editable: editableRule },
+          { title: "nr zam.", field: "nr zam.", editor: "input", editable: editableRule },
+          { title: "NR PROJEKTU", field: "NR PROJEKTU", editor: "input", editable: editableRule },
+          { title: "NR LISTU UPS", field: "NR LISTU UPS", editor: "input", editable: editableRule },
+          { title: "KOSZT", field: "KOSZT", editor: "input", editable: editableRule },
+          { title: "DATA WYSYŁKI", field: "DATA WYSYŁKI", editor: "input", editable: editableRule },
+        ],
+        cellEdited: function (cell) {
+          const row = cell.getRow();
+          changedRows[row.getData().id] = row.getData();
+        }
+      });
+
+      document.getElementById("save-all-button").addEventListener("click", () => {
+        const updates = Object.values(changedRows);
+        if (updates.length === 0) {
+          alert("No changes to save.");
+          return;
+        }
+
+        fetch("/save_table_changes", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(updates)
+        }).then(res => {
+          if (res.ok) {
+            alert("Changes saved successfully.");
+            changedRows = {};
+          } else {
+            alert("Failed to save changes.");
+          }
+        });
+      });
+    </script>
   </div>
   </div>
 </div>

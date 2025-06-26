@@ -792,11 +792,7 @@ input, select, textarea {
   display: none;
 }
 
-.truncate-cell {
-  max-width: 140px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  cursor: pointer;
-  position: relative;
+.readonly-row {
+  background-color: #1a1a1a;
+  opacity: 0.75;
 }
