@@ -791,3 +791,12 @@ input, select, textarea {
 #service-suggestions {
   display: none;
 }
+
+.truncate-cell {
+  max-width: 140px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  position: relative;
+}
