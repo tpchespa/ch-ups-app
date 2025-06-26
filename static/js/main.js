@@ -210,9 +210,9 @@ document.addEventListener("DOMContentLoaded", () => {
  const closeBtn = document.getElementById("close-banner");
 
  if (banner && closeBtn) {
-   const bannerKey = "devBannerDismissed";
+   const bannerVersion = "v2";
+   const bannerKey = `devBannerDismissed_${bannerVersion}`;
 
-   // Show banner if not previously dismissed
    if (!localStorage.getItem(bannerKey)) {
      banner.style.display = "block";
    }
