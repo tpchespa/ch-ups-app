@@ -372,13 +372,14 @@
     {% endif %}
   </h4>
   <div id="horizontal-table-wrapper">
-    <!-- Tabulator container -->
-    <div id="tabulator-table"></div>
 
     <!-- Save All Changes button -->
     <div class="submission-controls">
       <button id="save-all-button" class="global-save-button">💾 Save All Changes</button>
     </div>
+
+    <!-- Tabulator container -->
+    <div id="tabulator-table"></div>
 
     <script>
       const currentUser = {
@@ -422,6 +423,7 @@
       ];
 
       let changedRows = {};
+      let hasUnsavedChanges = false;
 
       function editableRule(cell) {
         const rowData = cell.getRow().getData();
@@ -516,6 +518,10 @@
         changedRows[id][field] = value;
 
         cell.getElement().classList.add("unsaved-change");
+        hasUnsavedChanges = true;
+        if (!document.title.startsWith("* ")) {
+          document.title = "* " + document.title;
+        }
       });
 
       document.getElementById("save-all-button").addEventListener("click", () => {
@@ -547,7 +553,9 @@
             document.querySelectorAll(".unsaved-change").forEach(cell => cell.classList.remove("unsaved-change"));
             changedRows = {};
             table.redraw(true);
-            table.setSort(table.getSort());
+            table.setSort(table.getSorters());
+            hasUnsavedChanges = false;
+            document.title = document.title.replace("* ", "");
           } else {
             SwalWithDarkTheme.fire({
               icon: "error",
@@ -557,7 +565,6 @@
           }
         });
       });
-
     </script>
   </div>
   </div>
@@ -574,6 +581,40 @@
   window.selectedDate = "{{ selected_date }}";
   window.selectedMonth = "{{ selected_month }}";
   window.currentUserEmail = "{{ current_user.email }}";
+
+  window.addEventListener("beforeunload", (e) => {
+    if (!hasUnsavedChanges) return;
+    e.preventDefault();
+    e.returnValue = ''; // Required for Chrome
+  });
+
+  document.querySelectorAll("a[href], button[type='submit'], form").forEach(el => {
+    el.addEventListener("click", (e) => {
+      if (!hasUnsavedChanges) return;
+
+      e.preventDefault();
+      SwalWithDarkTheme.fire({
+        icon: 'warning',
+        title: 'Unsaved Changes',
+        text: 'You have unsaved changes. Are you sure you want to leave?',
+        showCancelButton: true,
+        confirmButtonText: 'Leave',
+        cancelButtonText: 'Stay',
+        reverseButtons: true
+      }).then(result => {
+        if (result.isConfirmed) {
+          if (el.tagName === "A") {
+            window.location.href = el.getAttribute("href");
+          } else if (el.tagName === "FORM") {
+            el.submit();
+          } else if (el.type === "submit") {
+            el.form?.submit();
+          }
+        }
+      });
+    });
+  });
+
 </script>
 
 <script type="module" src="/static/js/main.js?v=1.0.3"></script>
