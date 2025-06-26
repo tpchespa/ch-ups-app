@@ -1,3 +1,5 @@
+import { validateFieldDirect } from './formValidation.js';
+
 export const alphanumericRegex = /^[\p{L}0-9\s]*$/u;
 
 export const validateFields = [
@@ -149,9 +151,6 @@ export function validateAllFields() {
         hasError = true;
       }
     }
-
-    input.addEventListener('input', () => validateAllFields());
-    input.addEventListener('blur', () => validateAllFields());
   });
 
   return !hasError;
@@ -162,8 +161,8 @@ export function setupFieldValidation() {
     const input = document.getElementById(field.id);
     if (!input) return;
 
-    input.addEventListener("input", () => validateAllFields());
-    input.addEventListener("blur", () => validateAllFields());
+    input.addEventListener("input", () => validateFieldDirect(field.id));
+    input.addEventListener("blur", () => validateFieldDirect(field.id));
   });
 }
 

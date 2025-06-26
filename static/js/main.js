@@ -1,10 +1,10 @@
 import { countryMap, packagingMap, serviceMap } from './fieldMappings.js?v=1.0.1';
-import { validateAllFields, validateFields, cleanInputValue } from './formValidation.js?v=1.0.1';
-import { setupFieldValidation } from './formValidation.js?v=1.0.1';
-import { validateFieldDirect } from './formValidation.js?v=1.0.1';
+import { validateAllFields, validateFields, cleanInputValue } from './formValidation.js?v=1.0.2';
+import { setupFieldValidation } from './formValidation.js?v=1.0.2';
+import { validateFieldDirect } from './formValidation.js?v=1.0.2';
 import { initializeSocketHandlers } from './socketHandlers.js?v=1.0.1';
 import { clearForm, setupTooltipHandlers } from './uiHelpers.js?v=1.0.1';
-import { setupAutocomplete } from './autocomplete.js?v=1.0.1';
+import { setupAutocomplete } from './autocomplete.js?v=1.0.2';
 import { fetchSavedContacts, setupContactSelection } from './contacts.js?v=1.0.1';
 import { initDatePicker } from './datepicker.js?v=1.0.1';
 import { saveRowChanges } from './rowActions.js?v=1.0.1';
@@ -57,10 +57,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const firstField = validateFields[0]?.id;
   const firstInput = document.getElementById(firstField);
   if (firstInput) {
-    firstInput.addEventListener('paste', (e) => {
+    let pasteValidationTimer;
+    firstInput.addEventListener("paste", (e) => {
       e.preventDefault();
-      const clipboard = e.clipboardData.getData('text/plain');
-      const values = clipboard.split('\t').map(v => v.trim());
+      const clipboard = e.clipboardData.getData("text/plain");
+      const values = clipboard.split("\t").map(v => v.trim());
 
       let valueIndex = 0;
       validateFields.forEach(field => {
@@ -71,8 +72,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
 
-      validateAllFields();
-    });
+        clearTimeout(pasteValidationTimer);
+        pasteValidationTimer = setTimeout(() => {
+          window.validateAllFields?.();
+        }, 100);
+      });
   }
 
   // Handle form submission

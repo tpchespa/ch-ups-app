@@ -23,9 +23,8 @@ export function setupAutocomplete(inputId, suggestionsId, map) {
       li.addEventListener("click", () => {
         input.value = code;
         suggestionsBox.style.display = "none";
-        if (typeof window.validateAllFields === "function") {
-          const event = new Event("blur");
-          input.dispatchEvent(event);
+        if (typeof window.validateFieldDirect === "function") {
+          window.validateFieldDirect(inputId);
         }
       });
       suggestionsBox.appendChild(li);
@@ -43,10 +42,16 @@ export function setupAutocomplete(inputId, suggestionsId, map) {
     suggestionsBox.style.display = "block";
   }
 
+  let suppressAutocomplete = false;
+
   input.addEventListener("input", () => {
+    if (suppressAutocomplete) return;
     const query = input.value.toUpperCase();
     renderSuggestions(query);
   });
+
+  suppressAutocomplete = true;
+  setTimeout(() => suppressAutocomplete = false, 200);
 
   input.addEventListener("focus", () => {
     renderSuggestions("");
