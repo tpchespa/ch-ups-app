@@ -470,6 +470,7 @@
               ) {
                 if (confirm("Delete this row?")) {
                   cell.getRow().delete();
+                  window.socket.emit("delete_entry", { id: data.id });
                 }
               }
             }
@@ -503,30 +504,58 @@
         ],
         cellEdited: function (cell) {
           const row = cell.getRow();
-          changedRows[row.getData().id] = row.getData();
+          const id = row.getData().id;
+          const field = cell.getColumn().getField();
+          const value = cell.getValue();
+
+          if (!changedRows[id]) changedRows[id] = {};
+          changedRows[id][field] = value;
+
+          cell.getElement().classList.add("unsaved-change");
+        }
         }
       });
 
       document.getElementById("save-all-button").addEventListener("click", () => {
-        const updates = Object.values(changedRows);
+        const updates = Object.entries(changedRows); // [ [id1, data1], [id2, data2], ... ]
+
         if (updates.length === 0) {
           alert("No changes to save.");
           return;
         }
 
-        fetch("/save_table_changes", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(updates)
-        }).then(res => {
-          if (res.ok) {
-            alert("Changes saved successfully.");
+        const promises = updates.map(([entryId, data]) => {
+          return fetch(`/update-entry/${entryId}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+          });
+        });
+
+        Promise.all(promises).then(responses => {
+          if (responses.every(r => r.ok)) {
+            SwalWithDarkTheme.fire({
+              toast: true,
+              position: 'top-end',
+              icon: 'success',
+              title: 'Changes saved successfully',
+              showConfirmButton: false,
+              timer: 2000
+            });
+            document.querySelectorAll(".unsaved-change").forEach(cell => cell.classList.remove("unsaved-change"));
             changedRows = {};
+            table.redraw(true);
+            table.setSort(table.getSort());
           } else {
-            alert("Failed to save changes.");
+            SwalWithDarkTheme.fire({
+              icon: "error",
+              title: "Oops!",
+              text: "Some changes failed to save.",
+            });
           }
         });
       });
+
     </script>
   </div>
   </div>

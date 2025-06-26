@@ -24,7 +24,8 @@ document.addEventListener("DOMContentLoaded", () => {
       popup: 'swal2-popup'
     }
   });
-
+  
+  window.socket = socket;
   window.saveRowChanges = saveRowChanges;
   window.SwalWithDarkTheme = SwalWithDarkTheme;
   window.deleteEntry = (id) => deleteEntry(id, SwalWithDarkTheme, socket);
