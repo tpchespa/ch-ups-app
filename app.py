@@ -438,6 +438,10 @@ def handle_submit(data):
         data['_submitted_by'] = current_user.email
         data['_submitted_at'] = datetime.utcnow().isoformat()
 
+        # Set default QV Notif 1-Excp if not provided
+        if not data.get("QV Notif 1-Excp"):
+            data["QV Notif 1-Excp"] = "justyna.nawrocka@chespa.eu"
+
         # Store in DB
         entry = UPSEntry(data=data)
         db.session.add(entry)
