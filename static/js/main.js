@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
       popup: 'swal2-popup'
     }
   });
-  
+
   window.socket = socket;
   window.saveRowChanges = saveRowChanges;
   window.SwalWithDarkTheme = SwalWithDarkTheme;
@@ -203,8 +203,8 @@ document.addEventListener("DOMContentLoaded", () => {
    window.location.href = `/?${params.toString()}`;
  });
 
- initializeCellTracking();
- setupSaveAllButton(SwalWithDarkTheme);
+ // initializeCellTracking();
+ // setupSaveAllButton(SwalWithDarkTheme);
  warnOnExit(SwalWithDarkTheme);
  
  const banner = document.getElementById("dev-banner");
