@@ -409,7 +409,7 @@
             "Service": "{{ entry.data['Service']|e }}",
             "Kod klienta": "{{ entry.data['Reference 1']|e }}",
             "Kod handlowca": "{{ entry.data['Reference 2']|e }}",
-            "nr zam.": "{{ entry.data['nr zamówienia gdzie będzie doliczony koszt']|e }}",
+            "nr zam.": "{{ entry.data['nr zam.'] or entry.data['nr zamówienia gdzie będzie doliczony koszt'] or '' }}",
             "NR PROJEKTU": "{{ entry.data['NR PROJEKTU']|e }}",
             "NR LISTU UPS": "{{ entry.data['NR LISTU UPS']|e }}",
             "KOSZT": "{{ entry.data['KOSZT (LOGISTYKA)']|e }}",
