@@ -46,7 +46,7 @@ export function initializeSocketHandlers(socket, currentUserEmail, SwalWithDarkT
       "KOSZT": data.data["KOSZT (LOGISTYKA)"],
       "DATA WYSYŁKI": data.data["DATA WYSYŁKI"]
     };
-
+    console.log("RowData being inserted into table:", rowData);
     table.addData([rowData], true);
 
     if ((data.data["_submitted_by"] || "") === currentUserEmail) {
