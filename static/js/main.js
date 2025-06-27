@@ -213,7 +213,7 @@ document.addEventListener("DOMContentLoaded", () => {
  const closeBtn = document.getElementById("close-banner");
 
  if (banner && closeBtn) {
-   const bannerVersion = "v2";
+   const bannerVersion = "v3";
    const bannerKey = `devBannerDismissed_${bannerVersion}`;
 
    if (!localStorage.getItem(bannerKey)) {

@@ -356,10 +356,6 @@
     <i class="fas fa-file-excel" style="margin-right: 6px;"></i>
     Download UPS XLSX 
   </a>
-  <button id="download-visible-xlsx" class="button-link xlsx-button">
-    <i class="fas fa-file-excel" style="margin-right: 6px;"></i>
-    Download Visible Table (XLSX)
-  </button>
   </div>
   <h4>
     {% if selected_month %}
@@ -369,7 +365,10 @@
     {% endif %}
   </h4>
   <div id="horizontal-table-wrapper">
-
+    <button id="download-visible-xlsx" class="button-link xlsx-button">
+      <i class="fas fa-file-excel" style="margin-right: 6px;"></i>
+      Download Visible Table (XLSX)
+    </button>
     <!-- Save All Changes button -->
     <div class="submission-controls">
       <button id="save-all-button" class="global-save-button">💾 Save All Changes</button>
@@ -525,7 +524,7 @@
       });
       
       window.table = table;
-      
+
       table.on("cellEdited", function (cell) {
         const row = cell.getRow();
         const id = row.getData().id;
