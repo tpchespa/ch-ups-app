@@ -465,13 +465,16 @@
         },
         columns: [
           {
-              title: "#",
-              formatter: "rownum",
-              width: 50,
-              hozAlign: "center",
-              headerSort: false
-            },
-            title: "✖", width: 40, hozAlign: "center",
+            title: "#",
+            formatter: "rownum",
+            width: 50,
+            hozAlign: "center",
+            headerSort: false
+          },
+          {
+            title: "✖",
+            width: 40,
+            hozAlign: "center",
             formatter: function(cell) {
               const data = cell.getRow().getData();
               const canEdit =
