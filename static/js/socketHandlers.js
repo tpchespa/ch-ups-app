@@ -13,7 +13,7 @@ export function initializeSocketHandlers(socket, currentUserEmail, SwalWithDarkT
         day: "2-digit",
         month: "2-digit",
         timeZone: "Europe/Warsaw"
-      }).replace(",", ""),
+      }).replace(",", "").replace(/\./g, "-"),
       "User": data.user_display || data.data._submitted_by,
       "Submitted By": data.data._submitted_by,
       "Contact Name": data.data["Contact Name"],

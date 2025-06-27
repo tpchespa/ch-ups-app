@@ -387,7 +387,7 @@
         {% for entry in entries %}
           {
             id: "{{ entry.id }}",
-            "Time": "{{ entry.data['_submitted_at'][:16] }}",
+            "Time": "{{ entry.data['_submitted_at'][:16] }}Z",
             "User": "{{ user_display_names[entry.data['_submitted_by']] if entry.data['_submitted_by'] in user_display_names else entry.data['_submitted_by'] }}",
             "Submitted By": "{{ entry.data['_submitted_by'] }}",
             "Contact Name": "{{ entry.data['Contact Name']|e }}",
