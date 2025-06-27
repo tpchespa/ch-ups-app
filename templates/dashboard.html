@@ -519,7 +519,17 @@
           { title: "Service", field: "Service", editor: "input", editable: editableRule },
           { title: "Kod klienta", field: "Kod klienta", editor: "input", editable: editableRule },
           { title: "Kod handlowca", field: "Kod handlowca", editor: "input", editable: editableRule },
-          { title: "nr zam.", field: "nr zam.", editor: "input", editable: editableRule },
+          {
+            title: "nr zam.",
+            field: "nr zam.",
+            formatter: function(cell) {
+              const val = cell.getValue();
+              console.log("Rendering nr zam. →", val);
+              return val || "-";
+            },
+            editor: "input",
+            editable: editableRule
+          },
           { title: "NR PROJEKTU", field: "NR PROJEKTU", editor: "input", editable: editableRule },
           { title: "DATA WYSYŁKI", field: "DATA WYSYŁKI", editor: "input", editable: editableRule },
         ],
