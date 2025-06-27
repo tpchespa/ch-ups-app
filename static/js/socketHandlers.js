@@ -5,17 +5,6 @@ let recentlyDeleted = null;
 
 export function initializeSocketHandlers(socket, currentUserEmail, SwalWithDarkTheme, table) {
   socket.on("new_entry", data => {
-    if ((data.data["_submitted_by"] || "") === currentUserEmail) {
-      clearForm();
-      SwalWithDarkTheme.fire({
-        toast: true,
-        position: 'top-end',
-        icon: 'success',
-        title: 'Shipment added and form cleared.',
-        showConfirmButton: false,
-        timer: 2000
-      });
-    }
     const rowData = {
       id: data.id,
       "Time": data.data._submitted_at.slice(0, 16),
@@ -46,10 +35,22 @@ export function initializeSocketHandlers(socket, currentUserEmail, SwalWithDarkT
       "KOSZT": data.data["KOSZT (LOGISTYKA)"],
       "DATA WYSYŁKI": data.data["DATA WYSYŁKI"]
     };
-
-    window.table.addData([rowData], true);
     
-    const row = window.table.getRow(data.id);
+    table.addData([rowData], true);
+
+    if ((data.data["_submitted_by"] || "") === currentUserEmail) {
+      clearForm();
+      SwalWithDarkTheme.fire({
+        toast: true,
+        position: 'top-end',
+        icon: 'success',
+        title: 'Shipment added and form cleared.',
+        showConfirmButton: false,
+        timer: 2000
+      });
+    }
+
+    const row = table.getRow(data.id);
     if (row) {
       const el = row.getElement();
       el.classList.add("new-row");
