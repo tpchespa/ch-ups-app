@@ -5,6 +5,9 @@ let recentlyDeleted = null;
 
 export function initializeSocketHandlers(socket, currentUserEmail, SwalWithDarkTheme, table) {
   socket.on("new_entry", data => {
+    // Log the actual raw value received for debugging
+    console.log("Incoming:", data.data["nr zamówienia gdzie będzie doliczony koszt"]);
+      
     const rowData = {
       id: data.id,
       "Time": new Date(data.data._submitted_at).toLocaleString("pl-PL", {
@@ -35,7 +38,9 @@ export function initializeSocketHandlers(socket, currentUserEmail, SwalWithDarkT
       "Service": data.data["Service"],
       "Kod klienta": data.data["Reference 1"],
       "Kod handlowca": data.data["Reference 2"],
-      "nr zam.": data.data["nr zamówienia gdzie będzie doliczony koszt"] || data.data["nr zam."] || "",
+      "nr zam.": typeof data.data["nr zamówienia gdzie będzie doliczony koszt"] !== "undefined"
+        ? data.data["nr zamówienia gdzie będzie doliczony koszt"]
+        : "",
       "NR PROJEKTU": data.data["NR PROJEKTU"],
       "NR LISTU UPS": data.data["NR LISTU UPS"],
       "KOSZT": data.data["KOSZT (LOGISTYKA)"],
