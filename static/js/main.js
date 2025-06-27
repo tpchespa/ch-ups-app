@@ -187,7 +187,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
- document.getElementById("download-visible-xlsx")?.addEventListener("click", exportVisibleTableToXLSX);
+ document.getElementById("download-visible-xlsx")?.addEventListener("click", () => {
+   exportVisibleTableToXLSX(table);
+ });
 
  document.getElementById('user-filter')?.addEventListener('change', () => {
    const selectedUser = document.getElementById('user-filter').value;
