@@ -1,5 +1,14 @@
-document.getElementById("download-visible-xlsx").addEventListener("click", () => {
-  table.download("xlsx", `visible_table_${new Date().toISOString().slice(0, 16).replace("T", "_").replace(/:/g, "-")}.xlsx`, {
-    sheetName: "VisibleTable"
-  });
-});
+  export function exportVisibleTableToXLSX() {
+    const now = new Date().toLocaleString("pl-PL", {
+      day: "2-digit",
+      month: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      timeZone: "Europe/Warsaw"
+    }).replace(/\./g, "-").replace(",", "").replace(/:/g, "-").trim();
+
+    window.table.download("xlsx", `visible_table_${now}.xlsx`, {
+      sheetName: "VisibleTable"
+    });
+  }
+
