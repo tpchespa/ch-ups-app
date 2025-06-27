@@ -6,7 +6,7 @@ let recentlyDeleted = null;
 export function initializeSocketHandlers(socket, currentUserEmail, SwalWithDarkTheme, table) {
   socket.on("new_entry", data => {
     // Log the actual raw value received for debugging
-    console.log("Incoming:", data.data["nr zamówienia gdzie będzie doliczony koszt"]);
+    console.log("Incoming:", data.data["nr zam."]);
       
     const rowData = {
       id: data.id,
