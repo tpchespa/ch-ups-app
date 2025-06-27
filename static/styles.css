@@ -798,3 +798,8 @@ input, select, textarea {
   border: 1px solid #444;
   border-radius: 6px;
 }
+
+.new-row {
+  background-color: #2a9d8f !important;
+  transition: background-color 0.5s ease;
+}

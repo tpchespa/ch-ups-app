@@ -2,7 +2,7 @@ import { countryMap, packagingMap, serviceMap } from './fieldMappings.js?v=1.0.1
 import { validateAllFields, validateFields, cleanInputValue } from './formValidation.js?v=1.0.3';
 import { setupFieldValidation } from './formValidation.js?v=1.0.3';
 import { validateFieldDirect } from './formValidation.js?v=1.0.3';
-import { initializeSocketHandlers } from './socketHandlers.js?v=1.0.1';
+import { initializeSocketHandlers } from './socketHandlers.js?v=1.0.2';
 import { clearForm, setupTooltipHandlers } from './uiHelpers.js?v=1.0.1';
 import { setupAutocomplete } from './autocomplete.js?v=1.0.2';
 import { fetchSavedContacts, setupContactSelection } from './contacts.js?v=1.0.1';
@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
   setupContactSelection();
   fetchSavedContacts();
   setupFieldValidation();
-  initializeSocketHandlers(socket, currentUserEmail, SwalWithDarkTheme);
+  initializeSocketHandlers(socket, currentUserEmail, SwalWithDarkTheme, table);
   window.validateFieldDirect = validateFieldDirect;
 
   // Autocomplete fields
