@@ -434,6 +434,18 @@
         );
       }
 
+      for (const row of tableData) {
+        if (row["Time"]) {
+          row["Time"] = new Date(row["Time"]).toLocaleString("pl-PL", {
+            hour: "2-digit",
+            minute: "2-digit",
+            day: "2-digit",
+            month: "2-digit",
+            timeZone: "Europe/Warsaw"
+          }).replace(",", "").replace(/\./g, "-"); // Format: 13:44 28-06
+        }
+      }
+
       const table = new Tabulator("#tabulator-table", {
         data: tableData,
         layout: "fitDataStretch",

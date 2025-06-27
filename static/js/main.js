@@ -10,7 +10,7 @@ import { initDatePicker } from './datepicker.js?v=1.0.1';
 import { saveRowChanges } from './rowActions.js?v=1.0.1';
 import { deleteEntry } from './rowActions.js?v=1.0.1';
 import { initializeCellTracking, setupSaveAllButton, warnOnExit } from './tableChangeTracker.js?v=1.0.1';
-import { exportVisibleTableToXLSX } from './tableExport.js?v=1.0.1';
+import { exportVisibleTableToXLSX } from './tableExport.js?v=1.0.2';
 
 
 

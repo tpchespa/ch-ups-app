@@ -7,7 +7,13 @@ export function initializeSocketHandlers(socket, currentUserEmail, SwalWithDarkT
   socket.on("new_entry", data => {
     const rowData = {
       id: data.id,
-      "Time": data.data._submitted_at.slice(0, 16),
+      "Time": new Date(data.data._submitted_at).toLocaleString("pl-PL", {
+        hour: "2-digit",
+        minute: "2-digit",
+        day: "2-digit",
+        month: "2-digit",
+        timeZone: "Europe/Warsaw"
+      }).replace(",", ""),
       "User": data.user_display || data.data._submitted_by,
       "Submitted By": data.data._submitted_by,
       "Contact Name": data.data["Contact Name"],
@@ -35,7 +41,7 @@ export function initializeSocketHandlers(socket, currentUserEmail, SwalWithDarkT
       "KOSZT": data.data["KOSZT (LOGISTYKA)"],
       "DATA WYSYŁKI": data.data["DATA WYSYŁKI"]
     };
-    
+
     table.addData([rowData], true);
 
     if ((data.data["_submitted_by"] || "") === currentUserEmail) {
