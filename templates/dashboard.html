@@ -504,7 +504,16 @@
           { title: "User", field: "User", width: 100, frozen: true },
           { title: "Contact Name", field: "Contact Name", editor: "input", editable: editableRule, frozen: true },
           { title: "Company or Name", field: "Company or Name", editor: "input", editable: editableRule, frozen: true  },
-          { title: "Country", field: "Country", editor: "input", editable: editableRule },
+          {
+            title: "CT",
+            field: "Country",
+            width: 40,
+            hozAlign: "center",
+            editor: "input",
+            editable: editableRule,
+            headerSort: false,
+            headerTooltip: "Country (ISO 2-letter code)"
+          },
           { title: "Address 1", field: "Address 1", editor: "input", editable: editableRule },
           { title: "City", field: "City", editor: "input", editable: editableRule },
           { title: "State/Prov/Other", field: "State/Prov/Other", editor: "input", editable: editableRule },
