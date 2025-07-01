@@ -522,6 +522,10 @@
           {
             title: "nr zam.",
             field: "nr zam.",
+            mutator: function(value, data, type, params, component) {
+              // Use long key if short key is missing
+              return value || data["nr zamówienia gdzie będzie doliczony koszt"] || "";
+            },
             editor: "input",
             editable: editableRule
           },
