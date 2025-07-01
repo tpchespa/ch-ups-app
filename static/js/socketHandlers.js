@@ -38,7 +38,7 @@ export function initializeSocketHandlers(socket, currentUserEmail, SwalWithDarkT
       "Service": data.data["Service"],
       "Kod klienta": data.data["Reference 1"],
       "Kod handlowca": data.data["Reference 2"],
-      "nr zam.": data.data["nr zam."] || data.data["nr zamówienia gdzie będzie doliczony koszt"] || "",
+      "nr_zam": data.data["nr_zam"] || data.data["nr zam."] || data.data["nr zamówienia gdzie będzie doliczony koszt"] || "",
       "NR PROJEKTU": data.data["NR PROJEKTU"],
       "NR LISTU UPS": data.data["NR LISTU UPS"],
       "KOSZT": data.data["KOSZT (LOGISTYKA)"],

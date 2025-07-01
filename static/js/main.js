@@ -110,7 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       // Add custom fields
-      data["nr zam."] = document.getElementById("Custom_Order_Number")?.value.trim() || "";
+      data["nr_zam"] = document.getElementById("Custom_Order_Number")?.value.trim() || "";
       data["NR PROJEKTU"] = document.getElementById("Custom_Project_Number")?.value.trim() || "";
       data["NR LISTU UPS"] = document.getElementById("Custom_UPS_Number")?.value.trim() || "";
       data["KOSZT (LOGISTYKA)"] = document.getElementById("Custom_Cost")?.value.trim() || "";
