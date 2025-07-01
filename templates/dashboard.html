@@ -532,15 +532,13 @@
           { title: "Service", field: "Service", editor: "input", editable: editableRule },
           { title: "Kod klienta", field: "Kod klienta", editor: "input", editable: editableRule },
           { title: "Kod handlowca", field: "Kod handlowca", editor: "input", editable: editableRule },
-          { title: "nr zam.", field: "nr zam.", width: 150, editor: "input", editable: editableRule, visible: true },
+          { title: "nr zam.", field: "nr zam.", editor: "input", editable: editableRule },
           { title: "NR PROJEKTU", field: "NR PROJEKTU", editor: "input", editable: editableRule },
           { title: "DATA WYSYŁKI", field: "DATA WYSYŁKI", editor: "input", editable: editableRule },
         ],
       });
       
-      table.on("dataLoaded", function() {
-        console.log("Tabulator dataLoaded:", table.getData().map(r => ({ id: r.id, 'nr zam.': r["nr zam."] })));
-      });
+      table.replaceData(tableData);
 
       window.table = table;
 
