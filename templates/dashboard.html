@@ -410,6 +410,7 @@
             "Kod klienta": "{{ entry.data['Reference 1']|e }}",
             "Kod handlowca": "{{ entry.data['Reference 2']|e }}",
             "nr zam.": "{{ entry.data['nr zam.'] or entry.data['nr zamówienia gdzie będzie doliczony koszt'] or '' }}",
+            "nr zamówienia gdzie będzie doliczony koszt": "{{ entry.data['nr zamówienia gdzie będzie doliczony koszt'] or '' }}",
             "NR PROJEKTU": "{{ entry.data['NR PROJEKTU']|e }}",
             "NR LISTU UPS": "{{ entry.data['NR LISTU UPS']|e }}",
             "KOSZT": "{{ entry.data['KOSZT (LOGISTYKA)']|e }}",
@@ -418,13 +419,16 @@
         {% endfor %}
       ];
 
-      // Normalize old entries with long key
       for (const row of tableData) {
         if (!row["nr zam."] && row["nr zamówienia gdzie będzie doliczony koszt"]) {
           row["nr zam."] = row["nr zamówienia gdzie będzie doliczony koszt"];
         }
       }
 
+      for (const row of tableData) {
+        delete row["nr zamówienia gdzie będzie doliczony koszt"];
+      }
+      
       let changedRows = {};
       let hasUnsavedChanges = false;
 
@@ -537,6 +541,8 @@
         ],
       });
       
+      console.log("Table Data before render:", tableData.map(r => ({ id: r.id, 'nr zam.': r["nr zam."] })));
+
       window.table = table;
 
       table.on("cellEdited", function (cell) {
