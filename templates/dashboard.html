@@ -530,18 +530,14 @@
           { title: "Service", field: "Service", editor: "input", editable: editableRule },
           { title: "Kod klienta", field: "Kod klienta", editor: "input", editable: editableRule },
           { title: "Kod handlowca", field: "Kod handlowca", editor: "input", editable: editableRule },
-          {
-            title: "nr zam.",
-            field: "nr zam.",
-            editor: "input",
-            editable: editableRule
-          },
+          { title: "nr zam.", field: "nr zam.", width: 150, editor: "input", editable: editableRule, visible: true },
           { title: "NR PROJEKTU", field: "NR PROJEKTU", editor: "input", editable: editableRule },
           { title: "DATA WYSYŁKI", field: "DATA WYSYŁKI", editor: "input", editable: editableRule },
         ],
       });
       
       console.log("Table Data before render:", tableData.map(r => ({ id: r.id, 'nr zam.': r["nr zam."] })));
+      console.log("Tabulator getData check:", table.getData().map(r => r["nr zam."]));
 
       window.table = table;
 
