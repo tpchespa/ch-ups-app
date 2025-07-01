@@ -430,7 +430,18 @@ def handle_submit(data):
 
         # Add submission metadata
         data['_submitted_by'] = current_user.email
-        data['_submitted_at'] = datetime.utcnow().isoformat()
+
+        warsaw = pytz.timezone("Europe/Warsaw")
+        if "_scheduled_for" in data:
+            # Parse the desired future date and set the submission time to that day's midnight UTC
+            future_date = datetime.strptime(data["_scheduled_for"], "%Y-%m-%d")
+            local_dt = warsaw.localize(datetime.combine(future_date, datetime.min.time()))
+            data['_submitted_at'] = local_dt.astimezone(pytz.utc).isoformat()
+        else:
+            data['_submitted_at'] = datetime.utcnow().isoformat()
+
+        # Remove _scheduled_for so it's not stored in the database
+        data.pop("_scheduled_for", None)
 
         # Set default notification values if not provided
         if not data.get("QV Notif 1-Addr"):

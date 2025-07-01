@@ -115,6 +115,12 @@ document.addEventListener("DOMContentLoaded", () => {
       data["NR LISTU UPS"] = document.getElementById("Custom_UPS_Number")?.value.trim() || "";
       data["KOSZT (LOGISTYKA)"] = document.getElementById("Custom_Cost")?.value.trim() || "";
       data["DATA WYSYŁKI"] = document.getElementById("Custom_Ship_Date")?.value.trim() || "";
+      const today = new Date();
+      const shipDate = new Date(data["DATA WYSYŁKI"]);
+
+      if (shipDate > today) {
+        data["_scheduled_for"] = data["DATA WYSYŁKI"];  // Add special flag for future scheduling
+      }
 
       // Submit via socket
       const submit = () => socket.emit("submit_form", data);
@@ -213,7 +219,7 @@ document.addEventListener("DOMContentLoaded", () => {
  const closeBtn = document.getElementById("close-banner");
 
  if (banner && closeBtn) {
-   const bannerVersion = "v3";
+   const bannerVersion = "v4";
    const bannerKey = `devBannerDismissed_${bannerVersion}`;
 
    if (!localStorage.getItem(bannerKey)) {
