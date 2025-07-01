@@ -453,6 +453,8 @@
         }
       }
 
+      console.log("Table Data before render:", tableData);
+
       const table = new Tabulator("#tabulator-table", {
         data: tableData,
         layout: "fitDataStretch",
@@ -536,8 +538,7 @@
         ],
       });
       
-      console.log("Table Data before render:", tableData.map(r => ({ id: r.id, 'nr zam.': r["nr zam."] })));
-      console.log("Tabulator getData check:", table.getData().map(r => r["nr zam."]));
+      console.log("Tabulator getData check:", table.getData());
 
       window.table = table;
 
