@@ -538,7 +538,9 @@
         ],
       });
       
-      table.replaceData(tableData);
+      table.on("tableBuilt", function () {
+        table.replaceData(tableData);
+      });
 
       window.table = table;
 
