@@ -522,16 +522,6 @@
           {
             title: "nr zam.",
             field: "nr zam.",
-            formatter: function(cell) {
-              try {
-                const val = cell.getData()["nr zam."];  // not cell.getValue()
-                console.log("Rendering nr zam. (safe) →", val);
-                return val || "-";
-              } catch (err) {
-                console.warn("Error rendering 'nr zam.':", err);
-                return "-";
-              }
-            },
             editor: "input",
             editable: editableRule
           },
