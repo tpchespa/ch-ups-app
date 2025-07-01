@@ -418,6 +418,13 @@
         {% endfor %}
       ];
 
+      // Normalize old entries with long key
+      for (const row of tableData) {
+        if (!row["nr zam."] && row["nr zamówienia gdzie będzie doliczony koszt"]) {
+          row["nr zam."] = row["nr zamówienia gdzie będzie doliczony koszt"];
+        }
+      }
+
       let changedRows = {};
       let hasUnsavedChanges = false;
 
@@ -522,16 +529,6 @@
           {
             title: "nr zam.",
             field: "nr zam.",
-            formatter: function(cell) {
-              try {
-                const val = cell.getData()["nr zam."];  // not cell.getValue()
-                console.log("Rendering nr zam. (safe) →", val);
-                return val || "-";
-              } catch (err) {
-                console.warn("Error rendering 'nr zam.':", err);
-                return "-";
-              }
-            },
             editor: "input",
             editable: editableRule
           },
