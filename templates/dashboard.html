@@ -538,7 +538,9 @@
         ],
       });
       
-      console.log("Tabulator getData check:", table.getData());
+      table.on("dataLoaded", function() {
+        console.log("Tabulator dataLoaded:", table.getData().map(r => ({ id: r.id, 'nr zam.': r["nr zam."] })));
+      });
 
       window.table = table;
 
