@@ -410,7 +410,6 @@
             "Kod klienta": "{{ entry.data['Reference 1']|e }}",
             "Kod handlowca": "{{ entry.data['Reference 2']|e }}",
             "nr zam.": "{{ entry.data['nr zam.'] or entry.data['nr zamówienia gdzie będzie doliczony koszt'] or '' }}",
-            "nr zamówienia gdzie będzie doliczony koszt": "{{ entry.data['nr zamówienia gdzie będzie doliczony koszt'] or '' }}",
             "NR PROJEKTU": "{{ entry.data['NR PROJEKTU']|e }}",
             "NR LISTU UPS": "{{ entry.data['NR LISTU UPS']|e }}",
             "KOSZT": "{{ entry.data['KOSZT (LOGISTYKA)']|e }}",
@@ -419,16 +418,6 @@
         {% endfor %}
       ];
 
-      for (const row of tableData) {
-        if (!row["nr zam."] && row["nr zamówienia gdzie będzie doliczony koszt"]) {
-          row["nr zam."] = row["nr zamówienia gdzie będzie doliczony koszt"];
-        }
-      }
-
-      for (const row of tableData) {
-        delete row["nr zamówienia gdzie będzie doliczony koszt"];
-      }
-      
       let changedRows = {};
       let hasUnsavedChanges = false;
 
@@ -452,8 +441,6 @@
           }).replace(",", "").replace(/\./g, "-"); // Format: 13:44 28-06
         }
       }
-
-      console.log("Table Data before render:", tableData);
 
       const table = new Tabulator("#tabulator-table", {
         data: tableData,
@@ -532,16 +519,18 @@
           { title: "Service", field: "Service", editor: "input", editable: editableRule },
           { title: "Kod klienta", field: "Kod klienta", editor: "input", editable: editableRule },
           { title: "Kod handlowca", field: "Kod handlowca", editor: "input", editable: editableRule },
-          { title: "nr zam.", field: "nr zam.", editor: "input", editable: editableRule },
+          {
+            title: "nr zam.",
+            field: "nr zam.",
+            fieldKey: "nr zam.",
+            editor: "input",
+            editable: editableRule
+          },
           { title: "NR PROJEKTU", field: "NR PROJEKTU", editor: "input", editable: editableRule },
           { title: "DATA WYSYŁKI", field: "DATA WYSYŁKI", editor: "input", editable: editableRule },
         ],
       });
       
-      table.on("tableBuilt", function () {
-        table.replaceData(tableData);
-      });
-
       window.table = table;
 
       table.on("cellEdited", function (cell) {
