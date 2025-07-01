@@ -522,9 +522,15 @@
           {
             title: "nr zam.",
             field: "nr zam.",
-            mutator: function(value, data, type, params, component) {
-              // Use long key if short key is missing
-              return value || data["nr zamówienia gdzie będzie doliczony koszt"] || "";
+            formatter: function(cell) {
+              try {
+                const val = cell.getData()["nr zam."];  // not cell.getValue()
+                console.log("Rendering nr zam. (safe) →", val);
+                return val || "-";
+              } catch (err) {
+                console.warn("Error rendering 'nr zam.':", err);
+                return "-";
+              }
             },
             editor: "input",
             editable: editableRule
