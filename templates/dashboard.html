@@ -625,7 +625,7 @@
   window.selectedDate = "{{ selected_date }}";
   window.selectedMonth = "{{ selected_month }}";
   window.currentUserEmail = "{{ current_user.email }}";
-  const fieldOrder = {{ field_order | tojson }};
+  window.fieldOrder = {{ field_order | tojson }};
 
   window.addEventListener("beforeunload", (e) => {
     if (!hasUnsavedChanges) return;
@@ -663,7 +663,7 @@
 </script>
 
 <script type="module" src="/static/js/main.js?v=1.0.4"></script>
-window.fieldOrder = {{ field_order | tojson }};
+
 
 
 <ul id="country-suggestions" class="autocomplete-list" style="display: none;"></ul>
