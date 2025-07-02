@@ -211,6 +211,28 @@ document.addEventListener("DOMContentLoaded", () => {
    window.location.href = `/?${params.toString()}`;
  });
 
+ function exportSortedTableToXLSX(fieldOrder, filename) {
+  const sortedRows = table.getData(true); // filtered + sorted
+  const exportRows = [];
+
+  for (const row of sortedRows) {
+    const exportRow = fieldOrder.map(field => row[field] || "");
+    exportRows.push(exportRow);
+  }
+
+  const worksheet = XLSX.utils.aoa_to_sheet([fieldOrder, ...exportRows]);
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, "UPS Export");
+
+  XLSX.writeFile(workbook, filename);
+}
+
+document.getElementById("download-sorted-xlsx").addEventListener("click", () => {
+  const fieldOrder = {{ FIELD_ORDER | tojson }};
+  const filename = new Date().toISOString().slice(0, 16).replace("T", "_").replace(":", "-") + "_UPS.xlsx";
+  exportSortedTableToXLSX(fieldOrder, filename);
+});
+
  // initializeCellTracking();
  // setupSaveAllButton(SwalWithDarkTheme);
  warnOnExit(SwalWithDarkTheme);

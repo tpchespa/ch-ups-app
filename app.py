@@ -224,7 +224,8 @@ def dashboard():
         selected_month=selected_month_str or '',
         selected_user=selected_user,
         today=today_str,
-        user_display_names=user_display_names 
+        user_display_names=user_display_names,
+        field_order=FIELD_ORDER
     )
 
 @app.route('/download')
