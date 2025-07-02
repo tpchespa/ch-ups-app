@@ -228,7 +228,7 @@ document.addEventListener("DOMContentLoaded", () => {
 }
 
 document.getElementById("download-sorted-xlsx").addEventListener("click", () => {
-  const fieldOrder = {{ FIELD_ORDER | tojson }};
+  const fieldOrder = window.fieldOrder;
   const filename = new Date().toISOString().slice(0, 16).replace("T", "_").replace(":", "-") + "_UPS.xlsx";
   exportSortedTableToXLSX(fieldOrder, filename);
 });
