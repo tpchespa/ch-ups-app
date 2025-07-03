@@ -213,7 +213,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
  function exportSortedTableToXLSX(fieldOrder, filename) {
    console.log("Tabulator sorters:", table.getSorters());
-   const sortedRows = table.getData("active"); // sorted + filtered view
+   const sortedRows = table.getData("active");
    const exportRows = [];
 
    for (const row of sortedRows) {
@@ -228,10 +228,37 @@ document.addEventListener("DOMContentLoaded", () => {
    XLSX.writeFile(workbook, filename);
  }
 
+ function exportSortedTableToCSV(fieldOrder, filename) {
+  const sortedRows = table.getData("active"); 
+  const csvRows = [];
+
+  // Header row (no labels in UPS format)
+  for (const row of sortedRows) {
+    const csvRow = fieldOrder.map(field => {
+      const val = row[field] ?? "";
+      return `"${String(val).replace(/"/g, '""')}"`; // escape quotes
+    });
+    csvRows.push(csvRow.join(","));
+  }
+
+  const csvContent = csvRows.join("\n");
+  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = filename;
+  link.click();
+}
+
 document.getElementById("download-sorted-xlsx").addEventListener("click", () => {
   const fieldOrder = window.fieldOrder;
   const filename = new Date().toISOString().slice(0, 16).replace("T", "_").replace(":", "-") + "_UPS.xlsx";
   exportSortedTableToXLSX(fieldOrder, filename);
+});
+
+document.getElementById("download-sorted-csv").addEventListener("click", () => {
+  const fieldOrder = window.fieldOrder;
+  const filename = new Date().toISOString().slice(0, 16).replace("T", "_").replace(":", "-") + "_UPS.csv";
+  exportSortedTableToCSV(fieldOrder, filename);
 });
 
  // initializeCellTracking();
