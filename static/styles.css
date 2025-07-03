@@ -832,25 +832,6 @@ input, select, textarea {
   align-items: flex-start;
 }
 
-.tooltip-below {
-  display: flex;
-  align-items: flex-start;
-  margin-top: 6px;
-  color: #aaa;
-  font-size: 13px;
-  gap: 6px;
-}
-
-.tooltip-below i {
-  font-size: 14px;
-  color: #ccc;
-}
-
-.tooltip-text {
-  max-width: 300px;
-  line-height: 1.3;
-}
-
 .export-button i {
   font-size: 16px;
 }
