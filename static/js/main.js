@@ -212,7 +212,8 @@ document.addEventListener("DOMContentLoaded", () => {
  });
 
  function exportSortedTableToXLSX(fieldOrder, filename) {
-   const sortedRows = table.getRows().map(row => row.getData());
+   console.log("Tabulator sorters:", table.getSorters());
+   const sortedRows = table.getData("active"); // sorted + filtered view
    const exportRows = [];
 
    for (const row of sortedRows) {
