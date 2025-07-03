@@ -365,17 +365,40 @@
   -->
   <h4 style="margin-top: 24px;">📦 Export Options</h4>
   <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 16px;">
-    <button id="download-sorted-csv" class="button-link" title="UPS-formatted CSV, sorted as seen in the table">
-      <i class="fas fa-file-csv"></i> Export CSV (UPS Format)
-    </button>
-    <button id="download-sorted-xlsx" class="button-link xlsx-button" title="Full UPS data in Excel, sorted as seen">
-      <i class="fas fa-file-excel"></i> Export XLSX (UPS Format)
-    </button>
-    <button id="download-visible-xlsx" class="button-link xlsx-button" title="Export only visible columns and filtered rows">
-      <i class="fas fa-eye"></i> Export XLSX (Visible Only)
-    </button>
+    <div class="export-button-wrapper">
+      <button id="download-sorted-csv" class="export-button csv">
+        <i class="fas fa-file-csv"></i> CSV (UPS Format)
+      </button>
+      <span class="tooltip-icon" style="margin-left: 6px;">
+        <i class="fas fa-circle-question"></i>
+        <span class="tooltip-content">Exports UPS-ready CSV in the current sort order</span>
+      </span>
+    </div>
+
+    <div class="export-button-wrapper">
+      <button id="download-sorted-xlsx" class="export-button xlsx">
+        <i class="fas fa-file-excel"></i> XLSX (UPS Format)
+      </button>
+      <span class="tooltip-icon">
+        <i class="fas fa-circle-question"></i>
+        <span class="tooltip-content">
+          Full Excel export with official UPS fields, sorted like the table view.
+        </span>
+      </span>
+    </div>
+    <div class="export-button-wrapper">
+      <button id="download-visible-xlsx" class="export-button eye">
+        <i class="fas fa-eye"></i> XLSX (Visible Only)
+      </button>
+      <span class="tooltip-icon">
+        <i class="fas fa-circle-question"></i>
+        <span class="tooltip-content">
+          Export only visible columns and filtered rows
+        </span>
+      </span>
+    </div>
   </div>
-  
+
   </div>
   <h4>
     {% if selected_month %}

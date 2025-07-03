@@ -803,3 +803,54 @@ input, select, textarea {
   background-color: #2a9d8f !important;
   transition: background-color 0.5s ease;
 }
+
+.export-button {
+  padding: 10px 16px;
+  border-radius: 8px;
+  background-color: #2e2e2e;
+  color: #f1f1f1;
+  border: 1px solid #444;
+  font-weight: 500;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.export-button-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.export-button i {
+  font-size: 16px;
+}
+
+.export-button:hover {
+  background-color: #3a3a3a;
+  transform: translateY(-1px);
+}
+
+.export-button:active {
+  transform: translateY(0);
+  background-color: #1f1f1f;
+}
+
+.export-button.xlsx {
+  color: #a0e3a0;
+  border-color: #4d8f4d;
+}
+
+.export-button.csv {
+  color: #f4d36c;
+  border-color: #b78d29;
+}
+
+.export-button.eye {
+  color: #87cefa;
+  border-color: #4682b4;
+}
