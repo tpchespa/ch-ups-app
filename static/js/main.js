@@ -212,20 +212,20 @@ document.addEventListener("DOMContentLoaded", () => {
  });
 
  function exportSortedTableToXLSX(fieldOrder, filename) {
-  const sortedRows = table.getData(true); // filtered + sorted
-  const exportRows = [];
+   const sortedRows = table.getRows().map(row => row.getData());
+   const exportRows = [];
 
-  for (const row of sortedRows) {
-    const exportRow = fieldOrder.map(field => row[field] || "");
-    exportRows.push(exportRow);
-  }
+   for (const row of sortedRows) {
+     const exportRow = fieldOrder.map(field => row[field] || "");
+     exportRows.push(exportRow);
+   }
 
-  const worksheet = XLSX.utils.aoa_to_sheet([fieldOrder, ...exportRows]);
-  const workbook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(workbook, worksheet, "UPS Export");
+   const worksheet = XLSX.utils.aoa_to_sheet([fieldOrder, ...exportRows]);
+   const workbook = XLSX.utils.book_new();
+   XLSX.utils.book_append_sheet(workbook, worksheet, "UPS Export");
 
-  XLSX.writeFile(workbook, filename);
-}
+   XLSX.writeFile(workbook, filename);
+ }
 
 document.getElementById("download-sorted-xlsx").addEventListener("click", () => {
   const fieldOrder = window.fieldOrder;
