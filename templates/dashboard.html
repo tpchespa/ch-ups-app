@@ -135,7 +135,7 @@
         </div>
 
         <div class="horizontal-field">
-          <label for="State_Prov_Other" class="label-with-tooltip">
+          <label for="state_prov_other" class="label-with-tooltip">
           State/Prov/Other
           <span class="tooltip-icon">
             <i class="fas fa-circle-question"></i>
@@ -147,8 +147,8 @@
           </span>
 
           </label>
-          <input type="text" id="State_Prov_Other" name="State/Prov/Other" autocomplete="off">
-          <div class="field-error" id="error-State_Prov_Other"></div>
+          <input type="text" id="state_prov_other" name="state_prov_other" autocomplete="off">
+          <div class="field-error" id="error-state_prov_other"></div>
         </div>
 
         <div class="horizontal-field">
@@ -372,7 +372,7 @@
       </button>
       <span class="tooltip-icon">
         <i class="fas fa-circle-question"></i>
-        <span class="tooltip-content">Exports UPS-ready CSV in the current sort order</span>
+        <span class="tooltip-content">Exports UPS-ready CSV in the current sort order.</span>
       </span>
     </div>
 
@@ -390,12 +390,12 @@
 
     <div class="export-button-wrapper">
       <button id="download-visible-xlsx" class="export-button eye">
-        <i class="fas fa-eye"></i> XLSX (Visible Only)
+        <i class="fas fa-eye"></i> XLSX (Current all visible)
       </button>
       <span class="tooltip-icon">
         <i class="fas fa-circle-question"></i>
         <span class="tooltip-content">
-          Export only visible columns and filtered rows
+          Export all current visible columns and filtered rows below.
         </span>
       </span>
     </div>
@@ -437,7 +437,7 @@
             "Country": "{{ entry.data['Country']|e }}",
             "Address 1": "{{ entry.data['Address 1']|e }}",
             "City": "{{ entry.data['City']|e }}",
-            "State/Prov/Other": "{{ entry.data['State/Prov/Other']|e }}",
+            "state_prov_other": "{{ entry.data['state_prov_other'] or entry.data['State/Prov/Other'] or '' }}",
             "Postal Code": "{{ entry.data['Postal Code']|e }}",
             "Telephone": "{{ entry.data['Telephone']|e }}",
             "Consignee Email": "{{ entry.data['Consignee Email']|e }}",
@@ -454,7 +454,7 @@
             "nr_zam": "{{ entry.data['nr_zam'] or entry.data['nr zam.'] or entry.data['nr zamówienia gdzie będzie doliczony koszt'] or '' }}",
             "NR PROJEKTU": "{{ entry.data['NR PROJEKTU']|e }}",
             "NR LISTU UPS": "{{ entry.data['NR LISTU UPS']|e }}",
-            "KOSZT": "{{ entry.data['KOSZT (LOGISTYKA)']|e }}",
+            "koszt": "{{ entry.data['koszt'] or entry.data['KOSZT (LOGISTYKA)'] or '' }}",
             "DATA WYSYŁKI": "{{ entry.data['DATA WYSYŁKI']|e }}"
           }{% if not loop.last %},{% endif %}
         {% endfor %}
@@ -555,12 +555,12 @@
           },
           { title: "Address 1", field: "Address 1", editor: "input", editable: editableRule, headerSort: true },
           { title: "City", field: "City", editor: "input", editable: editableRule, headerSort: true },
-          { title: "State/Prov/Other", field: "State/Prov/Other", editor: "input", editable: editableRule, headerSort: true },
+          { title: "State/Prov/Other", field: "state_prov_other", editor: "input", editable: editableRule, headerSort: true },
           { title: "Postal Code", field: "Postal Code", editor: "input", editable: editableRule, headerSort: true },
           { title: "Telephone", field: "Telephone", editor: "input", editable: editableRule, headerSort: true },
           { title: "Consignee Email", field: "Consignee Email", editor: "input", editable: editableRule, headerSort: true },
           { title: "NR LISTU UPS", field: "NR LISTU UPS", editor: "input", editable: editableRule, headerSort: true },
-          { title: "KOSZT", field: "KOSZT", editor: "input", editable: editableRule, headerSort: true },
+          { title: "KOSZT", field: "koszt", editor: "input", editable: editableRule, headerSort: true },
           { title: "Packaging Type", field: "Packaging Type", editor: "input", editable: editableRule, headerSort: true },
           { title: "Weight", field: "Weight", editor: "input", editable: editableRule, headerSort: true },
           { title: "Length", field: "Length", editor: "input", editable: editableRule, headerSort: true },

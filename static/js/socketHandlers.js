@@ -24,7 +24,7 @@ export function initializeSocketHandlers(socket, currentUserEmail, SwalWithDarkT
       "Country": data.data["Country"],
       "Address 1": data.data["Address 1"],
       "City": data.data["City"],
-      "State/Prov/Other": data.data["State/Prov/Other"],
+      "state_prov_other": data.data["state_prov_other"] || data.data["State/Prov/Other"] || "",
       "Postal Code": data.data["Postal Code"],
       "Telephone": data.data["Telephone"],
       "Consignee Email": data.data["Consignee Email"],
@@ -41,7 +41,7 @@ export function initializeSocketHandlers(socket, currentUserEmail, SwalWithDarkT
       "nr_zam": data.data["nr_zam"] || data.data["nr zam."] || data.data["nr zamówienia gdzie będzie doliczony koszt"] || "",
       "NR PROJEKTU": data.data["NR PROJEKTU"],
       "NR LISTU UPS": data.data["NR LISTU UPS"],
-      "KOSZT": data.data["KOSZT (LOGISTYKA)"],
+      "koszt": data.data["koszt"] || data.data["KOSZT (LOGISTYKA)"] || "",
       "DATA WYSYŁKI": data.data["DATA WYSYŁKI"]
     };
     console.log("RowData being inserted into table:", rowData);

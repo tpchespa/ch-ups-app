@@ -819,16 +819,8 @@ input, select, textarea {
   transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
-.export-button-group {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  margin-bottom: 20px;
-}
-
 .export-button-wrapper {
   display: flex;
-  flex-direction: column;
   align-items: flex-start;
 }
 

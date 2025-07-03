@@ -345,7 +345,7 @@ def add_contact():
         country=form.get("country"),
         address_1=form.get("address_1"),
         city=form.get("city"),
-        state=form.get("state"),
+        state=form.get("state_prov_other"),
         postal_code=form.get("postal_code"),
         telephone=form.get("telephone"),
         email=form.get("email")

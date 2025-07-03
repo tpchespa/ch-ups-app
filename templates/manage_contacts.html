@@ -36,8 +36,8 @@
       <input type="text" id="city" name="city" required>
     </div>
     <div class="horizontal-field">
-      <label for="state">State/Prov/Other</label>
-      <input type="text" id="state" name="state">
+      <label for="state_prov_other">State/Prov/Other</label>
+      <input type="text" id="state_prov_other" name="state_prov_other">
     </div>
     <div class="horizontal-field">
       <label for="postal_code">Postal Code</label>
@@ -67,7 +67,7 @@
           <th>Country</th>
           <th>Address</th>
           <th>City</th>
-          <th>State</th>
+          <th>State/Prov/Other</th>
           <th>Postal</th>
           <th>Telephone</th>
           <th>Email</th>
@@ -104,7 +104,7 @@ document.getElementById("contact_name")?.addEventListener("paste", function (e) 
   e.preventDefault();
   const fields = [
     "contact_name", "company_name", "country", "address_1",
-    "city", "state", "postal_code", "telephone", "email"
+    "city", "state_prov_other", "postal_code", "telephone", "email"
   ];
   const values = e.clipboardData.getData('text/plain').split('\t');
   fields.forEach((field, i) => {
