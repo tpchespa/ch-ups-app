@@ -355,22 +355,27 @@
       </select>
     </div>
 
+  <!--
   <a href="/download{% if selected_date %}?date={{ selected_date }}{% elif selected_month %}?month={{ selected_month }}{% endif %}{% if selected_user %}{{ '&' if selected_date or selected_month else '?' }}user={{ selected_user }}{% endif %}" class="button-link">Download UPS CSV</a>
+  
   <a href="/download_xlsx{% if selected_date %}?date={{ selected_date }}{% elif selected_month %}?month={{ selected_month }}{% endif %}{% if selected_user %}{{ '&' if selected_date or selected_month else '?' }}user={{ selected_user }}{% endif %}" class="button-link xlsx-button">
     <i class="fas fa-file-excel" style="margin-right: 6px;"></i>
     Download UPS XLSX 
   </a>
-
-  <button id="download-sorted-csv" class="button-link">
-    <i class="fas fa-file-csv" style="margin-right: 6px;"></i>
-    Download UPS CSV (Sorted)
-  </button>
-
-  <button id="download-sorted-xlsx" class="button-link xlsx-button">
-    <i class="fas fa-file-excel" style="margin-right: 6px;"></i>
-    Download UPS XLSX (Sorted)
-  </button>
-
+  -->
+  <h4 style="margin-top: 24px;">📦 Export Options</h4>
+  <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 16px;">
+    <button id="download-sorted-csv" class="button-link" title="UPS-formatted CSV, sorted as seen in the table">
+      <i class="fas fa-file-csv"></i> Export CSV (UPS Format)
+    </button>
+    <button id="download-sorted-xlsx" class="button-link xlsx-button" title="Full UPS data in Excel, sorted as seen">
+      <i class="fas fa-file-excel"></i> Export XLSX (UPS Format)
+    </button>
+    <button id="download-visible-xlsx" class="button-link xlsx-button" title="Export only visible columns and filtered rows">
+      <i class="fas fa-eye"></i> Export XLSX (Visible Only)
+    </button>
+  </div>
+  
   </div>
   <h4>
     {% if selected_month %}
@@ -380,10 +385,7 @@
     {% endif %}
   </h4>
   <div id="horizontal-table-wrapper">
-    <button id="download-visible-xlsx" class="button-link xlsx-button">
-      <i class="fas fa-file-excel" style="margin-right: 6px;"></i>
-      Download Visible Table (XLSX)
-    </button>
+
     <!-- Save All Changes button -->
     <div class="submission-controls">
       <button id="save-all-button" class="global-save-button">💾 Save All Changes</button>
