@@ -9,7 +9,7 @@ export const validateFields = [
   { id: "Postal_Code", label: "Postal Code", max: 10, alphanumeric: true },
   { id: "state_prov_other", label: "state_prov_other", max: 30, alphanumeric: true },
   { id: "Consignee_Email", label: "Consignee Email", max: 50 },
-  { id: "Documents_of_No_Commercial_Value", label: "Documents of No Commercial Value" }
+  { id: "Documents_of_No_Commercial_Value", label: "Documents of No Commercial Value" },
   { id: "Telephone", label: "Telephone", max: 15, alphanumeric: true },
   { id: "Packaging_Type", label: "Packaging Type", required: true },
   { id: "Weight", label: "Weight", conditionalWeight: true, max: 5 },
