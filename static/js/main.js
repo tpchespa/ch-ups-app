@@ -109,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (input) data[field.label] = input.value.trim();
       });
 
-      // Add custom fields
+      // custom fields
       data["nr_zam"] = document.getElementById("Custom_Order_Number")?.value.trim() || "";
       data["NR PROJEKTU"] = document.getElementById("Custom_Project_Number")?.value.trim() || "";
       data["NR LISTU UPS"] = document.getElementById("Custom_UPS_Number")?.value.trim() || "";
@@ -117,6 +117,8 @@ document.addEventListener("DOMContentLoaded", () => {
       data["DATA WYSYŁKI"] = document.getElementById("Custom_Ship_Date")?.value.trim() || "";
 
       data["state_prov_other"] = document.getElementById("state_prov_other")?.value.trim() || "";
+      data["Consignee_Email"] = document.getElementById("Consignee_Email")?.value.trim() || "";
+      data["Documents_of_No_Commercial_Value"] = document.getElementById("Documents_of_No_Commercial_Value")?.value.trim() || "";
 
       const today = new Date();
       const shipDate = new Date(data["DATA WYSYŁKI"]);
@@ -124,7 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
       if (shipDate > today) {
-        data["_scheduled_for"] = data["DATA WYSYŁKI"];  // Add special flag for future scheduling
+        data["_scheduled_for"] = data["DATA WYSYŁKI"];  //special flag for future scheduling
       }
 
       // Submit via socket
