@@ -27,12 +27,26 @@ export function cleanInputValue(value, isPostalCode = false) {
   let wasModified = false;
 
   if (isPostalCode) {
-    const postalCleaned = cleaned.replace(/[^0-9]/g, '');
-    if (postalCleaned !== cleaned) {
-      wasModified = true;
-      cleaned = postalCleaned;
+    const country = document.getElementById("Country")?.value.trim().toUpperCase();
+
+    if (country === "GB") {
+      // Remove unwanted characters, but keep space if valid
+      const postalCleaned = cleaned.replace(/[^\p{L}0-9 ]/gu, "").toUpperCase();
+      const noSpace = postalCleaned.replace(/\s+/g, "");
+      if (noSpace.length > 3) {
+        cleaned = noSpace.slice(0, -3) + " " + noSpace.slice(-3);
+      } else {
+        cleaned = noSpace;
+      }
+      return { cleaned, wasModified: true };
+    } else {
+      // Default: remove all non-alphanumerics (no spaces)
+      const postalCleaned = cleaned.replace(/[^a-zA-Z0-9]/g, "");
+      return {
+        cleaned: postalCleaned,
+        wasModified: postalCleaned !== cleaned
+      };
     }
-    return { cleaned, wasModified };
   }
 
   cleaned = cleaned.replace(/(\d)[^\p{L}\d\s]+(?=\d)/gu, (_, d) => {

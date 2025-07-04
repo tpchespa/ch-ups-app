@@ -418,7 +418,7 @@ input, select, textarea {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #444;
+  background-color: #aaa;
   border-radius: 6px;
   border: 2px solid #1e1e1e;
 }

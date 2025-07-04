@@ -608,7 +608,7 @@
 
 @media (hover: hover) and (pointer: fine) {
   .tabulator-row.tabulator-selectable:hover {
-    background-color: #bbb;
+    background-color: #3a3a3a;
     cursor: pointer;
   }
 }
@@ -1357,6 +1357,7 @@ body.tabulator-print-fullscreen-hide > *:not(.tabulator-print-fullscreen) {
 .tabulator {
   border: 1px solid #282828;
   background-color: #111111;
+  margin: 2px 0;
 }
 
 .tabulator[tabulator-layout="fitColumns"] .tabulator-row .tabulator-cell:last-of-type {
@@ -1554,11 +1555,11 @@ body.tabulator-print-fullscreen-hide > *:not(.tabulator-print-fullscreen) {
 }
 
 .tabulator-row {
-  background-color: #151515;
+  background-color: #1c1c1c;
 }
 
 .tabulator-row.tabulator-row-even {
-  background-color: #202020;
+  background-color: #333333;
 }
 
 .tabulator-row.tabulator-selectable:hover {
