@@ -381,7 +381,7 @@ def save_contact():
         country=data.get("Country"),
         address_1=data.get("Address 1"),
         city=data.get("City"),
-        state=data.get("State/Prov/Other"),
+        state=data.get("state_prov_other"),
         postal_code=data.get("Postal Code"),
         telephone=data.get("Telephone"),
         email=data.get("Consignee Email")

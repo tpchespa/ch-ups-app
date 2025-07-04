@@ -106,7 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const data = {};
       validateFields.forEach(field => {
         const input = document.getElementById(field.id);
-        if (input) data[field.label] = input.value.trim();
+        if (input) data[field.id] = input.value.trim();
       });
 
       // Add custom fields
@@ -115,8 +115,13 @@ document.addEventListener("DOMContentLoaded", () => {
       data["NR LISTU UPS"] = document.getElementById("Custom_UPS_Number")?.value.trim() || "";
       data["koszt"] = document.getElementById("Custom_Cost")?.value.trim() || "";
       data["DATA WYSYŁKI"] = document.getElementById("Custom_Ship_Date")?.value.trim() || "";
+
+      data["state_prov_other"] = document.getElementById("state_prov_other")?.value.trim() || "";
+
       const today = new Date();
       const shipDate = new Date(data["DATA WYSYŁKI"]);
+
+
 
       if (shipDate > today) {
         data["_scheduled_for"] = data["DATA WYSYŁKI"];  // Add special flag for future scheduling

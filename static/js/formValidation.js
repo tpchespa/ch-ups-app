@@ -7,7 +7,7 @@ export const validateFields = [
   { id: "Address_1", label: "Address 1", required: true, max: 35, alphanumeric: true },
   { id: "City", label: "City", required: true, max: 30, alphanumeric: true },
   { id: "Postal_Code", label: "Postal Code", max: 10, alphanumeric: true },
-  { id: "State_Prov_Other", label: "State/Province/Other", max: 30, alphanumeric: true },
+  { id: "state_prov_other", label: "state_prov_other", max: 30, alphanumeric: true },
   { id: "Telephone", label: "Telephone", max: 15, alphanumeric: true },
   { id: "Packaging_Type", label: "Packaging Type", required: true },
   { id: "Weight", label: "Weight", conditionalWeight: true, max: 5 },
