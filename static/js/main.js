@@ -276,7 +276,7 @@ document.getElementById("download-sorted-csv").addEventListener("click", () => {
  const closeBtn = document.getElementById("close-banner");
 
  if (banner && closeBtn) {
-   const bannerVersion = "v5";
+   const bannerVersion = "v6";
    const bannerKey = `devBannerDismissed_${bannerVersion}`;
 
    if (!localStorage.getItem(bannerKey)) {
