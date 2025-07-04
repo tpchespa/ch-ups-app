@@ -110,6 +110,8 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       // custom fields
+      data["Reference 1"] = document.getElementById("Reference_1")?.value.trim() || "";
+      data["Reference 2"] = document.getElementById("Reference_2")?.value.trim() || "";
       data["nr_zam"] = document.getElementById("Custom_Order_Number")?.value.trim() || "";
       data["NR PROJEKTU"] = document.getElementById("Custom_Project_Number")?.value.trim() || "";
       data["NR LISTU UPS"] = document.getElementById("Custom_UPS_Number")?.value.trim() || "";
