@@ -400,7 +400,7 @@ def get_contacts():
         "Country": c.country,
         "Address 1": c.address_1,
         "City": c.city,
-        "State/Prov/Other": c.state,
+        "state_prov_other": c.state,
         "Postal Code": c.postal_code,
         "Telephone": c.telephone,
         "Consignee Email": c.email

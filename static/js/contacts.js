@@ -24,7 +24,20 @@ export function setupContactSelection() {
 
     const data = JSON.parse(selected.dataset.json);
     Object.entries(data).forEach(([field, value]) => {
-      const id = field.replace(/\s|\//g, "_");
+      const customIdMap = {
+        "state_prov_other": "state_prov_other",
+        "State/Prov/Other": "state_prov_other",
+        "Postal Code": "Postal_Code",
+        "Contact Name": "Contact_Name",
+        "Company or Name": "Company_or_Name",
+        "Address 1": "Address_1",
+        "City": "City",
+        "Country": "Country",
+        "Telephone": "Telephone",
+        "Consignee Email": "Consignee_Email"
+      };
+
+      const id = customIdMap[field] || field.replace(/\s|\//g, "_");
       const input = document.getElementById(id);
       if (input) {
         input.value = value;
