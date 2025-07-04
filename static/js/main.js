@@ -219,11 +219,14 @@ document.addEventListener("DOMContentLoaded", () => {
  });
 
  function exportSortedTableToXLSX(fieldOrder, filename) {
-   console.log("Tabulator sorters:", table.getSorters());
    const sortedRows = table.getData("active");
    const exportRows = [];
 
    for (const row of sortedRows) {
+     // Inject default values if missing
+     if (!row["QV Notif 1-Addr"]) row["QV Notif 1-Addr"] = "justyna.nawrocka@chespa.eu";
+     if (!row["QV Notif 1-Excp"]) row["QV Notif 1-Excp"] = "1";
+
      const exportRow = fieldOrder.map(field => row[field] || "");
      exportRows.push(exportRow);
    }
@@ -236,26 +239,28 @@ document.addEventListener("DOMContentLoaded", () => {
  }
 
  function exportSortedTableToCSV(fieldOrder, filename) {
-  const sortedRows = table.getData("active"); 
-  const csvRows = [];
+   const sortedRows = table.getData("active");
+   const csvRows = [];
 
-  // Header row (no labels in UPS format)
-  for (const row of sortedRows) {
-    const csvRow = fieldOrder.map(field => {
-      const val = row[field] ?? "";
-      return `"${String(val).replace(/"/g, '""')}"`; // escape quotes
-    });
-    csvRows.push(csvRow.join(","));
-  }
+   for (const row of sortedRows) {
+     if (!row["QV Notif 1-Addr"]) row["QV Notif 1-Addr"] = "justyna.nawrocka@chespa.eu";
+     if (!row["QV Notif 1-Excp"]) row["QV Notif 1-Excp"] = "1";
 
-  const csvContent = csvRows.join("\n");
-  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-  const link = document.createElement("a");
-  link.href = URL.createObjectURL(blob);
-  link.download = filename;
-  link.click();
-}
+     const csvRow = fieldOrder.map(field => {
+       const val = row[field] ?? "";
+       return `"${String(val).replace(/"/g, '""')}"`;
+     });
 
+     csvRows.push(csvRow.join(","));
+   }
+
+   const blob = new Blob([csvRows.join("\n")], { type: "text/csv;charset=utf-8;" });
+   const link = document.createElement("a");
+   link.href = URL.createObjectURL(blob);
+   link.download = filename;
+   link.click();
+ }
+ 
 document.getElementById("download-sorted-xlsx").addEventListener("click", () => {
   const fieldOrder = window.fieldOrder;
   const filename = new Date().toISOString().slice(0, 16).replace("T", "_").replace(":", "-") + "_UPS.xlsx";
