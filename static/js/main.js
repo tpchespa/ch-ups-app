@@ -106,7 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const data = {};
       validateFields.forEach(field => {
         const input = document.getElementById(field.id);
-        if (input) data[field.id] = input.value.trim();
+        if (input) data[field.label] = input.value.trim();
       });
 
       // Add custom fields
