@@ -576,18 +576,12 @@
           {
             title: "Consignee Email",
             field: "Consignee_Email",
-            editor: function (cell, onRendered, success, cancel) {
-              const input = document.createElement("input");
-              input.value = cell.getValue() || "";
-              onRendered(() => input.focus());
-
-              input.addEventListener("blur", () => success(input.value));
-              input.addEventListener("keydown", e => {
-                if (e.key === "Enter") success(input.value);
-                if (e.key === "Escape") cancel();
-              });
-
-              return input;
+            editor: "input",
+            editorParams: {
+              elementAttributes: {
+                autocomplete: "off"
+              },
+              search: false
             },
             editable: editableRule,
             headerSort: true 
