@@ -115,7 +115,10 @@ document.addEventListener("DOMContentLoaded", () => {
       data["NR LISTU UPS"] = document.getElementById("Custom_UPS_Number")?.value.trim() || "";
       data["koszt"] = document.getElementById("Custom_Cost")?.value.trim() || "";
       data["DATA WYSYŁKI"] = document.getElementById("Custom_Ship_Date")?.value.trim() || "";
-
+      
+      // name fixing
+      data["Reference 1"] = document.getElementById("Reference_1")?.value.trim() || "";
+      data["Reference 2"] = document.getElementById("Reference_2")?.value.trim() || "";
       data["state_prov_other"] = document.getElementById("state_prov_other")?.value.trim() || "";
       data["Consignee_Email"] = document.getElementById("Consignee_Email")?.value.trim() || "";
       data["Documents_of_No_Commercial_Value"] = document.getElementById("Documents_of_No_Commercial_Value")?.value.trim() || "";
@@ -260,7 +263,7 @@ document.addEventListener("DOMContentLoaded", () => {
    link.download = filename;
    link.click();
  }
- 
+
 document.getElementById("download-sorted-xlsx").addEventListener("click", () => {
   const fieldOrder = window.fieldOrder;
   const filename = new Date().toISOString().slice(0, 16).replace("T", "_").replace(":", "-") + "_UPS.xlsx";
