@@ -115,7 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
       data["NR LISTU UPS"] = document.getElementById("Custom_UPS_Number")?.value.trim() || "";
       data["koszt"] = document.getElementById("Custom_Cost")?.value.trim() || "";
       data["DATA WYSYŁKI"] = document.getElementById("Custom_Ship_Date")?.value.trim() || "";
-      
+
       // name fixing
       data["Reference 1"] = document.getElementById("Reference_1")?.value.trim() || "";
       data["Reference 2"] = document.getElementById("Reference_2")?.value.trim() || "";
@@ -222,15 +222,24 @@ document.addEventListener("DOMContentLoaded", () => {
  });
 
  function exportSortedTableToXLSX(fieldOrder, filename) {
+   const aliasMap = {
+     "State/Prov/Other": "state_prov_other",
+     "Consignee Email": "Consignee_Email",
+     "Documents of No Commercial Value": "Documents_of_No_Commercial_Value"
+   };
+
    const sortedRows = table.getData("active");
    const exportRows = [];
 
    for (const row of sortedRows) {
-     // Inject default values if missing
      if (!row["QV Notif 1-Addr"]) row["QV Notif 1-Addr"] = "justyna.nawrocka@chespa.eu";
      if (!row["QV Notif 1-Excp"]) row["QV Notif 1-Excp"] = "1";
 
-     const exportRow = fieldOrder.map(field => row[field] || "");
+     const exportRow = fieldOrder.map(field => {
+       const alias = aliasMap[field] || field;
+       return row[alias] ?? "";
+     });
+
      exportRows.push(exportRow);
    }
 
@@ -244,13 +253,20 @@ document.addEventListener("DOMContentLoaded", () => {
  function exportSortedTableToCSV(fieldOrder, filename) {
    const sortedRows = table.getData("active");
    const csvRows = [];
+   const aliasMap = {
+     "State/Prov/Other": "state_prov_other",
+     "Consignee Email": "Consignee_Email",
+     "Documents of No Commercial Value": "Documents_of_No_Commercial_Value"
+   };
 
    for (const row of sortedRows) {
+     // Ensure UPS defaults
      if (!row["QV Notif 1-Addr"]) row["QV Notif 1-Addr"] = "justyna.nawrocka@chespa.eu";
      if (!row["QV Notif 1-Excp"]) row["QV Notif 1-Excp"] = "1";
 
      const csvRow = fieldOrder.map(field => {
-       const val = row[field] ?? "";
+       const alias = aliasMap[field] || field;
+       const val = row[alias] ?? "";
        return `"${String(val).replace(/"/g, '""')}"`;
      });
 

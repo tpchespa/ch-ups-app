@@ -573,7 +573,25 @@
           { title: "State/Prov/Other", field: "state_prov_other", editor: "input", editable: editableRule, headerSort: true },
           { title: "Postal Code", field: "Postal Code", editor: "input", editable: editableRule, headerSort: true },
           { title: "Telephone", field: "Telephone", editor: "input", editable: editableRule, headerSort: true },
-          { title: "Consignee Email", field: "Consignee_Email", editor: "input", editable: editableRule, headerSort: true },
+          {
+            title: "Consignee Email",
+            field: "Consignee_Email",
+            editor: function (cell, onRendered, success, cancel) {
+              const input = document.createElement("input");
+              input.value = cell.getValue() || "";
+              onRendered(() => input.focus());
+
+              input.addEventListener("blur", () => success(input.value));
+              input.addEventListener("keydown", e => {
+                if (e.key === "Enter") success(input.value);
+                if (e.key === "Escape") cancel();
+              });
+
+              return input;
+            },
+            editable: editableRule,
+            headerSort: true
+          },
           { title: "NR LISTU UPS", field: "NR LISTU UPS", editor: "input", editable: editableRule, headerSort: true },
           { title: "KOSZT", field: "koszt", editor: "input", editable: editableRule, headerSort: true },
           { title: "Packaging Type", field: "Packaging Type", editor: "input", editable: editableRule, headerSort: true },
