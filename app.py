@@ -494,12 +494,21 @@ def update_entry(entry_id):
     allowed_keys = set(entry.data.keys()) - protected_keys
     new_data = dict(entry.data)
 
-    for key in allowed_keys:
-        if key in updated_data:
-            new_data[key] = updated_data[key]
+    field_aliases = {
+        "state_prov_other": "State/Prov/Other",
+        "Consignee_Email": "Consignee Email",
+        "Documents_of_No_Commercial_Value": "Documents of No Commercial Value",
+        "Reference_1": "Reference 1",
+        "Reference_2": "Reference 2",
+    }
+
+    for key, value in updated_data.items():
+        real_key = field_aliases.get(key, key)
+        if real_key in allowed_keys:
+            new_data[real_key] = value
 
     new_data.update(preserved)
-    entry.data = new_data  # trigger SQLAlchemy to detect change
+    entry.data = new_data
 
     db.session.commit()
     return {"success": True}
