@@ -490,10 +490,9 @@ def update_entry(entry_id):
 
     protected_keys = {"_submitted_by", "_submitted_at"}
     preserved = {k: entry.data.get(k) for k in protected_keys}
-
-    allowed_keys = set(entry.data.keys()) - protected_keys
     new_data = dict(entry.data)
 
+    # Normalize keys
     field_aliases = {
         "state_prov_other": "State/Prov/Other",
         "Consignee_Email": "Consignee Email",
@@ -504,13 +503,13 @@ def update_entry(entry_id):
 
     for key, value in updated_data.items():
         real_key = field_aliases.get(key, key)
-        if real_key in allowed_keys:
+        if real_key not in protected_keys:
             new_data[real_key] = value
 
     new_data.update(preserved)
     entry.data = new_data
-
     db.session.commit()
+
     return {"success": True}
 
 
