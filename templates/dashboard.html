@@ -573,42 +573,7 @@
           { title: "State/Prov/Other", field: "state_prov_other", editor: "input", editable: editableRule, headerSort: true },
           { title: "Postal Code", field: "Postal Code", editor: "input", editable: editableRule, headerSort: true },
           { title: "Telephone", field: "Telephone", editor: "input", editable: editableRule, headerSort: true },
-          {
-            title: "Consignee Email",
-            field: "Consignee_Email",
-            editor: function (cell, onRendered, success, cancel) {
-              const input = document.createElement("input");
-              input.value = cell.getValue() || "";
-              onRendered(() => input.focus());
-
-              input.addEventListener("blur", () => {
-                const val = input.value;
-                // Force update even if value is "" and considered 'unchanged'
-                if (val !== cell.getValue()) {
-                  success(val);
-                } else {
-                  cell.setValue(val, true); // Force update & trigger cellEdited
-                  success(val);
-                }
-              });
-
-              input.addEventListener("keydown", e => {
-                if (e.key === "Enter") {
-                  const val = input.value;
-                  if (val !== cell.getValue()) {
-                    success(val);
-                  } else {
-                    cell.setValue(val, true);
-                    success(val);
-                  }
-                }
-                if (e.key === "Escape") cancel();
-              });
-
-              return input;
-            },
-            editable: editableRule
-          },
+          { title: "Consignee Email", field: "Consignee_Email", editor: "input", editable: editableRule, headerSort: true },
           { title: "NR LISTU UPS", field: "NR LISTU UPS", editor: "input", editable: editableRule, headerSort: true },
           { title: "KOSZT", field: "koszt", editor: "input", editable: editableRule, headerSort: true },
           { title: "Packaging Type", field: "Packaging Type", editor: "input", editable: editableRule, headerSort: true },

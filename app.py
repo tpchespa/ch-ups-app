@@ -502,12 +502,12 @@ def update_entry(entry_id):
     }
 
     for key, value in updated_data.items():
-        if key in entry.data:
-            real_key = key
-        elif field_aliases.get(key) in entry.data:
-            real_key = field_aliases[key]
+        # Prefer the alias if it points to a legacy key that exists
+        alias_key = field_aliases.get(key)
+        if alias_key and alias_key in entry.data:
+            real_key = alias_key
         else:
-            real_key = key  # allow creating new fields
+            real_key = key  # fallback
 
         if real_key not in protected_keys:
             new_data[real_key] = value
