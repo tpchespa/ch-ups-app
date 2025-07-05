@@ -120,8 +120,8 @@ document.addEventListener("DOMContentLoaded", () => {
       data["Reference 1"] = document.getElementById("Reference_1")?.value.trim() || "";
       data["Reference 2"] = document.getElementById("Reference_2")?.value.trim() || "";
       data["state_prov_other"] = document.getElementById("state_prov_other")?.value.trim() || "";
-      data["Consignee_Email"] = document.getElementById("Consignee_Email")?.value.trim() || "";
-      data["Documents_of_No_Commercial_Value"] = document.getElementById("Documents_of_No_Commercial_Value")?.value.trim() || "";
+      data["Consignee Email"] = document.getElementById("Consignee_Email")?.value.trim() || "";
+      data["Documents of No Commercial Value"] = document.getElementById("Documents_of_No_Commercial_Value")?.value.trim() || "";
 
       const today = new Date();
       const shipDate = new Date(data["DATA WYSYŁKI"]);
