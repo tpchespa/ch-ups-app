@@ -410,8 +410,12 @@
     </div>
 
     <!-- Tabulator container -->
-    <div id="tabulator-table"></div>
-
+    <div class="scroll-wrapper-outer">
+      <div class="scroll-wrapper-inner">
+        <div id="tabulator-table"></div>
+      </div>
+    </div>
+    
     <script>
       const currentUser = {
         email: "{{ current_email }}",
