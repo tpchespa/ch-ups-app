@@ -804,6 +804,20 @@ input, select, textarea {
   transition: background-color 0.5s ease;
 }
 
+.export-button-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.export-button-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+
 .export-button {
   padding: 8px 14px;
   border-radius: 8px;
@@ -817,11 +831,6 @@ input, select, textarea {
   gap: 8px;
   cursor: pointer;
   transition: background-color 0.2s ease, transform 0.1s ease;
-}
-
-.export-button-wrapper {
-  display: flex;
-  align-items: flex-start;
 }
 
 .export-button i {
@@ -923,3 +932,32 @@ input, select, textarea {
   text-decoration: underline;
 }
 
+.export-button[data-tooltip] {
+  position: relative;
+}
+
+.export-button[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #222;
+  color: #ffcc00;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 9pt;
+  white-space: normal;
+  max-width: 300px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+  z-index: 999;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+}
+
+.export-button[data-tooltip]:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
