@@ -25,13 +25,13 @@
 />
 </head>
 <body>
-  <header style="display: flex; justify-content: space-between; align-items: flex-start; padding: 10px 20px;">
+  <header style="display: flex; justify-content: space-between; align-items: center; padding: 10px 20px;">
     <div>
       <div>Welcome, {{ current_user.first_name or current_user.email }}</div>
     </div>
-    <div style="display: flex; flex-direction: column; align-items: flex-end;">
+    <div style="display: flex; gap: 10px;">
+      <a href="/changelog" class="changelog-button">📝 Changelog</a>
       <a href="/logout" class="logout-link">Logout</a>
-      <a href="/changelog" class="changelog-button" style="margin-top: 6px;">📝 Changelog</a>
     </div>
   </header>
 
@@ -332,8 +332,8 @@
 
 <div class="submissions-section">
   <h3>Submitted Shipments</h3>
-  <div class="submission-controls">
-    <div style="display: inline-flex; gap: 12px; align-items: center; padding: 10px 16px; border-radius: 8px; background-color: #1e1e1e; border: 1px solid #333;">
+  <div class="submission-controls filters-row">
+    <div class="filter-box">
       <label for="view-mode" class="label-inline">View by:</label>
       <select id="view-mode" class="small-input">
         <option value="date" selected>Day</option>
@@ -341,7 +341,8 @@
       </select>
       <input id="unified-picker" class="date-input small-input">
     </div>
-    <div style="display: inline-flex; gap: 12px; align-items: center; padding: 10px 16px; border-radius: 8px; background-color: #1e1e1e; border: 1px solid #333;">
+
+    <div class="filter-box">
       <label for="user-filter" class="label-inline">Filter by user:</label>
       <select id="user-filter" class="small-input">
         <option value="">All Users</option>
@@ -350,6 +351,7 @@
         {% endfor %}
       </select>
     </div>
+  </div>
 
   <!--
   <a href="/download{% if selected_date %}?date={{ selected_date }}{% elif selected_month %}?month={{ selected_month }}{% endif %}{% if selected_user %}{{ '&' if selected_date or selected_month else '?' }}user={{ selected_user }}{% endif %}" class="button-link">Download UPS CSV</a>
@@ -594,7 +596,7 @@
           { title: "DATA WYSYŁKI", field: "DATA WYSYŁKI", editor: "input", editable: editableRule, headerSort: true },
         ],
       });
-      console.log("User column values:", table.getColumn("User").getCells().map(c => c.getValue()));
+
       window.table = table;
 
       // Default sort immediately after table creation      

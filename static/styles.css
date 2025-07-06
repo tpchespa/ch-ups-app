@@ -888,6 +888,23 @@ input, select, textarea {
   color: #fff;
 }
 
+.filters-row {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+}
+
+.filter-box {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  background-color: #1e1e1e;
+  border: 1px solid #333;
+}
+
 .dashboard-footer {
   margin-top: 40px;
   padding: 16px;
@@ -905,3 +922,4 @@ input, select, textarea {
 .dashboard-footer a:hover {
   text-decoration: underline;
 }
+
