@@ -542,8 +542,11 @@
             width: 100, 
             frozen: true, 
             headerSort: true,
+            headerFilter:true,
             editor: "list",
-            headerFilter:true
+            editorParams:{
+                valuesLookup:"active",  //lookup filtered unique values in this column
+            }, 
           },
           { title: "Contact Name", field: "Contact Name", editor: "input", editable: editableRule, frozen: true, headerSort: true },
           { title: "Company or Name", field: "Company or Name", editor: "input", editable: editableRule, frozen: true, headerSort: true },
