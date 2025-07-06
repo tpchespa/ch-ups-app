@@ -13,7 +13,7 @@ function resolveField(data, variants) {
 export function initializeSocketHandlers(socket, currentUserEmail, SwalWithDarkTheme, table) {
   socket.on("new_entry", data => {
     // Log the actual raw value received for debugging
-    console.log("Incoming:", data.data["Consignee Email"]);
+    console.log("Incoming:", data.data["state_prov_other"]);
       
     const rowData = {
       id: data.id,
@@ -34,17 +34,17 @@ export function initializeSocketHandlers(socket, currentUserEmail, SwalWithDarkT
       "state_prov_other": data.data["state_prov_other"] || data.data["State/Prov/Other"] || "",
       "Postal Code": data.data["Postal Code"],
       "Telephone": data.data["Telephone"],
-      "Consignee Email": data.data["Consignee Email"],
+      "Consignee Email": data.data["Consignee Email"] || data.data["Consignee_Email"] || "",
       "Packaging Type": data.data["Packaging Type"],
       "Weight": data.data["Weight"],
       "Length": data.data["Length"],
       "Width": data.data["Width"],
       "Height": data.data["Height"],
       "Description of Goods": data.data["Description of Goods"],
-      "Docs No Value": resolveField(data.data, ["Documents of No Commercial Value", "Documents_of_No_Commercial_Value"]),
+      "Docs No Value": data.data["Documents of No Commercial Value"] || data.data["Documents_of_No_Commercial_Value"] || "",
       "Service": data.data["Service"],
-      "Kod klienta": resolveField(data.data, ["Reference 1", "Reference_1"]),
-      "Kod handlowca": resolveField(data.data, ["Reference 2", "Reference_2"]),
+      "Kod klienta": data.data["Reference 1"] || data.data["Reference_1"] || "",
+      "Kod handlowca": data.data["Reference 2"] || data.data["Reference_2"] || "",
       "nr_zam": data.data["nr_zam"] || data.data["nr zam."] || data.data["nr zamówienia gdzie będzie doliczony koszt"] || "",
       "NR PROJEKTU": data.data["NR PROJEKTU"],
       "NR LISTU UPS": data.data["NR LISTU UPS"],

@@ -455,7 +455,7 @@
             "state_prov_other": "{{ entry.data['state_prov_other'] or entry.data['State/Prov/Other'] or '' }}",
             "Postal Code": "{{ entry.data['Postal Code']|e }}",
             "Telephone": "{{ entry.data['Telephone']|e }}",
-            "Consignee_Email": "{{ entry.data['Consignee_Email'] or entry.data['Consignee Email'] or '' }}",
+            "Consignee Email": "{{ entry.data['Consignee Email'] or entry.data['Consignee_Email'] or '' }}",
             "Packaging Type": "{{ entry.data['Packaging Type']|e }}",
             "Weight": "{{ entry.data['Weight']|e }}",
             "Length": "{{ entry.data['Length']|e }}",
@@ -573,7 +573,7 @@
           { title: "State/Prov/Other", field: "state_prov_other", editor: "input", editable: editableRule, headerSort: true },
           { title: "Postal Code", field: "Postal Code", editor: "input", editable: editableRule, headerSort: true },
           { title: "Telephone", field: "Telephone", editor: "input", editable: editableRule, headerSort: true },
-          { title: "Consignee Email", field: "Consignee_Email", editor: "input", editable: editableRule, headerSort: true },
+          { title: "Consignee Email", field: "Consignee Email", editor: "input", editable: editableRule, headerSort: true },
           { title: "NR LISTU UPS", field: "NR LISTU UPS", editor: "input", editable: editableRule, headerSort: true },
           { title: "KOSZT", field: "koszt", editor: "input", editable: editableRule, headerSort: true },
           { title: "Packaging Type", field: "Packaging Type", editor: "input", editable: editableRule, headerSort: true },
@@ -582,25 +582,7 @@
           { title: "Width", field: "Width", editor: "input", editable: editableRule, headerSort: true },
           { title: "Height", field: "Height", editor: "input", editable: editableRule, headerSort: true },
           { title: "Desc of Goods", field: "Description of Goods", editor: "input", editable: editableRule, headerSort: true },
-          {
-            title: "Docs No Value",
-            field: "Documents_of_No_Commercial_Value",
-            editor: function (cell, onRendered, success, cancel) {
-              const input = document.createElement("input");
-              input.value = cell.getValue() || "";
-              onRendered(() => input.focus());
-
-              input.addEventListener("blur", () => success(input.value));
-              input.addEventListener("keydown", e => {
-                if (e.key === "Enter") success(input.value);
-                if (e.key === "Escape") cancel();
-              });
-
-              return input;
-            },
-            editable: editableRule,
-            headerSort: true 
-          },
+          { title: "Docs No Value",field: "Documents_of_No_Commercial_Value", editable: editableRule, headerSort: true },
           { title: "Service", field: "Service", editor: "input", editable: editableRule, headerSort: true },
           { title: "Kod klienta", field: "Reference 1", editor: "input", editable: editableRule, headerSort: true },
           { title: "Kod handlowca", field: "Reference 2", editor: "input", editable: editableRule, headerSort: true },
