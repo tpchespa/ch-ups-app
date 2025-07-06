@@ -31,7 +31,7 @@
     </div>
     <div style="display: flex; flex-direction: column; align-items: flex-end;">
       <a href="/logout" class="logout-link">Logout</a>
-      <a href="/changelog" class="changelog-button" style="margin-top: 6px;">Changelog</a>
+      <a href="/changelog" class="changelog-button" style="margin-top: 6px;">📝 Changelog</a>
     </div>
   </header>
 
@@ -542,12 +542,12 @@
             width: 100,
             frozen: true,
             headerSort: true,
-            headerFilter: "select",
-            headerFilterParams: {
-              values: true
-            },
             editor: "list",
             editorParams: {
+              values: Array.from(new Set(tableData.map(row => row["User"]).filter(Boolean)))
+            },
+            headerFilter: "select",
+            headerFilterParams: {
               values: true
             }
           },
@@ -592,7 +592,7 @@
           { title: "DATA WYSYŁKI", field: "DATA WYSYŁKI", editor: "input", editable: editableRule, headerSort: true },
         ],
       });
-      
+      console.log("User column values:", table.getColumn("User").getCells().map(c => c.getValue()));
       window.table = table;
 
       // Default sort immediately after table creation      
@@ -666,7 +666,7 @@
   <footer class="dashboard-footer">
     <p>Contact: <a href="mailto:tadeusz.pelczar@chespa.eu">tadeusz.pelczar@chespa.eu</a></p>
   </footer>
-  
+
 </div>
 
 
