@@ -853,17 +853,25 @@ input, select, textarea {
   border-color: #4682b4;
 }
 
-.changelog-button {
+.changelog-button,
+.logout-link {
   display: inline-block;
-  margin-top: 6px;
-  padding: 4px 10px;
-  font-size: 12px;
+  padding: 6px 12px;
+  font-size: 13px;
+  line-height: 1;
+  height: 30px;
   background-color: #444;
   color: #fff;
-  border: 1px solid #666;
   border-radius: 6px;
   text-decoration: none;
-  transition: background-color 0.2s ease;
+  border: 1px solid #666;
+  vertical-align: middle;
+  box-sizing: border-box;
+}
+
+.changelog-button {
+  background-color: #444;
+  border-color: #666;
 }
 
 .changelog-button:hover {
@@ -872,20 +880,12 @@ input, select, textarea {
 }
 
 .logout-link {
-  display: inline-block;
-  padding: 4px 10px;
-  font-size: 12px;
   background-color: #660000;
-  color: #fff;
-  border: 1px solid #990000;
-  border-radius: 6px;
-  text-decoration: none;
-  transition: background-color 0.2s ease;
+  border-color: #990000;
 }
 
 .logout-link:hover {
   background-color: #990000;
-  color: #fff;
 }
 
 .filters-row {
