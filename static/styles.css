@@ -1004,6 +1004,31 @@ input, select, textarea {
   scrollbar-color: #bbb #1e1e1e;
 }
 
+#tabulator-scroll-shadow {
+  height: 14px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  background: #1e1e1e;
+}
+
+#tabulator-scroll-shadow::-webkit-scrollbar {
+  height: 14px;
+}
+
+#tabulator-scroll-shadow::-webkit-scrollbar-thumb {
+  background-color: #cfcfcf;
+  border-radius: 6px;
+  border: 2px solid #1a1a1a;
+}
+
+#tabulator-scroll-shadow::-webkit-scrollbar-track {
+  background: #1e1e1e;
+}
+
+#tabulator-scroll-thumb {
+  height: 1px;
+}
+
 .scrollable-tabulator-wrapper {
   overflow-x: auto;
   max-width: 100%;
@@ -1026,7 +1051,6 @@ input, select, textarea {
 }
 
 .scrollable-tabulator-wrapper {
-  overflow-x: scroll; /* not auto */
   scrollbar-width: thin;
   scrollbar-color: #cfcfcf #1e1e1e;
 }

@@ -412,6 +412,9 @@
     <!-- Tabulator container -->
     <div class="scrollable-tabulator-wrapper">
       <div id="tabulator-table"></div>
+      <div id="tabulator-scroll-shadow">
+        <div id="tabulator-scroll-thumb"></div>
+      </div>
     </div>
 
     <script>
@@ -688,6 +691,26 @@
     e.preventDefault();
     e.returnValue = ''; // Required for Chrome
   });
+
+  const tableholder = document.querySelector(".tabulator .tabulator-tableholder");
+  const scrollShadow = document.getElementById("tabulator-scroll-shadow");
+
+  // Sync width
+  function syncWidth() {
+    scrollShadow.scrollLeft = tableholder.scrollLeft;
+    scrollShadow.scrollWidth = tableholder.scrollWidth;
+  }
+
+  tableholder.addEventListener("scroll", () => {
+    scrollShadow.scrollLeft = tableholder.scrollLeft;
+  });
+
+  scrollShadow.addEventListener("scroll", () => {
+    tableholder.scrollLeft = scrollShadow.scrollLeft;
+  });
+
+  window.addEventListener("resize", syncWidth);
+  setTimeout(syncWidth, 200); // initial
 
   document.querySelectorAll("a[href], button[type='submit'], form").forEach(el => {
     el.addEventListener("click", (e) => {
