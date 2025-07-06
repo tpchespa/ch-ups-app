@@ -44,7 +44,7 @@ export function initializeSocketHandlers(socket, currentUserEmail, SwalWithDarkT
       "Documents of No Commercial Value": data.data["Documents of No Commercial Value"] || data.data["Documents_of_No_Commercial_Value"] || "",
       "Service": data.data["Service"],
       "Reference 1": data.data["Reference 1"] || data.data["Reference_1"] || "",
-      "Reference 2": data.data["Reference 2"] || data.data["Reference_2"] || "",,
+      "Reference 2": data.data["Reference 2"] || data.data["Reference_2"] || "",
       "nr_zam": data.data["nr_zam"] || data.data["nr zam."] || data.data["nr zamówienia gdzie będzie doliczony koszt"] || "",
       "NR PROJEKTU": data.data["NR PROJEKTU"],
       "NR LISTU UPS": data.data["NR LISTU UPS"],
