@@ -340,7 +340,7 @@
     Download UPS XLSX 
   </a>
   -->
-  <h4 style="margin-top: 24px;">📦 Export Options</h4>
+  <h4 style="margin-top: 4px;">📦 Export Options</h4>
 
   <div class="export-button-group">
 
@@ -372,27 +372,33 @@
       Showing entries for {{ selected_date }}
     {% endif %}
   </h4>
-  
-  <div class="submission-controls filters-row">
-    <div class="filter-box">
-      <label for="view-mode" class="label-inline">View by:</label>
-      <select id="view-mode" class="small-input">
-        <option value="date" selected>Day</option>
-        <option value="month">Month</option>
-      </select>
-      <input id="unified-picker" class="date-input small-input">
-    </div>
 
-    <div class="filter-box">
-      <label for="user-filter" class="label-inline">Filter by user:</label>
-      <select id="user-filter" class="small-input">
-        <option value="">All Users</option>
-        {% for email, display_name in user_display_names.items() %}
-          <option value="{{ email }}" {% if email == selected_user %}selected{% endif %}>{{ display_name }}</option>
-        {% endfor %}
-      </select>
+  <fieldset style="border: 1px solid #444; border-radius: 6px; padding: 10px 16px; margin-bottom: 20px; background-color: #1e1e1e;">
+    <legend style="padding: 0 8px; font-weight: bold; color: #ccc;">
+      <i class="fas fa-filter" style="margin-right: 6px;"></i> Filters
+    </legend>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center;">
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <label for="view-mode" class="label-inline">View by:</label>
+        <select id="view-mode" class="small-input">
+          <option value="date" selected>Day</option>
+          <option value="month">Month</option>
+        </select>
+        <input id="unified-picker" class="date-input small-input">
+      </div>
+
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <label for="user-filter" class="label-inline">User:</label>
+        <select id="user-filter" class="small-input">
+          <option value="">All Users</option>
+          {% for email, display_name in user_display_names.items() %}
+            <option value="{{ email }}" {% if email == selected_user %}selected{% endif %}>{{ display_name }}</option>
+          {% endfor %}
+        </select>
+      </div>
     </div>
-  </div>
+  </fieldset>
 
 
   <div id="horizontal-table-wrapper">

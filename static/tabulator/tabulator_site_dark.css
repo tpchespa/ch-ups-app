@@ -1357,7 +1357,7 @@ body.tabulator-print-fullscreen-hide > *:not(.tabulator-print-fullscreen) {
 .tabulator {
   border: 1px solid #282828;
   background-color: #111111;
-  margin: 2px 0;
+  margin: 10px 0;
 }
 
 .tabulator[tabulator-layout="fitColumns"] .tabulator-row .tabulator-cell:last-of-type {
