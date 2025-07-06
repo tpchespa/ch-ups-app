@@ -413,7 +413,7 @@
     <div class="scrollable-tabulator-wrapper">
       <div id="tabulator-table"></div>
       <div id="tabulator-scroll-shadow">
-        <div id="tabulator-scroll-thumb"></div>
+        <div style="width: 3000px; height: 1px;"></div>
       </div>
     </div>
 
@@ -595,26 +595,38 @@
           { title: "NR PROJEKTU", field: "NR PROJEKTU", editor: "input", editable: editableRule, headerSort: true },
           { title: "DATA WYSYŁKI", field: "DATA WYSYŁKI", editor: "input", editable: editableRule, headerSort: true },
         ],
+        renderComplete: function () {
+          const tableholder = document.querySelector(".tabulator .tabulator-tableholder");
+          const scrollShadow = document.getElementById("tabulator-scroll-shadow");
+
+          if (!tableholder || !scrollShadow) return;
+
+          function syncScroll() {
+            scrollShadow.scrollLeft = tableholder.scrollLeft;
+          }
+
+          function syncScrollReverse() {
+            tableholder.scrollLeft = scrollShadow.scrollLeft;
+          }
+
+          // Attach only once to avoid duplicates
+          tableholder.removeEventListener("scroll", syncScroll);
+          scrollShadow.removeEventListener("scroll", syncScrollReverse);
+
+          tableholder.addEventListener("scroll", syncScroll);
+          scrollShadow.addEventListener("scroll", syncScrollReverse);
+
+          // Optional: handle resize
+          window.addEventListener("resize", () => {
+            scrollShadow.scrollLeft = tableholder.scrollLeft;
+          });
+
+          // Initial sync
+          setTimeout(() => {
+            scrollShadow.scrollLeft = tableholder.scrollLeft;
+          }, 50);
+        }
       });
-
-      const tableholder = document.querySelector(".tabulator .tabulator-tableholder");
-      const scrollShadow = document.getElementById("tabulator-scroll-shadow");
-
-      function syncWidth() {
-        scrollShadow.scrollLeft = tableholder.scrollLeft;
-        scrollShadow.scrollWidth = tableholder.scrollWidth;
-      }
-
-      tableholder.addEventListener("scroll", () => {
-        scrollShadow.scrollLeft = tableholder.scrollLeft;
-      });
-
-      scrollShadow.addEventListener("scroll", () => {
-        tableholder.scrollLeft = scrollShadow.scrollLeft;
-      });
-
-      window.addEventListener("resize", syncWidth);
-      setTimeout(syncWidth, 200)
 
       window.table = table;
 
