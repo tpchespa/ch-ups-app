@@ -1006,8 +1006,8 @@ input, select, textarea {
 
 /* Override Tabulator internal scrollbar appearance + spacing */
 .tabulator .tabulator-tableholder {
-  padding-bottom: 24px;
-  scrollbar-width: thin;
+  padding-bottom: 10px;
+  scrollbar-width: medium;
   scrollbar-color: #ccc #1e1e1e;
 }
 
