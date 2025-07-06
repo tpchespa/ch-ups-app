@@ -887,3 +887,21 @@ input, select, textarea {
   background-color: #990000;
   color: #fff;
 }
+
+.dashboard-footer {
+  margin-top: 40px;
+  padding: 16px;
+  text-align: center;
+  font-size: 9pt;
+  color: #aaa;
+  border-top: 1px solid #333;
+}
+
+.dashboard-footer a {
+  color: #90caf9;
+  text-decoration: none;
+}
+
+.dashboard-footer a:hover {
+  text-decoration: underline;
+}
