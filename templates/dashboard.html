@@ -502,12 +502,12 @@
             title: "#",
             formatter: "rownum",
             frozen: true,
-            width: 50,
+            width: 20,
             hozAlign: "center",
             headerSort: false
           },
           {
-            title: "DEL",
+            title: "✖",
             width: 40,
             hozAlign: "center",
             headerSort: false,
@@ -542,13 +542,15 @@
             width: 100,
             frozen: true,
             headerSort: true,
-            editor: "list",
-            editorParams: {
-              values: Array.from(new Set(tableData.map(row => row["User"]).filter(Boolean)))
-            },
             headerFilter: "select",
-            headerFilterParams: {
-              values: true
+            headerFilterParams: { values: true },
+            editor: "list",
+            editorParams: function(cell) {
+              const table = cell.getTable();
+              const values = Array.from(
+                new Set(table.getColumn("User").getCells().map(c => c.getValue()).filter(Boolean))
+              ).sort();
+              return { values };
             }
           },
           { title: "Contact Name", field: "Contact Name", editor: "input", editable: editableRule, frozen: true, headerSort: true },
