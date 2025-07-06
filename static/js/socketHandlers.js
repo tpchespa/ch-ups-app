@@ -17,7 +17,7 @@ export function initializeSocketHandlers(socket, currentUserEmail, SwalWithDarkT
       
     const rowData = {
       id: data.id,
-      "Time": new Date(data.data._submitted_at).toLocaleString("pl-PL", {
+      "Time": new Date(data.data._submitted_at + "Z").toLocaleString("pl-PL", {
         hour: "2-digit",
         minute: "2-digit",
         day: "2-digit",
