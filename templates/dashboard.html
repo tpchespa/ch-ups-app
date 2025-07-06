@@ -365,13 +365,13 @@
   </div>
 
   </div>
-  
-  <fieldset style="border: 1px solid #444; border-radius: 6px; padding: 10px 16px; margin-bottom: 20px; background-color: #1e1e1e;">
-    <legend style="padding: 0 8px; font-weight: bold; color: #ccc;">
-      <i class="fas fa-filter" style="margin-right: 6px;"></i> Filters
+
+  <fieldset class="filter-fieldset">
+    <legend class="filter-legend">
+      <i class="fas fa-filter"></i> Filters
     </legend>
 
-    <h5 style="margin: 0 0 12px 0; color: #aaa;">
+    <h5 class="filter-summary">
       {% if selected_month %}
         Showing entries for {{ selected_month }}
       {% elif selected_date %}
@@ -379,8 +379,8 @@
       {% endif %}
     </h5>
 
-    <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center;">
-      <div style="display: flex; gap: 8px; align-items: center;">
+    <div class="filter-controls">
+      <div class="filter-group">
         <label for="view-mode" class="label-inline">View by:</label>
         <select id="view-mode" class="small-input">
           <option value="date" selected>Day</option>
@@ -389,7 +389,7 @@
         <input id="unified-picker" class="date-input small-input">
       </div>
 
-      <div style="display: flex; gap: 8px; align-items: center;">
+      <div class="filter-group">
         <label for="user-filter" class="label-inline">User:</label>
         <select id="user-filter" class="small-input">
           <option value="">All Users</option>

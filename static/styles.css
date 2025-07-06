@@ -960,3 +960,42 @@ input, select, textarea {
   opacity: 1;
   visibility: visible;
 }
+
+.filter-fieldset {
+  border: 1px solid #444;
+  border-radius: 6px;
+  padding: 10px 16px;
+  margin-top: 10px;
+  background-color: #1e1e1e;
+  width: fit-content;
+  max-width: 100%;
+}
+
+.filter-legend {
+  padding: 0 8px;
+  font-weight: bold;
+  color: #ccc;
+}
+
+.filter-legend i {
+  margin-right: 6px;
+}
+
+.filter-summary {
+  margin: 0 0 12px 0;
+  color: #aaa;
+  font-weight: normal;
+}
+
+.filter-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.filter-group {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
