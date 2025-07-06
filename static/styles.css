@@ -870,3 +870,20 @@ input, select, textarea {
   background-color: #555;
   color: #ffd700;
 }
+
+.logout-link {
+  display: inline-block;
+  padding: 4px 10px;
+  font-size: 12px;
+  background-color: #660000;
+  color: #fff;
+  border: 1px solid #990000;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.logout-link:hover {
+  background-color: #990000;
+  color: #fff;
+}
