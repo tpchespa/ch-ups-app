@@ -542,7 +542,7 @@
               values: true
             },
             editor: "list",
-            editorParams: {} 
+            editorParams: {} // placeholder – will be replaced after fetch
           },
           { title: "Contact Name", field: "Contact Name", editor: "input", editable: editableRule, frozen: true, headerSort: true },
           { title: "Company or Name", field: "Company or Name", editor: "input", editable: editableRule, frozen: true, headerSort: true },
@@ -593,13 +593,11 @@
         .then(userMap => {
           const displayNames = Object.values(userMap).sort();
 
-          // Update editorParams for the "User" column
-          table.getColumn("User").updateDefinition({
-            editorParams: { values: displayNames }
-          });
-
-          // Force refresh editor (optional but safe)
-          table.redraw(true);
+          const userCol = table.getColumn("User");
+          if (userCol) {
+            // Safe internal update of list editor values
+            userCol._column.definition.editorParams = { values: displayNames };
+          }
         })
         .catch(err => {
           console.error("Failed to fetch user display names:", err);
