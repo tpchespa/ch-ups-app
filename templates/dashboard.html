@@ -500,7 +500,6 @@
             formatter: "rownum",
             frozen: true,
             width: 20,
-            hozAlign: "center",
             headerSort: false
           },
           {
@@ -540,14 +539,18 @@
             frozen: true,
             headerSort: true,
             headerFilter: "select",
-            headerFilterParams: { values: true },
+            headerFilterParams: {
+              values: true 
+            },
             editor: "list",
-            editorParams: function(cell) {
-              const table = cell.getTable();
-              const values = Array.from(
-                new Set(table.getColumn("User").getCells().map(c => c.getValue()).filter(Boolean))
-              ).sort();
-              return { values };
+            editorParams: {
+              values: function () {
+                // Always dynamically extract values from already-rendered cells
+                const cells = table.getColumn("User")?.getCells() || [];
+                const raw = cells.map(c => c.getValue()).filter(Boolean);
+                const unique = Array.from(new Set(raw)).sort();
+                return unique.length > 0 ? unique : ["(No Users Found)"];
+              }
             }
           },
           { title: "Contact Name", field: "Contact Name", editor: "input", editable: editableRule, frozen: true, headerSort: true },
