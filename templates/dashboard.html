@@ -25,10 +25,12 @@
 />
 </head>
 <body>
-  <header>
-    <div>Welcome, {{ current_user.first_name or current_user.email }}</div>
-    <a href="/logout">Logout</a>
-     <a href="/changelog" style="margin-left: 20px;">Changelog</a>
+  <header style="display: flex; justify-content: space-between; align-items: flex-start; padding: 10px 20px;">
+    <div>
+      <div>Welcome, {{ current_user.first_name or current_user.email }}</div>
+      <a href="/changelog" style="margin-top: 8px; display: inline-block; color: #00c3ff; text-decoration: none;">Changelog</a>
+    </div>
+    <a href="/logout" style="text-decoration: none; color: #ff4c4c;">Logout</a>
   </header>
 
 <div class="dashboard-wrapper">
@@ -538,8 +540,10 @@
             width: 100, 
             frozen: true, 
             headerSort: true,
-            headerFilter: "select",
-            headerFilterParams: { values: true },
+            editor: "list",
+            editorParams: {
+              values: true  
+            },
           },
           { title: "Contact Name", field: "Contact Name", editor: "input", editable: editableRule, frozen: true, headerSort: true },
           { title: "Company or Name", field: "Company or Name", editor: "input", editable: editableRule, frozen: true, headerSort: true },
