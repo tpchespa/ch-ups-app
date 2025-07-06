@@ -332,27 +332,6 @@
 
 <div class="submissions-section">
   <h3>Submitted Shipments</h3>
-  <div class="submission-controls filters-row">
-    <div class="filter-box">
-      <label for="view-mode" class="label-inline">View by:</label>
-      <select id="view-mode" class="small-input">
-        <option value="date" selected>Day</option>
-        <option value="month">Month</option>
-      </select>
-      <input id="unified-picker" class="date-input small-input">
-    </div>
-
-    <div class="filter-box">
-      <label for="user-filter" class="label-inline">Filter by user:</label>
-      <select id="user-filter" class="small-input">
-        <option value="">All Users</option>
-        {% for email, display_name in user_display_names.items() %}
-          <option value="{{ email }}" {% if email == selected_user %}selected{% endif %}>{{ display_name }}</option>
-        {% endfor %}
-      </select>
-    </div>
-  </div>
-
   <!--
   <a href="/download{% if selected_date %}?date={{ selected_date }}{% elif selected_month %}?month={{ selected_month }}{% endif %}{% if selected_user %}{{ '&' if selected_date or selected_month else '?' }}user={{ selected_user }}{% endif %}" class="button-link">Download UPS CSV</a>
   
@@ -393,6 +372,29 @@
       Showing entries for {{ selected_date }}
     {% endif %}
   </h4>
+  
+  <div class="submission-controls filters-row">
+    <div class="filter-box">
+      <label for="view-mode" class="label-inline">View by:</label>
+      <select id="view-mode" class="small-input">
+        <option value="date" selected>Day</option>
+        <option value="month">Month</option>
+      </select>
+      <input id="unified-picker" class="date-input small-input">
+    </div>
+
+    <div class="filter-box">
+      <label for="user-filter" class="label-inline">Filter by user:</label>
+      <select id="user-filter" class="small-input">
+        <option value="">All Users</option>
+        {% for email, display_name in user_display_names.items() %}
+          <option value="{{ email }}" {% if email == selected_user %}selected{% endif %}>{{ display_name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+
+
   <div id="horizontal-table-wrapper">
 
     <!-- Save All Changes button -->
