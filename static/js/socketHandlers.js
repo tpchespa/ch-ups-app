@@ -13,7 +13,7 @@ function resolveField(data, variants) {
 export function initializeSocketHandlers(socket, currentUserEmail, SwalWithDarkTheme, table) {
   socket.on("new_entry", data => {
     // Log the actual raw value received for debugging
-    console.log("Incoming:", data.data["state_prov_other"]);
+    console.log("Incoming:", data.data["Consignee_Email"]);
       
     const rowData = {
       id: data.id,
@@ -34,7 +34,7 @@ export function initializeSocketHandlers(socket, currentUserEmail, SwalWithDarkT
       "state_prov_other": data.data["state_prov_other"] || data.data["State/Prov/Other"] || "",
       "Postal Code": data.data["Postal Code"],
       "Telephone": data.data["Telephone"],
-      "Consignee Email": resolveField(data.data, ["Consignee Email", "Consignee_Email"]),
+      "Consignee Email": data.data["Consignee_Email"],
       "Packaging Type": data.data["Packaging Type"],
       "Weight": data.data["Weight"],
       "Length": data.data["Length"],
