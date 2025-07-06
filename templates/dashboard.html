@@ -536,17 +536,20 @@
             }
           },
           { title: "Time", field: "Time", width: 90, sorter: "string", frozen: true },
-          { 
-            title: "User", 
-            field: "User", 
-            width: 100, 
-            frozen: true, 
+          {
+            title: "User",
+            field: "User",
+            width: 100,
+            frozen: true,
             headerSort: true,
-            headerFilter:true,
+            headerFilter: "select",
+            headerFilterParams: {
+              values: true
+            },
             editor: "list",
-            editorParams:{
-                valuesLookup:"active",  //lookup filtered unique values in this column
-            }, 
+            editorParams: {
+              values: true
+            }
           },
           { title: "Contact Name", field: "Contact Name", editor: "input", editable: editableRule, frozen: true, headerSort: true },
           { title: "Company or Name", field: "Company or Name", editor: "input", editable: editableRule, frozen: true, headerSort: true },

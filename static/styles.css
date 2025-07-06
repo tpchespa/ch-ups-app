@@ -20,7 +20,7 @@ body.auth-page {
 
 header {
     background-color: #1e1e1e;
-    padding: 15px 20px;
+    padding: 10px 16px;
     font-size: 16px;
     display: flex;
     justify-content: space-between;
@@ -39,14 +39,14 @@ header a {
 
 
 .submissions-section {
-  margin-top: 40px;
+  /*margin-top: 40px;*/
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
 }
 
 .submissions-section h4 {
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   margin-top: 0;
 }
 
@@ -54,8 +54,8 @@ header a {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 12px;
-  margin-bottom: 8px;
+  gap: 8px;
+  margin-bottom: 4px;
 }
 
 .auth-container {
@@ -223,8 +223,8 @@ input, select, textarea {
   display: flex;
   flex-direction: column;
   align-items: flex-start; /* left-align the submit button */
-  gap: 12px;
-  margin-bottom: 20px;
+  gap: 10px;
+  margin-bottom: 10px;
 }
 
 .form-submit {
@@ -403,8 +403,8 @@ input, select, textarea {
 }
 
 .form-submit {
-  margin-top: 12px;
-  padding-bottom: 12px;
+  margin-top: 8px;
+  padding-bottom: 8px;
 }
 
 /* Chrome, Edge, Safari */
@@ -805,7 +805,7 @@ input, select, textarea {
 }
 
 .export-button {
-  padding: 10px 16px;
+  padding: 8px 14px;
   border-radius: 8px;
   background-color: #2e2e2e;
   color: #f1f1f1;
