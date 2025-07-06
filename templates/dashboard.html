@@ -499,7 +499,6 @@
             title: "#",
             formatter: "rownum",
             frozen: true,
-            width: 20,
             headerSort: false
           },
           {
@@ -540,18 +539,10 @@
             headerSort: true,
             headerFilter: "select",
             headerFilterParams: {
-              values: true 
+              values: true
             },
             editor: "list",
-            editorParams: {
-              values: function () {
-                // Always dynamically extract values from already-rendered cells
-                const cells = table.getColumn("User")?.getCells() || [];
-                const raw = cells.map(c => c.getValue()).filter(Boolean);
-                const unique = Array.from(new Set(raw)).sort();
-                return unique.length > 0 ? unique : ["(No Users Found)"];
-              }
-            }
+            editorParams: {} 
           },
           { title: "Contact Name", field: "Contact Name", editor: "input", editable: editableRule, frozen: true, headerSort: true },
           { title: "Company or Name", field: "Company or Name", editor: "input", editable: editableRule, frozen: true, headerSort: true },
@@ -596,6 +587,23 @@
       });
 
       window.table = table;
+
+      fetch("/get_user_display_names")
+        .then(res => res.json())
+        .then(userMap => {
+          const displayNames = Object.values(userMap).sort();
+
+          // Update editorParams for the "User" column
+          table.getColumn("User").updateDefinition({
+            editorParams: { values: displayNames }
+          });
+
+          // Force refresh editor (optional but safe)
+          table.redraw(true);
+        })
+        .catch(err => {
+          console.error("Failed to fetch user display names:", err);
+        });
 
       // Default sort immediately after table creation      
       //table.setSort([

@@ -555,6 +555,16 @@ def update_user_name(user_id):
     db.session.commit()
     return redirect(url_for('admin_users'))
 
+
+@app.route("/get_user_display_names")
+@login_required
+def get_user_display_names():
+    users = User.query.all()
+    return {
+        u.email: f"{u.first_name} {u.last_name[0]}." if u.first_name and u.last_name else u.email
+        for u in users
+    }
+
 @app.route("/changelog")
 def changelog():
     return render_template("changelog.html")
