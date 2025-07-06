@@ -41,7 +41,7 @@ export function initializeSocketHandlers(socket, currentUserEmail, SwalWithDarkT
       "Width": data.data["Width"],
       "Height": data.data["Height"],
       "Description of Goods": data.data["Description of Goods"],
-      "Docs No Value": data.data["Documents of No Commercial Value"] || data.data["Documents_of_No_Commercial_Value"] || "",
+      "Documents of No Commercial Value": data.data["Documents of No Commercial Value"] || data.data["Documents_of_No_Commercial_Value"] || "",
       "Service": data.data["Service"],
       "Kod klienta": data.data["Reference 1"] || data.data["Reference_1"] || "",
       "Kod handlowca": data.data["Reference 2"] || data.data["Reference_2"] || "",
