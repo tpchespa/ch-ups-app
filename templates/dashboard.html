@@ -28,9 +28,11 @@
   <header style="display: flex; justify-content: space-between; align-items: flex-start; padding: 10px 20px;">
     <div>
       <div>Welcome, {{ current_user.first_name or current_user.email }}</div>
-      <a href="/changelog" class="changelog-button">Changelog</a>
     </div>
-    <a href="/logout" style="text-decoration: none; color: #ff4c4c;">Logout</a>
+    <div style="display: flex; flex-direction: column; align-items: flex-end;">
+      <a href="/logout" style="text-decoration: none; color: #ff4c4c;">Logout</a>
+      <a href="/changelog" class="changelog-button" style="margin-top: 6px;">Changelog</a>
+    </div>
   </header>
 
 <div class="dashboard-wrapper">
@@ -542,7 +544,7 @@
             headerSort: true,
             editor: "list",
             editorParams: {
-              values: true  
+               valuesLookup:"active",
             },
           },
           { title: "Contact Name", field: "Contact Name", editor: "input", editable: editableRule, frozen: true, headerSort: true },
@@ -586,14 +588,14 @@
           { title: "DATA WYSYŁKI", field: "DATA WYSYŁKI", editor: "input", editable: editableRule, headerSort: true },
         ],
       });
+      
+      window.table = table;
 
       // Default sort immediately after table creation      
       table.setSort([
         { column: "Time", dir: "desc" },
         { column: "User", dir: "asc" }
       ]);
-      
-      window.table = table;
 
       table.on("cellEdited", function (cell) {
         const row = cell.getRow();
