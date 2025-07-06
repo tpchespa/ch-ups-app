@@ -555,6 +555,10 @@ def update_user_name(user_id):
     db.session.commit()
     return redirect(url_for('admin_users'))
 
+@app.route("/changelog")
+def changelog():
+    return render_template("changelog.html")
+
 @app.route('/init-db')
 def init_db():
     db.create_all()
