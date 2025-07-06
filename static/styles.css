@@ -1004,36 +1004,34 @@ input, select, textarea {
   align-items: center;
 }
 
-.scroll-wrapper-outer {
+.scrollable-tabulator-wrapper {
+  overflow-x: auto;
+  max-width: 100%;
   position: relative;
-  overflow-x: auto;
-  padding-bottom: 16px; /* space for scroll */
-  margin-bottom: 16px;
-  border-radius: 6px;
+  padding-bottom: 16px;
 }
 
-.scroll-wrapper-inner {
-  min-width: fit-content;
-  overflow-x: auto;
-  overflow-y: visible;
+.scrollable-tabulator-wrapper::after {
+  content: '';
+  display: block;
+  height: 16px; /* forces scrollbar area to exist */
 }
 
-.scroll-wrapper-inner::-webkit-scrollbar {
+.scrollable-tabulator-wrapper::-webkit-scrollbar {
   height: 14px;
 }
 
-.scroll-wrapper-inner::-webkit-scrollbar-thumb {
-  background-color: #c0c0c0;
+.scrollable-tabulator-wrapper::-webkit-scrollbar-thumb {
+  background-color: #cfcfcf;
   border-radius: 6px;
-  border: 2px solid #1e1e1e;
+  border: 2px solid #1a1a1a;
 }
 
-.scroll-wrapper-inner::-webkit-scrollbar-track {
+.scrollable-tabulator-wrapper::-webkit-scrollbar-track {
   background: #1e1e1e;
 }
 
-/* Firefox scrollbar */
-.scroll-wrapper-inner {
+.scrollable-tabulator-wrapper {
   scrollbar-width: thin;
-  scrollbar-color: #c0c0c0 #1e1e1e;
+  scrollbar-color: #cfcfcf #1e1e1e;
 }
