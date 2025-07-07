@@ -497,9 +497,9 @@
         columns: [
           {
             title: "#",
-            width: 20,
-            minWidth: 20,
-            maxWidth: 20,
+            width: 25,
+            minWidth: 25,
+            maxWidth: 25,
             formatter: "rownum",
             frozen: true,
             headerSort: false
@@ -540,6 +540,12 @@
             width: 100,
             frozen: true,
             headerSort: true,
+            headerFilter: "select",
+            headerFilterParams: {
+              values: true
+            },
+            editor: "list",
+            editorParams: {} // placeholder – will be replaced after fetch
           },
           { title: "Contact Name", field: "Contact Name", editor: "input", editable: editableRule, frozen: true, headerSort: true },
           { title: "Company or Name", field: "Company or Name", editor: "input", editable: editableRule, frozen: true, headerSort: true },
@@ -592,8 +598,16 @@
 
           const userCol = table.getColumn("User");
           if (userCol) {
-            // Safe internal update of list editor values
+            // Update cell editor
             userCol._column.definition.editorParams = { values: displayNames };
+
+            // Update header filter values explicitly
+            userCol._column.definition.headerFilterParams = {
+              values: displayNames
+            };
+
+            // Rebuild header filter (very important!)
+            userCol.reloadHeaderFilter();
           }
         })
         .catch(err => {
