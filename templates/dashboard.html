@@ -596,28 +596,16 @@
 
       window.table = table;
 
-      fetch("/get_user_display_names")
-        .then(res => res.json())
-        .then(userMap => {
-          const displayNames = Object.values(userMap).sort();
+      const allUserNames = Array.from(
+        new Set(tableData.map(row => row["User"]).filter(Boolean))
+      ).sort();
 
-          const userCol = table.getColumn("User");
-          if (userCol) {
-            // Update cell editor
-            userCol._column.definition.editorParams = { values: displayNames };
-
-            // Update header filter values explicitly
-            userCol._column.definition.headerFilterParams = {
-              values: displayNames
-            };
-
-            // Rebuild header filter (very important!)
-            userCol.reloadHeaderFilter();
-          }
-        })
-        .catch(err => {
-          console.error("Failed to fetch user display names:", err);
-        });
+      const userCol = table.getColumn("User");
+      if (userCol) {
+        userCol._column.definition.editorParams = { values: allUserNames };
+        userCol._column.definition.headerFilterParams = { values: allUserNames };
+        userCol.reloadHeaderFilter();
+      }
 
       // Default sort immediately after table creation      
       //table.setSort([
