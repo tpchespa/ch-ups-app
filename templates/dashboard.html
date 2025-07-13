@@ -278,25 +278,25 @@
             </div>
 
             <div class="horizontal-field">
-              <label for="Reference_1">Kod klienta</label>
+              <label for="Reference_1">Client code</label>
               <input type="text" id="Reference_1" autocomplete="off"> 
               <div class="field-error" id="error-Reference_1"></div>
             </div>
 
             <div class="horizontal-field">
-              <label for="Reference_2">Kod handlowca</label>
+              <label for="Reference_2">Sales rep code</label>
               <input type="text" id="Reference_2" autocomplete="off">
               <div class="field-error" id="error-Reference_2"></div>
             </div>
 
             <!-- Custom Non-CSV Fields -->
             <div class="horizontal-field">
-              <label for="Custom_Order_Number">Gdzie będzie doliczony koszt</label>
+              <label for="Custom_Order_Number">Project to charge</label>
               <input type="text" id="Custom_Order_Number">
             </div>
 
             <div class="horizontal-field">
-              <label for="Custom_Project_Number">Nr projektu</label>
+              <label for="Custom_Project_Number">Project IDs</label>
               <input type="text" id="Custom_Project_Number">
             </div>
             <!--
@@ -311,7 +311,7 @@
             </div>
             -->
             <div class="horizontal-field">
-              <label for="Custom_Ship_Date">Data wysyłki</label>
+              <label for="Custom_Ship_Date">Shipping date</label>
               <input type="date" id="Custom_Ship_Date">
             </div>
           </div>
@@ -570,8 +570,8 @@
           { title: "Postal", field: "Postal Code", editor: "input", editable: editableRule, headerSort: true },
           { title: "Tel", field: "Telephone", editor: "input", editable: editableRule, headerSort: true },
           { title: "Email", field: "Consignee Email", editor: "input", editable: editableRule, headerSort: true },
-          { title: "NR LISTU UPS", field: "NR LISTU UPS", editor: "input", editable: editableRule, headerSort: true },
-          { title: "KOSZT", field: "koszt", editor: "input", editable: editableRule, headerSort: true },
+          { title: "UPS NR", field: "NR LISTU UPS", editor: "input", editable: editableRule, headerSort: true },
+          { title: "Cost", field: "koszt", editor: "input", editable: editableRule, headerSort: true },
           { title: "Packaging Type", field: "Packaging Type", editor: "input", editable: editableRule, headerSort: true },
           { title: "Weight", field: "Weight", editor: "input", editable: editableRule, headerSort: true },
           { title: "Length", field: "Length", editor: "input", editable: editableRule, headerSort: true },
@@ -580,17 +580,17 @@
           { title: "Desc of Goods", field: "Description of Goods", editor: "input", editable: editableRule, headerSort: true },
           { title: "Docs No Value", field: "Documents of No Commercial Value", editor: "input", editable: editableRule, headerSort: true },
           { title: "Service", field: "Service", editor: "input", editable: editableRule, headerSort: true },
-          { title: "Kod klienta", field: "Reference 1", editor: "input", editable: editableRule, headerSort: true },
-          { title: "Kod handlowca", field: "Reference 2", editor: "input", editable: editableRule, headerSort: true },
+          { title: "Client code", field: "Reference 1", editor: "input", editable: editableRule, headerSort: true },
+          { title: "Sales rep code", field: "Reference 2", editor: "input", editable: editableRule, headerSort: true },
           {
-            title: "nr zam.",
+            title: "Project to charge",
             field: "nr_zam",
             editor: "input",
             editable: editableRule,
             headerSort: true
           },
-          { title: "NR PROJEKTU", field: "NR PROJEKTU", editor: "input", editable: editableRule, headerSort: true },
-          { title: "DATA WYSYŁKI", field: "DATA WYSYŁKI", editor: "input", editable: editableRule, headerSort: true },
+          { title: "Project IDs", field: "NR PROJEKTU", editor: "input", editable: editableRule, headerSort: true },
+          { title: "Shipping date", field: "DATA WYSYŁKI", editor: "input", editable: editableRule, headerSort: true },
         ],
       });
 
