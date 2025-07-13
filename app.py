@@ -398,6 +398,7 @@ def save_contact():
 def get_contacts():
     contacts = SavedContact.query.all()
     return [{
+        "id": c.id,
         "Contact Name": c.contact_name,
         "Company or Name": c.company_name,
         "Country": c.country,

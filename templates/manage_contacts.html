@@ -3,6 +3,8 @@
 <head>
   <title>Manage Saved Contacts</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <script src="https://unpkg.com/tabulator-tables@5.5.0/dist/js/tabulator.min.js"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='tabulator/tabulator_site_dark.css') }}">
 </head>
 <body>
   <header>
@@ -12,98 +14,100 @@
   </header>
 
   <div class="container">
-<h3>Add New Contact</h3>
-<form method="POST" action="{{ url_for('add_contact') }}" id="contact-form" class="form-wrapper" autocomplete="off">
-  <div class="horizontal-form">
-    <div class="horizontal-field">
-      <label for="contact_name">Contact Name</label>
-      <input type="text" id="contact_name" name="contact_name">
-    </div>
-    <div class="horizontal-field">
-      <label for="company_name">Company or Name</label>
-      <input type="text" id="company_name" name="company_name" required>
-    </div>
-    <div class="horizontal-field">
-      <label for="country">Country</label>
-      <input type="text" id="country" name="country" required>
-    </div>
-    <div class="horizontal-field">
-      <label for="address_1">Address 1</label>
-      <input type="text" id="address_1" name="address_1" required>
-    </div>
-    <div class="horizontal-field">
-      <label for="city">City</label>
-      <input type="text" id="city" name="city" required>
-    </div>
-    <div class="horizontal-field">
-      <label for="state_prov_other">State/Prov/Other</label>
-      <input type="text" id="state_prov_other" name="state_prov_other">
-    </div>
-    <div class="horizontal-field">
-      <label for="postal_code">Postal Code</label>
-      <input type="text" id="postal_code" name="postal_code">
-    </div>
-    <div class="horizontal-field">
-      <label for="telephone">Telephone</label>
-      <input type="text" id="telephone" name="telephone">
-    </div>
-    <div class="horizontal-field">
-      <label for="email">Consignee Email</label>
-      <input type="email" id="email" name="email">
-    </div>
-    <div class="horizontal-field">
-      <label for="client_code">Client Code</label>
-      <input type="text" id="client_code" name="client_code">
-    </div>
-  </div>
-  <button type="submit" style="margin-top: 12px;">Add Contact</button>
-</form>
+    <h3>Add New Contact</h3>
+    <form method="POST" action="{{ url_for('add_contact') }}" id="contact-form" class="form-wrapper" autocomplete="off">
+      <div class="horizontal-form">
+        <div class="horizontal-field">
+          <label for="contact_name">Contact Name</label>
+          <input type="text" id="contact_name" name="contact_name">
+        </div>
+        <div class="horizontal-field">
+          <label for="company_name">Company or Name</label>
+          <input type="text" id="company_name" name="company_name" required>
+        </div>
+        <div class="horizontal-field">
+          <label for="country">Country</label>
+          <input type="text" id="country" name="country" required>
+        </div>
+        <div class="horizontal-field">
+          <label for="address_1">Address 1</label>
+          <input type="text" id="address_1" name="address_1" required>
+        </div>
+        <div class="horizontal-field">
+          <label for="city">City</label>
+          <input type="text" id="city" name="city" required>
+        </div>
+        <div class="horizontal-field">
+          <label for="state_prov_other">State/Prov/Other</label>
+          <input type="text" id="state_prov_other" name="state_prov_other">
+        </div>
+        <div class="horizontal-field">
+          <label for="postal_code">Postal Code</label>
+          <input type="text" id="postal_code" name="postal_code">
+        </div>
+        <div class="horizontal-field">
+          <label for="telephone">Telephone</label>
+          <input type="text" id="telephone" name="telephone">
+        </div>
+        <div class="horizontal-field">
+          <label for="email">Consignee Email</label>
+          <input type="email" id="email" name="email">
+        </div>
+        <div class="horizontal-field">
+          <label for="client_code">Client Code</label>
+          <input type="text" id="client_code" name="client_code">
+        </div>
+      </div>
+      <button type="submit" style="margin-top: 12px;">Add Contact</button>
+    </form>
+
     <hr>
 
     <h2>Saved Contacts</h2>
 
-    {% if contacts %}
-    <table>
-      <thead>
-        <tr>
-          <th>Contact Name</th>
-          <th>Company</th>
-          <th>Country</th>
-          <th>Address</th>
-          <th>City</th>
-          <th>State/Prov/Other</th>
-          <th>Postal</th>
-          <th>Telephone</th>
-          <th>Email</th>
-          <th>Client Code</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for contact in contacts %}
-        <tr>
-          <td>{{ contact.contact_name }}</td>
-          <td>{{ contact.company_name }}</td>
-          <td>{{ contact.country }}</td>
-          <td>{{ contact.address_1 }}</td>
-          <td>{{ contact.city }}</td>
-          <td>{{ contact.state }}</td>
-          <td>{{ contact.postal_code }}</td>
-          <td>{{ contact.telephone }}</td>
-          <td>{{ contact.email }}</td>
-          <td>{{ contact.client_code }}</td>
-          <td>
-            <form action="{{ url_for('delete_contact', contact_id=contact.id) }}" method="POST" onsubmit="return confirm('Delete this contact?');">
-              <button class="tiny-delete" type="submit">✖</button>
-            </form>
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-    {% else %}
-    <p>No saved contacts found.</p>
-    {% endif %}
+    <div id="contacts-table"></div>
+
+    <script>
+      const contactsData = {{ contacts | tojson }};
+    </script>
+
+    <script>
+      new Tabulator("#contacts-table", {
+        data: contactsData,
+        layout: "fitDataStretch",
+        reactiveData: true,
+        columns: [
+          {
+            title: "Action",
+            formatter: () => "❌",
+            width: 60,
+            hozAlign: "center",
+            cellClick: function (e, cell) {
+              const rowData = cell.getRow().getData();
+              if (confirm(`Delete contact: ${rowData.contact_name}?`)) {
+                fetch(`/contacts/delete/${rowData.id}`, {
+                  method: "POST"
+                }).then(() => {
+                  cell.getRow().delete();
+                });
+              }
+            }
+          }
+          { title: "Contact Name", field: "contact_name", editable: editableRule, headerSort: true },
+          { title: "Company", field: "company_name", editable: editableRule, headerSort: true },
+          { title: "Country", field: "country", editable: editableRule, headerSort: true },
+          { title: "Address", field: "address_1", editable: editableRule, headerSort: true },
+          { title: "City", field: "city", editable: editableRule, headerSort: true },
+          { title: "State/Prov/Other", field: "state", editable: editableRule, headerSort: true },
+          { title: "Postal", field: "postal_code", editable: editableRule, headerSort: true },
+          { title: "Telephone", field: "telephone", editable: editableRule, headerSort: true },
+          { title: "Email", field: "email", editable: editableRule, headerSort: true },
+          { title: "Client Code", field: "client_code", editable: editableRule, headerSort: true },
+
+        ]
+      });
+    </script>
+
   </div>
 <script>
 document.getElementById("contact_name")?.addEventListener("paste", function (e) {
