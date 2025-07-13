@@ -270,6 +270,17 @@ export const ADLmediaType = {
 
 export const packagingMap = {
   "1": "UPS Letter/Envelope",
+  "2": "Other Packaging/Customer Packaging",
+};
+
+export const serviceMap = {
+  "11": "International Standard",
+  "65": "UPS Saver",
+};
+
+/*
+export const packagingMap = {
+  "1": "UPS Letter/Envelope",
   "4": "UPS PAK",
   "3": "UPS Tube",
   "S": "UPS Express Box (Small)",
@@ -308,3 +319,4 @@ export const serviceMap = {
   "94": "SurePost Bound Printed Matter",
   "95": "SurePost Media Mail"
 };
+*/

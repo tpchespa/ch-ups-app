@@ -40,8 +40,8 @@ document.addEventListener("DOMContentLoaded", () => {
   window.validateFieldDirect = validateFieldDirect;
 
   // Autocomplete fields
-  const enablePackagingAutocomplete = false;
-  const enableServiceAutocomplete = false;
+  const enablePackagingAutocomplete = true;
+  const enableServiceAutocomplete = true;
   const enableCountryAutocomplete = true;
   if (enableCountryAutocomplete) {
     setupAutocomplete("Country", "country-suggestions", countryMap);
