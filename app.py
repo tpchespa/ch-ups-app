@@ -325,7 +325,19 @@ def download_xlsx():
 @app.route('/contacts/manage')
 @login_required
 def manage_contacts():
-    contacts = SavedContact.query.order_by(SavedContact.company_name.asc()).all()
+    contacts = [{
+        "id": c.id,
+        "contact_name": c.contact_name,
+        "company_name": c.company_name,
+        "country": c.country,
+        "address_1": c.address_1,
+        "city": c.city,
+        "state": c.state,
+        "postal_code": c.postal_code,
+        "telephone": c.telephone,
+        "email": c.email,
+        "client_code": c.client_code  # ✅ make sure this matches your DB schema
+    } for c in SavedContact.query.order_by(SavedContact.company_name.asc()).all()]
     return render_template('manage_contacts.html', contacts=contacts)
 
 @app.route('/contacts/add', methods=['POST'])
