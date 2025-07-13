@@ -75,7 +75,8 @@
           <th>Postal</th>
           <th>Telephone</th>
           <th>Email</th>
-          <th>Action</th>
+          <th>Email</th>
+          <th>Client Code</th>
         </tr>
       </thead>
       <tbody>
@@ -90,6 +91,7 @@
           <td>{{ contact.postal_code }}</td>
           <td>{{ contact.telephone }}</td>
           <td>{{ contact.email }}</td>
+          <td>{{ contact.client_code }}</td>
           <td>
             <form action="{{ url_for('delete_contact', contact_id=contact.id) }}" method="POST" onsubmit="return confirm('Delete this contact?');">
               <button class="tiny-delete" type="submit">✖</button>
