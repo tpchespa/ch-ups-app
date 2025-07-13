@@ -67,6 +67,7 @@ class SavedContact(db.Model):
     postal_code = db.Column(db.String(20))
     telephone = db.Column(db.String(50))
     email = db.Column(db.String(100))
+    client_code = db.Column(db.String(50))
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -348,7 +349,8 @@ def add_contact():
         state=form.get("state_prov_other"),
         postal_code=form.get("postal_code"),
         telephone=form.get("telephone"),
-        email=form.get("email")
+        email=form.get("email"),
+        client_code=form.get("client_code")
     )
     db.session.add(contact)
     db.session.commit()
@@ -384,7 +386,8 @@ def save_contact():
         state=data.get("state_prov_other"),
         postal_code=data.get("Postal Code"),
         telephone=data.get("Telephone"),
-        email=data.get("Consignee Email")
+        email=data.get("Consignee Email"),
+        client_code=data.get("Reference 1")
     )
     db.session.add(contact)
     db.session.commit()
@@ -403,7 +406,8 @@ def get_contacts():
         "state_prov_other": c.state,
         "Postal Code": c.postal_code,
         "Telephone": c.telephone,
-        "Consignee Email": c.email
+        "Consignee Email": c.email,
+        "Reference 1": c.client_code
     } for c in contacts]
 
 @socketio.on('submit_form')
