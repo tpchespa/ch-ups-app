@@ -405,6 +405,28 @@ def save_contact():
     db.session.commit()
     return {"success": True}
 
+
+@app.route('/contacts/update/<int:contact_id>', methods=['POST'])
+@login_required
+def update_contact(contact_id):
+    contact = SavedContact.query.get_or_404(contact_id)
+    data = request.json
+
+    contact.contact_name = data.get("contact_name", contact.contact_name)
+    contact.company_name = data.get("company_name", contact.company_name)
+    contact.country = data.get("country", contact.country)
+    contact.address_1 = data.get("address_1", contact.address_1)
+    contact.city = data.get("city", contact.city)
+    contact.state = data.get("state", contact.state)
+    contact.postal_code = data.get("postal_code", contact.postal_code)
+    contact.telephone = data.get("telephone", contact.telephone)
+    contact.email = data.get("email", contact.email)
+    contact.client_code = data.get("client_code", contact.client_code)
+
+    db.session.commit()
+    return {"success": True}
+
+
 @app.route('/get_contacts')
 @login_required
 def get_contacts():

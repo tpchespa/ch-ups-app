@@ -72,13 +72,13 @@
     </script>
 
     <script>
-      new Tabulator("#contacts-table", {
+      const table = new Tabulator("#contacts-table", {
         data: contactsData,
         layout: "fitDataStretch",
         reactiveData: true,
         columns: [
           {
-            title: "Action",
+            title: "❌",
             formatter: () => "❌",
             width: 60,
             hozAlign: "center",
@@ -102,9 +102,24 @@
           { title: "Postal", field: "postal_code", editor: "input", headerSort: true },
           { title: "Telephone", field: "telephone", editor: "input", headerSort: true },
           { title: "Email", field: "email", editor: "input", headerSort: true },
-          { title: "Client Code", field: "client_code", editor: "input", headerSort: true },
-
+          { title: "Client Code", field: "client_code", editor: "input", headerSort: true }
         ]
+      });
+
+      
+      table.on("cellEdited", function (cell) {
+        const updated = cell.getRow().getData();
+        fetch(`/contacts/update/${updated.id}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(updated)
+        }).then(response => {
+          if (!response.ok) {
+            alert("Failed to save changes.");
+          }
+        });
       });
     </script>
 
