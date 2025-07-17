@@ -570,7 +570,21 @@
           { title: "Postal", field: "Postal Code", editor: "input", editable: editableRule, headerSort: true },
           { title: "Tel", field: "Telephone", editor: "input", editable: editableRule, headerSort: true },
           { title: "Email", field: "Consignee Email", editor: "input", editable: editableRule, headerSort: true },
-          { title: "UPS tracking", field: "NR LISTU UPS", editor: "input", editable: editableRule, headerSort: true },
+          { 
+            title: "UPS tracking", 
+            field: "NR LISTU UPS", 
+            editor: "input", 
+            formatter: function(cell, formatterParams) {
+              const value = cell.getValue();
+              if (/1Z[0-9A-Z]{16}/.test(value)) { // UPS tracking regex
+                return `<a href="https://www.ups.com/track?loc=en_US&tracknum=${value}" target="_blank">${value}</a>`;
+              } else {
+                return value;
+              }
+            }
+            editable: editableRule, 
+            headerSort: true 
+          },
           { title: "Cost", field: "koszt", editor: "input", editable: editableRule, headerSort: true },
           { title: "Packaging Type", field: "Packaging Type", editor: "input", editable: editableRule, headerSort: true },
           { title: "Weight", field: "Weight", editor: "input", editable: editableRule, headerSort: true },
