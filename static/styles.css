@@ -1025,3 +1025,19 @@ input, select, textarea {
 .tabulator .tabulator-tableholder::-webkit-scrollbar-track {
   background: #1e1e1e;
 }
+
+a.ups-tracking-link {
+  color: #4da6ff;               /* Soft blue */
+  text-decoration: underline;   /* Make it look like a link */
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+a.ups-tracking-link:hover {
+  color: #82cfff;               /* Brighter blue on hover */
+  text-decoration: none;        /* Optional: remove underline on hover */
+}
+
+a.ups-tracking-link:visited {
+  color: #b3d9ff;               /* Lighter muted blue for visited links */
+}

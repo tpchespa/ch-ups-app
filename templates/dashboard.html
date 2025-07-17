@@ -577,7 +577,7 @@
             formatter: function(cell, formatterParams) {
               const value = cell.getValue();
               if (/1Z[0-9A-Z]{16}/.test(value)) { // UPS tracking regex
-                return `<a href="https://www.ups.com/track?loc=en_US&tracknum=${value}" target="_blank">${value}</a>`;
+                return `<a href="https://www.ups.com/track?loc=en_US&tracknum=${value}" target="_blank" class="ups-tracking-link">${value}</a>`;
               } else {
                 return value;
               }
