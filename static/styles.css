@@ -1027,17 +1027,17 @@ input, select, textarea {
 }
 
 a.ups-tracking-link {
-  color: #4da6ff;               /* Soft blue */
-  text-decoration: underline;   /* Make it look like a link */
+  color: #4da6ff;               
+  text-decoration: underline;   
   font-weight: 500;
   transition: color 0.2s ease;
 }
 
 a.ups-tracking-link:hover {
-  color: #82cfff;               /* Brighter blue on hover */
-  text-decoration: none;        /* Optional: remove underline on hover */
+  color: #82cfff;               
+  text-decoration: none;        
 }
 
 a.ups-tracking-link:visited {
-  color: #b3d9ff;               /* Lighter muted blue for visited links */
+  color: #b3d9ff;               
 }
