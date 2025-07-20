@@ -633,7 +633,7 @@
           }
         }
 
-        const displayNames = Array.from(uniqueUsers).sort();
+        const displayNames = ["", ...Array.from(uniqueUsers).sort()];
 
         userCol._column.definition.headerFilterParams = {
           values: displayNames
