@@ -611,6 +611,26 @@
 
       window.table = table;
 
+      const userCol = table.getColumn("User");
+      if (userCol) {
+        const uniqueUsers = new Set();
+
+        table.getData().forEach(row => {
+          if (row.User) {
+            uniqueUsers.add(row.User);
+          }
+        });
+
+        const displayNames = Array.from(uniqueUsers).sort();
+
+        userCol._column.definition.headerFilterParams = {
+          values: displayNames
+        };
+
+        userCol.reloadHeaderFilter();
+      }
+
+      /*
       fetch("/get_user_display_names")
         .then(res => res.json())
         .then(userMap => {
@@ -633,13 +653,15 @@
         .catch(err => {
           console.error("Failed to fetch user display names:", err);
         });
+      */
 
-      // Default sort immediately after table creation      
-      //table.setSort([
-       // { column: "Time", dir: "desc" },
-        //{ column: "User", dir: "asc" }
-      //]);
-
+      /*
+      Default sort immediately after table creation      
+      table.setSort([
+        { column: "Time", dir: "desc" },
+        { column: "User", dir: "asc" }
+      ]);
+      */
       table.on("cellEdited", function (cell) {
         const row = cell.getRow();
         const id = row.getData().id;
