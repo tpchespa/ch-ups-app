@@ -611,15 +611,27 @@
 
       window.table = table;
 
-      const userCol = table.getColumn("User");
-      if (userCol) {
+      table.on("tableBuilt", () => {
+        updateUserHeaderFilter();
+
+        table.on("dataFiltered", updateUserHeaderFilter);
+      });
+
+      function updateUserHeaderFilter() {
+        const userCol = table.getColumn("User");
+        if (!userCol) {
+          console.warn("User column not found");
+          return;
+        }
+
+        const visibleData = table.getRows("active").map(row => row.getData());
         const uniqueUsers = new Set();
 
-        table.getData().forEach(row => {
+        for (const row of visibleData) {
           if (row.User) {
             uniqueUsers.add(row.User);
           }
-        });
+        }
 
         const displayNames = Array.from(uniqueUsers).sort();
 
