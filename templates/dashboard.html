@@ -499,9 +499,9 @@
         columns: [
           {
             title: "#",
-            width: 30,
-            minWidth: 30,
-            maxWidth: 30,
+            width: 35,
+            minWidth: 35,
+            maxWidth: 35,
             hozAlign: "center",
             headerHozAlign: "center",
             formatter: "rownum",
@@ -509,7 +509,7 @@
             headerSort: false
           },
           {
-            title: "❌",
+            title: "✖",
             width: 30,
             minWidth: 30,
             maxWidth: 30,
@@ -633,7 +633,13 @@
           }
         }
 
-        const displayNames = ["", ...Array.from(uniqueUsers).sort()];
+        const displayNames = {
+          "": "All Users",  // value: label
+        };
+
+        Array.from(uniqueUsers).sort().forEach(name => {
+          displayNames[name] = name;
+        });
 
         userCol._column.definition.headerFilterParams = {
           values: displayNames
