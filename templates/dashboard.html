@@ -8,6 +8,22 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/style.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css">
   <script src="https://unpkg.com/tabulator-tables@5.5.0/dist/js/tabulator.min.js"></script>
+  <script>
+    Tabulator.defaultOptions.langs = Tabulator.defaultOptions.langs || {}; // 🛡️ defensive check
+    Tabulator.defaultOptions.langs["en"] = {
+      pagination: {
+        first: "⏮",
+        first_title: "First Page",
+        last: "⏭",
+        last_title: "Last Page",
+        prev: "◀",
+        prev_title: "Previous Page",
+        next: "▶",
+        next_title: "Next Page",
+        page_size: "Rows"
+      }
+    };
+  </script>
   <link rel="stylesheet" href="{{ url_for('static', filename='tabulator/tabulator_site_dark.css') }}">
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/index.js"></script>
@@ -747,22 +763,7 @@
       });
     </script>
 
-    <script>
-      Tabulator.defaultOptions.langs = Tabulator.defaultOptions.langs || {}; // 🛡️ defensive check
-      Tabulator.defaultOptions.langs["en"] = {
-        pagination: {
-          first: "⏮",
-          first_title: "First Page",
-          last: "⏭",
-          last_title: "Last Page",
-          prev: "◀",
-          prev_title: "Previous Page",
-          next: "▶",
-          next_title: "Next Page",
-          page_size: "Rows"
-        }
-      };
-    </script>
+
   </div>
   </div>
   <footer class="dashboard-footer">

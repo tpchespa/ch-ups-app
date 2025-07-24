@@ -153,6 +153,57 @@ select.input-error:focus {
   background-color: #403200 !important;
 }
 
+#tabulator-pagination-top {
+  margin-bottom: 10px;
+}
+
+.tabulator-paginator {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 10px 16px;
+  background-color: #1e1e1e;
+  border: 1px solid #333;
+  border-radius: 6px;
+  font-size: 9pt;
+  gap: 12px;
+}
+
+.tabulator-page-size {
+  width: auto;                
+  min-width: 80px;       
+  max-width: 120px;
+  padding: 4px 6px;
+  font-size: 8pt;
+  background-color: #2a2a2a;
+  color: #f0f0f0;
+  border: 1px solid #444;
+  border-radius: 4px;
+}
+
+.tabulator .tabulator-paginator button {
+  background-color: #1f1f1f !important;
+  color: #ccc !important;
+  border: 1px solid #444 !important;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 8pt;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.tabulator .tabulator-paginator button:hover {
+  background-color: #2a2a2a !important;
+  color: #fff !important;
+}
+
+.tabulator .tabulator-paginator button[disabled] {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+
 
 button {
   padding: 8px 14px;
@@ -1042,52 +1093,3 @@ a.ups-tracking-link:visited {
   color: #b3d9ff;               
 }
 
-#tabulator-pagination-top {
-  margin-bottom: 10px;
-}
-
-.tabulator-paginator {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  padding: 10px 16px;
-  background-color: #1e1e1e;
-  border: 1px solid #333;
-  border-radius: 6px;
-  font-size: 9pt;
-  gap: 12px;
-}
-
-.tabulator-page-size {
-  width: auto;                
-  min-width: 80px;       
-  max-width: 120px;
-  padding: 4px 6px;
-  font-size: 8pt;
-  background-color: #2a2a2a;
-  color: #f0f0f0;
-  border: 1px solid #444;
-  border-radius: 4px;
-}
-
-.tabulator .tabulator-paginator button {
-  background-color: #1f1f1f !important;
-  color: #ccc !important;
-  border: 1px solid #444 !important;
-  border-radius: 4px;
-  padding: 4px 8px;
-  font-size: 8pt;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.tabulator .tabulator-paginator button:hover {
-  background-color: #2a2a2a !important;
-  color: #fff !important;
-}
-
-.tabulator .tabulator-paginator button[disabled] {
-  opacity: 0.3;
-  cursor: not-allowed;
-}
