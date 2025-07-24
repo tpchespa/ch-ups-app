@@ -1042,22 +1042,25 @@ a.ups-tracking-link:visited {
   color: #b3d9ff;               
 }
 
-/* Wrapper splits selector and buttons */
+#tabulator-pagination-top {
+  margin-bottom: 10px;
+}
+
 .tabulator-paginator {
   display: flex;
-  justify-content: space-between; /* space out left & right sides */
+  justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
   padding: 10px 16px;
   background-color: #1e1e1e;
-  border-top: 1px solid #333;
+  border: 1px solid #333;
+  border-radius: 6px;
   font-size: 9pt;
-  flex-wrap: wrap;
   gap: 12px;
 }
 
-/* Left side: selector */
 .tabulator-page-size {
-  order: -1; /* ensures it stays on the left */
+  order: -1;
   background-color: #2a2a2a;
   color: #f0f0f0;
   border: 1px solid #444;
@@ -1066,7 +1069,6 @@ a.ups-tracking-link:visited {
   font-size: 9pt;
 }
 
-/* Right side: pagination buttons */
 .tabulator-paginator button {
   background-color: #2e2e2e;
   color: #f0f0f0;
