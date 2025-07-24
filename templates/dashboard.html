@@ -480,20 +480,6 @@
         }
       }
 
-      Tabulator.defaultOptions.langs["en"] = {
-        pagination: {
-          first: "⏮",     // First page
-          first_title: "First Page",
-          last: "⏭",      // Last page
-          last_title: "Last Page",
-          prev: "◀",      // Previous page
-          prev_title: "Previous Page",
-          next: "▶",      // Next page
-          next_title: "Next Page",
-          page_size: "Rows" // label before page size selector
-        }
-      };
-
       const table = new Tabulator("#tabulator-table", {
         data: tableData,
         layout: "fitDataStretch",
@@ -759,6 +745,23 @@
           }
         });
       });
+    </script>
+
+    <script>
+      Tabulator.defaultOptions.langs = Tabulator.defaultOptions.langs || {}; // 🛡️ defensive check
+      Tabulator.defaultOptions.langs["en"] = {
+        pagination: {
+          first: "⏮",
+          first_title: "First Page",
+          last: "⏭",
+          last_title: "Last Page",
+          prev: "◀",
+          prev_title: "Previous Page",
+          next: "▶",
+          next_title: "Next Page",
+          page_size: "Rows"
+        }
+      };
     </script>
   </div>
   </div>
