@@ -480,6 +480,20 @@
         }
       }
 
+      Tabulator.defaultOptions.langs["en"] = {
+        pagination: {
+          first: "⏮",     // First page
+          first_title: "First Page",
+          last: "⏭",      // Last page
+          last_title: "Last Page",
+          prev: "◀",      // Previous page
+          prev_title: "Previous Page",
+          next: "▶",      // Next page
+          next_title: "Next Page",
+          page_size: "Rows" // label before page size selector
+        }
+      };
+
       const table = new Tabulator("#tabulator-table", {
         data: tableData,
         layout: "fitDataStretch",
@@ -489,6 +503,7 @@
         paginationSize: 50, // Show 50 rows per page
         paginationSizeSelector: [25, 50, 100, true], // Dropdown selector for user
         paginationElement: document.getElementById("tabulator-pagination-top"),
+        paginationButtonCount: 3,
         rowFormatter: function(row) {
           const data = row.getData();
           const canEdit = (
