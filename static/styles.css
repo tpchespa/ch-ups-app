@@ -153,6 +153,25 @@ select.input-error:focus {
   background-color: #403200 !important;
 }
 
+button {
+  padding: 8px 14px;
+  font-size: 8.5pt;
+  margin-top: 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #43a047;
+}
+
+button.delete-button {
+    background-color: #e53935;
+}
+
 #tabulator-pagination-top {
   margin-bottom: 10px;
 }
@@ -203,26 +222,6 @@ select.input-error:focus {
   cursor: not-allowed;
 }
 
-
-
-button {
-  padding: 8px 14px;
-  font-size: 8.5pt;
-  margin-top: 10px;
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #43a047;
-}
-
-button.delete-button {
-    background-color: #e53935;
-}
 
 table {
     width: 100%;
