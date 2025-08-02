@@ -526,9 +526,16 @@
             maxWidth: 35,
             hozAlign: "center",
             headerHozAlign: "center",
-            formatter: "rownum",
+            headerSort: false,
             frozen: true,
-            headerSort: false
+            formatter: function(cell) {
+              const row = cell.getRow();
+              const table = row.getTable();
+              const pageSize = table.getPageSize();
+              const page = table.getPage();
+              const rowIndex = row.getPosition(true); // position in active rows
+              return (page - 1) * pageSize + rowIndex + 1;
+            }
           },
           {
             title: "✖",
