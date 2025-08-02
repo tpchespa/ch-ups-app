@@ -533,7 +533,7 @@
               const table = row.getTable();
               const pageSize = table.getPageSize();
               const page = table.getPage();
-              const rowIndex = row.getPosition(true); // position in active rows
+              const rowIndex = row.getPosition(true) - 1; 
               return (page - 1) * pageSize + rowIndex + 1;
             }
           },
