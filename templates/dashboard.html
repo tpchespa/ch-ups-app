@@ -653,19 +653,17 @@
           return;
         }
 
-        const visibleData = table.getRows("active").map(row => row.getData());
+        // Get full data (not filtered!) to build the dropdown list
+        const allData = table.getData(); 
         const uniqueUsers = new Set();
 
-        for (const row of visibleData) {
+        for (const row of allData) {
           if (row.User) {
             uniqueUsers.add(row.User);
           }
         }
 
-        const displayNames = {
-          "": "All Users",  // value: label
-        };
-
+        const displayNames = { "": "All Users" };
         Array.from(uniqueUsers).sort().forEach(name => {
           displayNames[name] = name;
         });
