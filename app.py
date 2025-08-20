@@ -11,6 +11,8 @@ import io
 import os
 import json
 import pytz
+import requests
+import xml.etree.ElementTree as ET
 from datetime import datetime, date
 
 FIELD_ORDER = [
@@ -611,9 +613,6 @@ def get_user_display_names():
 def changelog():
     return render_template("changelog.html")
 
-import requests
-import xml.etree.ElementTree as ET
-
 @app.route('/admin/test-webcenter')
 @login_required
 def test_webcenter():
@@ -623,7 +622,7 @@ def test_webcenter():
     jwt = os.environ.get("WEBCENTER_JWT") or "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwMDAwMl8wMDAwMDE3MzA5IiwiZXhwIjoxNzU4NDAxMTYxfQ.kt_8CkGlmC5AZXYLuCsrxAXC9Wipqq3dodNRvqgR7_MXejOlX-R_Ujsrg25BTPV4KEdDRm05BAdT33Wp3xuktA"
     ssoiid = os.environ.get("WEBCENTER_SSOIID") or "00002_0000000201"
 
-    url = "https://cdc.chespa.eu/pl/GetProjects.jsp?type=6"
+    url = "https://cdc.chespa.eu/pl/GetProjects.jsp?type=2"
     params = {"ssoiid": ssoiid, "jwt": jwt}
     data = {
         "by Name": "*202526892*",
