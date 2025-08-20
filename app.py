@@ -12,7 +12,7 @@ import os
 import json
 import pytz
 import requests
-import xml.etree.ElementTree as ET
+import xml.etree.ElementTree as ElementTree
 from datetime import datetime, date
 
 FIELD_ORDER = [
@@ -633,7 +633,7 @@ def test_webcenter():
     try:
         response = requests.post(url, params=params, data=data, timeout=10)
         response.raise_for_status()
-        tree = ET.fromstring(response.text)
+        tree = ElementTree.fromstring(response.text)
         projects = tree.findall(".//project")
         return f"✅ WebCenter API connection successful. Found {len(projects)} project(s) matching '*UPS*'."
     except Exception as e:
