@@ -611,6 +611,35 @@ def get_user_display_names():
 def changelog():
     return render_template("changelog.html")
 
+import requests
+import xml.etree.ElementTree as ET
+
+@app.route('/admin/test-webcenter')
+@login_required
+def test_webcenter():
+    if not current_user.is_admin:
+        return "Unauthorized", 403
+
+    jwt = os.environ.get("WEBCENTER_JWT") or "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwMDAwMl8wMDAwMDE3MzA5IiwiZXhwIjoxNzU4NDAxMTYxfQ.kt_8CkGlmC5AZXYLuCsrxAXC9Wipqq3dodNRvqgR7_MXejOlX-R_Ujsrg25BTPV4KEdDRm05BAdT33Wp3xuktA"
+    ssoiid = os.environ.get("WEBCENTER_SSOIID") or "00002_0000000201"
+
+    url = "https://cdc.chespa.eu/pl/GetProjects.jsp?type=6"
+    params = {"ssoiid": ssoiid, "jwt": jwt}
+    data = {
+        "by Name": "*202526892*",
+        "Enable detailed output": "0",
+        "Return Templates": "0"
+    }
+
+    try:
+        response = requests.post(url, params=params, data=data, timeout=10)
+        response.raise_for_status()
+        tree = ET.fromstring(response.text)
+        projects = tree.findall(".//project")
+        return f"✅ WebCenter API connection successful. Found {len(projects)} project(s) matching '*UPS*'."
+    except Exception as e:
+        return f"❌ WebCenter API test failed: {str(e)}"
+
 @app.route('/init-db')
 def init_db():
     db.create_all()

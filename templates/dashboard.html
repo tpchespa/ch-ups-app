@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>UPS Full Form</title>
+  <title>CRS UPS Form</title>
   <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/style.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css">
   <script src="https://unpkg.com/tabulator-tables@5.5.0/dist/js/tabulator.min.js"></script>
   <script>
-    Tabulator.defaultOptions.langs = Tabulator.defaultOptions.langs || {}; // 🛡️ defensive check
+    Tabulator.defaultOptions.langs = Tabulator.defaultOptions.langs || {};
     Tabulator.defaultOptions.langs["en"] = {
       pagination: {
         first: "⏮",
@@ -46,6 +46,9 @@
       <div>Welcome, {{ current_user.first_name or current_user.email }}</div>
     </div>
     <div style="display: flex; gap: 10px;">
+      {% if current_user.is_admin %}
+        <a href="/admin/test-webcenter" class="changelog-button">🔌 Test WebCenter</a>
+      {% endif %}
       <a href="/changelog" class="changelog-button">📝 Changelog</a>
       <a href="/logout" class="logout-link">Logout</a>
     </div>
