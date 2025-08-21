@@ -71,6 +71,11 @@ class SavedContact(db.Model):
     email = db.Column(db.String(100))
     client_code = db.Column(db.String(50))
 
+class WebCenterProject(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    project_id = db.Column(db.String(30), unique=True, index=True)
+    name = db.Column(db.String(500))
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -622,12 +627,10 @@ def test_webcenter():
     jwt = os.environ.get("WEBCENTER_JWT") or "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwMDAwMl8wMDAwMDE3MzA5IiwiZXhwIjoxNzU4NDAxMTYxfQ.kt_8CkGlmC5AZXYLuCsrxAXC9Wipqq3dodNRvqgR7_MXejOlX-R_Ujsrg25BTPV4KEdDRm05BAdT33Wp3xuktA"
     ssoiid = os.environ.get("WEBCENTER_SSOIID") or "00002_0000000201"
 
-    url = "https://cdc.chespa.eu/pl/GetProjects.jsp?type=2"
+    url = "https://cdc.chespa.eu/pl/GetProjects.jsp?type=6"
     params = {"ssoiid": ssoiid, "jwt": jwt}
     data = {
-        "by Name": "*202526892*",
-        "Enable detailed output": "0",
-        "Return Templates": "0"
+        "name": "653110 Landsaver 20 TT Caddy Liners Tape",
     }
 
     try:
@@ -635,9 +638,37 @@ def test_webcenter():
         response.raise_for_status()
         tree = ElementTree.fromstring(response.text)
         projects = tree.findall(".//project")
-        return f"✅ WebCenter API connection successful. Found {len(projects)} project(s) matching '*UPS*'."
+        return f"✅ WebCenter API connection successful. Found {len(projects)} project(s)"
     except Exception as e:
         return f"❌ WebCenter API test failed: {str(e)}"
+
+
+@app.route('/init-projects-table')
+@login_required
+def init_projects_table():
+    if not current_user.is_admin:
+        return "Unauthorized", 403
+    db.create_all()
+    return "✅ WebCenterProject table created."
+
+@app.route('/import-projects')
+@login_required
+def import_projects():
+    if not current_user.is_admin:
+        return "Unauthorized", 403
+
+    df = pd.read_excel("data/projects.xlsx")  
+    added = 0
+    for _, row in df.iterrows():
+        project = WebCenterProject(
+            name=row["Name"],
+            project_id=row["Project ID"]
+        )
+        db.session.add(project)
+        added += 1
+
+    db.session.commit()
+    return f"✅ Imported {added} projects into the database."
 
 @app.route('/init-db')
 def init_db():
