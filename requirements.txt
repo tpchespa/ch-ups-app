@@ -12,3 +12,4 @@ gevent
 pytz
 xlsxwriter
 requests
+openpyxl
