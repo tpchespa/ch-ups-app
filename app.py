@@ -657,12 +657,13 @@ def import_projects():
     if not current_user.is_admin:
         return "Unauthorized", 403
 
-    df = pd.read_excel("data/projects.xlsx")  
+    df = pd.read_excel("data/projects.xlsx")
+
     added = 0
     for _, row in df.iterrows():
         project = WebCenterProject(
-            name=row["Name"],
-            project_id=row["Project ID"]
+            project_id=str(row["Project ID"]).strip(),
+            name=str(row["Name"]).strip()
         )
         db.session.add(project)
         added += 1
