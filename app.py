@@ -642,6 +642,56 @@ def test_webcenter():
     except Exception as e:
         return f"❌ WebCenter API test failed: {str(e)}"
 
+@app.route('/api/projects')
+@login_required
+def get_projects():
+    if not current_user.is_admin:
+        return "Unauthorized", 403
+
+    projects = WebCenterProject.query.all()
+    return jsonify([
+        {"id": p.id, "project_id": p.project_id, "name": p.name}
+        for p in projects
+    ])
+
+@app.route("/admin/projects")
+@login_required
+def admin_projects():
+    if not current_user.is_admin:
+        return "Unauthorized", 403
+    return render_template("projects.html")
+
+@app.route('/api/projects/update', methods=['POST'])
+@login_required
+def update_project():
+    if not current_user.is_admin:
+        return "Unauthorized", 403
+
+    data = request.json
+    project = WebCenterProject.query.get(data["id"])
+    if not project:
+        return "Not found", 404
+
+    project.project_id = data.get("project_id", project.project_id)
+    project.name = data.get("name", project.name)
+    db.session.commit()
+    return jsonify(success=True)
+
+@app.route('/api/projects/add', methods=['POST'])
+@login_required
+def add_project():
+    if not current_user.is_admin:
+        return "Unauthorized", 403
+
+    data = request.json
+    new_proj = WebCenterProject(
+        project_id=data["project_id"],
+        name=data["name"]
+    )
+    db.session.add(new_proj)
+    db.session.commit()
+    return jsonify(success=True, id=new_proj.id)
+
 
 @app.route('/init-projects-table')
 @login_required

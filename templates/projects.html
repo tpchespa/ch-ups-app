@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>WebCenter Projects</title>
+  <link href="https://unpkg.com/tabulator-tables@5.5.0/dist/css/tabulator.min.css" rel="stylesheet">
+  <script src="https://unpkg.com/tabulator-tables@5.5.0/dist/js/tabulator.min.js"></script>
+  <style>
+    body {
+      background: #1e1e1e;
+      color: #eee;
+      font-family: sans-serif;
+      padding: 20px;
+    }
+    .tabulator {
+      background-color: #2b2b2b;
+    }
+  </style>
+</head>
+<body>
+
+<h2>📋 WebCenter Projects</h2>
+<div id="projects-table"></div>
+
+<script>
+  const table = new Tabulator("#projects-table", {
+    height: "600px",
+    layout: "fitColumns",
+    ajaxURL: "/api/projects",
+    columns: [
+      { title: "ID", field: "id", width: 70, headerSort: false },
+      { title: "Project ID", field: "project_id", editor: "input", headerSort: true },
+      { title: "Name", field: "name", editor: "input", headerSort: true },
+    ],
+    cellEdited: function(cell) {
+      fetch("/api/projects/update", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(cell.getRow().getData())
+      }).then(res => res.json()).then(resp => {
+        if (!resp.success) alert("❌ Failed to save change");
+      });
+    },
+  });
+</script>
+
+</body>
+</html>
