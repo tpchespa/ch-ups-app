@@ -693,6 +693,21 @@ def add_project():
     return jsonify(success=True, id=new_proj.id)
 
 
+@app.route('/api/projects/delete', methods=['POST'])
+@login_required
+def delete_project():
+    if not current_user.is_admin:
+        return "Unauthorized", 403
+
+    data = request.json
+    project = WebCenterProject.query.get(data["id"])
+    if project:
+        db.session.delete(project)
+        db.session.commit()
+        return jsonify(success=True)
+    return jsonify(success=False)
+
+
 @app.route('/init-projects-table')
 @login_required
 def init_projects_table():

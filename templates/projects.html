@@ -15,33 +15,129 @@
     .tabulator {
       background-color: #2b2b2b;
     }
+    .toolbar {
+      margin-bottom: 15px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+    input, button, select {
+      padding: 6px 10px;
+      border-radius: 4px;
+      border: none;
+    }
+    button {
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
 
 <h2>📋 WebCenter Projects</h2>
+
+<div class="toolbar">
+  <input type="text" id="search" placeholder="🔍 Search by ID or Name">
+  <button onclick="addProject()">➕ Add</button>
+  <button onclick="deleteProject()">❌ Delete</button>
+  <label>
+    <input type="checkbox" id="paginationToggle" checked>
+    Pagination
+  </label>
+</div>
+
 <div id="projects-table"></div>
 
 <script>
-  const table = new Tabulator("#projects-table", {
-    height: "600px",
-    layout: "fitColumns",
-    ajaxURL: "/api/projects",
-    columns: [
-      { title: "ID", field: "id", width: 70, headerSort: false },
-      { title: "Project ID", field: "project_id", editor: "input", headerSort: true },
-      { title: "Name", field: "name", editor: "input", headerSort: true },
-    ],
-    cellEdited: function(cell) {
-      fetch("/api/projects/update", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(cell.getRow().getData())
-      }).then(res => res.json()).then(resp => {
-        if (!resp.success) alert("❌ Failed to save change");
-      });
-    },
+  let table;
+
+  function initTable(paginate = true) {
+    table = new Tabulator("#projects-table", {
+      height: "600px",
+      layout: "fitColumns",
+      ajaxURL: "/api/projects",
+      pagination: paginate ? "local" : false,
+      paginationSize: 25,
+      columns: [
+        { title: "ID", field: "id", width: 70, headerSort: false },
+        { title: "Project ID", field: "project_id", editor: "input" },
+        { title: "Name", field: "name", editor: "input" },
+      ],
+      cellEdited: function(cell) {
+        fetch("/api/projects/update", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(cell.getRow().getData())
+        }).then(res => res.json()).then(resp => {
+          if (!resp.success) alert("❌ Update failed");
+        });
+      },
+      rowClick: function(e, row) {
+        row.toggleSelect();
+      },
+      selectable: 1,
+    });
+  }
+
+  // Init table with pagination on
+  initTable();
+
+  document.getElementById("paginationToggle").addEventListener("change", function () {
+    table.destroy();
+    initTable(this.checked);
   });
+
+  document.getElementById("search").addEventListener("input", function () {
+    const query = this.value.toLowerCase();
+    table.setFilter([
+      [
+        { field: "project_id", type: "like", value: query },
+        { field: "name", type: "like", value: query }
+      ]
+    ]);
+  });
+
+  function addProject() {
+    const project_id = prompt("Enter Project ID:");
+    if (!project_id) return;
+
+    const name = prompt("Enter Project Name:");
+    if (!name) return;
+
+    fetch("/api/projects/add", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ project_id, name })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        table.addData([{ id: data.id, project_id, name }], true);
+      } else {
+        alert("❌ Failed to add project");
+      }
+    });
+  }
+
+  function deleteProject() {
+    const selected = table.getSelectedData();
+    if (!selected.length) return alert("No row selected.");
+    if (!confirm(`Are you sure you want to delete "${selected[0].name}"?`)) return;
+
+    fetch("/api/projects/delete", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: selected[0].id })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        table.deleteRow(selected[0].id);
+      } else {
+        alert("❌ Deletion failed");
+      }
+    });
+  }
 </script>
 
 </body>
