@@ -2,6 +2,8 @@ Flask
 Flask-Login
 Flask-SQLAlchemy
 Flask-SocketIO
+requests>=2.32.3
+urllib3>=2.2.2
 pandas
 psycopg2-binary
 python-socketio

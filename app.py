@@ -11,9 +11,20 @@ import io
 import os
 import json
 import pytz
-import requests
+import ssl
+from requests.adapters import HTTPAdapter
+from urllib3.poolmanager import PoolManager
 import xml.etree.ElementTree as ElementTree
 from datetime import datetime, date
+
+class TLSAdapter(HTTPAdapter):
+    """Force TLS v1.2 or higher"""
+    def init_poolmanager(self, *args, **kwargs):
+        ctx = ssl.create_default_context()
+        ctx.set_ciphers("DEFAULT:@SECLEVEL=1")  # avoids overly strict ciphers
+        ctx.minimum_version = ssl.TLSVersion.TLSv1_2
+        kwargs["ssl_context"] = ctx
+        return super().init_poolmanager(*args, **kwargs)
 
 FIELD_ORDER = [
     "Contact Name", "Company or Name", "Country", "Address 1", "Address 2", "Address 3", "City", "State/Prov/Other",
@@ -643,19 +654,17 @@ def test_webcenter_modify():
     }
 
     try:
-        # Print what’s being sent (debugging)
-        print("POST →", url, "params=", params, "data=", data)
+        session = requests.Session()
+        session.mount("https://", TLSAdapter())  # use our custom TLS adapter
 
-        response = requests.post(url, params=params, data=data, timeout=15)
+        response = session.post(url, params=params, data=data, timeout=20)
         response.raise_for_status()
-
         return f"✅ Modify request sent. Response: {response.text[:500]}..."
     except Exception as e:
         import traceback
         return f"❌ WebCenter modify test failed:\n{traceback.format_exc()}"
 
 
-        
 
 @app.route('/api/projects')
 @login_required
