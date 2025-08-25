@@ -708,6 +708,36 @@ def delete_project():
     return jsonify(success=False)
 
 
+@app.route('/api/projects/ae-add', methods=['POST'])
+def ae_add_project():
+    data = request.json
+
+    # Validate secret token
+    expected_token = os.environ.get("AE_API_TOKEN") or "hardcoded-fallback-token"
+    if data.get("token") != expected_token:
+        return jsonify(success=False, error="Unauthorized"), 403
+
+    project_id = data.get("project_id")
+    name = data.get("name")
+
+    if not project_id or not name:
+        return jsonify(success=False, error="Missing fields"), 400
+
+    # Check for existing entry
+    existing = WebCenterProject.query.filter_by(project_id=project_id).first()
+    if existing:
+        existing.name = name  # optional: update name if different
+        db.session.commit()
+        return jsonify(success=True, updated=True)
+
+    # Add new entry
+    new_proj = WebCenterProject(project_id=project_id, name=name)
+    db.session.add(new_proj)
+    db.session.commit()
+
+    return jsonify(success=True, id=new_proj.id, updated=False)
+
+
 @app.route('/init-projects-table')
 @login_required
 def init_projects_table():
