@@ -635,17 +635,27 @@ def test_webcenter_modify():
     }
     data = {
         "projectid": "00002_0000226492",
-        "attribute": 'CRS - UPS - Tracking:\n'
-                     '<a href="https://www.ups.com/track?loc=en_US&tracknum=1ZV5358A6894985343" target="_blank">'
-                     '1ZV5358A6894985343</a>'
+        "attribute": (
+            'CRS - UPS - Tracking: '
+            '<a href="https://www.ups.com/track?loc=en_US&tracknum=1ZV5358A6894985343" target="_blank">'
+            '1ZV5358A6894985343</a>'
+        )
     }
 
     try:
+        # Print what’s being sent (debugging)
+        print("POST →", url, "params=", params, "data=", data)
+
         response = requests.post(url, params=params, data=data, timeout=15)
         response.raise_for_status()
-        return f"✅ Modify request sent. Response: {response.text[:500]}..."  # preview first 500 chars
+
+        return f"✅ Modify request sent. Response: {response.text[:500]}..."
     except Exception as e:
-        return f"❌ WebCenter modify test failed: {str(e)}"
+        import traceback
+        return f"❌ WebCenter modify test failed:\n{traceback.format_exc()}"
+
+
+        
 
 @app.route('/api/projects')
 @login_required
