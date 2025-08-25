@@ -12,6 +12,7 @@ import os
 import json
 import pytz
 import ssl
+import requests
 from requests.adapters import HTTPAdapter
 from urllib3.poolmanager import PoolManager
 import xml.etree.ElementTree as ElementTree
