@@ -618,29 +618,34 @@ def get_user_display_names():
 def changelog():
     return render_template("changelog.html")
 
-@app.route('/admin/test-webcenter')
+@app.route('/admin/test-webcenter-modify')
 @login_required
-def test_webcenter():
+def test_webcenter_modify():
     if not current_user.is_admin:
         return "Unauthorized", 403
 
     jwt = os.environ.get("WEBCENTER_JWT") or "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwMDAwMl8wMDAwMDE3MzA5IiwiZXhwIjoxNzU4NDAxMTYxfQ.kt_8CkGlmC5AZXYLuCsrxAXC9Wipqq3dodNRvqgR7_MXejOlX-R_Ujsrg25BTPV4KEdDRm05BAdT33Wp3xuktA"
     ssoiid = os.environ.get("WEBCENTER_SSOIID") or "00002_0000000201"
 
-    url = "https://cdc.chespa.eu/pl/GetProjects.jsp?type=6"
-    params = {"ssoiid": ssoiid, "jwt": jwt}
+    url = "https://cdc.chespa.eu/pl/CreateProject.jsp"
+    params = {
+        "action": "modify",
+        "ssoiid": ssoiid,
+        "jwt": jwt,
+    }
     data = {
-        "name": "653110 Landsaver 20 TT Caddy Liners Tape",
+        "projectid": "00002_0000226492",
+        "attribute": 'CRS - UPS - Tracking:\n'
+                     '<a href="https://www.ups.com/track?loc=en_US&tracknum=1ZV5358A6894985343" target="_blank">'
+                     '1ZV5358A6894985343</a>'
     }
 
     try:
-        response = requests.post(url, params=params, data=data, timeout=10)
+        response = requests.post(url, params=params, data=data, timeout=15)
         response.raise_for_status()
-        tree = ElementTree.fromstring(response.text)
-        projects = tree.findall(".//project")
-        return f"✅ WebCenter API connection successful. Found {len(projects)} project(s)"
+        return f"✅ Modify request sent. Response: {response.text[:500]}..."  # preview first 500 chars
     except Exception as e:
-        return f"❌ WebCenter API test failed: {str(e)}"
+        return f"❌ WebCenter modify test failed: {str(e)}"
 
 @app.route('/api/projects')
 @login_required
