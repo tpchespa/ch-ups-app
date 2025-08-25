@@ -636,7 +636,7 @@ def test_webcenter_modify():
     if not current_user.is_admin:
         return "Unauthorized", 403
 
-    jwt = os.environ.get("WEBCENTER_JWT") or "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwMDAwMl8wMDAwMDE3MzA5IiwiZXhwIjoxNzU4NDAxMTYxfQ.kt_8CkGlmC5AZXYLuCsrxAXC9Wipqq3dodNRvqgR7_MXejOlX-R_Ujsrg25BTPV4KEdDRm05BAdT33Wp3xuktA"
+    jwt = os.environ.get("WEBCENTER_JWT") or "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwMDAwMl8wMDAwMDE5NjI2IiwiZXhwIjoxNzYxMzQ3NTAyfQ.iqRPnEnglJgv2PN2PnnVLxsfTj_KntqRwQFtOvAvto5yX4c09jrUT9RMjeE63Sn7UqUyrbmdJVbk9XjVEO2NXA"
     ssoiid = os.environ.get("WEBCENTER_SSOIID") or "00002_0000000201"
 
     url = "https://cdc.chespa.eu/pl/CreateProject.jsp"
