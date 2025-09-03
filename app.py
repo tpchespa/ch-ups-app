@@ -578,6 +578,36 @@ def update_entry(entry_id):
     entry.data = new_data
     db.session.commit()
 
+    tracking_number = new_data.get("NR LISTU UPS", "").strip()
+    raw_ids = new_data.get("ProjectsIDs", "").strip()
+    fallback_id = new_data.get("Reference 1", "").strip()
+
+    if not tracking_number:
+        return {"success": True}  # nothing to send
+
+    # Use ProjectsIDs or fallback
+    source_text = raw_ids if raw_ids else fallback_id
+
+    # Extract all valid 9-digit codes starting with 202 or 212
+    import re
+    company_ids = re.findall(r"\b(20[0-9]{6,})\b", source_text)
+
+    if not company_ids:
+        print("[WebCenter update] ❌ No valid project numbers found.")
+        return {"success": True}
+
+    updated_count = 0
+    for code in company_ids:
+        match = WebCenterProject.query.filter(WebCenterProject.name.startswith(code)).first()
+        if match:
+            success, msg = send_ups_tracking_to_webcenter(match.project_id, tracking_number)
+            print(f"[WebCenter update] ▶ {code} → {match.project_id} → success={success}")
+            updated_count += 1
+        else:
+            print(f"[WebCenter update] ⚠ No match found for {code}")
+
+    return {"success": True, "updated_projects": updated_count}
+
     return {"success": True}
 
 
@@ -668,7 +698,33 @@ def test_webcenter_modify():
         import traceback
         return f"❌ WebCenter modify test failed:\n{traceback.format_exc()}"
 
+def send_ups_tracking_to_webcenter(project_id, tracking_number):
+    jwt = os.environ.get("WEBCENTER_JWT") or "your-fallback-jwt"
+    ssoiid = os.environ.get("WEBCENTER_SSOIID") or "your-fallback-ssoiid"
 
+    url = "https://cdc.chespa.eu/pl/CreateProject.jsp"
+    params = {
+        "action": "modify",
+        "ssoiid": ssoiid,
+        "jwt": jwt,
+    }
+    link = (
+        f'<a href="https://www.ups.com/track?loc=en_US&tracknum={tracking_number}" '
+        f'target="_blank" style="color: dodgerblue; font-size: 10px;">{tracking_number}</a>'
+    )
+    data = {
+        "projectid": project_id,
+        "attribute": f"CRS - UPS - Tracking: {link}"
+    }
+
+    try:
+        session = requests.Session()
+        session.mount("https://", TLSAdapter())
+        response = session.post(url, params=params, data=data, timeout=15)
+        response.raise_for_status()
+        return True, response.text
+    except Exception as e:
+        return False, str(e)
 
 @app.route('/api/projects')
 @login_required
