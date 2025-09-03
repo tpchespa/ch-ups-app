@@ -87,6 +87,7 @@ class WebCenterProject(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     project_id = db.Column(db.String(30), unique=True, index=True)
     name = db.Column(db.String(500))
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow, index=True)
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -649,7 +650,9 @@ def test_webcenter_modify():
         "projectid": "00002_0000226492",
         "attribute": (
             'CRS - UPS - Tracking: '
-            '<a href="https://www.ups.com/track?loc=en_US&tracknum=1ZV5358A6894985343" target="_blank">'
+            '<a href="https://www.ups.com/track?loc=en_US&tracknum=1ZV5358A6894985343" '
+            'target="_blank" '
+            'style="color: dodgerblue; font-size: 10px;">'
             '1ZV5358A6894985343</a>'
         )
     }
@@ -675,7 +678,12 @@ def get_projects():
 
     projects = WebCenterProject.query.all()
     return jsonify([
-        {"id": p.id, "project_id": p.project_id, "name": p.name}
+        {
+            "id": p.id,
+            "project_id": p.project_id,
+            "name": p.name,
+            "created_at": p.created_at.isoformat() if p.created_at else None
+        }
         for p in projects
     ])
 
@@ -715,7 +723,7 @@ def add_project():
     )
     db.session.add(new_proj)
     db.session.commit()
-    return jsonify(success=True, id=new_proj.id)
+    return jsonify(success=True, id=new_proj.id, created_at=new_proj.created_at.isoformat())
 
 
 @app.route('/api/projects/delete', methods=['POST'])
@@ -790,6 +798,38 @@ def import_projects():
 
     db.session.commit()
     return f"✅ Imported {added} projects into the database."
+
+@app.route('/admin/migrate-projects-created-at')
+@login_required
+def migrate_projects_created_at():
+    if not current_user.is_admin:
+        return "Unauthorized", 403
+
+    engine = db.engine.name  # 'postgresql', 'sqlite', etc.
+    try:
+        if engine == "postgresql":
+            db.session.execute(text("""
+                ALTER TABLE web_center_project
+                ADD COLUMN IF NOT EXISTS created_at TIMESTAMPTZ DEFAULT NOW()
+            """))
+            db.session.execute(text("""
+                UPDATE web_center_project SET created_at = NOW() WHERE created_at IS NULL
+            """))
+        else:
+            # sqlite / other: add column if missing (wrapped in try)
+            try:
+                db.session.execute(text("ALTER TABLE web_center_project ADD COLUMN created_at TIMESTAMP"))
+            except Exception:
+                pass
+            db.session.execute(text("""
+                UPDATE web_center_project
+                SET created_at = COALESCE(created_at, CURRENT_TIMESTAMP)
+            """))
+        db.session.commit()
+        return "✅ Migration complete."
+    except Exception as e:
+        db.session.rollback()
+        return f"❌ Migration failed: {e}", 500
 
 @app.route('/init-db')
 def init_db():

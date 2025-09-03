@@ -62,6 +62,19 @@
         { title: "ID", field: "id", width: 70, headerSort: false },
         { title: "Project ID", field: "project_id", editor: "input" },
         { title: "Name", field: "name", editor: "input" },
+        {
+          title: "Added",
+          field: "created_at",
+          width: 190,
+          sorter: "datetime",
+          headerSort: true,
+          formatter: function(cell){
+            const v = cell.getValue();
+            if (!v) return "";
+            const d = new Date(v);
+            return d.toLocaleString();
+          }
+        },
       ],
       cellEdited: function(cell) {
         fetch("/api/projects/update", {
