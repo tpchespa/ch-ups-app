@@ -2,156 +2,194 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>WebCenter Projects</title>
-  <link href="https://unpkg.com/tabulator-tables@5.5.0/dist/css/tabulator.min.css" rel="stylesheet">
-  <script src="https://unpkg.com/tabulator-tables@5.5.0/dist/js/tabulator.min.js"></script>
-  <style>
-    body {
-      background: #1e1e1e;
-      color: #eee;
-      font-family: sans-serif;
-      padding: 20px;
-    }
-    .tabulator {
-      background-color: #2b2b2b;
-    }
-    .toolbar {
-      margin-bottom: 15px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      align-items: center;
-    }
-    input, button, select {
-      padding: 6px 10px;
-      border-radius: 4px;
-      border: none;
-    }
-    button {
-      cursor: pointer;
-    }
-  </style>
-</head>
-<body>
+  <head>
+    <title>CDC Project IDs</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon" />
 
-<h2>📋 WebCenter Projects</h2>
+    <!-- Tabulator (same version as dashboard) -->
+    <script src="https://unpkg.com/tabulator-tables@5.5.0/dist/js/tabulator.min.js"></script>
+    <script>
+      // Same custom pagination icons/labels as dashboard
+      Tabulator.defaultOptions.langs = Tabulator.defaultOptions.langs || {};
+      Tabulator.defaultOptions.langs["en"] = {
+        pagination: {
+          first: "⏮",
+          first_title: "First Page",
+          last: "⏭",
+          last_title: "Last Page",
+          prev: "◀",
+          prev_title: "Previous Page",
+          next: "▶",
+          next_title: "Next Page",
+          page_size: "Rows"
+        }
+      };
+    </script>
 
-<div class="toolbar">
-  <input type="text" id="search" placeholder="🔍 Search by ID or Name">
-  <button onclick="addProject()">➕ Add</button>
-  <button onclick="deleteProject()">❌ Delete</button>
-  <label>
-    <input type="checkbox" id="paginationToggle" checked>
-    Pagination
-  </label>
-</div>
+    <!-- Same dark site theme + your global styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='tabulator/tabulator_site_dark.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 
-<div id="projects-table"></div>
+    <!-- SweetAlert2 + dark theme (used globally in dashboard) -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@5/dark.css">
 
-<script>
-  let table;
+    <!-- Font Awesome (icons consistent with dashboard) -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body>
+    <header style="display: flex; justify-content: space-between; align-items: center; padding: 10px 20px;">
+      <div>
+        <div>Welcome, {{ current_user.first_name or current_user.email }}</div>
+      </div>
+      <div style="display: flex; gap: 10px;">
+        {% if current_user.is_admin %}
+          <a href="/admin/test-webcenter-modify" class="changelog-button">🔌 Test WebCenter</a>
+          <a href="/admin/projects" class="changelog-button">CDC Project IDs</a>
+        {% endif %}
+        <a href="/changelog" class="changelog-button">📝 Changelog</a>
+        <a href="/logout" class="logout-link">Logout</a>
+      </div>
+    </header>
 
-  function initTable(paginate = true) {
-    table = new Tabulator("#projects-table", {
-      height: "600px",
-      layout: "fitColumns",
-      ajaxURL: "/api/projects",
-      pagination: paginate ? "local" : false,
-      paginationSize: 25,
-      columns: [
-        { title: "ID", field: "id", width: 70, headerSort: false },
-        { title: "Project ID", field: "project_id", editor: "input" },
-        { title: "Name", field: "name", editor: "input" },
-        {
-          title: "Added",
-          field: "created_at",
-          width: 190,
-          sorter: "datetime",
-          headerSort: true,
-          formatter: function(cell){
-            const v = cell.getValue();
-            if (!v) return "";
-            const d = new Date(v);
-            return d.toLocaleString();
-          }
-        },
-      ],
-      cellEdited: function(cell) {
-        fetch("/api/projects/update", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(cell.getRow().getData())
-        }).then(res => res.json()).then(resp => {
-          if (!resp.success) alert("❌ Update failed");
-        });
-      },
-      rowClick: function(e, row) {
-        row.toggleSelect();
-      },
-      selectable: 1,
-    });
-  }
+    <div class="dashboard-wrapper">
+      <div class="container">
+        <h2>CDC Project IDs</h2>
+          <div class="toolbar">
+            <input type="text" id="search" placeholder="🔍 Search by ID or Name">
+            <button onclick="addProject()">➕ Add</button>
+            <button onclick="deleteProject()">❌ Delete</button>
+            <label>
+              <input type="checkbox" id="paginationToggle" checked>
+              Pagination
+            </label>
+          </div>
 
-  // Init table with pagination on
-  initTable();
+          <div id="projects-table"></div>
 
-  document.getElementById("paginationToggle").addEventListener("change", function () {
-    table.destroy();
-    initTable(this.checked);
-  });
+          <script>
+            let table;
 
-  document.getElementById("search").addEventListener("input", function () {
-    const query = this.value.toLowerCase();
-    table.setFilter([
-      [
-        { field: "project_id", type: "like", value: query },
-        { field: "name", type: "like", value: query }
-      ]
-    ]);
-  });
+            function initTable(paginate = true) {
+              table = new Tabulator("#projects-table", {
+                locale: "en",
+                height: "auto",
+                layout: "fitDataStretch",
+                reactiveData: true,
+                ajaxURL: "/api/projects",
+                pagination: paginate ? "local" : false,
+                paginationSize: 50,
+                paginationSizeSelector: [25, 50, 100, true],
+                paginationElement: document.getElementById("tabulator-pagination-top"),
+                paginationButtonCount: 3,
+                columns: [
+                  { title: "ID", field: "id", width: 70, headerSort: false },
+                  { title: "Project ID", field: "project_id", editor: "input" },
+                  { title: "Name", field: "name", editor: "input" },
+                  {
+                    title: "Added",
+                    field: "created_at",
+                    width: 190,
+                    sorter: "datetime",
+                    headerSort: true,
+                    formatter: function(cell){
+                      const v = cell.getValue();
+                      if (!v) return "";
+                      const d = new Date(v);
+                      return d.toLocaleString();
+                    }
+                  },
+                ],
+                cellEdited: function(cell) {
+                  fetch("/api/projects/update", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(cell.getRow().getData())
+                  }).then(res => res.json()).then(resp => {
+                    if (!resp.success) alert("❌ Update failed");
+                  });
+                },
+                rowClick: function(e, row) {
+                  row.toggleSelect();
+                },
+                selectable: 1,
+              });
+            }
 
-  function addProject() {
-    const project_id = prompt("Enter Project ID:");
-    if (!project_id) return;
+            // Init table with pagination on
+            initTable();
 
-    const name = prompt("Enter Project Name:");
-    if (!name) return;
+            document.getElementById("paginationToggle").addEventListener("change", function () {
+              table.destroy();
+              initTable(this.checked);
+            });
 
-    fetch("/api/projects/add", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ project_id, name })
-    })
-    .then(res => res.json())
-    .then(data => {
-      if (data.success) {
-        table.addData([{ id: data.id, project_id, name }], true);
-      } else {
-        alert("❌ Failed to add project");
-      }
-    });
-  }
+            document.getElementById("search").addEventListener("input", function () {
+              const query = this.value.toLowerCase();
+              table.setFilter([
+                [
+                  { field: "project_id", type: "like", value: query },
+                  { field: "name", type: "like", value: query }
+                ]
+              ]);
+            });
 
-  function deleteProject() {
-    const selected = table.getSelectedData();
-    if (!selected.length) return alert("No row selected.");
-    if (!confirm(`Are you sure you want to delete "${selected[0].name}"?`)) return;
+            function addProject() {
+              const project_id = prompt("Enter Project ID:");
+              if (!project_id) return;
 
-    fetch("/api/projects/delete", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: selected[0].id })
-    })
-    .then(res => res.json())
-    .then(data => {
-      if (data.success) {
-        table.deleteRow(selected[0].id);
-      } else {
-        alert("❌ Deletion failed");
-      }
-    });
-  }
-</script>
+              const name = prompt("Enter Project Name:");
+              if (!name) return;
 
-</body>
+              fetch("/api/projects/add", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ project_id, name })
+              })
+              .then(res => res.json())
+              .then(data => {
+                if (data.success) {
+                  table.addData([{ id: data.id, project_id, name }], true);
+                } else {
+                  alert("❌ Failed to add project");
+                }
+              });
+            }
+
+            function deleteProject() {
+              const selected = table.getSelectedData();
+              if (!selected.length) return alert("No row selected.");
+              if (!confirm(`Are you sure you want to delete "${selected[0].name}"?`)) return;
+
+              fetch("/api/projects/delete", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ id: selected[0].id })
+              })
+              .then(res => res.json())
+              .then(data => {
+                if (data.success) {
+                  table.deleteRow(selected[0].id);
+                } else {
+                  alert("❌ Deletion failed");
+                }
+              });
+            }
+          </script>
+
+        <div id="tabulator-pagination-top"></div>
+              <div id="projects-table"></div>
+
+            </div>
+          </div>
+
+    <footer class="dashboard-footer">
+      <p>Contact: <a href="mailto:tadeusz.pelczar@chespa.eu">tadeusz.pelczar@chespa.eu</a></p>
+    </footer>
+  </body>
 </html>
