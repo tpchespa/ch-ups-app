@@ -590,7 +590,7 @@ def update_entry(entry_id):
 
     # Extract all valid 9-digit codes starting with 202 or 212
     import re
-    company_ids = re.findall(r"\b(20[0-9]{6,})\b", source_text)
+    company_ids = re.findall(r'(?<!\d)202\d{6}(?!\d)', source_text)
 
     if not company_ids:
         print("[WebCenter update] ❌ No valid project numbers found.")
