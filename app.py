@@ -579,8 +579,8 @@ def update_entry(entry_id):
     db.session.commit()
 
     tracking_number = new_data.get("NR LISTU UPS", "").strip()
-    raw_ids = new_data.get("ProjectsIDs", "").strip()
-    fallback_id = new_data.get("Reference 1", "").strip()
+    raw_ids = new_data.get("NR PROJEKTU", "").strip()
+    fallback_id = new_data.get("nr_zam", "").strip()
 
     if not tracking_number:
         return {"success": True}  # nothing to send
@@ -588,9 +588,10 @@ def update_entry(entry_id):
     # Use ProjectsIDs or fallback
     source_text = raw_ids if raw_ids else fallback_id
 
-    # Extract all valid 9-digit codes starting with 202 or 212
     import re
-    company_ids = re.findall(r'(?<!\d)202\d{6}(?!\d)', source_text)
+    # Match 9-digit project numbers like 202500001, 202612345
+    # Year-based format: 20YYNNNNN
+    company_ids = re.findall(r'(?<!\d)20\d{2}\d{5}(?!\d)', source_text)
 
     if not company_ids:
         print("[WebCenter update] ❌ No valid project numbers found.")
@@ -598,7 +599,7 @@ def update_entry(entry_id):
 
     updated_count = 0
     for code in company_ids:
-        match = WebCenterProject.query.filter(WebCenterProject.name.startswith(code)).first()
+        match = WebCenterProject.query.filter(WebCenterProject.name.contains(code)).first()
         if match:
             success, msg = send_ups_tracking_to_webcenter(match.project_id, tracking_number)
             print(f"[WebCenter update] ▶ {code} → {match.project_id} → success={success}")
