@@ -700,8 +700,8 @@ def test_webcenter_modify():
         return f"❌ WebCenter modify test failed:\n{traceback.format_exc()}"
 
 def send_ups_tracking_to_webcenter(project_id, tracking_number):
-    jwt = os.environ.get("WEBCENTER_JWT") or "your-fallback-jwt"
-    ssoiid = os.environ.get("WEBCENTER_SSOIID") or "your-fallback-ssoiid"
+    jwt = os.environ.get("WEBCENTER_JWT") or "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwMDAwMl8wMDAwMDE5NjI2IiwiZXhwIjoxNzYxMzQ3NTAyfQ.iqRPnEnglJgv2PN2PnnVLxsfTj_KntqRwQFtOvAvto5yX4c09jrUT9RMjeE63Sn7UqUyrbmdJVbk9XjVEO2NXA"
+    ssoiid = os.environ.get("WEBCENTER_SSOIID") or "00002_0000000201"
 
     url = "https://cdc.chespa.eu/pl/CreateProject.jsp"
     params = {
@@ -717,13 +717,7 @@ def send_ups_tracking_to_webcenter(project_id, tracking_number):
 
     data = {
         "projectid": project_id,
-        "attribute": (
-            'CRS - UPS - Tracking: '
-            '<a href="https://www.ups.com/track?loc=en_US&tracknum=1ZV5358A6894985343" '
-            'target="_blank" '
-            'style="color: dodgerblue; font-size: 10px;">'
-            '1ZV5358A6894985343</a>'
-        )
+        "attribute": f'CRS - UPS - Tracking: {link}'
     }
 
     try:
@@ -738,7 +732,7 @@ def send_ups_tracking_to_webcenter(project_id, tracking_number):
 
         print(f"[WebCenter update] ▶ Status Code: {response.status_code}")
         print(f"[WebCenter update] ▶ Response Headers: {response.headers}")
-        print(f"[WebCenter update] ▶ Response Text:\n{response.text.strip()[:1000]}")  # Limit to 1000 chars
+        print(f"[WebCenter update] ▶ Response Text:\n{response.text.strip()[:1000]}")
 
         response.raise_for_status()
 
