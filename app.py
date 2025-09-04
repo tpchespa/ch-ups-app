@@ -717,19 +717,40 @@ def send_ups_tracking_to_webcenter(project_id, tracking_number):
 
     data = {
         "projectid": project_id,
-        "attribute": ( f"CRS - UPS - Tracking:{link}"
+        "attribute": (
+            'CRS - UPS - Tracking: '
+            '<a href="https://www.ups.com/track?loc=en_US&tracknum=1ZV5358A6894985343" '
+            'target="_blank" '
+            'style="color: dodgerblue; font-size: 10px;">'
+            '1ZV5358A6894985343</a>'
         )
     }
 
     try:
         session = requests.Session()
         session.mount("https://", TLSAdapter())
+
+        print(f"[WebCenter update] ▶ Sending POST to {url}")
+        print(f"[WebCenter update] ▶ Params: {params}")
+        print(f"[WebCenter update] ▶ Data: {data}")
+
         response = session.post(url, params=params, data=data, timeout=15)
+
+        print(f"[WebCenter update] ▶ Status Code: {response.status_code}")
+        print(f"[WebCenter update] ▶ Response Headers: {response.headers}")
+        print(f"[WebCenter update] ▶ Response Text:\n{response.text.strip()[:1000]}")  # Limit to 1000 chars
+
         response.raise_for_status()
+
         return True, response.text
-    except Exception as e:
-        print(f"[WebCenter update ERROR] {e}")
-        return None
+
+    except requests.exceptions.RequestException as e:
+        print("[WebCenter update ERROR] Request failed:")
+        print(e)
+        if hasattr(e, 'response') and e.response is not None:
+            print(f"[WebCenter update ERROR] Status: {e.response.status_code}")
+            print(f"[WebCenter update ERROR] Response Text: {e.response.text}")
+        return False, str(e)
 
 @app.route('/api/projects')
 @login_required
