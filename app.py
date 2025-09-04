@@ -709,13 +709,16 @@ def send_ups_tracking_to_webcenter(project_id, tracking_number):
         "ssoiid": ssoiid,
         "jwt": jwt,
     }
+
     link = (
         f'<a href="https://www.ups.com/track?loc=en_US&tracknum={tracking_number}" '
         f'target="_blank" style="color: dodgerblue; font-size: 10px;">{tracking_number}</a>'
     )
+
     data = {
         "projectid": project_id,
-        "attribute": f"CRS - UPS - Tracking: {link}"
+        "attribute": ( f"CRS - UPS - Tracking:{link}"
+        )
     }
 
     try:
@@ -725,7 +728,8 @@ def send_ups_tracking_to_webcenter(project_id, tracking_number):
         response.raise_for_status()
         return True, response.text
     except Exception as e:
-        return False, str(e)
+        print(f"[WebCenter update ERROR] {e}")
+        return None
 
 @app.route('/api/projects')
 @login_required
