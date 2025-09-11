@@ -508,7 +508,7 @@ def handle_submit(data):
 
         # Set default notification values if not provided
         if not data.get("QV Notif 1-Addr"):
-            data["QV Notif 1-Addr"] = "justyna.nawrocka@chespa.eu"
+            data["QV Notif 1-Addr"] = "agnieszka.ryborz@chespa.eu"
 
         if not data.get("QV Notif 1-Excp"):
             data["QV Notif 1-Excp"] = "1"
