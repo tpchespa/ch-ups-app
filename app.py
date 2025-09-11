@@ -712,7 +712,7 @@ def send_ups_tracking_to_webcenter(project_id, tracking_number):
 
     link = (
         f'<a href="https://www.ups.com/track?loc=en_US&tracknum={tracking_number}" '
-        f'target="_blank" style="color: dodgerblue; font-size: 10px;">{tracking_number}</a>'
+        f'target="_blank" style="color: #0000ee; font-size: 12pt;">{tracking_number}</a>'
     )
 
     data = {
