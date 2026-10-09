@@ -492,7 +492,7 @@ def handle_submit(data):
         data['_submitted_by'] = current_user.email
 
         # Always set Sales Rep Code
-        data["Reference 2"] = "80005"
+        data["Reference 2"] = "80000"
 
         warsaw = pytz.timezone("Europe/Warsaw")
         if "_scheduled_for" in data:
