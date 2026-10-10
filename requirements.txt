@@ -13,5 +13,5 @@ gunicorn
 gevent
 pytz
 xlsxwriter
-requests
 openpyxl
+packaging
