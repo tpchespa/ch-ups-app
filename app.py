@@ -237,9 +237,32 @@ def dashboard():
         for u in users
     }
 
+    # Retain every stored UPS field in the browser table, including fields that
+    # have no visible column. The CSV/XLSX export must not lose those fields.
+    table_rows = []
+    for entry in filtered_entries:
+        row = dict(entry.data or {})
+        submitted_by = row.get("_submitted_by", "")
+        row.update({
+            "id": str(entry.id),
+            "Time": (row.get("_submitted_at") or "")[:16] + "Z",
+            "User": user_display_names.get(submitted_by, submitted_by),
+            "Submitted By": submitted_by,
+            "state_prov_other": row.get("state_prov_other") or row.get("State/Prov/Other") or "",
+            "Consignee Email": row.get("Consignee Email") or row.get("Consignee_Email") or "",
+            "Documents of No Commercial Value": row.get("Documents of No Commercial Value") or row.get("Documents_of_No_Commercial_Value") or "",
+            "Reference 1": row.get("Reference 1") or row.get("Reference_1") or "",
+            "Reference 2": row.get("Reference 2") or row.get("Reference_2") or "",
+            "nr_zam": row.get("nr_zam") or row.get("nr zam.") or row.get("nr zamówienia gdzie będzie doliczony koszt") or "",
+            "koszt": row.get("koszt") or row.get("KOSZT (LOGISTYKA)") or "",
+            "NR LISTU UPS": row.get("NR LISTU UPS") or "",
+        })
+        table_rows.append(row)
+
     return render_template(
         'dashboard.html',
         entries=filtered_entries,
+        table_rows=table_rows,
         current_email=current_user.email,
         selected_date=selected_date_str,
         selected_month=selected_month_str or '',
@@ -248,6 +271,19 @@ def dashboard():
         user_display_names=user_display_names,
         field_order=FIELD_ORDER
     )
+
+def get_ups_export_value(data, field):
+    aliases = {
+        "Consignee Email": ("Consignee_Email",),
+        "State/Prov/Other": ("state_prov_other",),
+        "Documents of No Commercial Value": ("Documents_of_No_Commercial_Value",),
+    }
+    for key in (field, *aliases.get(field, ())):
+        value = data.get(key)
+        if value is not None and str(value).strip():
+            return value
+    return ""
+
 
 @app.route('/download')
 @login_required
@@ -283,7 +319,7 @@ def download():
 
     rows = []
     for e in filtered:
-        row = [e.data.get(field, "") for field in FIELD_ORDER]
+        row = [get_ups_export_value(e.data, field) for field in FIELD_ORDER]
         rows.append(row)
 
     df = pd.DataFrame(rows)
@@ -329,7 +365,7 @@ def download_xlsx():
 
     rows = []
     for e in filtered:
-        row = [e.data.get(field, "") for field in FIELD_ORDER]
+        row = [get_ups_export_value(e.data, field) for field in FIELD_ORDER]
         rows.append(row)
 
     df = pd.DataFrame(rows, columns=FIELD_ORDER)
