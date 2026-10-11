@@ -12,6 +12,7 @@ import { deleteEntry } from './rowActions.js?v=1.0.1';
 import { initializeCellTracking, setupSaveAllButton, warnOnExit } from './tableChangeTracker.js?v=1.0.1';
 import { exportVisibleTableToXLSX } from './tableExport.js?v=1.0.2';
 import { buildUPSExportRows } from './upsExportData.js?v=1.0.0';
+import { setupKeywordSearch } from './keywordSearch.js?v=1.0.0';
 
 
 
@@ -33,6 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Initialize core modules
   initDatePicker();
+  setupKeywordSearch(table);
   setupTooltipHandlers();
   setupContactSelection();
   fetchSavedContacts();

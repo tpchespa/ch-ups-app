@@ -982,6 +982,63 @@ input, select, textarea {
   align-items: center;
 }
 
+.keyword-search-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.keyword-search-input {
+  width: 280px;
+  max-width: min(280px, 70vw);
+  box-sizing: border-box;
+  padding: 6px 30px 6px 9px;
+  font-size: 10pt;
+  background: #2a2a2a;
+  color: #f0f0f0;
+  border: 1px solid #444;
+  border-radius: 4px;
+}
+
+.keyword-search-input:focus {
+  outline: none;
+  border-color: #90caf9;
+  background: #1c1c1c;
+}
+
+/* Browser-supplied search clear icon is disabled; our button is consistent. */
+.keyword-search-input::-webkit-search-cancel-button {
+  display: none;
+}
+
+.keyword-search-clear {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: 0;
+  color: #ddd;
+  font-size: 12pt;
+  cursor: pointer;
+  padding: 2px 6px;
+}
+
+.keyword-search-clear:hover { color: #fff; }
+.keyword-search-clear[hidden] { display: none; }
+
+.keyword-search-info {
+  margin-top: 9px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 6px 18px;
+  font-size: 9pt;
+  color: #aaa;
+}
+
+#keyword-search-count { white-space: nowrap; }
+
 /* Chrome, Edge, Safari */
 ::-webkit-scrollbar {
   height: 14px; 

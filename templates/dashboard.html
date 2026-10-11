@@ -24,7 +24,7 @@
     };
   </script>
   <link rel="stylesheet" href="{{ url_for('static', filename='tabulator/tabulator_site_dark.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}?v=1.0.5">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}?v=1.0.6">
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/index.js"></script>
   <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
@@ -420,6 +420,21 @@
           {% endfor %}
         </select>
       </div>
+
+      <div class="filter-group keyword-search-group">
+        <label for="keyword-search" class="label-inline">Search:</label>
+        <div class="keyword-search-input-wrap">
+          <input id="keyword-search" class="small-input keyword-search-input" type="search"
+                 placeholder="Name, company, project, UPS..." autocomplete="off"
+                 aria-describedby="keyword-search-hint" />
+          <button type="button" id="keyword-search-clear" class="keyword-search-clear"
+                  aria-label="Clear keyword search" title="Clear keyword search" hidden>✕</button>
+        </div>
+      </div>
+    </div>
+    <div class="keyword-search-info">
+      <span id="keyword-search-hint">Searches this day/month only. Multiple words can match different columns.</span>
+      <span id="keyword-search-count" role="status" aria-live="polite"></span>
     </div>
   </fieldset>
 
@@ -813,7 +828,7 @@
 
 </script>
 
-<script type="module" src="/static/js/main.js?v=1.0.5"></script>
+<script type="module" src="/static/js/main.js?v=1.0.6"></script>
 
 
 
