@@ -1090,3 +1090,11 @@ a.ups-tracking-link:visited {
   opacity: 0.3;
   cursor: not-allowed;
 }
+
+/* Hint for the UPS tracking header filter and filtered exports. */
+.export-filter-note {
+  margin: 0 0 8px;
+  color: #b9c5d3;
+  font-size: 12px;
+  line-height: 1.5;
+}

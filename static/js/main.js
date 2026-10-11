@@ -2,7 +2,7 @@ import { countryMap, packagingMap, serviceMap } from './fieldMappings.js?v=1.0.1
 import { validateAllFields, validateFields, cleanInputValue } from './formValidation.js?v=1.0.3';
 import { setupFieldValidation } from './formValidation.js?v=1.0.3';
 import { validateFieldDirect } from './formValidation.js?v=1.0.3';
-import { initializeSocketHandlers } from './socketHandlers.js?v=1.0.3';
+import { initializeSocketHandlers } from './socketHandlers.js?v=1.0.4';
 import { clearForm, setupTooltipHandlers } from './uiHelpers.js?v=1.0.1';
 import { setupAutocomplete } from './autocomplete.js?v=1.0.2';
 import { fetchSavedContacts, setupContactSelection } from './contacts.js?v=1.0.1';
@@ -11,6 +11,7 @@ import { saveRowChanges } from './rowActions.js?v=1.0.1';
 import { deleteEntry } from './rowActions.js?v=1.0.1';
 import { initializeCellTracking, setupSaveAllButton, warnOnExit } from './tableChangeTracker.js?v=1.0.1';
 import { exportVisibleTableToXLSX } from './tableExport.js?v=1.0.2';
+import { buildUPSExportRows } from './upsExportData.js?v=1.0.0';
 
 
 
@@ -222,62 +223,30 @@ document.addEventListener("DOMContentLoaded", () => {
  });
 
  function exportSortedTableToXLSX(fieldOrder, filename) {
-   const aliasMap = {
-     "State/Prov/Other": "state_prov_other",
-     "Consignee Email": "Consignee_Email",
-     "Documents of No Commercial Value": "Documents_of_No_Commercial_Value"
-   };
-
-   const sortedRows = table.getData("active");
-   const exportRows = [];
-
-   for (const row of sortedRows) {
-     if (!row["QV Notif 1-Addr"]) row["QV Notif 1-Addr"] = "justyna.nawrocka@chespa.eu";
-     if (!row["QV Notif 1-Excp"]) row["QV Notif 1-Excp"] = "1";
-
-     const exportRow = fieldOrder.map(field => {
-       const alias = aliasMap[field] || field;
-       return row[alias] ?? "";
-     });
-
-     exportRows.push(exportRow);
-   }
-
-   const worksheet = XLSX.utils.aoa_to_sheet([fieldOrder, ...exportRows]);
+   const rows = buildUPSExportRows(table.getData("active"), fieldOrder);
+   const worksheet = XLSX.utils.aoa_to_sheet([fieldOrder, ...rows]);
    const workbook = XLSX.utils.book_new();
    XLSX.utils.book_append_sheet(workbook, worksheet, "UPS Export");
-
    XLSX.writeFile(workbook, filename);
  }
 
  function exportSortedTableToCSV(fieldOrder, filename) {
-   const sortedRows = table.getData("active");
-   const csvRows = [];
-   const aliasMap = {
-     "State/Prov/Other": "state_prov_other",
-     "Consignee Email": "Consignee_Email",
-     "Documents of No Commercial Value": "Documents_of_No_Commercial_Value"
-   };
+   const rows = buildUPSExportRows(table.getData("active"), fieldOrder);
+   // UPS import uses the existing headerless, positional column layout.
+   const csv = rows.map(row => row.map(value =>
+     `"${String(value ?? "").replace(/"/g, '""')}"`
+   ).join(",")).join("\r\n");
 
-   for (const row of sortedRows) {
-     // Ensure UPS defaults
-     if (!row["QV Notif 1-Addr"]) row["QV Notif 1-Addr"] = "justyna.nawrocka@chespa.eu";
-     if (!row["QV Notif 1-Excp"]) row["QV Notif 1-Excp"] = "1";
-
-     const csvRow = fieldOrder.map(field => {
-       const alias = aliasMap[field] || field;
-       const val = row[alias] ?? "";
-       return `"${String(val).replace(/"/g, '""')}"`;
-     });
-
-     csvRows.push(csvRow.join(","));
-   }
-
-   const blob = new Blob([csvRows.join("\n")], { type: "text/csv;charset=utf-8;" });
+   const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+   const url = URL.createObjectURL(blob);
    const link = document.createElement("a");
-   link.href = URL.createObjectURL(blob);
+   link.href = url;
    link.download = filename;
+   document.body.appendChild(link);
    link.click();
+   link.remove();
+   // Delay URL revocation until after the browser has started the download.
+   setTimeout(() => URL.revokeObjectURL(url), 1000);
  }
 
 document.getElementById("download-sorted-xlsx").addEventListener("click", () => {

@@ -24,7 +24,7 @@
     };
   </script>
   <link rel="stylesheet" href="{{ url_for('static', filename='tabulator/tabulator_site_dark.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}?v=1.0.5">
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/index.js"></script>
   <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
@@ -367,13 +367,13 @@
   <div class="export-button-group">
 
     <div class="export-button-wrapper">
-      <button id="download-sorted-csv" class="export-button csv" data-tooltip="Exports UPS-ready CSV in the current sort order.">
+      <button id="download-sorted-csv" class="export-button csv" data-tooltip="Exports UPS-ready CSV from currently filtered rows, in their current order.">
         <i class="fas fa-file-csv"></i> CSV (UPS Format)
       </button>
     </div>
 
     <div class="export-button-wrapper">
-      <button id="download-sorted-xlsx" class="export-button xlsx" data-tooltip="Full Excel export with official UPS fields, sorted like the table view.">
+      <button id="download-sorted-xlsx" class="export-button xlsx" data-tooltip="Exports UPS fields from currently filtered rows, in their current order.">
         <i class="fas fa-file-excel"></i> XLSX (UPS Format)
       </button>
     </div>
@@ -383,8 +383,8 @@
         <i class="fas fa-eye"></i> XLSX (Current all visible)
       </button>
     </div>
-
   </div>
+  <p class="export-filter-note">UPS CSV/XLSX exports only the filtered rows. Select <strong>Empty (no tracking)</strong> in the UPS tracking column to export new shipments.</p>
 
   </div>
 
@@ -441,40 +441,7 @@
         is_admin: {{ 'true' if current_user.is_admin else 'false' }},
         role: "{{ current_user.role }}"
       };
-      const tableData = [
-        {% for entry in entries %}
-          {
-            id: "{{ entry.id }}",
-            "Time": "{{ entry.data['_submitted_at'][:16] }}Z",
-            "User": "{{ user_display_names[entry.data['_submitted_by']] if entry.data['_submitted_by'] in user_display_names else entry.data['_submitted_by'] }}",
-            "Submitted By": "{{ entry.data['_submitted_by'] }}",
-            "Contact Name": "{{ entry.data['Contact Name']|e }}",
-            "Company or Name": "{{ entry.data['Company or Name']|e }}",
-            "Country": "{{ entry.data['Country']|e }}",
-            "Address 1": "{{ entry.data['Address 1']|e }}",
-            "City": "{{ entry.data['City']|e }}",
-            "state_prov_other": "{{ entry.data['state_prov_other'] or entry.data['State/Prov/Other'] or '' }}",
-            "Postal Code": "{{ entry.data['Postal Code']|e }}",
-            "Telephone": "{{ entry.data['Telephone']|e }}",
-            "Consignee Email": "{{ entry.data['Consignee Email'] or entry.data['Consignee_Email'] or '' }}",
-            "Packaging Type": "{{ entry.data['Packaging Type']|e }}",
-            "Weight": "{{ entry.data['Weight']|e }}",
-            "Length": "{{ entry.data['Length']|e }}",
-            "Width": "{{ entry.data['Width']|e }}",
-            "Height": "{{ entry.data['Height']|e }}",
-            "Description of Goods": "{{ entry.data['Description of Goods']|e }}",
-            "Documents of No Commercial Value": "{{ entry.data['Documents of No Commercial Value'] or entry.data['Documents_of_No_Commercial_Value'] or '' }}",
-            "Service": "{{ entry.data['Service']|e }}",
-            "Reference 1": "{{ entry.data['Reference 1'] or entry.data['Reference_1'] or '' }}",
-            "Reference 2": "{{ entry.data['Reference 2'] or entry.data['Reference_2'] or '' }}",
-            "nr_zam": "{{ entry.data['nr_zam'] or entry.data['nr zam.'] or entry.data['nr zamówienia gdzie będzie doliczony koszt'] or '' }}",
-            "NR PROJEKTU": "{{ entry.data['NR PROJEKTU']|e }}",
-            "NR LISTU UPS": "{{ entry.data['NR LISTU UPS']|e }}",
-            "koszt": "{{ entry.data['koszt'] or entry.data['KOSZT (LOGISTYKA)'] or '' }}",
-            "DATA WYSYŁKI": "{{ entry.data['DATA WYSYŁKI']|e }}"
-          }{% if not loop.last %},{% endif %}
-        {% endfor %}
-      ];
+      const tableData = {{ table_rows | tojson }};
 
       let changedRows = {};
       let hasUnsavedChanges = false;
@@ -608,6 +575,22 @@
             title: "UPS tracking", 
             field: "NR LISTU UPS", 
             editor: "input", 
+            // Filter works on the entire selected day/month, not just the page.
+            // Both UPS exports use table.getData("active"), so only these rows export.
+            headerFilter: "list",
+            headerFilterParams: {
+              values: {
+                "": "All tracking",
+                "empty": "Empty (no tracking)",
+                "filled": "Not empty (tracked)"
+              }
+            },
+            headerFilterFunc: function(headerValue, rowValue) {
+              const hasTracking = String(rowValue ?? "").trim().length > 0;
+              if (headerValue === "empty") return !hasTracking;
+              if (headerValue === "filled") return hasTracking;
+              return true;
+            },
             formatter: function(cell, formatterParams) {
               const value = cell.getValue();
               if (/1Z[0-9A-Z]{16}/.test(value)) { // UPS tracking regex
@@ -618,7 +601,7 @@
             },
             editable: editableRule, 
             headerSort: true,
-            width: 160
+            width: 185
           },
           { title: "Cost", field: "koszt", editor: "input", editable: editableRule, headerSort: true },
           { title: "Packaging Type", field: "Packaging Type", editor: "input", editable: editableRule, headerSort: true },
@@ -830,7 +813,7 @@
 
 </script>
 
-<script type="module" src="/static/js/main.js?v=1.0.4"></script>
+<script type="module" src="/static/js/main.js?v=1.0.5"></script>
 
 
 

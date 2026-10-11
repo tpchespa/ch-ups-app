@@ -16,6 +16,7 @@ export function initializeSocketHandlers(socket, currentUserEmail, SwalWithDarkT
     console.log("Incoming:", data.data["state_prov_other"]);
       
     const rowData = {
+      ...data.data, // Preserve hidden UPS fields for exports of newly submitted rows.
       id: data.id,
       "Time": new Date(data.data._submitted_at + "Z").toLocaleString("pl-PL", {
         hour: "2-digit",
